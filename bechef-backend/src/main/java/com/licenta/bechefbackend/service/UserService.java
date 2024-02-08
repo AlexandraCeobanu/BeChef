@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
-    public User registerUser(String email, String password){
+    public User registerUser(String email, String password, String repeatedPassword){
+
+        if (password != repeatedPassword)
+            return null;
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(password);
