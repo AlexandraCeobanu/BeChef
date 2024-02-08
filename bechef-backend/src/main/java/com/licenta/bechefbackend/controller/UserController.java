@@ -33,10 +33,10 @@ public class UserController {
             {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email");
             }
-//            if (!checkPassword(password))
-//            {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
-//            }
+            if (checkPassword(password)!=null)
+            {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
+            }
 
             return new ResponseEntity<User>(userService.registerUser(email, password,repeatedPassword), HttpStatus.CREATED);
         }

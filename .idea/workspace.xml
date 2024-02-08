@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="create UserRepository , UserController, UserService">
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/ValidationUtil.java" afterDir="false" />
+    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="create methods to check the email format">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/ValidationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/ValidationUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707408160910</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="create methods to check the email format">
+      <created>1707410182753</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1707410182753</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -145,6 +152,7 @@
     <MESSAGE value="connect to database" />
     <MESSAGE value="create User entity" />
     <MESSAGE value="create UserRepository , UserController, UserService" />
-    <option name="LAST_COMMIT_MESSAGE" value="create UserRepository , UserController, UserService" />
+    <MESSAGE value="create methods to check the email format" />
+    <option name="LAST_COMMIT_MESSAGE" value="create methods to check the email format" />
   </component>
 </project>
