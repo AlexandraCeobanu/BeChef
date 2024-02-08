@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import static com.licenta.bechefbackend.ValidationUtil.*;
 
 @RestController
@@ -25,7 +28,12 @@ public class UserController {
     public ResponseEntity registerUser(@RequestParam String email, @RequestParam String password, @RequestParam String repeatedPassword)
     {
         try {
-            if (!checkPasswords(password,repeatedPassword))
+
+            if (isEmailUsed(email,userService))
+            {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The email is already used.");
+            }
+            if (!checkPasswords(password,password))
             {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The passwords don't match");
             }
@@ -33,15 +41,21 @@ public class UserController {
             {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid email");
             }
-            if (checkPassword(password)!=null)
+            String response = checkPassword(password);
+            System.out.println(response);
+            if (!response.equals(""))
             {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
             }
 
             return new ResponseEntity<User>(userService.registerUser(email, password,repeatedPassword), HttpStatus.CREATED);
         }
-        catch (Exception exception){
-            System.out.println("Error" + exception);
+        catch (IllegalArgumentException e)
+        {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid special character");
+        }
+        catch (Exception e){
+            System.out.println("Error" + e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);}
 
     }

@@ -1,11 +1,20 @@
 package com.licenta.bechefbackend;
 
+import com.licenta.bechefbackend.service.UserService;
+import org.apache.commons.validator.routines.EmailValidator;
+
 import java.util.Locale;
 
 public class ValidationUtil {
     public static boolean checkEmail(String email)
     {
-        return email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}");
+        return EmailValidator.getInstance().isValid(email);
+    }
+    public static boolean isEmailUsed(String email, UserService userService)
+    {
+        if(userService.findUserByEmail(email) == null)
+            return false;
+        return true;
     }
     public static boolean checkPasswords(String password, String repeatedPassword)
     {
@@ -17,15 +26,15 @@ public class ValidationUtil {
             return "The password must contain at least 8 characters";
         if(password.length() > 20)
             return "The password must be less than 20 characters";
-        if(!password.matches("[?=.*[A-Z]]"))
+        if(!password.matches(".*[A-Z].*"))
             return "The password must contain at least 1 uppercase character";
-        if(!password.matches("[?=.*[a-z]]"))
+        if(!password.matches(".*[a-z].*"))
             return "The password must contain at least 1 lowercase character";
-        if(!password.matches("[?=.*[0-9]]"))
+        if(!password.matches(".*[0-9].*"))
             return "The password must contain at least 1 digit";
-        if(!password.matches("[?=.*[@#$%^&-+=()]]"))
+        if(!password.matches(".*[@#$%&-+=()].*"))
             return "The password must contain at least 1 special character";
 
-        return null;
+        return "";
     }
 }

@@ -12,13 +12,16 @@ public class UserService {
     private UserRepository userRepository;
     public User registerUser(String email, String password, String repeatedPassword){
 
-        if (password != repeatedPassword)
-            return null;
         User newUser = new User();
         newUser.setEmail(email);
         newUser.setPassword(password);
         userRepository.save(newUser);
         return newUser;
+    }
+    public User findUserByEmail(String email)
+    {
+        User user = userRepository.findByEmail(email);
+        return user;
     }
 
 }
