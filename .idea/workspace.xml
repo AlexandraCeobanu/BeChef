@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="connect to database">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_mysql_mysql_connector_j_8_3_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_persistence_commonj_sdo_2_1_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_persistence_eclipselink_2_7_8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_persistence_jakarta_persistence_2_2_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_eclipse_persistence_javax_persistence_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="create User entity">
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_6_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_6_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_test_6_2_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_6_2_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +117,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707399294128</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="create User entity">
+      <created>1707403937323</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1707403937323</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,6 +141,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add backend configurations" />
     <MESSAGE value="connect to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="connect to database" />
+    <MESSAGE value="create User entity" />
+    <option name="LAST_COMMIT_MESSAGE" value="create User entity" />
   </component>
 </project>
