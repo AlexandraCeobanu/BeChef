@@ -25,7 +25,7 @@ public class UserController {
         return new ResponseEntity<String>("Users!", HttpStatus.OK);
     }
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestParam String email, @RequestParam String password, @RequestParam String repeatedPassword)
+    public ResponseEntity registerUser(@RequestParam String email, @RequestParam String username, @RequestParam String password, @RequestParam String repeatedPassword)
     {
         try {
 

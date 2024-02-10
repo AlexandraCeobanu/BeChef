@@ -1,59 +1,74 @@
 package com.licenta.bechefbackend.entity;
 
+import com.licenta.bechefbackend.DTO.UserRole;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
     private String email;
     private String password;
-    private String name;
+    private String username;
+    @Enumerated(EnumType.STRING)
+    private UserRole appUserRole;
+    private Boolean locked;
+    private Boolean enabled;
 
-    public Long getId() {
-        return id;
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setEmail(String email) {
+    public User(String username,String email, String password, UserRole appUserRole, Boolean locked, Boolean enabled)
+    {
+        this.username = username;
         this.email = email;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setName(String name) {
-        this.name = name;
+        this.appUserRole = appUserRole;
+        this.locked = locked;
+        this.enabled = enabled;
     }
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                '}';
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
+        return Collections.singletonList(authority);
+    }
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 }
