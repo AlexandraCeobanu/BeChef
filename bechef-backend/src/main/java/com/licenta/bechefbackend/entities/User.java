@@ -1,6 +1,5 @@
-package com.licenta.bechefbackend.entity;
+package com.licenta.bechefbackend.entities;
 
-import com.licenta.bechefbackend.DTO.UserRole;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -11,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,28 +27,23 @@ public class User implements UserDetails {
     private String password;
     private String username;
     @Enumerated(EnumType.STRING)
-    private UserRole appUserRole;
-    private Boolean locked;
-    private Boolean enabled;
+    private Role role;
 
 
-    public User(String username,String email, String password, UserRole appUserRole, Boolean locked, Boolean enabled)
+    public User(String username,String email, String password, Role role)
     {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.appUserRole = appUserRole;
-        this.locked = locked;
-        this.enabled = enabled;
+        this.role = role;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(appUserRole.name());
-        return Collections.singletonList(authority);
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
@@ -59,7 +53,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return !locked;
+        return true;
     }
 
     @Override
@@ -69,6 +63,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 }

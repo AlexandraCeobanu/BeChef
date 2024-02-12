@@ -1,9 +1,7 @@
 package com.licenta.bechefbackend;
 
-import com.licenta.bechefbackend.service.UserService;
+import com.licenta.bechefbackend.services.UserService;
 import org.apache.commons.validator.routines.EmailValidator;
-
-import java.util.Locale;
 
 public class ValidationUtil {
     public static boolean checkEmail(String email)

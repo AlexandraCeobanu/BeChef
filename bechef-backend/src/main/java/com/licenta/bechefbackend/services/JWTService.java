@@ -1,4 +1,4 @@
-package com.licenta.bechefbackend.service;
+package com.licenta.bechefbackend.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

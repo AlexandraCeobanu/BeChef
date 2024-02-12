@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.repository;
 
-import com.licenta.bechefbackend.entity.User;
+import com.licenta.bechefbackend.entities.Role;
+import com.licenta.bechefbackend.entities.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,4 +13,6 @@ import java.util.Optional;
 public interface UserRepository  extends CrudRepository<User,Long> {
     @Query("Select u from User u WHERE u.email = :email")
     Optional<User> findByEmail(@Param("email") String email);
+    @Query("Select u from User u Where u.role = :role")
+    Optional<User> findByRole(@Param("role") Role role);
 }
