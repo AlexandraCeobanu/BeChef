@@ -8,12 +8,6 @@ public class ValidationUtil {
     {
         return EmailValidator.getInstance().isValid(email);
     }
-    public static boolean isEmailUsed(String email, UserService userService)
-    {
-        if(userService.findUserByEmail(email) == null)
-            return false;
-        return true;
-    }
     public static boolean checkPasswords(String password, String repeatedPassword)
     {
         return password.equals(repeatedPassword);

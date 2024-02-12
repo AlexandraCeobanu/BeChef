@@ -20,7 +20,6 @@ public class BeChefBackendApplication implements CommandLineRunner {
 	}
 	public void run(String...args){
 		Optional<User> adminAccount = userRepository.findByRole(Role.ADMIN);
-		System.out.println(adminAccount);
 		if (!adminAccount.isPresent())
 		{
 			User user = new User();
