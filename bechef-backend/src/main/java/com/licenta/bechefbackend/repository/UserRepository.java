@@ -2,6 +2,8 @@ package com.licenta.bechefbackend.repository;
 
 import com.licenta.bechefbackend.entities.Role;
 import com.licenta.bechefbackend.entities.User;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,4 +19,8 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     Optional<User> findByRole(@Param("role") Role role);
     @Query("Select u from User u WHERE u.username = :username")
     Optional<User> findByUsername(@Param("username") String username);
+    @Transactional
+    @Modifying
+    @Query("UPDATE User a " + "SET a.enabled = TRUE WHERE a.email = ?1")
+    int enableUser(String email);
 }

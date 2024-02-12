@@ -40,4 +40,12 @@ public class RegistrationController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);}
 
     }
-}
+    @GetMapping(path = "register/confirm")
+    public ResponseEntity<String> confirm(@RequestParam("token") String token) {
+        try {
+           return ResponseEntity.status(HttpStatus.OK).body(registrationService.confirmToken(token));}
+
+        catch (IllegalStateException e){
+            return  ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+}}

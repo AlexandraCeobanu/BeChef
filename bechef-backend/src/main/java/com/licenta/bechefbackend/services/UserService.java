@@ -31,7 +31,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email)
                       .orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG,email)));
     }
-
+    public int enableUser(String email)
+    {
+        return userRepository.enableUser(email);
+    }
 //    @Override
 //    public UserDetailsService userDetailsService(){
 //        return new UserDetailsService() {

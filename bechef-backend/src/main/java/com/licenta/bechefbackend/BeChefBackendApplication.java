@@ -23,10 +23,11 @@ public class BeChefBackendApplication implements CommandLineRunner {
 		if (!adminAccount.isPresent())
 		{
 			User user = new User();
-			user.setEmail("ceobanu_alexandra@yahoo.com");
+			user.setEmail("alexandra.ceo@admin.com");
 			user.setUsername("admin");
 			user.setRole(Role.ADMIN);
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
+			user.setEnabled(true);
 			userRepository.save(user);
 		}
 	}
