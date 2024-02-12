@@ -13,12 +13,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
 
+public class UserService implements UserDetailsService {
+    @Autowired
     private UserRepository userRepository;
     private final static String USER_NOT_FOUND_MSG = "user with email %s not found";
-
-
 
 
     public Optional<User> findUserByEmail(String email)

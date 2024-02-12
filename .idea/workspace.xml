@@ -4,22 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="encryption of passwords and add admin account">
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RegistrationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RegistrationService.java" afterDir="false" />
+    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="create RegistrationController si RegistrationService">
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/token/ConfirmationToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/token/ConfirmationTokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/token/ConfirmationTokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/ValidationUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/ValidationUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/AuthenticationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/UserServiceInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/impl/AuthenticationServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,8 +24,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -174,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1707735575041</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="create RegistrationController si RegistrationService">
+      <created>1707741945766</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1707741945766</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -198,6 +199,7 @@
     <MESSAGE value="create method to verify if an email is already used" />
     <MESSAGE value="authorization" />
     <MESSAGE value="encryption of passwords and add admin account" />
-    <option name="LAST_COMMIT_MESSAGE" value="encryption of passwords and add admin account" />
+    <MESSAGE value="create RegistrationController si RegistrationService" />
+    <option name="LAST_COMMIT_MESSAGE" value="create RegistrationController si RegistrationService" />
   </component>
 </project>

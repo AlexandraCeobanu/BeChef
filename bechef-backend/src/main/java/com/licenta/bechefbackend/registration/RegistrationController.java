@@ -1,15 +1,12 @@
-package com.licenta.bechefbackend.controller;
+package com.licenta.bechefbackend.registration;
 
 import com.licenta.bechefbackend.DTO.UserDTO;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
-import com.licenta.bechefbackend.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import static com.licenta.bechefbackend.ValidationUtil.*;
 
 @RestController
 @RequestMapping("/api/v1")
