@@ -4,6 +4,6 @@ import Login from '../components/Login'
 import Register from './Register';
 export default function App(){
     return(
-        <Register></Register>
+        <Login></Login>
     )
 }
