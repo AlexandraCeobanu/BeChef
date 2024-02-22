@@ -41,7 +41,7 @@
             border: 0.1em solid $primary-color;
             padding-left: 1em;
             margin-top:0.6em;
-            margin-bottom: 2em;
+            // margin-bottom: 2em;
             outline: none;
         }
         input:focus{
@@ -49,6 +49,13 @@
         }
         label,p {
             padding-left: 1em;
+        }
+        .error-message{
+            margin: 0;
+            font-size: small;
+            margin-bottom:1.5em;
+            color: red;
+
         }
         #line1,#line2{
             display: flex;
