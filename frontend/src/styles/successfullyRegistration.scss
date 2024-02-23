@@ -1,0 +1,16 @@
+@import './variables.scss';
+.success{
+    margin-top: 10em;
+    text-align: center;
+    color : $primary-color;
+    #circle-check{
+        color: $primary-color;
+    }
+    button {
+        border:none;
+            background: none;
+            color : $primary-color;
+            transform: scale(2.5);
+            margin-top: 3em;
+    }
+}

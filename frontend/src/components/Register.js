@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 import {registerUser} from '../services/register'
 export default function Register(){
 
-
-
+    const navigate = useNavigate();
     const [error,setError] = useState(false);
     const [errorMessage,setErrorMessage] = useState("");
     const [email,setEmail] = useState("");
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
 
+    const handleLoginClick = (event) => {
+        navigate('/login');
+    }
     const changeEmailHandler = (event) =>{
         setEmail(event.target.value);
         setErrorMessage("");
@@ -42,6 +44,7 @@ export default function Register(){
                 setEmail("");
                 setUsername("");
                 setPassword("");
+                navigate('/succes');
             }
         )
         .catch((error) => {
@@ -75,7 +78,7 @@ export default function Register(){
 
                 <div id="line2">
                 <p>Already have an account?</p>
-                <p>Login</p>
+                <button onClick={handleLoginClick}>Login</button>
                 </div>
 
                 <input type="submit" id="submit" name="submit" value="Register"></input>
