@@ -78,7 +78,7 @@ export default function Register(){
 
                 <div id="line2">
                 <p>Already have an account?</p>
-                <button onClick={handleLoginClick}>Login</button>
+                <button onChange={handleLoginClick}>Login</button>
                 </div>
 
                 <input type="submit" id="submit" name="submit" value="Register"></input>

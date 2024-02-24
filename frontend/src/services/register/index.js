@@ -17,7 +17,7 @@ export const registerUser = async (newUser) => {
     catch(error)
     {
         
-        console.log('Failed to register the user');
+        console.log('Failed to register the user',error);
         throw error.response.data;
     }
 };
