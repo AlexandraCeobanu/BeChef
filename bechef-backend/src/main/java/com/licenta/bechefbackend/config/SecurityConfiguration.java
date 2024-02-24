@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -34,6 +35,7 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((request) -> request.requestMatchers("/api/v1/register/**")
                     .permitAll()
+                            .requestMatchers("/login").permitAll()
 //                    .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ADMIN.name())
 //                    .requestMatchers("/api/v1/users").hasAnyAuthority(Role.USER.name())
 //                    .requestMatchers("/api/v1/login").permitAll()
@@ -41,11 +43,12 @@ public class SecurityConfiguration {
                             .anyRequest().authenticated()
             )
                 .cors(Customizer.withDefaults())
+                .authenticationProvider(authenticationProvider());
 
-
-                .formLogin(formLogin -> formLogin
-                .loginPage("http://localhost:3000")
-                .permitAll());
+//                .formLogin(formLogin -> formLogin
+//                .loginPage("http://localhost:3000/login")
+//                        .defaultSuccessUrl("http://localhost:3000/success")
+//                .permitAll());
 //                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 //                            .authenticationProvider(authenticationProvider()).addFilterBefore(
 //                                    jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
