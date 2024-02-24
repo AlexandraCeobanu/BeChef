@@ -57,11 +57,11 @@ export default function Register(){
     return(
         <div className="page">
             <div className="left-side">
-            <img src="/images/Pizza maker2.gif" alt="Chef-gif" />
+            <img src="/images/img8-nbk2.png" alt="Chef-gif" />
             </div>
-            <div className="right-side">
+            <div className="right-side-register">
             <div className="title">
-            <img src="/images/hat.svg" alt="Hat" id="hat2" />
+            <img src="/images/orange-hat.svg" alt="Hat" id="hat2" />
             <h1>Be chef</h1>
             </div>
             <form onSubmit ={handleFormSubmit} className="form-class">
@@ -74,15 +74,12 @@ export default function Register(){
                 <label htmlFor="password">Password</label><br></br>
                 <input type="password" id="password" name="password" required onChange={changePasswordHandler} style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input><br></br>
                 {errorMessage.includes("password") ? <p className="error-message">{errorMessage}</p> : <br></br>}
-
-
-                <div id="line2">
-                <p>Already have an account?</p>
-                <button onChange={handleLoginClick}>Login</button>
-                </div>
-
-                <input type="submit" id="submit" name="submit" value="Register"></input>
+                <button type="submit" id="submit" name="submit" value="Register">Register</button>
             </form>
+            <div id="line2">
+                <p>Already have an account?</p>
+                <button type="button" onClick={handleLoginClick}>Login</button>
+            </div>
             </div>
         </div>
     )

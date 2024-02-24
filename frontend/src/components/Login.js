@@ -51,29 +51,32 @@ export default function Login(){
     return(
         <div className="page">
             <div className="left-side">
-            <img src="/images/Chef2.gif" alt="Chef-gif" />
+            {/* <img src="/images/Chef2.gif" alt="Chef-gif" /> */}
+            <img id = "main-image" src="/images/img8-nbk2.png" alt="image" />
             </div>
             <div className="right-side">
             <div className="title">
-            <img src="/images/hat.svg" alt="Hat" id="hat" />
+            <img src="/images/orange-hat.svg" alt="Hat" id="hat" />
             <h1>Hello chef</h1>
             </div>
+            <div>
             <form onSubmit={handleFormSubmit} className="form-class">
                 <label htmlFor="email">Email</label><br></br>
                 <input type="text" id="email" name="email" required onChange={emailChangeHandler} style={{ marginBottom: errorMessage === 'Incorrect email' ? 0 : '1em' }}></input><br></br>
                 {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>}
                 <div id="line1">
                 <label htmlFor="password">Password</label>
-                <p>Forgot password?</p>
+                <button type="button">Forgot password?</button>
                 </div>
-                <input type="password" id="password" name="password" required onChange={passwordChangeHandler} style={{ marginBottom: errorMessage === 'Incorrect password' ? 0 : '1em' }}></input>
+                <input type="password" id="password" name="password" required onChange={passwordChangeHandler} style={{ marginBottom: errorMessage === 'Incorrect password' ? 0 : '1em' }}></input><br></br>
                 {errorMessage === 'Incorrect password' ? <p className="error-message">{errorMessage}</p> : <br></br>}
-                <div id="line2">
-                <p>Don't have an account?</p>
-                {/* <button onClick={handleRegisterClick}>Register</button> */}
-                </div>
-                <input type="submit" id="submit" name="submit" value="Login"></input>
+                <button type="submit" id="submit" name="submit" value="Login">Login</button>
             </form>
+            </div>
+            <div id="line2">
+                <p>Don't have an account?</p>
+                <button type="button" onClick={handleRegisterClick}>Register</button>
+            </div>
             </div>
         </div>
     )

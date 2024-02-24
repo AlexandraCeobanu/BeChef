@@ -5,17 +5,34 @@
     background-color: $background-color;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     color:$primary-color;
-    gap:15rem;
-    margin-left: 10rem;
-    margin-top: 5rem;
     h1 {
         font-size: 3em;
         position: relative;
         z-index: 2;
     }
-    .right-side{
-        margin-top: 3em;
+    .left-side {
+
+        width:40%;
+        height: 100vh;
+        background-color: $primary-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        #main-image {
+
+            width:30em;
+        }
+    }
+    .right-side {
+        margin-top: 10em;
+    }
+    .right-side,.right-side-register{
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
     .title {
         position: relative;
@@ -25,7 +42,7 @@
         #hat{
             position: absolute;
             bottom:4em;
-            left:54%;
+            left:64%;
             z-index: 1;
             width:5em;
         }
@@ -33,15 +50,16 @@
 
     .form-class{
 
-        input {
+        input, #submit {
 
             width: 23em;
             height: 3em;
             border-radius: 5em;
-            border: 0.1em solid $primary-color;
+            border: 0.14em solid $primary-color;
             padding-left: 1em;
             margin-top:0.6em;
             // margin-bottom: 2em;
+            background-color: $background-color;
             outline: none;
         }
         input:focus{
@@ -57,29 +75,37 @@
             color: red;
 
         }
-        #line1,#line2{
-            display: flex;
-            flex-direction: row;
-            gap : 2em;
-        }
         #line1{
-                gap:5em;
+                display: flex;
+                flex-direction: row;
+                gap : 5em;
         }
         #submit{
-            border:none;
-            background: none;
-            color : $primary-color;
-            transform: scale(2.5);
-            margin-top: 3em;
+            margin-left:0px;
+            width: 20em;
+            height: 2.5em;
+            margin-bottom: 0.6em;
         }
-        button {
-            border:none;
-            background: none;
-            color : $primary-color;
-            margin-left: 2em;
-            font-size: 1em;
-    }
+        #submit:hover{
+            background-color: #ffe4aa;
+        }
     } 
+    #line2{
+        padding-left: 1em;
+        display: flex;
+        flex-direction: row;
+        gap : 2em;
+    }
+    button {
+        border:none;
+        background: none;
+        color : $primary-color;
+        margin-left: 2em;
+        font-size: 1em;
+}
+button:hover{
+    cursor: pointer;
+}
 }
     
 }

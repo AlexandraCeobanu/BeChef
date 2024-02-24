@@ -2,7 +2,11 @@
 #hat2{
     position: absolute;
     bottom:4em;
-    left:30%;
+    left:50%;
     z-index: 1;
     width:5em;
+    color: $primary-color;
+}
+.right-side-register {
+    margin-top: 7em;
 }
