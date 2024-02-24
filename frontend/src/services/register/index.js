@@ -1,10 +1,5 @@
 import axios from 'axios'
-const API_URL = "http://localhost:8081/api/v1";
-const config = {
-    headers: {
-      'Authorization': 'Basic ZHZlZ2E6cGFzc3dvcmQ', 
-    }
-  };
+import { config, API_URL } from '../global'
 export const registerUser = async (newUser) => {
     try{
         const response = await axios.post(`${API_URL}/register`,newUser,config);
