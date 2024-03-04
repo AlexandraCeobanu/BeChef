@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.registration;
 
 import com.licenta.bechefbackend.DTO.UserDTO;
+import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class RegistrationController {
     public ResponseEntity registerUser(@RequestBody UserDTO userDTO)
     {
         try {
-            return new ResponseEntity<User>(registrationService.registerUser(userDTO), HttpStatus.CREATED);
+            return new ResponseEntity<AuthenticationResponse>(registrationService.registerUser(userDTO), HttpStatus.CREATED);
         }
         catch (IllegalStateException e)
         {

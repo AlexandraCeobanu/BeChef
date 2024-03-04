@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.registration;
 
 import com.licenta.bechefbackend.DTO.UserDTO;
+import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.email.EmailSender;
 import com.licenta.bechefbackend.email.EmailService;
 import com.licenta.bechefbackend.entities.Role;
@@ -8,6 +9,7 @@ import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.registration.token.ConfirmationToken;
 import com.licenta.bechefbackend.registration.token.ConfirmationTokenService;
 import com.licenta.bechefbackend.repository.UserRepository;
+import com.licenta.bechefbackend.services.JWTService;
 import com.licenta.bechefbackend.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,8 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
     private final UserService userService;
-    public User registerUser(UserDTO userDTO){
+    private final JWTService jwtService;
+    public AuthenticationResponse registerUser(UserDTO userDTO){
 
         validateData(userDTO);
         User newUser = new User();
@@ -42,7 +45,10 @@ public class RegistrationService {
         newUser.setRole(Role.USER);
         userRepository.save(newUser);
        /* sendEmail(userDTO,newUser);*/
-        return newUser;
+        var jwtToken = jwtService.generateToken(newUser);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
     }
     void sendEmail(UserDTO userDTO,User newUser)
     {
