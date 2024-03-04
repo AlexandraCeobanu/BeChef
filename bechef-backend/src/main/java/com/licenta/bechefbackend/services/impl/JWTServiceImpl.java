@@ -1,6 +1,5 @@
 package com.licenta.bechefbackend.services.impl;
 
-import com.licenta.bechefbackend.services.JWTService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,7 +13,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 @Service
-public class JWTServiceImpl implements JWTService {
+public class JWTServiceImpl {
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))

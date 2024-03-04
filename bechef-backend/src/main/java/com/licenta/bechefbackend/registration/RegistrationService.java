@@ -41,7 +41,7 @@ public class RegistrationService {
         newUser.setPassword(encyptedPassword);
         newUser.setRole(Role.USER);
         userRepository.save(newUser);
-        sendEmail(userDTO,newUser);
+       /* sendEmail(userDTO,newUser);*/
         return newUser;
     }
     void sendEmail(UserDTO userDTO,User newUser)
