@@ -3,10 +3,12 @@ import { config, API_URL } from '../global'
 export const registerUser = async (newUser) => {
     try{
         const response = await axios.post(`${API_URL}/register`,newUser,config);
-        const token = response.data;
-        if(token)
+        if(response.status === 201)
         {
-            console.log(`Token ${JSON.stringify(token)}`);
+            const token = await response.data;
+            console.log(`User  successfully registered`);
+            localStorage.setItem('token',JSON.stringify(token));
+            localStorage.setItem('isAuthenticated',"true");
         }
     }
     catch(error)

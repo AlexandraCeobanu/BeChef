@@ -8,15 +8,15 @@ export default function SuccessfullyRegistration()
 {
     const navigate = useNavigate();
     const handleClick = () => {
-        navigate("/login");
+        navigate("/Home");
     }
     return(
         <div className='success'>
             <FontAwesomeIcon id="circle-check" icon={faCircleCheck} size="5x" />
             <h1>Congratulations!</h1>
             <h2>You have successfully registered</h2><br></br>
-            <h4>To activate your account, please check your email</h4>
-            <button onClick={handleClick}>Login</button>
+            {/* <h4>To activate your account, please check your email</h4> */}
+            <button onClick={handleClick}>Home</button>
         </div>
     )
 }

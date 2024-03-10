@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
+import { login } from '../store/slices/UserSlice';
 export default function Login(){
-
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [error,setError] = useState(false);

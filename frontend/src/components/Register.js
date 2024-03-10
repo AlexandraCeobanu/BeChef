@@ -44,7 +44,7 @@ export default function Register(){
                 setEmail("");
                 setUsername("");
                 setPassword("");
-                navigate('/succes');
+                navigate('/success');
             }
         )
         .catch((error) => {

@@ -3,10 +3,12 @@ import { config, API_URL } from '../global'
 export const loginUser = async (user) => {
     try{
         const response = await axios.post(`${API_URL}/login`,user,config);
-        const token = response.data;
-        if(token)
+        if(response.status === 200)
         {
-            console.log(`User  successfully logged: Token ${JSON.stringify(token)}`);
+            const token = await response.data;
+            console.log(`User  successfully logged`);
+            localStorage.setItem('token',JSON.stringify(token));
+            localStorage.setItem('isAuthenticated',"true");
         }
     }
     catch (error) {
