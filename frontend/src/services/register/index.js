@@ -3,10 +3,10 @@ import { config, API_URL } from '../global'
 export const registerUser = async (newUser) => {
     try{
         const response = await axios.post(`${API_URL}/register`,newUser,config);
-        const user = response.data;
-        if(user)
+        const token = response.data;
+        if(token)
         {
-            console.log(`User ${JSON.stringify(user.username)} succesfully registered`);
+            console.log(`Token ${JSON.stringify(token)}`);
         }
     }
     catch(error)

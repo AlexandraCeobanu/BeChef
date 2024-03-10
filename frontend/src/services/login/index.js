@@ -3,10 +3,10 @@ import { config, API_URL } from '../global'
 export const loginUser = async (user) => {
     try{
         const response = await axios.post(`${API_URL}/login`,user,config);
-        const loggedUser = response.data;
-        if(loggedUser)
+        const token = response.data;
+        if(token)
         {
-            console.log(`User  succesfully logged`);
+            console.log(`User  successfully logged: Token ${JSON.stringify(token)}`);
         }
     }
     catch (error) {
