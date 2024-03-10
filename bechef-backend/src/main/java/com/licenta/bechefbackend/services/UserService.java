@@ -35,6 +35,10 @@ public class UserService implements UserDetailsService {
     {
         return userRepository.enableUser(email);
     }
+    public void changePassword(String email,String password)
+    {
+        userRepository.changePassword(password,email);
+    }
 //    @Override
 //    public UserDetailsService userDetailsService(){
 //        return new UserDetailsService() {
