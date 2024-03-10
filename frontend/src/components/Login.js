@@ -52,7 +52,7 @@ export default function Login(){
         <div className="page">
             <div className="left-side">
             {/* <img src="/images/Chef2.gif" alt="Chef-gif" /> */}
-            <img id = "main-image" src="/images/img8-nbk2.png" alt="image" />
+            {/* <img id = "main-image" src="/images/img8-nbk2.png" alt="image" /> */}
             </div>
             <div className="right-side">
             <div className="title">

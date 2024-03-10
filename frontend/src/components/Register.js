@@ -57,7 +57,7 @@ export default function Register(){
     return(
         <div className="page">
             <div className="left-side">
-            <img src="/images/img8-nbk2.png" alt="Chef-gif" />
+            {/* <img src="/images/img8-nbk2.png" alt="Chef-gif" /> */}
             </div>
             <div className="right-side-register">
             <div className="title">

@@ -18,11 +18,11 @@
         height: 100vh;
         background-color: $primary-color;
         display: flex;
-        justify-content: center;
+        // justify-content: center;
         align-items: center;
         #main-image {
 
-            width:30em;
+            width:35em;
         }
     }
     .right-side {
@@ -36,7 +36,7 @@
 
     .title {
         position: relative;
-        margin-left: 3em;
+        // margin-left: 3em;
         margin-bottom: 2em;
 
         #hat{
@@ -54,7 +54,7 @@
 
             width: 23em;
             height: 3em;
-            border-radius: 5em;
+            // border-radius: 5em;
             border: 0.14em solid $primary-color;
             padding-left: 1em;
             margin-top:0.6em;
