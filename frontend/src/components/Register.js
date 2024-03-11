@@ -44,7 +44,10 @@ export default function Register(){
                 setEmail("");
                 setUsername("");
                 setPassword("");
-                navigate('/success');
+                const data= {message : 'You successfully registered',
+                            page : 'Home'
+                            };
+                navigate('/success', { state: data });
             }
         )
         .catch((error) => {

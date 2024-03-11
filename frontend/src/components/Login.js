@@ -21,6 +21,9 @@ export default function Login(){
         setPassword(event.target.value);
         setErrorMessage("");
     }
+    const handleForgotPassword=()=>{
+        navigate('/forgotpassword');
+    }
 
     const handleFormSubmit=(event)=>{
         event.preventDefault();
@@ -65,7 +68,7 @@ export default function Login(){
                 {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
                 <div id="line1">
                 <label htmlFor="password">Password</label>
-                <button type="button">Forgot password?</button>
+                <button type="button" onClick={handleForgotPassword}>Forgot password?</button>
                 </div>
                 <input type="password" id="password" name="password" required onChange={passwordChangeHandler} style={{ marginBottom: errorMessage !== '' ? 0 : '2em' }}></input><br></br>
                 {errorMessage !== '' ? <p className="error-message">{errorMessage}</p> : <br></br>}
