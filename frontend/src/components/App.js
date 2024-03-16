@@ -14,9 +14,10 @@ import UserDescription from './UserDescription';
 import Recipie from './Recipie';
 import Feedback from './Feedback';
 import RecipesView from './RecipesView';
+import UserProfile from './UserProfile';
 export default function App(){
     return(
-       <RecipesView></RecipesView>
+       <UserProfile></UserProfile>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>

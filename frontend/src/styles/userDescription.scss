@@ -1,9 +1,14 @@
 @import './variables.scss';
 .userDescription{
     color : $primary-color;
-    margin-left : 1em;
+    width:15em;
+    // margin-left : auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .profile-picture{
         height: 8em;
+        width: 8em;
         background-image: url('../../public/images/profile-no-photo.png');
         background-size: contain; 
         background-repeat: no-repeat; 

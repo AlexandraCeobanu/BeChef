@@ -1,0 +1,16 @@
+.user-profile{
+    display: flex;
+    flex-direction: column;
+    gap:3em;
+    .fixed-description {
+       margin-left:1em;
+       position:sticky;
+       top: 2em;
+       height: 100%;
+    }
+    .user-info {
+        display: flex;
+        flex-direction: row;
+        gap: 11em;
+    }
+}
