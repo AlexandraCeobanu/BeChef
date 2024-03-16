@@ -21,6 +21,10 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     Optional<User> findByUsername(@Param("username") String username);
     @Transactional
     @Modifying
+    @Query("UPDATE User a " + "SET a.password = ?1 WHERE a.email = ?2")
+    int changePassword(String password,String email);
+    @Transactional
+    @Modifying
     @Query("UPDATE User a " + "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
 }

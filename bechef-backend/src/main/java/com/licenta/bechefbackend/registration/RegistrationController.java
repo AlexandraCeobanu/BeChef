@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.registration;
 
 import com.licenta.bechefbackend.DTO.UserDTO;
+import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,11 @@ public class RegistrationController {
     RegistrationService registrationService;
     @Autowired
     UserRepository userRepository;
-    @GetMapping()
-    public String itWorks()
-    {
-        return "It works";
-    }
     @PostMapping("/register")
     public ResponseEntity registerUser(@RequestBody UserDTO userDTO)
     {
         try {
-            return new ResponseEntity<User>(registrationService.registerUser(userDTO), HttpStatus.CREATED);
+            return new ResponseEntity<AuthenticationResponse>(registrationService.registerUser(userDTO), HttpStatus.CREATED);
         }
         catch (IllegalStateException e)
         {
@@ -40,7 +36,7 @@ public class RegistrationController {
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);}
 
     }
-    @GetMapping(path = "register/confirm")
+    @GetMapping(path = "register/confirmChangePassword")
     public ResponseEntity<String> confirm(@RequestParam("token") String token) {
         try {
            return ResponseEntity.status(HttpStatus.OK).body(registrationService.confirmToken(token));}

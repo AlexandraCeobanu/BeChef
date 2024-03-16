@@ -1,17 +1,15 @@
-package com.licenta.bechefbackend.registration;
+package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.UserDTO;
+import com.licenta.bechefbackend.authentication.AuthenticationRequest;
 import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.email.EmailSender;
-import com.licenta.bechefbackend.email.EmailService;
-import com.licenta.bechefbackend.entities.Role;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.registration.token.ConfirmationToken;
 import com.licenta.bechefbackend.registration.token.ConfirmationTokenService;
 import com.licenta.bechefbackend.repository.UserRepository;
-import com.licenta.bechefbackend.services.JWTService;
-import com.licenta.bechefbackend.services.UserService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,51 +19,49 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.licenta.bechefbackend.ValidationUtil.*;
+import static com.licenta.bechefbackend.ValidationUtil.checkEmail;
+import static com.licenta.bechefbackend.ValidationUtil.checkPassword;
 
 @Service
 @RequiredArgsConstructor
-public class RegistrationService {
+public class PasswordService {
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
     private final ConfirmationTokenService confirmationTokenService;
+
     private final EmailSender emailSender;
     private final UserService userService;
-    private final JWTService jwtService;
-    public AuthenticationResponse registerUser(UserDTO userDTO){
-
-        validateData(userDTO);
-        User newUser = new User();
-        newUser.setUsername(userDTO.getUsername());
-        newUser.setEmail(userDTO.getEmail());
-        String encyptedPassword = passwordEncoder.encode(userDTO.getPassword());
-        newUser.setPassword(encyptedPassword);
-        newUser.setRole(Role.USER);
-        userRepository.save(newUser);
-       /* sendEmail(userDTO,newUser);*/
-        var jwtToken = jwtService.generateToken(newUser);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+    private String newPassword ="" ;
+    public String changePassword(AuthenticationRequest authRequest)
+    {
+        var user = userRepository.findByEmail(authRequest.getEmail())
+                .orElseThrow(() -> new IllegalStateException("Incorrect email"));
+        String message = checkPassword(authRequest.getPassword());
+        if (message != "")
+            throw new IllegalStateException(message);
+        newPassword = passwordEncoder.encode(authRequest.getPassword());
+        sendEmail(user);
+        return "Check your email";
     }
-    void sendEmail(UserDTO userDTO,User newUser)
+    void sendEmail(User user)
     {
         String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), newUser);
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        String link = "http://localhost:8081/api/v1/register/confirm?token=" + token;
-        emailSender.send(userDTO.getEmail(),buildEmail(userDTO.getUsername(),link));
+        String link = "http://localhost:8081/api/v1/confirmChangePassword?token=" + token;
+        emailSender.send(user.getEmail(),buildEmail(user.getUsername(),link));
     }
     @Transactional
     public String confirmToken(String token)
     {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(()
-        -> new IllegalStateException("token not found"));
+                -> new IllegalStateException("token not found"));
         if (confirmationToken.getConfirmedAt() != null)
         {
-            throw new IllegalStateException("email already confirmed");
+            throw new IllegalStateException("password already changed");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if(expiredAt.isBefore(LocalDateTime.now()))
@@ -73,32 +69,8 @@ public class RegistrationService {
             throw new IllegalStateException("token expired");
         }
         confirmationTokenService.setConfirmedAt(token);
-
-        userService.enableUser(confirmationToken.getUser().getEmail());
-
-        return "confirmed";
-    }
-    public void validateData(UserDTO userDTO)
-    {
-        Optional<User> user = userRepository.findByEmail(userDTO.getEmail());
-        if (user.isPresent())
-        {
-            throw new IllegalStateException("Email already used");
-        }
-        if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
-        {
-            throw new IllegalStateException("Username already used");
-        }
-        if (!checkEmail(userDTO.getEmail()))
-        {
-            throw new IllegalStateException("Invalid email");
-        }
-        String response = checkPassword(userDTO.getPassword());
-
-        if (!response.equals(""))
-        {
-            throw new IllegalStateException(response);
-        }
+        userService.changePassword(confirmationToken.getUser().getEmail(),newPassword);
+        return "password successfully changed";
     }
     private String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
@@ -118,7 +90,7 @@ public class RegistrationService {
                 "                  \n" +
                 "                    </td>\n" +
                 "                    <td style=\"font-size:28px;line-height:1.315789474;Margin-top:4px;padding-left:10px\">\n" +
-                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Confirm your email</span>\n" +
+                "                      <span style=\"font-family:Helvetica,Arial,sans-serif;font-weight:700;color:#ffffff;text-decoration:none;vertical-align:top;display:inline-block\">Change your password</span>\n" +
                 "                    </td>\n" +
                 "                  </tr>\n" +
                 "                </tbody></table>\n" +
@@ -156,7 +128,7 @@ public class RegistrationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Please click on the below link to change your password: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Confirm</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
@@ -169,4 +141,3 @@ public class RegistrationService {
                 "</div></div>";
     }
 }
-

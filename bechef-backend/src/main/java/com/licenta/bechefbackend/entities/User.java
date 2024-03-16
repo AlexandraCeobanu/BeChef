@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private String username;
     @Enumerated(EnumType.STRING)
     private Role role;
-    private Boolean enabled = false;
+    private Boolean enabled = true;
 
     public User(String username,String email, String password, Role role)
     {
@@ -43,7 +43,7 @@ public class User implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
