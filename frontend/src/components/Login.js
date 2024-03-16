@@ -37,7 +37,7 @@ export default function Login(){
                 setError(false);
                 setEmail("");
                 setPassword("");
-                navigate('/home')
+                navigate('/profile')
                 setErrorMessage("")
             }
         )
