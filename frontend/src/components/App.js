@@ -11,9 +11,11 @@ import EnterCode from './EnterCode';
 import Logo from './Logo';
 import Header from './Header';
 import UserDescription from './UserDescription';
+import Recipie from './Recipie';
+import Feedback from './Feedback';
 export default function App(){
     return(
-       <UserDescription></UserDescription>
+       <Recipie></Recipie>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>

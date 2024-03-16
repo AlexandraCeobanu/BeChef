@@ -1,0 +1,15 @@
+@import './variables.scss';
+.recipie-photo {
+    width: 15em;
+    position: relative;
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+}
+.recipie-feedback{
+    width: 15rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
