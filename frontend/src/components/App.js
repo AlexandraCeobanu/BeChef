@@ -9,9 +9,10 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import ForgotPassword from './ForgotPassword';
 import EnterCode from './EnterCode';
 import Logo from './Logo';
+import Header from './Header';
 export default function App(){
     return(
-        <Logo></Logo>
+        <Header></Header>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>
