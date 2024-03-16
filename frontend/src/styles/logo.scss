@@ -1,0 +1,7 @@
+@import './variables.scss';
+.logo {
+    color : $primary-color;
+    display: flex;
+    flex-direction: column;
+    width: 4rem;
+}

@@ -8,19 +8,21 @@ import Home from './Home';
 import ProtectedRoute from '../components/ProtectedRoute';
 import ForgotPassword from './ForgotPassword';
 import EnterCode from './EnterCode';
+import Logo from './Logo';
 export default function App(){
     return(
-        <Router>
-            <Routes>
-                <Route path="/" element= {<Login/>}></Route>
-                <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-                <Route path="/login" element= {<Login/>}></Route>
-                <Route path="/logout" element= {<Login/>}></Route>
-                <Route path="/register" element={<Register/>}></Route>
-                <Route path="/success" element ={<SuccessfullyPage/>}></Route>
-                <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
-                <Route path="/entercode" element ={<EnterCode/>}></Route>
-            </Routes>
-        </Router>
+        <Logo></Logo>
+        // <Router>
+        //     <Routes>
+        //         <Route path="/" element= {<Login/>}></Route>
+        //         <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+        //         <Route path="/login" element= {<Login/>}></Route>
+        //         <Route path="/logout" element= {<Login/>}></Route>
+        //         <Route path="/register" element={<Register/>}></Route>
+        //         <Route path="/success" element ={<SuccessfullyPage/>}></Route>
+        //         <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
+        //         <Route path="/entercode" element ={<EnterCode/>}></Route>
+        //     </Routes>
+        // </Router>
     )
 }
