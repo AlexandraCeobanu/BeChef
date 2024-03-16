@@ -1,0 +1,44 @@
+@import './variables.scss';
+.userDescription{
+    color : $primary-color;
+    margin-left : 1em;
+    .profile-picture{
+        height: 8em;
+        background-image: url('../../public/images/profile-no-photo.png');
+        background-size: contain; 
+        background-repeat: no-repeat; 
+    }
+    .description {
+
+        margin-top : 1em;
+       p {
+            padding: 0;
+       }
+    }
+    .statistics {
+        display: flex;
+        flex-direction: row;
+        gap:5em;
+        margin-left: 1em;
+
+        .statistic {
+           display: flex;
+           flex-direction: column;
+           gap: 1em;
+           align-items: center;
+
+           h3 {
+            opacity: 0.4;
+           }
+        }
+    }
+    #line {
+        border-color: $primary-color;
+        border-style: solid; 
+        border-width: 1px;
+        opacity: 0.3;
+        width: 15em;
+        margin-bottom: 3em;
+        margin-top: 3em;
+    }
+}
