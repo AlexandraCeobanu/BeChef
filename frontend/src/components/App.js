@@ -13,9 +13,10 @@ import Header from './Header';
 import UserDescription from './UserDescription';
 import Recipie from './Recipie';
 import Feedback from './Feedback';
+import RecipesView from './RecipesView';
 export default function App(){
     return(
-       <Recipie></Recipie>
+       <RecipesView></RecipesView>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>
