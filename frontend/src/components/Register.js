@@ -3,6 +3,7 @@ import '../styles/register.scss';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {registerUser} from '../services/register'
+import SuccessfullyPage from './SuccessfullyPage';
 export default function Register(){
 
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function Register(){
     const [email,setEmail] = useState("");
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
+    const [isRegistered, setIsRegistered] = useState(false);
 
     const handleLoginClick = (event) => {
         navigate('/login');
@@ -44,16 +46,20 @@ export default function Register(){
                 setEmail("");
                 setUsername("");
                 setPassword("");
-                navigate('/success');
+                const data= {message : 'You successfully registered',
+                            page : 'Home'
+                            };
+                setIsRegistered(true);
+                navigate('/success', { state: data });
             }
         )
         .catch((error) => {
             console.log(error);
             setError(true);
             setErrorMessage(error);
+            setIsRegistered(false);
         })
      }
-
     return(
         <div className="page">
             <div className="left-side">
@@ -82,5 +88,4 @@ export default function Register(){
             </div>
             </div>
         </div>
-    )
-}
+    )}

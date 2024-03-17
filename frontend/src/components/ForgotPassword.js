@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { changePassword } from '../services/password';
 export default function ForgotPassword(){
     const [email,setEmail] = useState('');
-    const [newPassword,setNewPassword] = useState('');
+    const [newPassword,setnewPassword] = useState('');
     const [error,setError] = useState(false);
     const [errorMessage,setErrorMessage] = useState("");
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function ForgotPassword(){
     }
 
     const passwordChangeHandler=(event) => {
-        setNewPassword(event.target.value);
+        setnewPassword(event.target.value);
         setErrorMessage("");
     }
 
@@ -30,16 +30,16 @@ export default function ForgotPassword(){
         event.preventDefault();
         let user = {
             email: email,
-            newPassword: newPassword
+            password: newPassword
         }
         changePassword(user)
         .then(
             () => {
                 setError(false);
                 setEmail("");
-                setNewPassword("");
-                navigate('/home')
-                setErrorMessage("")
+                setnewPassword("");
+                setErrorMessage("");
+                navigate('/entercode');
             }
         )
         .catch((error) => {
@@ -48,9 +48,6 @@ export default function ForgotPassword(){
             setErrorMessage(error);
         })
     };
-
-
-
     return(
         <div className="page">
             <div className="left-side">
@@ -58,13 +55,11 @@ export default function ForgotPassword(){
             {/* <img id = "main-image" src="/images/img8-nbk2.png" alt="image" /> */}
             </div>
             <div className="right-side">
-            <div className="title">
-            {/* <img src="/images/orange-hat.svg" alt="Hat" id="hat" /> */}
-            <h2>Forgot password</h2>
-            </div>
+            <h1 id="h1-forgot-password">Forgot password</h1>
+            <p id= "p-forgot-password">We will send you a code to confirm your new password</p>
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">
-                <label htmlFor="">Email</label><br></br>
+                <label htmlFor="Email">Email</label><br></br>
                 <input type="text" id="email" name="email" required onChange={emailChangeHandler}></input><br></br>
                 {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
                 <div id="line1">
