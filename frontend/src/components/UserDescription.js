@@ -7,14 +7,17 @@ export default function UserDescription(props){
     const file = event.target.files[0];
 
         if (file) {
-            const reader = new FileReader();
+            const formData = new FormData();
+            formData.append('file',file);
+            props.onImageChange(formData);
+            // const reader = new FileReader();
 
-            reader.onload = function(e) {
-                const newImage = e.target.result;
-                props.onImageChange(newImage);
-            };
+            // reader.onload = function(e) {
+            //     const newImage = e.target.result;
+            //     props.onImageChange(newImage);
+            // };
 
-            reader.readAsDataURL(file);
+            // reader.readAsDataURL(file);
         }
    };
    const handleDefaultImageClick = () => {
