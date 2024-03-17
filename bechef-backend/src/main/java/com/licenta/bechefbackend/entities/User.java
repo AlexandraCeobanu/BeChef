@@ -29,6 +29,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean enabled = true;
+    private String profilePicture ;
+    private Long nrLikes;
+    private Long nrRecipes;
+
 
     public User(String username,String email, String password, Role role)
     {
@@ -36,6 +40,8 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.nrLikes = Long.valueOf(0);
+        this.nrRecipes = Long.valueOf(0);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -46,6 +52,10 @@ public class User implements UserDetails {
         return email;
     }
 
+    public String getRealUsername()
+    {
+        return username;
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

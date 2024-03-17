@@ -27,4 +27,9 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     @Modifying
     @Query("UPDATE User a " + "SET a.enabled = TRUE WHERE a.email = ?1")
     int enableUser(String email);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE User a " + "SET a.profilePicture = ?1 WHERE a.username = ?2")
+    int updateProfilePicture(String profilePicture,String username);
 }

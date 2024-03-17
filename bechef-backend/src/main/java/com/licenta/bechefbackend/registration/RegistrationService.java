@@ -43,6 +43,8 @@ public class RegistrationService {
         String encyptedPassword = passwordEncoder.encode(userDTO.getPassword());
         newUser.setPassword(encyptedPassword);
         newUser.setRole(Role.USER);
+        newUser.setNrLikes(0L);
+        newUser.setNrRecipes(0L);
         userRepository.save(newUser);
        /* sendEmail(userDTO,newUser);*/
         var jwtToken = jwtService.generateToken(newUser);
