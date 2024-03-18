@@ -1,10 +1,11 @@
 @import "./variables.scss";
 .left {
+    width:15em;
+    color : $primary-color;
     .image {
         background-color: gainsboro;
         width: 15em;
         height: 15em;
-        color : $primary-color;
         display: flex;
         justify-content: center;
         align-items: center;

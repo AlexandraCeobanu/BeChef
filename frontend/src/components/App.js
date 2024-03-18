@@ -13,7 +13,7 @@ import AddRecipe from './AddRecipe';
 import AddRecipeRight from './AddRecipeRight';
 export default function App(){
     return(
-        <AddRecipeRight></AddRecipeRight>
+        <AddRecipe></AddRecipe>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>

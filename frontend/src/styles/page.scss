@@ -1,0 +1,16 @@
+.main-page{
+    display: flex;
+    flex-direction: column;
+    gap:3em;
+    .fixed-side {
+       margin-left:1em;
+       position:sticky;
+       top: 2em;
+       height: 100%;
+    }
+    .without-header {
+        display: flex;
+        flex-direction: row;
+        gap: 11em;
+    }
+}

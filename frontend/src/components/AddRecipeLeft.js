@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/addRecipe.scss"
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-export default function AddRecipeRight()
+export default function AddRecipeLeft()
 {
     return(
         <div className="left">
