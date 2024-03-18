@@ -9,20 +9,24 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import ForgotPassword from './ForgotPassword';
 import EnterCode from './EnterCode';
 import UserProfile from './UserProfile';
+import AddRecipe from './AddRecipe';
+import AddRecipeRight from './AddRecipeRight';
 export default function App(){
     return(
-        <Router>
-            <Routes>
-                <Route path="/" element= {<Login/>}></Route>
-                <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-                <Route path="/login" element= {<Login/>}></Route>
-                <Route path="/logout" element= {<Login/>}></Route>
-                <Route path="/register" element={<Register/>}></Route>
-                <Route path="/success" element ={<SuccessfullyPage/>}></Route>
-                <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
-                <Route path="/entercode" element ={<EnterCode/>}></Route>
-                <Route path="/profile" element = {<UserProfile/>}></Route>
-            </Routes>
-        </Router>
+        <AddRecipeRight></AddRecipeRight>
+        // <Router>
+        //     <Routes>
+        //         <Route path="/" element= {<Login/>}></Route>
+        //         <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+        //         <Route path="/login" element= {<Login/>}></Route>
+        //         <Route path="/logout" element= {<Login/>}></Route>
+        //         <Route path="/register" element={<Register/>}></Route>
+        //         <Route path="/success" element ={<SuccessfullyPage/>}></Route>
+        //         <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
+        //         <Route path="/entercode" element ={<EnterCode/>}></Route>
+        //         <Route path="/profile" element = {<UserProfile/>}></Route>
+        //         <Route path="/addRecipe" element = {<AddRecipe/>}></Route>
+        //     </Routes>
+        // </Router>
     )
 }

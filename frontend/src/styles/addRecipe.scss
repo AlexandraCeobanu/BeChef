@@ -1,0 +1,35 @@
+@import "./variables.scss";
+.right {
+    .image {
+        background-color: gainsboro;
+        width: 15em;
+        height: 15em;
+        color : $primary-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .addImage {
+            display: flex;
+            flex-direction: column;
+            gap:1em;
+        }
+    }
+    .description {
+    
+        textarea {
+        margin-top: 2em;
+        width:16.7em;
+        outline-color: $primary-color;
+        border: 2px solid $primary-color;
+        resize: none; 
+        padding: 8px;
+        }
+    }
+    button{
+        margin: 0;
+        height: 2em;
+        margin-top: 2em;
+        width: 15em;
+        border : 2px solid $primary-color;
+    }
+}

@@ -32,18 +32,18 @@ export default function UserDescription(props){
             </div>
             <h3>{props.username}</h3>
             <div className="description">
-                <p>Iasi, Romania</p>
-                <p>Student passionate about food</p>
+                {/* <p>Iasi, Romania</p>
+                <p>Student passionate about food</p> */}
             </div>
             <hr id="line"></hr>
             <div className="statistics">
                 <div className="statistic">
                 <h3>Recipes</h3>
-                <h2>100</h2>
+                <h2>{props.nrRecipes}</h2>
                 </div>
                 <div className="statistic">
                 <h3>Likes</h3>
-                <h2>100</h2>
+                <h2>{props.nrLikes}</h2>
                 </div>
             </div>
         </div>
