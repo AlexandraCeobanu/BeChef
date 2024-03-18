@@ -1,20 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../styles/addRecipe.scss"
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
+import "../styles/addRecipe.scss"
 export default function AddRecipeRight()
 {
     return(
         <div className="right">
-            <div className="image">
-                <div className="addImage">
+            <div className="title">
+            <h1>Recipes</h1>
+            <hr></hr>
+            </div>
+            <div className="steps">
+            <div className="addStep">
+                <h2>Steps</h2>
                 <FontAwesomeIcon icon={faCirclePlus}></FontAwesomeIcon>
-                <h3>Add a image</h3>
-                </div>
             </div>
-            <div className="description">
-                <textarea placeholder="Add a description"></textarea>
             </div>
-            <button type="button">Post Recipe</button>
         </div>
     )
 }
