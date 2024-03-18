@@ -26,15 +26,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests((request) -> request.requestMatchers("/api/v1/register/**","/api/v1/login/**","/api/v1/changePassword/**","/api/v1/confirmChangePassword/**")
-                    .permitAll()
-//                            .requestMatchers("/login").permitAll()
-//                    .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ADMIN.name())
-//                    .requestMatchers("/api/v1/users").hasAnyAuthority(Role.USER.name())
-//                    .requestMatchers("/api/v1/login").permitAll()
-//                    .anyRequest().authenticated()
-                            .anyRequest().authenticated()
-            )
+            .authorizeHttpRequests((request) -> request
+//                    .requestMatchers("/api/v1/register/**", "/api/v1/login/**", "/api/v1/changePassword/**", "/api/v1/confirmChangedPassword/**", "/api/v1/upload/**", "/static/uploads/**", "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**")
+
+//                    .permitAll()
+                            .anyRequest().permitAll()
+
+          )
                 .cors(Customizer.withDefaults())
                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

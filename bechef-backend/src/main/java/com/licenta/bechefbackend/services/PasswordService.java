@@ -1,5 +1,5 @@
 package com.licenta.bechefbackend.services;
-
+import java.util.Random;
 import com.licenta.bechefbackend.DTO.UserDTO;
 import com.licenta.bechefbackend.authentication.AuthenticationRequest;
 import com.licenta.bechefbackend.authentication.AuthenticationResponse;
@@ -48,25 +48,29 @@ public class PasswordService {
     }
     void sendEmail(User user)
     {
-        String token = UUID.randomUUID().toString();
+//        String token = UUID.randomUUID().toString();
+        Random random = new Random();
+        int randomNumber = random.nextInt(900000) + 100000;
+
+        String token = String.valueOf(randomNumber);
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        String link = "http://localhost:8081/api/v1/confirmChangePassword?token=" + token;
+        String link = token;
         emailSender.send(user.getEmail(),buildEmail(user.getUsername(),link));
     }
     @Transactional
     public String confirmToken(String token)
     {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(()
-                -> new IllegalStateException("token not found"));
+                -> new IllegalStateException("Invalid code"));
         if (confirmationToken.getConfirmedAt() != null)
         {
-            throw new IllegalStateException("password already changed");
+            throw new IllegalStateException("Password already changed");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if(expiredAt.isBefore(LocalDateTime.now()))
         {
-            throw new IllegalStateException("token expired");
+            throw new IllegalStateException("Code expired");
         }
         confirmationTokenService.setConfirmedAt(token);
         userService.changePassword(confirmationToken.getUser().getEmail(),newPassword);
@@ -128,7 +132,7 @@ public class PasswordService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Please click on the below link to change your password: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Confirm</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Please enter this code to change your password: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <h2>" + link + "</h2> </p></blockquote>\n Code will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
