@@ -5,9 +5,9 @@ import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function RecipesView()
 {
-    
+    const navigate = useNavigate();
     const handleClick = () => {
-        // Navigate("/addRecipe")
+        navigate("/addRecipe")
     };
 
     return(

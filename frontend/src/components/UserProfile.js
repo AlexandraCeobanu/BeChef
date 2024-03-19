@@ -17,15 +17,19 @@ export default function UserProfile()
         uploadProfileImage(formData,user.username)
         .then(
             () => {
-
                 getProfileImage(user.username)
                 .then(
                     (response) => {
+                        try{
                         if (response !== undefined){
-                        const blob = new Blob([response], { type: 'image/jpeg' }); 
-                        const imageUrl = URL.createObjectURL(blob);
-                        console.log(imageUrl);
-                        setProfilePhoto(imageUrl);}
+                            const url = URL.createObjectURL(response)
+                            setProfilePhoto(url);
+                        }
+                    }
+                        catch(error)
+                        {
+                            console.log("Eroare la convertirea imaginii", error);
+                        }
                     }
                 )
                 .catch((error) => {
@@ -42,30 +46,30 @@ export default function UserProfile()
     };
 
     const handleAddImage = (formData) => {
-        addRecipe(formData,user.username)
-        .then(
-            () => {
-                getRecipe(user.username)
-                .then(
-                    (response) => {
-                        if (response !== undefined){
-                        const blob = new Blob([response], { type: 'image/jpeg' }); 
-                        const imageUrl = URL.createObjectURL(blob);
-                        console.log(imageUrl);
-                        setRecipes(imageUrl);}
-                    }
-                )
-                .catch((error) => {
-                    console.log(error);
-                }
-                )
-            }
-        )
-        .catch(
-            (error) => {
-                console.log(error);
-            }
-        )
+        // addRecipe(formData,user.username)
+        // .then(
+        //     () => {
+        //         getRecipe(user.username)
+        //         .then(
+        //             (response) => {
+        //                 if (response !== undefined){
+        //                 const blob = new Blob([response], { type: 'image/jpeg' }); 
+        //                 const imageUrl = URL.createObjectURL(blob);
+        //                 console.log(imageUrl);
+        //                 setRecipes(imageUrl);}
+        //             }
+        //         )
+        //         .catch((error) => {
+        //             console.log(error);
+        //         }
+        //         )
+        //     }
+        // )
+        // .catch(
+        //     (error) => {
+        //         console.log(error);
+        //     }
+        // )
     };
 
     return(
