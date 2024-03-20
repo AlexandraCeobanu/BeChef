@@ -10,14 +10,6 @@ export default function UserDescription(props){
             const formData = new FormData();
             formData.append('file',file);
             props.onImageChange(formData);
-            // const reader = new FileReader();
-
-            // reader.onload = function(e) {
-            //     const newImage = e.target.result;
-            //     props.onImageChange(newImage);
-            // };
-
-            // reader.readAsDataURL(file);
         }
    };
    const handleDefaultImageClick = () => {
