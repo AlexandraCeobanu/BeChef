@@ -4,9 +4,12 @@ import AddRecipeRight from "./AddRecipeRight";
 import "../styles/page.scss"
 import { useState } from "react";
 import { addRecipe, addSteps } from "../services/recipe";
+import { uploadRecipeImage } from "../services/uploadRecipeImage";
+import { getRecipeImage } from "../services/getRecipeImage";
 export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [recipePhoto,setRecipePhoto] = useState(null);
     const [recipe,setRecipe] = useState({
         userId: user.id,
         name: '',
@@ -27,6 +30,10 @@ export default function AddRecipe()
 
       };
 
+      const handleImageChange = (formData) => {
+            setRecipePhoto(formData);
+      }
+
       const handlePostRecipe = () => {
         addRecipe(recipe)
         .then((recipe) =>{
@@ -39,6 +46,35 @@ export default function AddRecipe()
             {
                 console.log(error);
             })
+
+            uploadRecipeImage(recipePhoto,recipe.id)
+            .then(() => 
+                {
+                    console.log("Imaginea cu reteta a fost incarcata");
+                    getRecipeImage(recipe.id)
+                    .then(
+                        (response) => {
+                            try{
+                            if (response !== undefined){
+                                const url = URL.createObjectURL(response)
+                                setRecipePhoto(url);
+                            }
+                        }
+                            catch(error)
+                            {
+                                console.log("Eroare la convertirea imaginii", error);
+                            }
+                        }
+                    )
+                    .catch((error) => {
+                        console.log(error);
+                    }
+                    )
+                })
+            .catch((error) => {
+                    console.log(error);
+                })
+            
         }
         )
         .catch((error) =>
@@ -52,7 +88,7 @@ export default function AddRecipe()
             <Header></Header>
             <div className="without-header">
             <div className="fixed-side">
-            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe}></AddRecipeLeft>
+            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} image={recipePhoto}></AddRecipeLeft>
             </div>
             <AddRecipeRight onRecipeStepChange={handleRecipeStepChange}></AddRecipeRight>
             </div>

@@ -10,10 +10,8 @@ export default function UserProfile()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [profilePhoto,setProfilePhoto] = useState("");
-    const [recipes,setRecipes] = useState(null);
     const defaultProfilePhoto = '/images/profile-no-photo.png'
     const handleImageChange = (formData) => {
-        // setProfilePhoto(formData.get('file').name);
         uploadProfileImage(formData,user.username)
         .then(
             () => {

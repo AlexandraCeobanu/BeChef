@@ -10,9 +10,17 @@
         justify-content: center;
         align-items: center;
         .addImage {
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             gap:1em;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                cursor: pointer;
+            }
         }
     }
     .description {
@@ -33,6 +41,7 @@
         width: 15em;
         border : 2px solid $primary-color;
     }
+
 }
 
 .right {

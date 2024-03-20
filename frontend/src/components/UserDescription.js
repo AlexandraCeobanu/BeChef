@@ -20,7 +20,7 @@ export default function UserDescription(props){
         <div className="userDescription">
             <div className="profile-picture">
             <input type="file" id="file-input" onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }}></input>
-            <img src = {props.profilePhoto} alt="Default-photo"  onClick={handleDefaultImageClick} ></img>
+            <img src = {props.profilePhoto} alt="Default"  onClick={handleDefaultImageClick} ></img>
             </div>
             <h3>{props.username}</h3>
             <div className="description">
