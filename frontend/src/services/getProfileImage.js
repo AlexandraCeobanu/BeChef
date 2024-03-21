@@ -10,14 +10,18 @@ export const getProfileImage = async(username)=>{
     //     console.error('Eroare în obținerea imaginii:', error);
     // }
     try{
-        const response = await axios.get(`${API_URL}/upload/profileImage?username=${username}`,{responseType: 'arraybuffer'},config2);
+        const response = await axios.get(`${API_URL}/upload/profileImage/${username}`,{responseType: 'arraybuffer'},config2);
         try{
         if (response.status === 200)
         {
             const imageData = new Uint8Array(response.data);
-            const blob = new Blob([imageData])  ;
-            return blob;
-        }}
+            if (imageData.length !== 0)
+           { const blob = new Blob([imageData])  ;
+            return blob;}
+            else{
+            return "";}
+        }
+    }
         catch(error){
             console.log(error)
         }

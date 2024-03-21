@@ -3,6 +3,7 @@ import AddRecipeLeft from "./AddRecipeLeft";
 import AddRecipeRight from "./AddRecipeRight";
 import "../styles/page.scss"
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { addRecipe, addSteps } from "../services/recipe";
 import { uploadRecipeImage } from "../services/uploadRecipeImage";
 import { getRecipeImage } from "../services/getRecipeImage";
@@ -18,8 +19,7 @@ export default function AddRecipe()
       });
     
     let [steps,setSteps] = useState([]);
-
-    
+      const navigate = useNavigate();
     const handleDescriptionChange = (description) => {
         setRecipe({...recipe,description})
       };
@@ -37,10 +37,10 @@ export default function AddRecipe()
       const handlePostRecipe = () => {
         addRecipe(recipe)
         .then((recipe) =>{
-            console.log("Reteta adaugata cu succes",JSON.stringify(recipe));
+            // console.log("Reteta adaugata cu succes",JSON.stringify(recipe));
             addSteps(recipe.id,steps)
             .then(()=>{
-                console.log("Pasi adaugati cu succes");
+                // console.log("Pasi adaugati cu succes");
             })
             .catch((error) => 
             {
@@ -50,7 +50,7 @@ export default function AddRecipe()
             uploadRecipeImage(recipePhoto,recipe.id)
             .then(() => 
                 {
-                    console.log("Imaginea cu reteta a fost incarcata");
+                    // console.log("Imaginea cu reteta a fost incarcata");
                     getRecipeImage(recipe.id)
                     .then(
                         (response) => {
@@ -58,6 +58,7 @@ export default function AddRecipe()
                             if (response !== undefined){
                                 const url = URL.createObjectURL(response)
                                 setRecipePhoto(url);
+                                navigate("/profile");
                             }
                         }
                             catch(error)

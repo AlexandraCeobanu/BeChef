@@ -6,35 +6,19 @@ import UserDescription from "./UserDescription"
 import { getProfileImage } from "../services/getProfileImage"
 import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
+import { getRecipesByUserId } from "../services/recipe"
+import { getUserById } from "../services/getUserById"
 export default function UserProfile()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [uploadTrigger, setUploadTrigger] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
+    const [recipes,setRecipes] = useState([]);
     const defaultProfilePhoto = '/images/profile-no-photo.png'
     const handleImageChange = (formData) => {
-        uploadProfileImage(formData,user.username)
-        .then(
-            () => {
-                getProfileImage(user.username)
-                .then(
-                    (response) => {
-                        try{
-                        if (response !== undefined){
-                            const url = URL.createObjectURL(response)
-                            setProfilePhoto(url);
-                        }
-                    }
-                        catch(error)
-                        {
-                            console.log("Eroare la convertirea imaginii", error);
-                        }
-                    }
-                )
-                .catch((error) => {
-                    console.log(error);
-                }
-                )
-            }
+        uploadProfileImage(formData,user.userUsername)
+        .then(()=>{
+            setUploadTrigger(prevState => !prevState)}
         )
         .catch(
             (error) => {
@@ -43,41 +27,53 @@ export default function UserProfile()
         )
     };
 
-    const handleAddImage = (formData) => {
-        // addRecipe(formData,user.username)
-        // .then(
-        //     () => {
-        //         getRecipe(user.username)
-        //         .then(
-        //             (response) => {
-        //                 if (response !== undefined){
-        //                 const blob = new Blob([response], { type: 'image/jpeg' }); 
-        //                 const imageUrl = URL.createObjectURL(blob);
-        //                 console.log(imageUrl);
-        //                 setRecipes(imageUrl);}
-        //             }
-        //         )
-        //         .catch((error) => {
-        //             console.log(error);
-        //         }
-        //         )
-        //     }
-        // )
-        // .catch(
-        //     (error) => {
-        //         console.log(error);
-        //     }
-        // )
-    };
+    useEffect(()=>  {
+        getProfileImage(user.userUsername)
+        .then(
+            (response) => {
+                try{
+                if (response !== undefined && response !==""){
+                    const url = URL.createObjectURL(response)
+                    setProfilePhoto(url);
+                }
+            }
+                catch(error)
+                {
+                    console.log("Eroare la convertirea imaginii", error);
+                }
+            }
+        )
+    },[uploadTrigger])
+    
+
+    useEffect(() => {
+
+        getUserById(user.id)
+        .then((user)=>{
+            setUser(user);
+        }
+        )
+        .catch((error)=> {console.log(error)})
+        getRecipesByUserId(user.id)
+        .then(
+            (recipes) => {
+                    setRecipes(recipes);
+            }
+        )
+        .catch((error) =>
+        {
+            console.log(error);
+        })
+    },[]);
 
     return(
         <div className="user-profile">
             <Header></Header>
             <div className="user-info">
             <div className="fixed-description">
-            <UserDescription username={'@'+user.username} profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user.nrLikes} nrRecipes = {user.nrRecipes} onImageChange={handleImageChange}></UserDescription>
+            <UserDescription username={'@'+user.userUsername}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user.nrLikes} nrRecipes = {user.nrRecipes} onImageChange={handleImageChange}></UserDescription>
             </div>
-            <RecipesView onImageChange = {handleAddImage}></RecipesView>
+            <RecipesView recipes={recipes}></RecipesView>
             </div>
         </div>
     )

@@ -37,6 +37,7 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
                 (<div><FontAwesomeIcon icon={faCirclePlus} onClick={handleDefaultImageClick}></FontAwesomeIcon>
                 <h3>Add a image</h3></div>):
                 (
+        
                     <img src = {URL.createObjectURL(recipePhoto)} alt="Default"  onClick={handleDefaultImageClick} ></img>
                 )
                 }
