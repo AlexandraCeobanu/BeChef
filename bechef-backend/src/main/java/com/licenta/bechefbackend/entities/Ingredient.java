@@ -1,16 +1,18 @@
 package com.licenta.bechefbackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.models.auth.In;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@NoArgsConstructor
-@Setter
 @Getter
-public class RecipeStep {
+@Setter
+@NoArgsConstructor
+public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -22,12 +24,9 @@ public class RecipeStep {
     )
     @JsonIgnore
     private Recipe recipe;
-    private String description;
-    private Long stepIndex;
-    public RecipeStep(Recipe recipe,String description,Long stepIndex){
-        this.recipe = recipe;
-        this.description = description;
-        this.stepIndex = stepIndex;
+    String name;
+    public Ingredient(Recipe recipe, String name){
+        this.recipe=recipe;
+        this.name=name;
     }
-
 }

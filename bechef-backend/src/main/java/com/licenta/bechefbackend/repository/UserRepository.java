@@ -17,8 +17,8 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     Optional<User> findByEmail(@Param("email") String email);
     @Query("Select u from User u Where u.role = :role")
     Optional<User> findByRole(@Param("role") Role role);
-    @Query("Select u from User u WHERE u.username = :username")
-    Optional<User> findByUsername(@Param("username") String username);
+    @Query("Select u from User u WHERE u.userUsername = :username")
+    Optional<User> findByUserUsername(@Param("username") String username);
     @Transactional
     @Modifying
     @Query("UPDATE User a " + "SET a.password = ?1 WHERE a.email = ?2")
@@ -30,6 +30,11 @@ public interface UserRepository  extends CrudRepository<User,Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE User a " + "SET a.profilePicture = ?1 WHERE a.username = ?2")
+    @Query("UPDATE User a " + "SET a.profilePicture = ?1 WHERE a.userUsername = ?2")
     int updateProfilePicture(String profilePicture,String username);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE User a " + "SET a.nrRecipes = ?1 WHERE a.id = ?2")
+    int updateNrRecipes(Long recipes,Long id);
 }

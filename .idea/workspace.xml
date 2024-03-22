@@ -4,53 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="implement forgot password logic">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_yaml_2_15_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_classgraph_classgraph_4_8_83.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_core_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_schema_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spi_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_web_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_webflux_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_spring_webmvc_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger2_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_common_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_springfox_springfox_swagger_ui_3_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_2_1_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_annotations_jakarta_2_2_9.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_core_jakarta_2_2_9.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_core_v3_swagger_models_jakarta_2_2_9.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_annotations_1_5_20.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_swagger_swagger_models_1_5_20.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_validation_jakarta_validation_api_3_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_servlet_javax_servlet_api_4_0_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mapstruct_mapstruct_1_3_1_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_common_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_api_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springdoc_springdoc_openapi_starter_webmvc_ui_2_1_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_core_2_0_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_metadata_2_0_0_RELEASE.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_swagger_ui_4_18_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/RecipeDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/SwaggerConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/ImageUploadController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RecipieController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/Recipe.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/RecipeStep.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/RecipeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/ImageUploadService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RecipeService.java" afterDir="false" />
+    <list default="true" id="e695573c-c767-4fa6-8986-b6beacf2f83d" name="Changes" comment="made Recipe Controller and configure swagger">
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/IngredientDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/RecipeStepDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RecipeStepController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/Ingredient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/IngredientRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/RecipeStepRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RecipeStepService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/BeChefBackendApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/RecipeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/DTO/RecipeDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/authentication/AuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/authentication/AuthenticationResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/authentication/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/authentication/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/SecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/ForgotPassword.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/ForgotPasswordController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/config/ApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/ImageUploadController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/ImageUploadController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RecipieController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/RecipeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/Recipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/Recipe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/RecipeStep.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/RecipeStep.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/entities/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/registration/RegistrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/RecipeRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/RecipeRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/PasswordService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/PasswordService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/ImageUploadService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/ImageUploadService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RecipeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/RecipeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/bechef-backend/src/main/java/com/licenta/bechefbackend/services/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,8 +40,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -265,7 +244,14 @@
       <option name="project" value="LOCAL" />
       <updated>1710098555071</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="made Recipe Controller and configure swagger">
+      <created>1710699878861</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1710699878861</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -297,6 +283,7 @@
     <MESSAGE value="add JWT for login" />
     <MESSAGE value="add JWT for register" />
     <MESSAGE value="implement forgot password logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement forgot password logic" />
+    <MESSAGE value="made Recipe Controller and configure swagger" />
+    <option name="LAST_COMMIT_MESSAGE" value="made Recipe Controller and configure swagger" />
   </component>
 </project>

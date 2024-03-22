@@ -38,7 +38,7 @@ public class RegistrationService {
 
         validateData(userDTO);
         User newUser = new User();
-        newUser.setUsername(userDTO.getUsername());
+        newUser.setUserUsername(userDTO.getUsername());
         newUser.setEmail(userDTO.getEmail());
         String encyptedPassword = passwordEncoder.encode(userDTO.getPassword());
         newUser.setPassword(encyptedPassword);
@@ -87,7 +87,7 @@ public class RegistrationService {
         {
             throw new IllegalStateException("Email already used");
         }
-        if (userRepository.findByUsername(userDTO.getUsername()).isPresent())
+        if (userRepository.findByUserUsername(userDTO.getUsername()).isPresent())
         {
             throw new IllegalStateException("Username already used");
         }

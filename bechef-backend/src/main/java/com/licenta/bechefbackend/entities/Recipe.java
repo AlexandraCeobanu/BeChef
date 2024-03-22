@@ -1,5 +1,6 @@
 package com.licenta.bechefbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,21 +18,28 @@ public class Recipe {
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "user_id"
-    )
-    private Long userId;
-    @OneToMany(mappedBy = "recipeId")
-    private List<Long> stepsId;
-    private String imagePath;
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+    @OneToMany(mappedBy = "recipe")
+    private List<RecipeStep> steps;
+    @OneToMany(mappedBy = "recipe")
+    private List<Ingredient> ingredients;
     private String name;
-    public Recipe(String name,String imagePath, Long userId, List<Long> steps)
+    private String description;
+    private String image;
+    private Long nrLikes ;
+    private Long nrComments;
+    public Recipe(String name,String description, User user, List<RecipeStep> steps,String image,List<Ingredient> ingredients)
     {
-        this.imagePath = imagePath;
-        this.userId = userId;
+        this.user = user;
+        this.description=description;
         this.name = name;
-        this.stepsId = steps;
+        this.steps = steps;
+        this.image = image;
+        this.nrLikes = Long.valueOf(0);
+        this.nrComments= Long.valueOf(0);
+        this.ingredients = ingredients;
     }
 
 }
