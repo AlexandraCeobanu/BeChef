@@ -24,7 +24,7 @@ public class BeChefBackendApplication implements CommandLineRunner {
 		{
 			User user = new User();
 			user.setEmail("alexandra.ceo@admin.com");
-			user.setUsername("admin");
+			user.setUserUsername("admin");
 			user.setRole(Role.ADMIN);
 			user.setPassword(new BCryptPasswordEncoder().encode("admin"));
 			user.setEnabled(true);

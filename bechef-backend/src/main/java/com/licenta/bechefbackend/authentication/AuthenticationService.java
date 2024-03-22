@@ -66,7 +66,7 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .id(user.getId())
-                .username(user.getRealUsername())
+                .userUsername(user.getUserUsername())
                 .nrRecipes(user.getNrRecipes())
                 .nrLikes(user.getNrLikes())
                 .build();

@@ -1,5 +1,6 @@
 package com.licenta.bechefbackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,23 +27,25 @@ public class User implements UserDetails {
     private Long id;
     private String email;
     private String password;
-    private String username;
+    private String userUsername;
     @Enumerated(EnumType.STRING)
     private Role role;
     private Boolean enabled = true;
     private String profilePicture ;
     private Long nrLikes;
     private Long nrRecipes;
-
+    @OneToMany(mappedBy = "user")
+    private List<Recipe> recipes = new ArrayList<>();
 
     public User(String username,String email, String password, Role role)
     {
-        this.username = username;
+        this.userUsername = username;
         this.email = email;
         this.password = password;
         this.role = role;
         this.nrLikes = Long.valueOf(0);
         this.nrRecipes = Long.valueOf(0);
+        this.profilePicture="";
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,10 +56,6 @@ public class User implements UserDetails {
         return email;
     }
 
-    public String getRealUsername()
-    {
-        return username;
-    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

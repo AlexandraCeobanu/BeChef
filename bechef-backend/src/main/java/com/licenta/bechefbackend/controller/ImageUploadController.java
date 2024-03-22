@@ -2,6 +2,7 @@ package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.services.ImageUploadService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,7 @@ import java.net.http.HttpResponse;
 @AllArgsConstructor
 @RequestMapping("/api/v1/upload")
 public class ImageUploadController {
+    @Autowired
     ImageUploadService imageUploadService;
     @PostMapping("/profileImage")
     public ResponseEntity<String> uploadProfilePicture(@RequestParam("username") String username,@RequestBody MultipartFile file)
@@ -32,15 +34,20 @@ public class ImageUploadController {
         }
 
     }
-    @GetMapping("/profileImage")
-    public ResponseEntity<?> findImage(String username) throws IOException {
+    @GetMapping("/profileImage/{username}")
+    public ResponseEntity<?> findImage(@PathVariable String username) throws IOException {
         try{
         byte[] imageURL = imageUploadService.getImage(username);
+            if(imageURL!=null)
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageURL);
+            else
+               return ResponseEntity.ok().body("");
         }
         catch (Exception e){
+            System.out.println(e);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
-        return (ResponseEntity<byte[]>) ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG);
+
     }
     @DeleteMapping("/deleteImages")
     public ResponseEntity<String> deleteAllImages()
@@ -53,6 +60,30 @@ public class ImageUploadController {
         {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
+    }
+
+    @PostMapping("/recipeImage")
+    public ResponseEntity<String> uploadRecipeImage(@RequestParam("recipeId") Long recipeId,@RequestBody MultipartFile file)
+    {
+        try {
+            String response = imageUploadService.uploadImagePhoto(file,recipeId);
+            return new ResponseEntity<String>(response, HttpStatus.OK);
+        }
+        catch (RuntimeException e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @GetMapping("/recipeImage/{id}")
+    public ResponseEntity<?> findRecipeImage(@PathVariable Long id) throws IOException {
+        try{
+            byte[] imageURL = imageUploadService.getRecipePhoto(id);
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageURL);
+        }
+        catch (Exception e){
+        }
+        return (ResponseEntity<byte[]>) ResponseEntity.ok().contentType(MediaType.valueOf("image/jpeg"));
     }
 
 }
