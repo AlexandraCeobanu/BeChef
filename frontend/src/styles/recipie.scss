@@ -1,0 +1,22 @@
+@import './variables.scss';
+.recipie-photo {
+    width: 15em;
+    height: 15em;
+    position: relative;
+    margin-bottom: 1em;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+    img:hover{
+        transform: scale(1.1);
+    }
+}
+.recipie-feedback{
+    width: 15rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

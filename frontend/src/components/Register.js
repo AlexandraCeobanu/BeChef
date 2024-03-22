@@ -1,9 +1,9 @@
 import '../styles/login.scss';
-import '../styles/register.scss';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {registerUser} from '../services/register'
 import SuccessfullyPage from './SuccessfullyPage';
+import Logo from './Logo';
 export default function Register(){
 
     const navigate = useNavigate();
@@ -62,29 +62,29 @@ export default function Register(){
      }
     return(
         <div className="page">
+            <div className='mini-page'>
             <div className="left-side">
-            {/* <img src="/images/img8-nbk2.png" alt="Chef-gif" /> */}
             </div>
-            <div className="right-side-register">
+            <div id="logo">
+            <Logo></Logo>
+            </div>
+            <div className="right-side">
             <div className="title">
-            <img src="/images/orange-hat.svg" alt="Hat" id="hat2" />
-            <h1>Be chef</h1>
+            <h1>Register</h1>
             </div>
             <form onSubmit ={handleFormSubmit} className="form-class">
-                <label htmlFor="email">Email</label><br></br>
-                <input type="text" id="email" name="email" required onChange={changeEmailHandler} style={{ marginBottom: errorMessage === 'Invalid email' ? 0 : '1em' }}></input><br></br>
+                <input type="text" id="email" name="email" required onChange={changeEmailHandler} placeholder='Email' style={{ marginBottom: errorMessage === 'Invalid email' ? 0 : '1em' }}></input><br></br>
                 {errorMessage === 'Invalid email' || errorMessage === 'Email already used' ? <p className="error-message">{errorMessage}</p> : <br></br>}
-                <label htmlFor="username">Username</label><br></br>
-                <input type="text" id="username" name="username" required onChange={changeUsernameHandler} style={{ marginBottom: errorMessage === 'Username already used' ? 0 : '1em' }}></input><br></br>
+                <input type="text" id="username" name="username" required onChange={changeUsernameHandler} placeholder='Username' style={{ marginBottom: errorMessage === 'Username already used' ? 0 : '1em' }}></input><br></br>
                 {errorMessage === 'Username already used' ? <p className="error-message">{errorMessage}</p> : <br></br>}
-                <label htmlFor="password">Password</label><br></br>
-                <input type="password" id="password" name="password" required onChange={changePasswordHandler} style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input><br></br>
+                <input type="password" id="password" name="password" required onChange={changePasswordHandler} placeholder='Password' style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input><br></br>
                 {errorMessage.includes("password") ? <p className="error-message">{errorMessage}</p> : <br></br>}
                 <button type="submit" id="submit" name="submit" value="Register">Register</button>
             </form>
-            <div id="line2">
+            <div id="line1">
                 <p>Already have an account?</p>
-                <button type="button" onClick={handleLoginClick}>Login</button>
+                <button type="button" className='buttons' onClick={handleLoginClick}>Login</button>
+            </div>
             </div>
             </div>
         </div>

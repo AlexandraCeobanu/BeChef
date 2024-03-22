@@ -5,9 +5,11 @@ export const loginUser = async (user) => {
         const response = await axios.post(`${API_URL}/login`,user,config);
         if(response.status === 200)
         {
-            const token = await response.data;
+            const user = await response.data;
+            const token = user.token;
             console.log(`User  successfully logged`);
             localStorage.setItem('token',JSON.stringify(token));
+            localStorage.setItem('user',JSON.stringify(user));
             localStorage.setItem('isAuthenticated',"true");
         }
     }

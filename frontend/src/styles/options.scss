@@ -1,0 +1,24 @@
+@import './variables.scss';
+.options {
+    display: flex;
+    gap:1em;
+    .user-recipes,.saved-recipes,.shopping-list {
+        width:10em;
+        height: 2em;
+        border-radius: 3em;
+        background-color: $background-color;
+        display: flex;
+        justify-content: center;
+        button {
+            border:none;
+            background-color: $background-color;
+            font-size: medium;
+            cursor: pointer;
+        }
+    }
+    .clicked{
+        background-color: $primary-color;
+        button {
+            background-color: $primary-color;
+        }
+}}

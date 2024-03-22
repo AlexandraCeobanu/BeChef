@@ -4,16 +4,76 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 1em;
+    width: 100%;
+    margin-top:3em;
+    margin-bottom :5em;
     align-items: center;
+
     .nav-bar {
         display: flex;
         gap : 3em;
-        margin-right: 5em;
-
+        margin-left:4em;
         .icons {
-            font-size: 1.5em;
+            font-size: 1.2em;
+            cursor: pointer;
         }
     }
+    #logo {
+        margin-left:3em;
+    }
+    .logout {
+        width: 15em;
+        height: 2em;
+        display: flex;
+        gap:3em;
+        align-items: center;
+        #user-icon{
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        button {
+        border:none;
+        background-color:$background-color;
+        font-size: medium;
+        color:$primary-color;
+    }
+        .buttons {
+            width:50%;
+            height: 100%;
+            color:$primary-color;
+            background-color: $background-color;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 3em;
+            cursor: pointer;
+        }
+        .clicked {
+            color:black;
+            background-color: $primary-color;
+            button {
+                background-color:$primary-color;
+                color:black;
+        }
+        margin-right:3em;
+    }}
 
 }
+// .header {
+//     color : $primary-color;
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     margin: 1em;
+//     align-items: center;
+//     .nav-bar {
+//         display: flex;
+//         gap : 3em;
+//         margin-right: 5em;
+
+//         .icons {
+//             font-size: 1.5em;
+//         }
+//     }
+
+// }
