@@ -40,10 +40,11 @@ export default function RecipesView({recipes})
         <ProfileOptions></ProfileOptions>
         <hr></hr>
         </div>
+        {recipes.length !==0 &&
         <div id="new-recipe" onClick={handleAddRecipe}>
             <button>New recipe</button>
             <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
-        </div>
+        </div>}
         {recipes.length === 0 ? 
         (<div className="no-recipes">
         <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>

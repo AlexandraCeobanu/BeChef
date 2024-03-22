@@ -9,6 +9,10 @@ export default function Header(){
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate("/login")
+    }
     return(
         <div className="header">
             <div id="logo">
@@ -23,8 +27,8 @@ export default function Header(){
                 <div>
                 <FontAwesomeIcon icon={faUser} id="user-icon" onClick={handleClickProfile} />
                 </div>
-                <div className='buttons clicked' >
-                <button type="button">Logout</button>
+                <div className='buttons clicked'onClick={handleLogout} >
+                <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
             </div>
         </div>

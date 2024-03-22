@@ -3,6 +3,7 @@ import '../styles/login.scss';
 import '../styles/forgotPassword.scss'
 import { useNavigate } from "react-router-dom";
 import { changePassword } from '../services/password';
+import Logo from './Logo';
 export default function ForgotPassword(){
     const [email,setEmail] = useState('');
     const [newPassword,setnewPassword] = useState('');
@@ -52,6 +53,9 @@ export default function ForgotPassword(){
         <div className="page">
             <div className='mini-page'>
             <div className="left-side">
+            </div>
+            <div id="logo">
+            <Logo></Logo>
             </div>
             <div className="right-side">
             <div className="title">

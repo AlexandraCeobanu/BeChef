@@ -16,7 +16,7 @@ export const addRecipe = async(recipe) => {
 export const addSteps = async(recipeId,steps) => {
     try{
         
-        const response = await axios.post(`${API_URL}/recipes/${recipeId}/recipeSteps`,steps,config);
+        let response = await axios.post(`${API_URL}/recipes/${recipeId}/recipeSteps`,steps,config);
         if (response.status === 201)
         {
              response = await response.data;
@@ -30,7 +30,7 @@ export const addSteps = async(recipeId,steps) => {
 export const addIngredients = async(recipeId,ingredients) => {
     try{
         
-        const response = await axios.post(`${API_URL}/recipes/${recipeId}/ingredients`,ingredients,config);
+        let response = await axios.post(`${API_URL}/recipes/${recipeId}/ingredients`,ingredients,config);
         if (response.status === 201)
         {
             response = await response.data;
