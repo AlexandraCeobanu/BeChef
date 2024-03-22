@@ -34,8 +34,8 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
                 <input type="file" id="file-input" onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }}></input>
                 <div className="addImage">
                 {recipePhoto === null ? 
-                (<div><FontAwesomeIcon icon={faCirclePlus} onClick={handleDefaultImageClick}></FontAwesomeIcon>
-                <h3>Add a image</h3></div>):
+                (<div><FontAwesomeIcon icon={faCirclePlus} className="fa fa-envelope fa-3x" id="plus" onClick={handleDefaultImageClick}></FontAwesomeIcon>
+                <h3></h3></div>):
                 (
         
                     <img src = {URL.createObjectURL(recipePhoto)} alt="Default"  onClick={handleDefaultImageClick} ></img>
@@ -44,7 +44,7 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
                 </div>
             </div>
             <div className="description">
-                <textarea placeholder="Add a description" onChange={handleDescription}></textarea>
+               <textarea placeholder="Add a description"></textarea>
             </div>
             <button type="button" onClick={handlePostRecipe}>Post Recipe</button>
         </div>

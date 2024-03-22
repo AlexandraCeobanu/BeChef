@@ -6,7 +6,7 @@ export default function Feedback(props)
        <div className='feedback'>
          <div className='feedback-text'>
          <FontAwesomeIcon icon={props.icon} className="icons" />
-         <p>100</p>
+         <p>0</p>
          </div>
          <p>{props.text}</p>
        </div>

@@ -2,17 +2,21 @@
 .left {
     width:15em;
     color : $primary-color;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     .image {
-        background-color: gainsboro;
+        background-color: $background-color;
+        border:1px dotted rgba(0,0,0,0.3);
         width: 15em;
         height: 15em;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         .addImage {
             width: 100%;
             height: 100%;
             display: flex;
+            justify-content: center;
+            align-items: center;
             flex-direction: column;
             gap:1em;
             img {
@@ -20,6 +24,9 @@
                 height: 100%;
                 object-fit: cover;
                 cursor: pointer;
+            }
+            #plus {
+                color : rgba(0,0,0,0.4);
             }
         }
     }
@@ -29,17 +36,25 @@
         margin-top: 2em;
         width:16.7em;
         outline-color: $primary-color;
-        border: 2px solid $primary-color;
+        border:none;
+        border-bottom: 2px solid $primary-color;
         resize: none; 
-        padding: 8px;
+        background-color: $background-color;
+        }
+        textarea:focus {
+        outline: none;
         }
     }
     button{
         margin: 0;
         height: 2em;
         margin-top: 2em;
-        width: 15em;
+        width: 10em;
         border : 2px solid $primary-color;
+        background-color:$primary-color;
+        font-size: medium;
+        border-radius: 3em;
+        cursor: pointer;
     }
 
 }
@@ -47,7 +62,7 @@
 .right {
     color : $primary-color;
     .title{
-        margin-bottom: 5em;
+        margin-bottom: 4em;
         hr {
             border-color: $primary-color;
             border-style: solid; 
@@ -63,29 +78,68 @@
             font-size: 2em;
             font-weight:bolder;
             margin:0;
+            background-color: $background-color;
+            padding-bottom: 1em;
+            text-align: center;
+            width: 100%;
         }
     }
-    .addStep {
+    .elements {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .ingredients {
+            display: flex;
+            flex-direction: column;
+            ul {
+                margin-left: 1em;
+                li {
+                    margin-bottom: 1em;
+                    input {
+                        width:10em;
+                        height: 2em;
+                        padding-left: 1em;
+                        border : 1px solid $primary-color;
+                        border-radius: 3em;
+                        background-color: $background-color;
+                    }
+                    input:focus {
+                        outline:none;
+                    }
+                }
+            }
+            .remove-ingredient {
+                display: flex;
+                flex-direction: row;
+                gap:1em;
+            }
+        }
+    }
+    .addStep, .addIngredient {
         display: flex;
         flex-direction: row;
         gap:2em;
         align-items: center;
         margin-bottom: 2em;
     }
+    .icons {
+        margin-top: 0.4em;
+        cursor: pointer;
+    }
     .steps{
-        .icons {
-            cursor: pointer;
-        }
+        width: 60%;
         .step {
-            width:50em;
-            outline-color: $primary-color;
-            border: 2px solid $primary-color;
+            width: 100%;
+            outline:none;
+            border:none;
+            border-bottom: 2px solid $primary-color;;
             resize: none; 
-            padding: 8px;
             margin-bottom: 1em;
+            margin-top:1em;
+            background-color: $background-color;
         }
         .remove-step {
-            width: 42.5em;
+            width: 100%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;

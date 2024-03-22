@@ -23,10 +23,6 @@ export default function UserDescription(props){
             <img src = {props.profilePhoto} alt="Default"  onClick={handleDefaultImageClick} ></img>
             </div>
             <h3>{props.username}</h3>
-            <div className="description">
-                {/* <p>Iasi, Romania</p>
-                <p>Student passionate about food</p> */}
-            </div>
             <hr id="line"></hr>
             <div className="statistics">
                 <div className="statistic">
@@ -38,6 +34,9 @@ export default function UserDescription(props){
                 <h2>{props.nrLikes}</h2>
                 </div>
             </div>
+            {/* <div id="new-recipe">
+            <button>New Recipe</button>
+            </div> */}
         </div>
     )
 }

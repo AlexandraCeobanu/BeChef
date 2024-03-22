@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
+import Logo from './Logo';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -52,33 +53,33 @@ export default function Login(){
 
     return(
         <div className="page">
+            <div className='mini-page'>
             <div className="left-side">
-            {/* <img src="/images/Chef2.gif" alt="Chef-gif" /> */}
-            {/* <img id = "main-image" src="/images/img8-nbk2.png" alt="image" /> */}
+            </div>
+            <div id="logo">
+            <Logo></Logo>
             </div>
             <div className="right-side">
             <div className="title">
-            <img src="/images/orange-hat.svg" alt="Hat" id="hat" />
-            <h1>Hello chef</h1>
+            <h1>Hello,  chef </h1>
             </div>
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">
-                <label htmlFor="email">Email</label><br></br>
-                <input type="text" id="email" name="email" required onChange={emailChangeHandler}></input><br></br>
+                <input type="text" id="email" name="email" required onChange={emailChangeHandler} placeholder='Email'></input><br></br>
                 {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
-                <div id="line1">
-                <label htmlFor="password">Password</label>
-                </div>
-                <input type="password" id="password" name="password" required onChange={passwordChangeHandler} style={{ marginBottom: errorMessage !== '' ? 0 : '2em' }}></input><br></br>
+                <input type="password" id="password" name="password" required onChange={passwordChangeHandler} placeholder='Password' style={{ marginBottom: errorMessage !== '' ? 0 : '1em' }}></input>
                 {errorMessage !== '' ? <p className="error-message">{errorMessage}</p> : <br></br>}
+                <div id="forgot-password">
+                <button type="button" className='buttons' onClick={handleForgotPassword}>Forgot password?</button>
+                </div>
                 <button type="submit" id="submit" name="submit" value="Login">Login</button>
             </form>
             </div>
-            <div id="line2">
+            <div id="line1">
                 <p>Don't have an account?</p>
-                <button type="button" onClick={handleRegisterClick}>Register</button>
+                <button type="button" className='buttons' onClick={handleRegisterClick}>Register</button>
             </div>
-            <button type="button" onClick={handleForgotPassword}>Forgot password?</button>
+            </div>
             </div>
         </div>
     )

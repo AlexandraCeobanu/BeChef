@@ -4,18 +4,18 @@ import AddRecipeRight from "./AddRecipeRight";
 import "../styles/page.scss"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addRecipe, addSteps } from "../services/recipe";
+import { addRecipe, addSteps,addIngredients } from "../services/recipe";
 import { uploadRecipeImage } from "../services/uploadRecipeImage";
 import { getRecipeImage } from "../services/getRecipeImage";
 export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [recipePhoto,setRecipePhoto] = useState(null);
+    let [ingredients,setIngredients] = useState([]);
     const [recipe,setRecipe] = useState({
         userId: user.id,
         name: '',
         description: '',
-        steps: []
       });
     
     let [steps,setSteps] = useState([]);
@@ -24,9 +24,10 @@ export default function AddRecipe()
         setRecipe({...recipe,description})
       };
     
-    const handleRecipeStepChange = (name, steps) => {
+    const handleRecipeStepChange = (name, steps,ingredients) => {
        setRecipe({...recipe,name})
        setSteps(steps);
+       setIngredients(ingredients);
 
       };
 
@@ -46,7 +47,13 @@ export default function AddRecipe()
             {
                 console.log(error);
             })
+            addIngredients(recipe.id,ingredients)
+            .then(()=> {
 
+            })
+            .catch((error)=> {
+                console.log(error);
+            })
             uploadRecipeImage(recipePhoto,recipe.id)
             .then(() => 
                 {

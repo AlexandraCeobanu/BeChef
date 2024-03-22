@@ -5,6 +5,7 @@ import '../styles/recipesView.scss'
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getRecipeImage } from "../services/getRecipeImage";
+import ProfileOptions from "./ProfileOptions";
 export default function RecipesView({recipes})
 {
     const navigate = useNavigate();
@@ -28,11 +29,20 @@ export default function RecipesView({recipes})
         fetchRecipesImages();
     }, [recipes]);
 
+    const handleAddRecipe =() => {
+        navigate('/addRecipe');
+    }
+
     return(
         <div className="recipes-view">
         <div className="title">
-        <h1>Recipes</h1>
+        {/* <h1>Recipes</h1> */}
+        <ProfileOptions></ProfileOptions>
         <hr></hr>
+        </div>
+        <div id="new-recipe" onClick={handleAddRecipe}>
+            <button>New recipe</button>
+            <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
         </div>
         {recipes.length === 0 ? 
         (<div className="no-recipes">

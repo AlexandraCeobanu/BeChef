@@ -50,29 +50,26 @@ export default function ForgotPassword(){
     };
     return(
         <div className="page">
+            <div className='mini-page'>
             <div className="left-side">
-            {/* <img src="/images/Chef2.gif" alt="Chef-gif" /> */}
-            {/* <img id = "main-image" src="/images/img8-nbk2.png" alt="image" /> */}
             </div>
             <div className="right-side">
-            <h1 id="h1-forgot-password">Forgot password</h1>
+            <div className="title">
+            <h1>Forgot Password</h1>
             <p id= "p-forgot-password">We will send you a code to confirm your new password</p>
+            </div>
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">
-                <label htmlFor="Email">Email</label><br></br>
-                <input type="text" id="email" name="email" required onChange={emailChangeHandler}></input><br></br>
-                {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
-                <div id="line1">
-                <label htmlFor="newPassword">New Password</label>
-                </div>
-                <input type="password" id="newPassword" name="newPassword" required onChange={passwordChangeHandler} style={{ marginBottom: errorMessage !== '' ? 0 : '2em' }}></input><br></br>
+                <input type="text" id="email" name="email" required onChange={emailChangeHandler} placeholder='Email'></input><br></br>
+                <input type="password" id="newPassword" name="newPassword" required onChange={passwordChangeHandler} placeholder='New Password' style={{ marginBottom: errorMessage !== '' ? 0 : '2em' }}></input><br></br>
                 {errorMessage !== '' ? <p className="error-message">{errorMessage}</p> : <br></br>}
                 <button type="submit" id="submit" name="submit" value="Login">Change Password</button>
             </form>
             </div>
-            <div id="line3">
-            <button type="button" onClick={handleLoginClick}>Login</button>
-            <button type="button" onClick={handleRegisterClick}>Register</button>
+            <div id="line1">
+            <button type="button" className='buttons' onClick={handleLoginClick}>Login</button>
+            <button type="button" className='buttons' onClick={handleRegisterClick}>Register</button>
+            </div>
             </div>
             </div>
         </div>
