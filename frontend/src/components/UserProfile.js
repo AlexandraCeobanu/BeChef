@@ -8,6 +8,7 @@ import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
 import { getRecipesByUserId } from "../services/recipe"
 import { getUserById } from "../services/getUserById"
+import UserRecipes from "./UserRecipes"
 export default function UserProfile()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
@@ -54,16 +55,16 @@ export default function UserProfile()
         }
         )
         .catch((error)=> {console.log(error)})
-        getRecipesByUserId(user.id)
-        .then(
-            (recipes) => {
-                    setRecipes(recipes);
-            }
-        )
-        .catch((error) =>
-        {
-            console.log(error);
-        })
+        // getRecipesByUserId(user.id)
+        // .then(
+        //     (recipes) => {
+        //             setRecipes(recipes);
+        //     }
+        // )
+        // .catch((error) =>
+        // {
+        //     console.log(error);
+        // })
     },[]);
 
     return(
@@ -71,9 +72,9 @@ export default function UserProfile()
             <Header></Header>
             <div className="user-info">
             <div className="fixed-description">
-            <UserDescription username={'@'+user.userUsername}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user.nrLikes} nrRecipes = {user.nrRecipes} onImageChange={handleImageChange}></UserDescription>
+            <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user !== null ? user.nrLikes : 0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange}></UserDescription>
             </div>
-            <RecipesView recipes={recipes}></RecipesView>
+           <UserRecipes id={user.id}></UserRecipes>
             </div>
         </div>
     )

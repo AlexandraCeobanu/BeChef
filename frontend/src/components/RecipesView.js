@@ -10,9 +10,6 @@ export default function RecipesView({recipes})
 {
     const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
-    const handleClick = () => {
-        navigate("/addRecipe")
-    };
     useEffect(() => {
 
         const fetchRecipesImages = async () => {
@@ -29,36 +26,14 @@ export default function RecipesView({recipes})
         fetchRecipesImages();
     }, [recipes]);
 
-    const handleAddRecipe =() => {
-        navigate('/addRecipe');
-    }
 
     return(
-        <div className="recipes-view">
-        <div className="title">
-        {/* <h1>Recipes</h1> */}
-        <ProfileOptions></ProfileOptions>
-        <hr></hr>
-        </div>
-        {recipes.length !==0 &&
-        <div id="new-recipe" onClick={handleAddRecipe}>
-            <button>New recipe</button>
-            <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
-        </div>}
-        {recipes.length === 0 ? 
-        (<div className="no-recipes">
-        <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
-        <h3>Add your first recipe today</h3>
-        </div>) :
-        (   <div className="recipes-grid">
+      <div className="recipes-grid">
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
                 <Recipie image={recipeImage}></Recipie>
             </div>
         )
             )}
-            </div>
-        )}
-        </div>
-    )
+        </div>)
 }

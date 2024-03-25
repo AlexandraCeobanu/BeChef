@@ -14,7 +14,6 @@ export default function UserDescription(props){
    const handleDefaultImageClick = () => {
     document.getElementById('file-input').click();
 };
-
     return(
         <div className="userDescription">
             <div className="profile-picture">
@@ -33,9 +32,6 @@ export default function UserDescription(props){
                 <h2>{props.nrLikes}</h2>
                 </div>
             </div>
-            {/* <div id="new-recipe">
-            <button>New Recipe</button>
-            </div> */}
         </div>
     )
 }

@@ -61,7 +61,7 @@ export default function Login(){
             </div>
             <div className="right-side">
             <div className="title">
-            <h1>Hello,  chef </h1>
+            <h1>Login </h1>
             </div>
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">

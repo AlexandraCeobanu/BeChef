@@ -1,0 +1,44 @@
+@import "../styles/variables.scss";
+.home {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    #search-bar {
+        width:20em;
+        height: 2em;
+        margin-bottom: 2em;
+        position: relative;
+        input {
+            width:100%;
+            height: 100%;
+            border-radius: 3em;
+           border: 1px solid $primary-color;
+           padding-left: 10px;
+           background-color: $background-color;
+        }
+        #loop {
+            color:$primary-color;
+            position: absolute;
+            right:1em;
+            bottom:0.5em;
+        }
+        input:focus {
+           outline: none;
+        }
+    }
+    hr {
+        border: 1px solid  $primary-color;
+        width:90%;
+        margin: auto;
+        opacity: 0.3;
+        margin-top: 3em;
+        margin-bottom: 3em;
+    }
+    .recipes {
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(5,1fr);
+    }
+}

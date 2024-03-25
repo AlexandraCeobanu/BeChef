@@ -20,7 +20,7 @@ export default function Header(){
             </div>
             <div className="nav-bar">
             <FontAwesomeIcon icon={faHome} className="icons" />
-            <FontAwesomeIcon icon={faMagnifyingGlass}  className="icons" />
+            {/* <FontAwesomeIcon icon={faMagnifyingGlass}  className="icons" /> */}
             <FontAwesomeIcon icon={faBell} className="icons" />
             </div>
             <div className="logout">

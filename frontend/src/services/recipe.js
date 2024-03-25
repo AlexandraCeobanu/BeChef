@@ -55,3 +55,18 @@ export const getRecipesByUserId = async(id) => {
     throw error.response.data;
 }
 }
+
+export const getAllRecipes = async() => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/all`,config);
+        if (response.status === 200)
+        {
+            const recipes = await response.data;
+            return recipes;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
