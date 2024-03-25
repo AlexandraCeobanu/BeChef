@@ -13,14 +13,16 @@ export default function Header(){
         localStorage.clear();
         navigate("/login")
     }
+    const handleHomeClick = () => {
+        navigate("/home")
+    }
     return(
         <div className="header">
             <div id="logo">
             <Logo></Logo>
             </div>
             <div className="nav-bar">
-            <FontAwesomeIcon icon={faHome} className="icons" />
-            {/* <FontAwesomeIcon icon={faMagnifyingGlass}  className="icons" /> */}
+            <FontAwesomeIcon icon={faHome} className="icons" onClick={handleHomeClick} />
             <FontAwesomeIcon icon={faBell} className="icons" />
             </div>
             <div className="logout">
