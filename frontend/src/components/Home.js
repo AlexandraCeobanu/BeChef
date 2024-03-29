@@ -3,31 +3,35 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import Recipie from "./Recipie";
 import "../styles/home.scss"
 import { getAllRecipes } from "../services/recipe";
 import RecipesView from "./RecipesView";
+import { getRecipesByName } from "../services/recipe";
 export default function Home()
 {
     const [search,setSearch] = useState(null);
     const [recipes,setRecipes] = useState([]);
+    const location = useLocation();
     const searchChangeHandler=(event) =>{
         setSearch(event.target.value);
     }
     const handleKeyDown = (event) => {
-        // if (event.key === 'Enter') {
-        //   getAllRecipe()
-        //   .then (
-        //     (response) => {
-        //         console.log(response);
-        //         setBooks(response.works)
-        //     }
-        //   )
-        //   .catch((error)=> {
-        //     console.log(error);
-        //   })
-        // }
+        if (event.key === 'Enter') {
+          getRecipesByName(search)
+          .then (
+            (response) => {
+                console.log(search)
+                console.log(response)
+                setRecipes(response)
+            }
+          )
+          .catch((error)=> {
+            console.log(error);
+          })
+        }
     };
     useEffect (
         ()=> {
@@ -39,7 +43,7 @@ export default function Home()
             {
                 console.log(error);
         })
-        },[]
+        },[location.key]
     )
     return(
         <div className="home">

@@ -70,3 +70,18 @@ export const getAllRecipes = async() => {
     throw error.response.data;
 }
 }
+
+export const getRecipesByName = async(name) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/byname?name=${name}`,config);
+        if (response.status === 200)
+        {
+            const recipes = await response.data;
+            return recipes;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}

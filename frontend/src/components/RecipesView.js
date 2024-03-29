@@ -11,7 +11,6 @@ export default function RecipesView({recipes})
     const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
     useEffect(() => {
-
         const fetchRecipesImages = async () => {
             try {
                 const promises = recipes.map(recipe => getRecipeImage(recipe.id));
