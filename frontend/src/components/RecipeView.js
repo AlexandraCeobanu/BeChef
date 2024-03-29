@@ -1,9 +1,12 @@
+import CommentsSection from "./CommentsSection";
 import IngredientView from "./IngredientsView";
-
+import Recipie from "./Recipie";
 export default function RecipeView(){
     return(
-        <div>
+        <div className="recipeView">
             <IngredientView></IngredientView>
+            <Recipie></Recipie>
+            <CommentsSection></CommentsSection>
         </div>
     )
 }
