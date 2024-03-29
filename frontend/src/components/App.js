@@ -15,20 +15,19 @@ import ImageDisplay from './ImageDisplay';
 import RecipeView from './RecipeView';
 export default function App(){
     return(
-        <RecipeView></RecipeView>
-        // <Router>
-        //     <Routes>
-        //         <Route path="/" element= {<Login/>}></Route>
-        //         <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
-        //         <Route path="/login" element= {<Login/>}></Route>
-        //         <Route path="/logout" element= {<Login/>}></Route>
-        //         <Route path="/register" element={<Register/>}></Route>
-        //         <Route path="/success" element ={<SuccessfullyPage/>}></Route>
-        //         <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
-        //         <Route path="/entercode" element ={<EnterCode/>}></Route>
-        //         <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
-        //         <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
-        //     </Routes>
-        // </Router>
+        <Router>
+            <Routes>
+                <Route path="/" element= {<Login/>}></Route>
+                <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
+                <Route path="/login" element= {<Login/>}></Route>
+                <Route path="/logout" element= {<Login/>}></Route>
+                <Route path="/register" element={<Register/>}></Route>
+                <Route path="/success" element ={<SuccessfullyPage/>}></Route>
+                <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
+                <Route path="/entercode" element ={<EnterCode/>}></Route>
+                <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
+                <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
+            </Routes>
+        </Router>
     )
 }

@@ -1,5 +1,5 @@
 import CommentsSection from "./CommentsSection";
-import IngredientView from "./IngredientsView";
+import IngredientsView from "./IngredientsView";
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import Recipie from "./Recipie";
 import StepView from "./StepView";
@@ -10,7 +10,9 @@ export default function RecipeView(){
             <div className="close">
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
-            <IngredientView></IngredientView>
+            <div className="left-side">
+            <IngredientsView></IngredientsView>
+            </div>
             <div className="right-side">
             <div className="right-side-top">
             <Recipie></Recipie>

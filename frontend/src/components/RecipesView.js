@@ -2,14 +2,17 @@ import Recipie from "./Recipie"
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
-import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getRecipeImage } from "../services/getRecipeImage";
-import ProfileOptions from "./ProfileOptions";
+import RecipeView from "../components/RecipeView";
 export default function RecipesView({recipes})
 {
+    const [viewRecipe,setViewRecipe] = useState(false);
     const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
+    const handleViewRecipe = () => {
+            setViewRecipe(true);
+
+    }
     useEffect(() => {
         const fetchRecipesImages = async () => {
             try {
@@ -27,12 +30,16 @@ export default function RecipesView({recipes})
 
 
     return(
-      <div className="recipes-grid">
+        <div>
+        {viewRecipe === true && <RecipeView></RecipeView>}
+      <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipie image={recipeImage}></Recipie>
+                <Recipie image={recipeImage} onClick={handleViewRecipe}></Recipie>
             </div>
         )
             )}
-        </div>)
+        </div>
+        </div>
+        )
 }

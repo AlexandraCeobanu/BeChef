@@ -3,9 +3,12 @@ import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
 import Feedback from './Feedback';
 export default function Recipie(props)
 {
+    const handleClick=()=> {
+        props.onClick();
+    }
     return(
         <div>
-            <div className="recipie-photo">
+            <div className="recipie-photo" onClick={handleClick}>
                 {/* <img src = {props.image} alt="Recipie"></img> */}
                 <img src = "/images/recipie1.jpg"></img>
             </div>
