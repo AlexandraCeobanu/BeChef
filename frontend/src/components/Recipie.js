@@ -1,7 +1,5 @@
 import '../styles/recipie.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
-import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import Feedback from './Feedback';
 export default function Recipie(props)
 {

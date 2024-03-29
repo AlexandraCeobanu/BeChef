@@ -1,9 +1,10 @@
 @import '../styles/variables.scss';
-
+.recipeView::-webkit-scrollbar {
+    display: none;
+}
 .recipeView {
     height: 80vh;
     width: 70%;
-    border:1px solid red;
     display: flex;
     flex-direction: row;
     gap:8em;
@@ -11,19 +12,44 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    overflow: auto;
     #photo {
         margin-top: 2em;
+    }
+    .close {
+        position: absolute;
+        right: 1em;
+        top: 1em;
+        cursor: pointer;
+        z-index: 2;
+        .icon {
+            width: 100%;
+            cursor: pointer;
+        }
+        }
+    .right-side {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 80%;
+        .right-side-top{
+            display: flex;
+            gap:8em;
+            height: 70%;
+        }
     }
 }
 
 
 .ingredients {
+    position:sticky;
+    top:0;
     background-color: $primary-color;
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 100%;
-    width:70%;
+    width:30%;
 
     h1{
             margin-top: 2em;
@@ -62,7 +88,7 @@
 
 .comments-section {
     position: relative;
-    height: 80%;
+    height: 90%;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -98,4 +124,18 @@
     input:focus {
         outline: none;
     }
+}
+
+.step-view {
+    p {
+        margin: none;
+        padding: none;
+    }
+    width: 90%;
+    background-color: $background-color;
+    border:none;
+    border-bottom: 2px solid $primary-color;
+    padding-left: 1em;
+    padding-bottom: 1em;
+    margin-bottom:2em;
 }
