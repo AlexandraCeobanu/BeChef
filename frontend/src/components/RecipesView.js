@@ -15,6 +15,10 @@ export default function RecipesView({recipes,userId,handleChangeLikes,handleBlur
             setClickedRecipe(index);
             handleBlur(true);
     }
+    const handleCloseRecipe = () => {
+        setViewRecipe(false);
+        handleBlur(false);
+}
     useEffect(() => {
         const fetchRecipesImages = async () => {
             try {
@@ -33,7 +37,7 @@ export default function RecipesView({recipes,userId,handleChangeLikes,handleBlur
 
     return(
         <div>
-        {viewRecipe === true && <RecipeView recipe={recipes[clickedRecipe]} image={recipesImages[clickedRecipe]} userId={userId} index={clickedRecipe} onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes} ></RecipeView>}
+        {viewRecipe === true && <RecipeView recipe={recipes[clickedRecipe]} image={recipesImages[clickedRecipe]} userId={userId} index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} handleChangeLikes={handleChangeLikes} ></RecipeView>}
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>

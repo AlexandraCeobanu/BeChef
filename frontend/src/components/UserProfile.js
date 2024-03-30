@@ -60,8 +60,8 @@ export default function UserProfile()
     const handleChangeLikes = ()=>{
        setChangedNrLikes(true);
     }
-    const handleBlur = ()=>{
-        setBlur(true);
+    const handleBlur = (value)=>{
+        setBlur(value);
     }
 
     return(

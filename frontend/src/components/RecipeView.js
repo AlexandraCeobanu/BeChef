@@ -4,14 +4,18 @@ import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import Recipie from "./Recipe";
 import StepView from "./StepView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect } from "react";
 export default function RecipeView(props){
+    const handleCloseRecipe = () => {
+        props.handleCloseRecipe();
+    }
     return(
         <div className="recipeView">
-            <div className="close">
+            <div className="close" onClick={handleCloseRecipe}>
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
             <div className="left-side">
-            <IngredientsView></IngredientsView>
+            <IngredientsView ingredients={props.recipe.ingredients}></IngredientsView>
             </div>
             <div className="right-side">
             <div className="right-side-top">

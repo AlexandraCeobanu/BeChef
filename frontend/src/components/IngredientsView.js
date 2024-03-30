@@ -1,14 +1,14 @@
 import '../styles/recipeview.scss';
-export default function IngredientView()
+export default function IngredientView(props)
 {
     return(
         <div className="ingredients">
                 <h1>Ingredients</h1>
                 <ul>
-                    <li>3 oua</li>
-                    <li>1l lapte</li>
-                    <li>1kg faina</li>
-                    <li>200g zahar</li>
+                    {props.ingredients.map((ingredient,index) => (
+                        ingredient.name!=="" && 
+                        <li key={index}>{ingredient.name}</li>
+                    ))}
                 </ul>
         </div>
     )
