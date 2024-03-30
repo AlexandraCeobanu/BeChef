@@ -2,6 +2,7 @@ package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.IngredientDTO;
 import com.licenta.bechefbackend.DTO.RecipeDTO;
+import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
 import com.licenta.bechefbackend.DTO.RecipeStepDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.Recipe;
@@ -29,18 +30,31 @@ public class RecipeService {
 
     @Autowired
     IngredientRepository ingredientRepository;
-    public List<Recipe> getAllRecipes() {
+    public List<RecipeResponseDTO> getAllRecipes() {
         List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
-        return recipes;
+        List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+        for (Recipe recipe : recipes)
+        {
+            RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
+                    ,recipe.getSteps(),
+                    recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+            recipesDTO.add(recipeDTO);
+        }
+        return recipesDTO;
     }
 
-    public Recipe getRecipeById(Long id) {
+    public RecipeResponseDTO getRecipeById(Long id) {
 
         Recipe recipe = recipeRepository.findById(id).orElse(null);
-        return recipe;
+        RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
+                ,recipe.getSteps(),
+                recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
+                recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+        return recipeDTO;
     }
 
-    public Recipe createRecipe(RecipeDTO recipeDTO) {
+    public RecipeResponseDTO createRecipe(RecipeDTO recipeDTO) {
         try
         {
             Recipe recipe = new Recipe();
@@ -51,7 +65,13 @@ public class RecipeService {
             user.setNrRecipes(recipes);
             userRepository.updateNrRecipes(recipes, user.getId());
             recipe.setUser(user);
-            return  recipeRepository.save(recipe);
+
+            Recipe savedRecipe = recipeRepository.save(recipe);
+            RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(savedRecipe.getId(),savedRecipe.getUser().getId()
+                    ,savedRecipe.getSteps(),
+                    savedRecipe.getIngredients(),savedRecipe.getLikes(),savedRecipe.getName(),
+                    savedRecipe.getDescription(),savedRecipe.getImage(),savedRecipe.getNrLikes(),savedRecipe.getNrComments())   ;
+            return  recipeResponseDTO;
         }
         catch(Exception e)
         {
@@ -59,7 +79,7 @@ public class RecipeService {
         }
     }
 
-    public Recipe updateRecipe(Long id, RecipeDTO recipeDTO) {
+    public RecipeResponseDTO updateRecipe(Long id, RecipeDTO recipeDTO) {
 
         Recipe recipe = recipeRepository.findById(id).orElse(null);
         if (recipe != null)
@@ -68,16 +88,34 @@ public class RecipeService {
             String description = recipeDTO.getDescription();
             Long userId = recipeDTO.getUserId();
             recipeRepository.updateRecipe(name,description,id);
-            return recipeRepository.findById(id).orElse(null);
+            Recipe updatedRecipe = recipeRepository.findById(id).orElse(null);
+            if (updatedRecipe == null)
+                return null;
+            else {
+                RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(updatedRecipe.getId(),updatedRecipe.getUser().getId()
+                        ,updatedRecipe.getSteps(),
+                        updatedRecipe.getIngredients(),updatedRecipe.getLikes(),updatedRecipe.getName(),
+                        updatedRecipe.getDescription(),updatedRecipe.getImage(),updatedRecipe.getNrLikes(),updatedRecipe.getNrComments());
+                return recipeResponseDTO;
+            }
         }
         else {
             throw new IllegalStateException("Recipe id not found");
         }
     }
 
-    public List<Recipe> getRecipesByUserId(Long id) {
+    public List<RecipeResponseDTO> getRecipesByUserId(Long id) {
         List<Recipe> recipes = recipeRepository.findAllByUserId(id);
-        return recipes;
+        List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+        for (Recipe recipe : recipes)
+        {
+            RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
+                    ,recipe.getSteps(),
+                    recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+            recipesDTO.add(recipeDTO);
+        }
+        return recipesDTO;
     }
 
     public List<Ingredient> addIngredients(Long recipeId,List<IngredientDTO> ingredientsDTO) {
@@ -129,8 +167,17 @@ public class RecipeService {
         }
     }
 
-    public List<Recipe> getRecipesByName(String name) throws Exception {
+    public List<RecipeResponseDTO> getRecipesByName(String name) throws Exception {
         List<Recipe> recipes = recipeRepository.findAllByName(name);
-        return recipes;
+        List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+        for (Recipe recipe : recipes)
+        {
+            RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
+                    ,recipe.getSteps(),
+                    recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+            recipesDTO.add(recipeDTO);
+        }
+        return recipesDTO;
     }
 }
