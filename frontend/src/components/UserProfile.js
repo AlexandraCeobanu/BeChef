@@ -74,7 +74,7 @@ export default function UserProfile()
             <div className="fixed-description">
             <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user !== null ? user.nrLikes : 0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange}></UserDescription>
             </div>
-           <UserRecipes id={user.id}></UserRecipes>
+            <UserRecipes id={user.id}></UserRecipes>
             </div>
         </div>
     )
