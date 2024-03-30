@@ -1,8 +1,8 @@
 import CommentsSection from "./CommentsSection";
 import IngredientsView from "./IngredientsView";
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import Recipie from "./Recipe";
-import StepView from "./StepView";
+import Recipe from "./Recipe";
+import StepsView from "./StepsView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 export default function RecipeView(props){
@@ -19,13 +19,10 @@ export default function RecipeView(props){
             </div>
             <div className="right-side">
             <div className="right-side-top">
-            <Recipie image={props.image} recipe={props.recipe} index={props.index} userId={props.userId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipie>
+            <Recipe image={props.image} recipe={props.recipe} index={props.index} userId={props.userId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
             <CommentsSection></CommentsSection>
             </div>
-            <StepView></StepView>
-            <StepView></StepView>
-            <StepView></StepView>
-            <StepView></StepView>
+            <StepsView steps={props.recipe.steps}></StepsView>
             </div>
         </div>
     )

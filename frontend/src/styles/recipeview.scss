@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: row;
     gap:8em;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -48,27 +48,28 @@
         position:sticky;
         top:0;
     }
-}
-
-
-.ingredients {
-    background-color: $primary-color;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width:100%;
-    color:black;
-    h1{
-            margin-top: 2em;
-            margin-bottom: 2em;
-    }
-    ul {
-        li {
-            margin-bottom: 1em;
+    .ingredients {
+        background-color: $primary-color;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        width:100%;
+        color:black;
+        h1{
+                margin-top: 2em;
+                margin-bottom: 2em;
+        }
+        ul {
+            li {
+                margin-bottom: 1em;
+            }
         }
     }
 }
+
+
+
 
 .comment {
     display: flex;

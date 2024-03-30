@@ -1,4 +1,4 @@
-import Recipie from "./Recipe"
+import Recipe from "./Recipe"
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
@@ -41,7 +41,7 @@ export default function RecipesView({recipes,userId,handleChangeLikes,handleBlur
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipie image={recipeImage} recipe={recipes[index]} index={index} userId={userId} onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipie>
+                <Recipe image={recipeImage} recipe={recipes[index]} index={index} userId={userId} onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipe>
             </div>
         )
             )}
