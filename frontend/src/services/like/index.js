@@ -44,3 +44,18 @@ export const getUserLikedRecipes = async (id) => {
         throw error.response.data;
     }
 };
+
+export const removeLike = async (userId,recipeId) => {
+    try{
+        const response = await axios.delete(`${API_URL}/likes?userId=${userId}&recipeId=${recipeId}`,config);
+        if(response.status === 204)
+        {
+            const res  = await response.data;
+            return res;
+        }
+    }
+    catch (error) {
+        console.log(`Failed to remove like.`,error);
+        throw error.response.data;
+    }
+};

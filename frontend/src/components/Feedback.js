@@ -6,6 +6,7 @@ export default function Feedback(props)
 {
     const[liked,setLiked] = useState(props.liked);
     const handleLike = () => {
+      
         props.onClick(!liked)
     }
     useEffect(()=> {

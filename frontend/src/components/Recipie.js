@@ -5,7 +5,8 @@ import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
 import { useLocation } from 'react-router-dom';
-import { getUserLikedRecipes } from '../services/like';
+import { getUserLikedRecipes,removeLike } from '../services/like';
+
 export default function Recipie(props)
 {
     const [liked,setLiked] = useState(false);
@@ -14,21 +15,31 @@ export default function Recipie(props)
     const handleClick=()=> {
         props.onClick();
     }
-    const handleLike=()=> {
-
-        let like = {
+    const handleLike=(value)=> {
+        if (value === true){
+            let like = {
             likerId: props.userId,
             likedId: props.recipe.userId,
             recipeId: props.recipe.id
-        }
-        giveLike(like)
-        .then(()=> {
+            }
+            giveLike(like)
+            .then(()=> {
             setLiked(!liked);
-        })
-        .catch((error)=>{
-            console.log(error);
-        })
-    }
+            })
+            .catch((error)=>{
+                console.log(error);
+            })}
+        if (value === false)
+        {
+            removeLike(props.userId,props.recipe.id)
+            .then(()=> {
+            setLiked(false);
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }
+        }
     useEffect(
         ()=> {
             getRecipeLikes(props.recipe.id)
