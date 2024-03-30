@@ -14,6 +14,7 @@ export default function UserProfile()
     const [changedNrLikes,setChangedNrLikes] = useState(false);
     const [uploadTrigger, setUploadTrigger] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
+    const [blur, setBlur] = useState(false);
     const defaultProfilePhoto = '/images/profile-no-photo.png';
     const handleImageChange = (formData) => {
         uploadProfileImage(formData,user.userUsername)
@@ -59,15 +60,20 @@ export default function UserProfile()
     const handleChangeLikes = ()=>{
        setChangedNrLikes(true);
     }
+    const handleBlur = ()=>{
+        setBlur(true);
+    }
 
     return(
         <div className="user-profile">
+            <div className={blur === true ? "blur" : ""}>
             <Header></Header>
+            </div>
             <div className="user-info">
-            <div className="fixed-description">
+            <div className={blur === true ? "blur fixed-description" : "fixed-description"}>
             <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange}></UserDescription>
             </div>
-            <UserRecipes id={user.id} handleChangeLikes={handleChangeLikes}></UserRecipes>
+            <UserRecipes id={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipes>
             </div>
         </div>
     )

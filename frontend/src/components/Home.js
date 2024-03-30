@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
-import Recipie from "./Recipie";
+import Recipe from "./Recipe";
 import "../styles/home.scss"
 import { getAllRecipes } from "../services/recipe";
 import RecipesView from "./RecipesView";

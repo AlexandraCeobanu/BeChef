@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHome,faMagnifyingGlass,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from "react-router-dom";
-export default function Header(){
+import { useEffect, useState } from "react";
+export default function Header(props){
     const navigate = useNavigate();
+    const [blur,setBlur] =useState(props.blur);
     const handleClickProfile = ()=> {
             navigate("/profile");
     }

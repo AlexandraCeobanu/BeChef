@@ -7,13 +7,12 @@ import { getRecipeLikes } from '../services/like';
 import { useLocation } from 'react-router-dom';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 
-export default function Recipie(props)
+export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [nrLikes,setNrLikes] = useState(0);
-    const location = useLocation();
     const handleClick=()=> {
-        props.onClick();
+        props.onClick(props.index);
     }
     const handleLike=(value)=> {
         if (value === true){
