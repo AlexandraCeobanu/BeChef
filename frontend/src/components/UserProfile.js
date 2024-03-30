@@ -6,16 +6,15 @@ import UserDescription from "./UserDescription"
 import { getProfileImage } from "../services/getProfileImage"
 import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
-import { getRecipesByUserId } from "../services/recipe"
 import { getUserById } from "../services/getUserById"
 import UserRecipes from "./UserRecipes"
 export default function UserProfile()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [changedNrLikes,setChangedNrLikes] = useState(false);
     const [uploadTrigger, setUploadTrigger] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
-    const [recipes,setRecipes] = useState([]);
-    const defaultProfilePhoto = '/images/profile-no-photo.png'
+    const defaultProfilePhoto = '/images/profile-no-photo.png';
     const handleImageChange = (formData) => {
         uploadProfileImage(formData,user.userUsername)
         .then(()=>{
@@ -48,33 +47,27 @@ export default function UserProfile()
     
 
     useEffect(() => {
-
         getUserById(user.id)
         .then((user)=>{
             setUser(user);
+            setChangedNrLikes(false);
         }
         )
         .catch((error)=> {console.log(error)})
-        // getRecipesByUserId(user.id)
-        // .then(
-        //     (recipes) => {
-        //             setRecipes(recipes);
-        //     }
-        // )
-        // .catch((error) =>
-        // {
-        //     console.log(error);
-        // })
-    },[]);
+    },[changedNrLikes]);
+
+    const handleChangeLikes = ()=>{
+       setChangedNrLikes(true);
+    }
 
     return(
         <div className="user-profile">
             <Header></Header>
             <div className="user-info">
             <div className="fixed-description">
-            <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user !== null ? user.nrLikes : 0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange}></UserDescription>
+            <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange}></UserDescription>
             </div>
-            <UserRecipes id={user.id}></UserRecipes>
+            <UserRecipes id={user.id} handleChangeLikes={handleChangeLikes}></UserRecipes>
             </div>
         </div>
     )

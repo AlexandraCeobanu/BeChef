@@ -14,3 +14,33 @@ export const giveLike = async (like) => {
         throw error.response.data;
     }
 };
+
+export const getRecipeLikes = async (id) => {
+    try{
+        const response = await axios.get(`${API_URL}/likes?recipeId=${id}`,config);
+        if(response.status === 200)
+        {
+            const res  = await response.data;
+            return res;
+        }
+    }
+    catch (error) {
+        console.log(`Failed to get recipe likes.`,error);
+        throw error.response.data;
+    }
+};
+
+export const getUserLikedRecipes = async (id) => {
+    try{
+        const response = await axios.get(`${API_URL}/likes/likerUser/${id}`,config);
+        if(response.status === 200)
+        {
+            const res  = await response.data;
+            return res;
+        }
+    }
+    catch (error) {
+        console.log(`Failed to get recipe likes by user.`,error);
+        throw error.response.data;
+    }
+};

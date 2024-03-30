@@ -4,7 +4,7 @@ import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
 import { getRecipeImage } from "../services/getRecipeImage";
 import RecipeView from "../components/RecipeView";
-export default function RecipesView({recipes,userId})
+export default function RecipesView({recipes,userId,handleChangeLikes})
 {
     const [viewRecipe,setViewRecipe] = useState(false);
     const navigate = useNavigate();
@@ -35,7 +35,7 @@ export default function RecipesView({recipes,userId})
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipie image={recipeImage} recipe={recipes[index]} userId={userId} onClick={handleViewRecipe}></Recipie>
+                <Recipie image={recipeImage} recipe={recipes[index]} userId={userId} onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipie>
             </div>
         )
             )}

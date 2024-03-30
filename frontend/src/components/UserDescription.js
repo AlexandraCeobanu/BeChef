@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../styles/userDescription.scss'
 export default function UserDescription(props){
 
+    const [nrLikes,setNrLikes] = useState(props.nrLikes)
    const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
@@ -14,6 +15,9 @@ export default function UserDescription(props){
    const handleDefaultImageClick = () => {
     document.getElementById('file-input').click();
 };
+    useEffect(() => {
+        setNrLikes(props.nrLikes)
+    },[props])
     return(
         <div className="userDescription">
             <div className="profile-picture">
@@ -29,7 +33,7 @@ export default function UserDescription(props){
                 </div>
                 <div className="statistic">
                 <h3>Likes</h3>
-                <h2>{props.nrLikes}</h2>
+                <h2>{nrLikes}</h2>
                 </div>
             </div>
         </div>
