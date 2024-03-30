@@ -128,4 +128,9 @@ public class RecipeService {
             throw new RuntimeException(e);
         }
     }
+
+    public List<Recipe> getRecipesByName(String name) throws Exception {
+        List<Recipe> recipes = recipeRepository.findAllByName(name);
+        return recipes;
+    }
 }

@@ -88,6 +88,19 @@ public class RecipeController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+
+    @GetMapping("/byname")
+    public ResponseEntity<?> getRecipesByName(@RequestParam String name)
+    {
+        try {
+            return new ResponseEntity<List<Recipe>>(recipeService.getRecipesByName(name), HttpStatus.OK);
+        }
+        catch (Exception e)
+        {
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
     @PostMapping("/{recipeId}/ingredients")
     public ResponseEntity<?> addIngredients(@PathVariable Long recipeId, @RequestBody List<IngredientDTO> ingredientsDTO)
     {

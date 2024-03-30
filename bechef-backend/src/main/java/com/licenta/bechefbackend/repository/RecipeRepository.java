@@ -31,5 +31,6 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
     @Query("SELECT r FROM Recipe r Where r.user.id = ?1")
     List<Recipe> findAllByUserId(Long userId);
 
-
+    @Query("SELECT r FROM Recipe r Where r.name = ?1")
+    List<Recipe> findAllByName(String name);
 }

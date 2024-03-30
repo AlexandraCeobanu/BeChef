@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,9 @@ public class Recipe {
     private List<RecipeStep> steps;
     @OneToMany(mappedBy = "recipe")
     private List<Ingredient> ingredients;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<Like> likes = new ArrayList<>();
     private String name;
     private String description;
     private String image;
