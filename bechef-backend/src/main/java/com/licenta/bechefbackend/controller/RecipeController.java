@@ -2,9 +2,11 @@ package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.IngredientDTO;
 import com.licenta.bechefbackend.DTO.RecipeDTO;
+import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.Recipe;
 import com.licenta.bechefbackend.entities.RecipeStep;
+import com.licenta.bechefbackend.repository.RecipeRepository;
 import com.licenta.bechefbackend.services.RecipeService;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class RecipeController {
     public ResponseEntity<?> getRecipes()
     {
         try {
-            return new ResponseEntity<List<Recipe>>(recipeService.getAllRecipes(), HttpStatus.OK);
+            return new ResponseEntity<List<RecipeResponseDTO>>(recipeService.getAllRecipes(), HttpStatus.OK);
         }
         catch (Exception e)
         {
@@ -35,9 +37,9 @@ public class RecipeController {
     public ResponseEntity<?> getRecipeById(@PathVariable Long id)
     {
         try{
-             Recipe recipe = recipeService.getRecipeById(id);
+             RecipeResponseDTO recipe = recipeService.getRecipeById(id);
              if (recipe != null)
-             return new ResponseEntity<Recipe>(recipe,HttpStatus.OK);
+             return new ResponseEntity<RecipeResponseDTO>(recipe,HttpStatus.OK);
              else
                return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Recipe  not found");
         }
@@ -49,7 +51,7 @@ public class RecipeController {
     @PostMapping()
     public ResponseEntity<?> createRecipe(@RequestBody RecipeDTO recipeDTO){
         try{
-            Recipe recipe = recipeService.createRecipe(recipeDTO);
+            RecipeResponseDTO recipe = recipeService.createRecipe(recipeDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(recipe);
         }
         catch(Exception e)
@@ -62,7 +64,7 @@ public class RecipeController {
     public ResponseEntity<?> updateRecipe(@PathVariable Long id, @RequestBody RecipeDTO recipeDTO)
     {
         try{
-            Recipe recipe = recipeService.updateRecipe(id,recipeDTO);
+            RecipeResponseDTO recipe = recipeService.updateRecipe(id,recipeDTO);
             return ResponseEntity.status(HttpStatus.OK).body(recipe);
         }
         catch (IllegalStateException e)
@@ -80,7 +82,7 @@ public class RecipeController {
     public ResponseEntity<?> getRecipesByUserId(@RequestParam Long id)
     {
         try {
-            return new ResponseEntity<List<Recipe>>(recipeService.getRecipesByUserId(id), HttpStatus.OK);
+            return new ResponseEntity<List<RecipeResponseDTO>>(recipeService.getRecipesByUserId(id), HttpStatus.OK);
         }
         catch (Exception e)
         {
@@ -94,7 +96,7 @@ public class RecipeController {
     public ResponseEntity<?> getRecipesByName(@RequestParam String name)
     {
         try {
-            return new ResponseEntity<List<Recipe>>(recipeService.getRecipesByName(name), HttpStatus.OK);
+            return new ResponseEntity<List<RecipeResponseDTO>>(recipeService.getRecipesByName(name), HttpStatus.OK);
         }
         catch (Exception e)
         {
