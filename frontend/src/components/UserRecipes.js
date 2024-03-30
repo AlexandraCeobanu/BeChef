@@ -46,7 +46,7 @@ export default function UserRecipes(props)
         <h3>Add your first recipe today</h3>
         </div>) :
         (   
-            <RecipesView recipes={recipes}></RecipesView>
+            <RecipesView recipes={recipes} userId = {props.id}></RecipesView>
         )}
         </div>
     )

@@ -11,6 +11,11 @@
         gap:0.2em;
         .icons {
             margin-top: 0.2em;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .liked {
+            color: red;
         }
         p {
             font-size: smaller;
