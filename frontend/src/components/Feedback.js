@@ -1,14 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import '../styles/feedback.scss'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 export default function Feedback(props)
 {
-    const[liked,setLiked] = useState(false);
+    const[liked,setLiked] = useState(props.liked);
     const handleLike = () => {
         props.onClick(!liked)
-        setLiked(!liked);
     }
+    useEffect(()=> {
+      setLiked(props.liked)
+    },[props])
+    
     return(
        <div className='feedback'>
          <div className='feedback-text'>
@@ -16,7 +19,7 @@ export default function Feedback(props)
          (<FontAwesomeIcon icon={liked === true ? faHeart : props.icon} className={liked === true ? "liked icons" : "icons"} onClick={handleLike}/>)
 
          : (<FontAwesomeIcon icon={props.icon} className="icons"/>)}
-         <p>0</p>
+         <p>{props.nr}</p>
          </div>
          <p>{props.text}</p>
        </div>
