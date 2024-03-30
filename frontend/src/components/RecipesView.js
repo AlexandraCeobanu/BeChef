@@ -2,19 +2,18 @@ import Recipie from "./Recipie"
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
-import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getRecipeImage } from "../services/getRecipeImage";
-import ProfileOptions from "./ProfileOptions";
+import RecipeView from "../components/RecipeView";
 export default function RecipesView({recipes})
 {
+    const [viewRecipe,setViewRecipe] = useState(false);
     const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
-    const handleClick = () => {
-        navigate("/addRecipe")
-    };
-    useEffect(() => {
+    const handleViewRecipe = () => {
+            setViewRecipe(true);
 
+    }
+    useEffect(() => {
         const fetchRecipesImages = async () => {
             try {
                 const promises = recipes.map(recipe => getRecipeImage(recipe.id));
@@ -29,35 +28,18 @@ export default function RecipesView({recipes})
         fetchRecipesImages();
     }, [recipes]);
 
-    const handleAddRecipe =() => {
-        navigate('/addRecipe');
-    }
 
     return(
-        <div className="recipes-view">
-        <div className="title">
-        {/* <h1>Recipes</h1> */}
-        <ProfileOptions></ProfileOptions>
-        <hr></hr>
-        </div>
-        <div id="new-recipe" onClick={handleAddRecipe}>
-            <button>New recipe</button>
-            <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
-        </div>
-        {recipes.length === 0 ? 
-        (<div className="no-recipes">
-        <FontAwesomeIcon icon = {faCirclePlus} className="icons" onClick={handleClick}></FontAwesomeIcon>
-        <h3>Add your first recipe today</h3>
-        </div>) :
-        (   <div className="recipes-grid">
+        <div>
+        {viewRecipe === true && <RecipeView></RecipeView>}
+      <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipie image={recipeImage}></Recipie>
+                <Recipie image={recipeImage} onClick={handleViewRecipe}></Recipie>
             </div>
         )
             )}
-            </div>
-        )}
         </div>
-    )
+        </div>
+        )
 }

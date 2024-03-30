@@ -1,14 +1,16 @@
 import '../styles/recipie.scss'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
-import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 import Feedback from './Feedback';
 export default function Recipie(props)
 {
+    const handleClick=()=> {
+        props.onClick();
+    }
     return(
         <div>
-            <div className="recipie-photo">
-                <img src = {props.image} alt="Recipie"></img>
+            <div className="recipie-photo" onClick={handleClick}>
+                {/* <img src = {props.image} alt="Recipie"></img> */}
+                <img src = "/images/recipie1.jpg"></img>
             </div>
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart}></Feedback>

@@ -1,4 +1,10 @@
+
+
 @import "./variables.scss";
+.blur {
+    filter: blur(5px);
+    pointer-events: none; 
+}
 .recipes-view{
     color: $primary-color;
     width: 100%;
@@ -37,6 +43,7 @@
         }
     }
     .no-recipes{
+        margin-top: 5em;
         display:flex;
         flex-direction: column;
         justify-content: center;
@@ -47,9 +54,12 @@
             cursor: pointer;
             
     }}
+}
 .recipes-grid {
     
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 3em; 
-}}
+    display: flex;
+    width: 90%;
+    gap:5em;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}

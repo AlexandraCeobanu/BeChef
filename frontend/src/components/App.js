@@ -12,6 +12,7 @@ import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
 import AddRecipeRight from './AddRecipeRight';
 import ImageDisplay from './ImageDisplay';
+import RecipeView from './RecipeView';
 export default function App(){
     return(
         <Router>
@@ -24,8 +25,8 @@ export default function App(){
                 <Route path="/success" element ={<SuccessfullyPage/>}></Route>
                 <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
                 <Route path="/entercode" element ={<EnterCode/>}></Route>
-                <Route path="/profile" element = {<UserProfile/>}></Route>
-                <Route path="/addRecipe" element = {<AddRecipe/>}></Route>
+                <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
+                <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
             </Routes>
         </Router>
     )

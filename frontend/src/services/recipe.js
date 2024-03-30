@@ -16,7 +16,7 @@ export const addRecipe = async(recipe) => {
 export const addSteps = async(recipeId,steps) => {
     try{
         
-        const response = await axios.post(`${API_URL}/recipes/${recipeId}/recipeSteps`,steps,config);
+        let response = await axios.post(`${API_URL}/recipes/${recipeId}/recipeSteps`,steps,config);
         if (response.status === 201)
         {
              response = await response.data;
@@ -30,7 +30,7 @@ export const addSteps = async(recipeId,steps) => {
 export const addIngredients = async(recipeId,ingredients) => {
     try{
         
-        const response = await axios.post(`${API_URL}/recipes/${recipeId}/ingredients`,ingredients,config);
+        let response = await axios.post(`${API_URL}/recipes/${recipeId}/ingredients`,ingredients,config);
         if (response.status === 201)
         {
             response = await response.data;
@@ -45,6 +45,36 @@ export const getRecipesByUserId = async(id) => {
     try{
         
         const response = await axios.get(`${API_URL}/recipes?id=${id}`,config);
+        if (response.status === 200)
+        {
+            const recipes = await response.data;
+            return recipes;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+
+export const getAllRecipes = async() => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/all`,config);
+        if (response.status === 200)
+        {
+            const recipes = await response.data;
+            return recipes;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+
+export const getRecipesByName = async(name) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/byname?name=${name}`,config);
         if (response.status === 200)
         {
             const recipes = await response.data;
