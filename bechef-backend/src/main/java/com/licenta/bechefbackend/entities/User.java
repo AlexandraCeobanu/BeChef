@@ -37,6 +37,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Recipe> recipes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "likerUser")
+    private List<Like> likesGiven = new ArrayList<>();
+
+    @OneToMany(mappedBy = "likedUser")
+    private List<Like> likesReceived = new ArrayList<>();
     public User(String username,String email, String password, Role role)
     {
         this.userUsername = username;
