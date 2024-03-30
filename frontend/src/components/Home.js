@@ -14,6 +14,7 @@ export default function Home()
 {
     const [search,setSearch] = useState(null);
     const [recipes,setRecipes] = useState([]);
+    const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const location = useLocation();
     const searchChangeHandler=(event) =>{
         setSearch(event.target.value);
@@ -53,8 +54,9 @@ export default function Home()
              <FontAwesomeIcon icon={faMagnifyingGlass} id="loop" />
              </div>
              <hr></hr>
-             {recipes.length !==0 && <RecipesView recipes = {recipes}></RecipesView>}
-
+             <div className="recipes">
+             {recipes.length !==0 && <RecipesView recipes = {recipes} userId = {user.id}></RecipesView>}
+             </div>
         </div>
     )
 }
