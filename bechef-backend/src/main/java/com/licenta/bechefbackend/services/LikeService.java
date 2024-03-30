@@ -62,4 +62,15 @@ public class LikeService {
         }
         return likesDTO;
     }
+
+    public void removeLike(Long userId, Long recipeId) {
+
+        User likerUser = userRepository.findById(userId).orElse(null);
+        if(likerUser != null){
+            int deletedLikes = likeRepository.deleteByUserAndRecipeIds(userId,recipeId);
+            Long nrLikes = likerUser.getNrLikes() - deletedLikes;
+            userRepository.updateNrLikes(nrLikes,userId);
+        }
+
+    }
 }
