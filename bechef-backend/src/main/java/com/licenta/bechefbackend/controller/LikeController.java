@@ -35,6 +35,24 @@ public class LikeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> removeLike(@RequestParam Long userId,@RequestParam Long recipeId)
+    {
+        try {
+            likeService.removeLike(userId,recipeId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
+        }
+        catch (IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
     @GetMapping()
     public ResponseEntity<?> getRecipeLikes(@RequestParam Long recipeId)
     {
