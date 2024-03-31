@@ -29,13 +29,14 @@ public class LikeService {
         User likerUser = userRepository.findById(likeDTO.getLikerId()).orElse(null);
         User likedUser = userRepository.findById(likeDTO.getLikedId()).orElse(null);
         Long nrLikes = likedUser.getNrLikes() +1;
-        userRepository.updateNrLikes(nrLikes,likedUser.getId());
         Recipe recipe =  recipeRepository.findById(likeDTO.getRecipeId()).orElse(null);
         if (likerUser!=null && likedUser !=null && recipe!=null)
         {
             Like like = new Like(likerUser,likedUser,recipe);
             likeRepository.save(like);
-
+            userRepository.updateNrLikes(nrLikes,likedUser.getId());
+            Long likes = recipe.getNrLikes() + 1;
+            recipeRepository.updateNrLikes(likes, recipe.getId());
         }
         else {
             throw new IllegalStateException("Not found");
