@@ -33,4 +33,14 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
 
     @Query("SELECT r FROM Recipe r Where r.name = ?1")
     List<Recipe> findAllByName(String name);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Recipe r " + "SET r.nrLikes = ?1 WHERE r.id = ?2")
+    int updateNrLikes( Long likes,Long id);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Recipe r " + "SET r.nrComments = ?1 WHERE r.id = ?2")
+    int updateNrComments( Long comms,Long id);
 }
