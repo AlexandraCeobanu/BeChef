@@ -1,12 +1,11 @@
 import React from "react"
 import { useState,useEffect } from "react"
 import Header from "./Header"
-import RecipesView from "./RecipesView"
 import UserDescription from "./UserDescription"
 import { getProfileImage } from "../services/getProfileImage"
 import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
-import { getUserById } from "../services/getUserById"
+import { getUserById } from "../services/user/getUserById"
 import UserRecipes from "./UserRecipes"
 export default function UserProfile()
 {
@@ -29,7 +28,7 @@ export default function UserProfile()
     };
 
     useEffect(()=>  {
-        getProfileImage(user.userUsername)
+        getProfileImage(user.id)
         .then(
             (response) => {
                 try{

@@ -27,7 +27,7 @@ export default function CommentsSection(props)
             <div className="comments">
                 {
                     comments.map((comment,index)=> (
-                        <Comment key={index} comment = {comment.comm}></Comment>
+                        <Comment key={index} comment = {comment.comm} userId={comment.senderId}></Comment>
                     ))
                 }
             </div>

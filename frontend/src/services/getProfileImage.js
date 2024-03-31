@@ -1,6 +1,6 @@
 import axios from "axios";
 import { config2,API_URL } from "./global";
-export const getProfileImage = async(username)=>{
+export const getProfileImage = async(id)=>{
 
     // try {
     //     const response = await fetch(`${API_URL}/upload/profileImage?username=${username}`);
@@ -10,7 +10,7 @@ export const getProfileImage = async(username)=>{
     //     console.error('Eroare în obținerea imaginii:', error);
     // }
     try{
-        const response = await axios.get(`${API_URL}/upload/profileImage/${username}`,{responseType: 'arraybuffer'},config2);
+        const response = await axios.get(`${API_URL}/upload/profileImage/${id}`,{responseType: 'arraybuffer'},config2);
         try{
         if (response.status === 200)
         {

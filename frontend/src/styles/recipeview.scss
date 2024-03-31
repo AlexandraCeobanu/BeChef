@@ -86,15 +86,14 @@
         height: 100%;
         object-fit: cover;
     }
-    .comment-details {
-        display: flex;
-        gap:1em;
-        h6 {
-            color: rgba(0,0,0,0.4);
-        }
+}
+.comment-details {
+    display: flex;
+    gap:1em;
+    h6 {
+        color: rgba(0,0,0,0.4);
     }
 }
-
 .comments-section {
     position: relative;
     height: 90%;
