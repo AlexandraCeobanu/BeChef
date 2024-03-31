@@ -11,6 +11,7 @@ export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [nrLikes,setNrLikes] = useState(0);
+    const [nrComments,setNrComments] = useState(props.recipe.nrComments);
     const handleClick=()=> {
         props.onClick(props.index);
     }
@@ -60,15 +61,6 @@ export default function Recipe(props)
             .catch((error)=>{console.log(error)})
         },[]
     )
-    useEffect(
-        ()=> {
-            getRecipeLikes(props.recipe.id)
-            .then ((response)=> {
-                setNrLikes(response.length)
-            })
-            .catch((error)=>{console.log(error)})
-        },[]
-    )
     return(
         <div>
             <div className="recipie-photo" onClick={handleClick}>
@@ -76,7 +68,7 @@ export default function Recipe(props)
             </div>
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>
-            <Feedback text='Comments' icon={faComment} nr ={0}></Feedback>
+            <Feedback text='Comments' icon={faComment} nr ={nrComments}></Feedback>
             </div>
         </div>
     )

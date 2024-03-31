@@ -13,7 +13,7 @@ export default function CommentsSection(props)
     useEffect(() => {
         getRecipeComments(props.recipe.id)
         .then((response)=> {
-                setComments(response);
+                setComments(response.reverse());
         })
         .catch((error) => {
             console.log(error);
