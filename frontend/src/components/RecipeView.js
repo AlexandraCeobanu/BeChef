@@ -1,27 +1,27 @@
 import CommentsSection from "./CommentsSection";
 import IngredientsView from "./IngredientsView";
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
-import Recipie from "./Recipie";
-import StepView from "./StepView";
+import Recipe from "./Recipe";
+import StepsView from "./StepsView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-export default function RecipeView(){
+export default function RecipeView(props){
+    const handleCloseRecipe = () => {
+        props.handleCloseRecipe();
+    }
     return(
         <div className="recipeView">
-            <div className="close">
+            <div className="close" onClick={handleCloseRecipe}>
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
             <div className="left-side">
-            <IngredientsView></IngredientsView>
+            <IngredientsView ingredients={props.recipe.ingredients}></IngredientsView>
             </div>
             <div className="right-side">
             <div className="right-side-top">
-            <Recipie></Recipie>
-            <CommentsSection></CommentsSection>
+            <Recipe image={props.image} recipe={props.recipe} index={props.index} userId={props.userId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
+            <CommentsSection recipe={props.recipe} userId={props.userId}></CommentsSection>
             </div>
-            <StepView></StepView>
-            <StepView></StepView>
-            <StepView></StepView>
-            <StepView></StepView>
+            <StepsView steps={props.recipe.steps}></StepsView>
             </div>
         </div>
     )

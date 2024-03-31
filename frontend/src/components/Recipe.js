@@ -7,13 +7,12 @@ import { getRecipeLikes } from '../services/like';
 import { useLocation } from 'react-router-dom';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 
-export default function Recipie(props)
+export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [nrLikes,setNrLikes] = useState(0);
-    const location = useLocation();
     const handleClick=()=> {
-        props.onClick();
+        props.onClick(props.index);
     }
     const handleLike=(value)=> {
         if (value === true){
@@ -53,6 +52,7 @@ export default function Recipie(props)
 
     useEffect(
         ()=> {
+
             getUserLikedRecipes(props.userId)
             .then ((response)=> {
                 if (response.some(like => like.recipeId === props.recipe.id) === true)
@@ -60,11 +60,19 @@ export default function Recipie(props)
             .catch((error)=>{console.log(error)})
         },[]
     )
+    useEffect(
+        ()=> {
+            getRecipeLikes(props.recipe.id)
+            .then ((response)=> {
+                setNrLikes(response.length)
+            })
+            .catch((error)=>{console.log(error)})
+        },[]
+    )
     return(
         <div>
             <div className="recipie-photo" onClick={handleClick}>
-                {/* <img src = {props.image} alt="Recipie"></img> */}
-                <img src = "/images/recipie1.jpg"></img>
+                <img src = {props.image} alt="Recipie"></img>
             </div>
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>

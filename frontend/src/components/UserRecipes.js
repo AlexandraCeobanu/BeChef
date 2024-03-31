@@ -1,4 +1,4 @@
-import Recipie from "./Recipie"
+import Recipe from "./Recipe"
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
@@ -46,7 +46,7 @@ export default function UserRecipes(props)
         <h3>Add your first recipe today</h3>
         </div>) :
         (   
-            <RecipesView recipes={recipes} userId = {props.id} handleChangeLikes={props.handleChangeLikes}></RecipesView>
+            <RecipesView recipes={recipes} userId = {props.id} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
         )}
         </div>
     )
