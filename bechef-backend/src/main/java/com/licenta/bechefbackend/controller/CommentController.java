@@ -39,7 +39,7 @@ public class CommentController {
     public ResponseEntity<?> getRecipeComments(@RequestParam Long recipeId)
     {
         try {
-            List<Comment> comments = commentService.findCommentsByRecipeId(recipeId);
+            List<CommentDTO> comments = commentService.findCommentsByRecipeId(recipeId);
             return ResponseEntity.status(HttpStatus.OK).body(comments);
         }
         catch (Exception e)

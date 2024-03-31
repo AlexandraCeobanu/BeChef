@@ -60,6 +60,8 @@ public class RecipeService {
             Recipe recipe = new Recipe();
             recipe.setName(recipeDTO.getName());
             recipe.setDescription(recipeDTO.getDescription());
+            recipe.setNrLikes(0L);
+            recipe.setNrComments(0L);
             User user = userRepository.findById(recipeDTO.getUserId()).orElse(null);
             Long recipes = user.getNrRecipes() + 1;
             user.setNrRecipes(recipes);
