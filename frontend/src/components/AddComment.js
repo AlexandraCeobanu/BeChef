@@ -10,7 +10,7 @@ export default function AddComment(props)
         if (event.key === 'Enter') {
         let comm = {
             comm: comment,
-            senderId: props.userId,
+            senderId: props.loggedUserId,
             receiverId: props.recipe.userId,
             recipeId: props.recipe.id
         }

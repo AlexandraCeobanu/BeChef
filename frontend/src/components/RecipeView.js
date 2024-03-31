@@ -20,10 +20,10 @@ export default function RecipeView(props){
             <div className="right-side">
             <div className="right-side-top">
             <div className="right-side-top-left">
-            <UserBadge userId={props.userId}></UserBadge>
-            <Recipe image={props.image} recipe={props.recipe} index={props.index} userId={props.userId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
+            <UserBadge userId={props.recipe.userId}></UserBadge>
+            <Recipe image={props.image} recipe={props.recipe} index={props.index} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
             </div>
-            <CommentsSection recipe={props.recipe} userId={props.userId}></CommentsSection>
+            <CommentsSection recipe={props.recipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}></CommentsSection>
             </div>
             <StepsView steps={props.recipe.steps}></StepsView>
             </div>

@@ -70,9 +70,9 @@ export default function UserProfile()
             </div>
             <div className="user-info">
             <div className={blur === true ? "blur fixed-description" : "fixed-description"}>
-            <UserDescription username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange} ></UserDescription>
+            <UserDescription  username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange} ></UserDescription>
             </div>
-            <UserRecipes id={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipes>
+            <UserRecipes loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipes>
             </div>
         </div>
     )

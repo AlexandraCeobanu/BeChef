@@ -17,7 +17,7 @@ export default function Recipe(props)
     const handleLike=(value)=> {
         if (value === true){
             let like = {
-            likerId: props.userId,
+            likerId: props.loggedUserId,
             likedId: props.recipe.userId,
             recipeId: props.recipe.id
             }
@@ -30,7 +30,7 @@ export default function Recipe(props)
             })}
         if (value === false)
         {
-            removeLike(props.userId,props.recipe.id)
+            removeLike(props.loggedUserId,props.recipe.id)
             .then(()=> {
             setLiked(false);
             })
@@ -53,8 +53,7 @@ export default function Recipe(props)
 
     useEffect(
         ()=> {
-
-            getUserLikedRecipes(props.userId)
+            getUserLikedRecipes(props.loggedUserId)
             .then ((response)=> {
                 if (response.some(like => like.recipeId === props.recipe.id) === true)
                     setLiked(true)})
@@ -68,7 +67,7 @@ export default function Recipe(props)
             </div>
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>
-            <Feedback text='Comments' icon={faComment} nr ={nrComments}></Feedback>
+            <Feedback text='Comments' icon={faComment} nr ={nrComments} ></Feedback>
             </div>
         </div>
     )
