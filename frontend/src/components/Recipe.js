@@ -1,10 +1,9 @@
-import '../styles/recipie.scss'
+import '../styles/recipe.scss'
 import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
 import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
-import { useLocation } from 'react-router-dom';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 
 export default function Recipe(props)
@@ -44,7 +43,8 @@ export default function Recipe(props)
         ()=> {
             getRecipeLikes(props.recipe.id)
             .then ((response)=> {
-                setNrLikes(response.length)
+                setNrLikes(response.length);
+                if (props.handleChangeLikes != undefined)
                 props.handleChangeLikes();
             })
             .catch((error)=>{console.log(error)})

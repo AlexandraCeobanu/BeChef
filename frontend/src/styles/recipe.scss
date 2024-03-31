@@ -1,10 +1,13 @@
 @import './variables.scss';
+.recipe {
+
+}
 .recipie-photo {
     width: 15em;
     height: 15em;
     position: relative;
     margin-bottom: 1em;
-    margin-top: 3em; // am adaugat asta
+    margin-top: 1em; // am adaugat asta
     img {
         width: 100%;
         height: 100%;

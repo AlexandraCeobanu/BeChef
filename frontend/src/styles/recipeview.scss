@@ -39,6 +39,11 @@
             display: flex;
             gap:8em;
             height: 70%;
+            .right-side-top-left {
+                display: flex;
+                flex-direction: column;
+                margin-top: 2em;
+            }
         }
     }
     .left-side {
@@ -75,6 +80,7 @@
     display: flex;
     flex-direction: row;
     gap:1em;
+    cursor: pointer;
     .mini-photo {
         height: 1.5em;
         width: 1.5em;
@@ -88,6 +94,7 @@
     }
 }
 .comment-details {
+    color:$primary-color;
     display: flex;
     gap:1em;
     h6 {
