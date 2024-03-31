@@ -1,23 +1,23 @@
-import '../styles/recipie.scss'
+import '../styles/recipe.scss'
 import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
 import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
-import { useLocation } from 'react-router-dom';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [nrLikes,setNrLikes] = useState(0);
+    const [nrComments,setNrComments] = useState(props.recipe.nrComments);
     const handleClick=()=> {
         props.onClick(props.index);
     }
     const handleLike=(value)=> {
         if (value === true){
             let like = {
-            likerId: props.userId,
+            likerId: props.loggedUserId,
             likedId: props.recipe.userId,
             recipeId: props.recipe.id
             }
@@ -30,7 +30,7 @@ export default function Recipe(props)
             })}
         if (value === false)
         {
-            removeLike(props.userId,props.recipe.id)
+            removeLike(props.loggedUserId,props.recipe.id)
             .then(()=> {
             setLiked(false);
             })
@@ -43,7 +43,8 @@ export default function Recipe(props)
         ()=> {
             getRecipeLikes(props.recipe.id)
             .then ((response)=> {
-                setNrLikes(response.length)
+                setNrLikes(response.length);
+                if (props.handleChangeLikes != undefined)
                 props.handleChangeLikes();
             })
             .catch((error)=>{console.log(error)})
@@ -52,20 +53,10 @@ export default function Recipe(props)
 
     useEffect(
         ()=> {
-
-            getUserLikedRecipes(props.userId)
+            getUserLikedRecipes(props.loggedUserId)
             .then ((response)=> {
                 if (response.some(like => like.recipeId === props.recipe.id) === true)
                     setLiked(true)})
-            .catch((error)=>{console.log(error)})
-        },[]
-    )
-    useEffect(
-        ()=> {
-            getRecipeLikes(props.recipe.id)
-            .then ((response)=> {
-                setNrLikes(response.length)
-            })
             .catch((error)=>{console.log(error)})
         },[]
     )
@@ -76,7 +67,7 @@ export default function Recipe(props)
             </div>
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>
-            <Feedback text='Comments' icon={faComment} nr ={0}></Feedback>
+            <Feedback text='Comments' icon={faComment} nr ={nrComments} ></Feedback>
             </div>
         </div>
     )

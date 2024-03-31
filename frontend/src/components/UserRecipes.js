@@ -1,4 +1,4 @@
-import Recipe from "./Recipe"
+
 import { useNavigate } from "react-router-dom";
 import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
@@ -12,7 +12,7 @@ export default function UserRecipes(props)
     const [recipes,setRecipes] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-        getRecipesByUserId(props.id)
+        getRecipesByUserId(props.loggedUserId)
         .then(
             (recipes) => {
                     setRecipes(recipes);
@@ -46,7 +46,7 @@ export default function UserRecipes(props)
         <h3>Add your first recipe today</h3>
         </div>) :
         (   
-            <RecipesView recipes={recipes} userId = {props.id} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
+            <RecipesView recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
         )}
         </div>
     )

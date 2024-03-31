@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { config, API_URL } from './global'
+import { config, API_URL } from '../global'
 export const getUserById = async (id) => {
     try{
         const response = await axios.get(`${API_URL}/users/${id}`,config);

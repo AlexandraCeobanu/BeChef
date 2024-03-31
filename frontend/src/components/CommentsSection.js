@@ -13,7 +13,7 @@ export default function CommentsSection(props)
     useEffect(() => {
         getRecipeComments(props.recipe.id)
         .then((response)=> {
-                setComments(response);
+                setComments(response.reverse());
         })
         .catch((error) => {
             console.log(error);
@@ -27,11 +27,11 @@ export default function CommentsSection(props)
             <div className="comments">
                 {
                     comments.map((comment,index)=> (
-                        <Comment key={index} comment = {comment.comm}></Comment>
+                        <Comment key={index} comment = {comment.comm} userId={comment.senderId}></Comment>
                     ))
                 }
             </div>
-            <AddComment recipe={props.recipe} userId={props.userId} handleCommentAdded= {handleCommentAdded}></AddComment>
+            <AddComment recipe={props.recipe} loggedUserId={props.loggedUserId} handleCommentAdded= {handleCommentAdded}></AddComment>
         </div>
     )
 }
