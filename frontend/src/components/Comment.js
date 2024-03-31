@@ -1,4 +1,4 @@
-export default function Comment()
+export default function Comment(props)
 {
     return(
         <div className="comment">
@@ -7,7 +7,7 @@ export default function Comment()
             </div>
             <div className="comment-details">
             <h5>@alexandra17: </h5>
-            <h6>cea mai tare reteta</h6>
+            <h6>{props.comment}</h6>
             </div>
         </div>
     )

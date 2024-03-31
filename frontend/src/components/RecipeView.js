@@ -4,7 +4,6 @@ import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import Recipe from "./Recipe";
 import StepsView from "./StepsView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
 export default function RecipeView(props){
     const handleCloseRecipe = () => {
         props.handleCloseRecipe();
@@ -20,7 +19,7 @@ export default function RecipeView(props){
             <div className="right-side">
             <div className="right-side-top">
             <Recipe image={props.image} recipe={props.recipe} index={props.index} userId={props.userId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
-            <CommentsSection></CommentsSection>
+            <CommentsSection recipe={props.recipe} userId={props.userId}></CommentsSection>
             </div>
             <StepsView steps={props.recipe.steps}></StepsView>
             </div>
