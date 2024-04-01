@@ -202,4 +202,24 @@ public class RecipeService {
             userRepository.save(user);
         }
     }
+
+    public List<RecipeResponseDTO> findUserSavedRecipe(Long userId) {
+
+        User user = userRepository.findById(userId).orElse(null);
+        List<RecipeResponseDTO> savedRecipesDTO = new ArrayList<>();
+        if(user != null) {
+            List<Recipe> savedRecipes = user.getSavedRecipes();
+            for (Recipe recipe : savedRecipes)
+            {
+                RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(
+                        recipe.getId(),recipe.getUser().getId(), recipe.getSteps(),recipe.getIngredients(),
+                        recipe.getLikes(),recipe.getName(), recipe.getDescription(),
+                        recipe.getImage(),
+                        recipe.getNrLikes(),recipe.getNrComments()
+                );
+                savedRecipesDTO.add(recipeResponseDTO);
+            }
+        }
+        return savedRecipesDTO;
+    }
 }
