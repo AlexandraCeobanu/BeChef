@@ -24,7 +24,7 @@ export default function UserRecipesView(props)
         <div className="title">
         <hr></hr>
         </div> 
-        <RecipesView recipes={recipes} loggedUserId = {props.loggedUserId} viewedUserId = {props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
+        <RecipesView recipes={recipes} loggedUserId = {props.loggedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
         </div>
     )
 }

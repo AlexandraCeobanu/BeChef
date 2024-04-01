@@ -85,3 +85,32 @@ export const getRecipesByName = async(name) => {
     throw error.response.data;
 }
 }
+export const saveRecipe = async(userId,recipeId) => {
+    try{
+        
+        const response = await axios.post(`${API_URL}/recipes/save/${recipeId}?userId=${userId}`,config);
+        if (response.status === 201)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+
+export const removeSaveRecipe = async(userId,recipeId) => {
+    try{
+        
+        const response = await axios.delete(`${API_URL}/recipes/save/${recipeId}?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
