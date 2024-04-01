@@ -3,6 +3,7 @@ import ItemsView from "./ItemsView"
 import { getShoppingList,updateShoppingList } from "../services/shoppingList"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
+import "../styles/shoppingList.scss";
 export default function ShoppingList(props) {
     const [items,setItems] = useState([])
     const [shoppingList,setShoppingList] = useState(null)
@@ -28,31 +29,35 @@ export default function ShoppingList(props) {
     }
     const handleSaveShoppingList = ()=>{
         updateShoppingList(shoppingList.id,items)
-        .then(()=> {
+        .then((response)=> {
+            setShoppingList(response);
             setItems([])
         })
         .catch((error)=>console.log(error))
     }
    
     return (
-        <div>
+        <div className="shoppingList">
             <h1>Your shopping list</h1> 
+            <div className="add-item">
+             <p>Add to your list</p>
+             <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
+             </div>
             {shoppingList !== null && <ItemsView items={shoppingList.items}></ItemsView>
             }
-             <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
-            <div>
+            <div className="">
             {items.map((item,index) => (
                 <div key={index}>
-                    <ul>
-                    <div className="">
-                    <li><input type="text" placeholder={"item "+ (index+1)} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input></li>
+                    <div className="add-item-box">
+                    <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>
                     </div>
-                    </ul>
                 </div>
                )
                )}
             </div>
-               <button type="button" onClick={handleSaveShoppingList}>Save ShoppingList</button>
+            <div className="save">
+            <button type="button" onClick={handleSaveShoppingList}>Save ShoppingList</button>
+            </div>
         </div>
     )
 }

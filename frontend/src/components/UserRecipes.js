@@ -92,7 +92,7 @@ export default function UserRecipes(props)
             )
         }
         {
-            option === 3 && 
+            option === 3 &&
             <ShoppingList userId={props.loggedUserId}></ShoppingList>
         }
         </div>
