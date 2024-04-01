@@ -5,12 +5,14 @@ import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
 import { getUserLikedRecipes,removeLike } from '../services/like';
+import { getRecipeComments } from '../services/comments';
 
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
+    const [recipe,setRecipe] = useState(props.recipe);
     const [nrLikes,setNrLikes] = useState(0);
-    const [nrComments,setNrComments] = useState(props.recipe.nrComments);
+    const [nrComments,setNrComments] = useState(0);
     const handleClick=()=> {
         props.onClick(props.index);
     }
@@ -18,8 +20,8 @@ export default function Recipe(props)
         if (value === true){
             let like = {
             likerId: props.loggedUserId,
-            likedId: props.recipe.userId,
-            recipeId: props.recipe.id
+            likedId: recipe.userId,
+            recipeId: recipe.id
             }
             giveLike(like)
             .then(()=> {
@@ -30,7 +32,7 @@ export default function Recipe(props)
             })}
         if (value === false)
         {
-            removeLike(props.loggedUserId,props.recipe.id)
+            removeLike(props.loggedUserId,recipe.id)
             .then(()=> {
             setLiked(false);
             })
@@ -41,7 +43,7 @@ export default function Recipe(props)
         }
     useEffect(
         ()=> {
-            getRecipeLikes(props.recipe.id)
+            getRecipeLikes(recipe.id)
             .then ((response)=> {
                 setNrLikes(response.length);
                 if (props.handleChangeLikes != undefined)
@@ -60,6 +62,17 @@ export default function Recipe(props)
             .catch((error)=>{console.log(error)})
         },[]
     )
+
+    useEffect(
+        ()=> {
+            getRecipeComments(recipe.id)
+            .then ((response)=> {
+                setNrComments(response.length);
+            })
+            .catch((error)=>{console.log(error)})
+        },[props]
+    )
+    
     return(
         <div>
             <div className="recipie-photo" onClick={handleClick}>

@@ -9,6 +9,7 @@ export default function CommentsSection(props)
     const [comments,setComments] = useState([]);
     const handleCommentAdded = ()=> {
         setCommentAdded(true);
+        props.handleAddComment();
     }
     useEffect(() => {
         getRecipeComments(props.recipe.id)
