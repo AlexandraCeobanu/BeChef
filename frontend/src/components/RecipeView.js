@@ -3,12 +3,13 @@ import IngredientsView from "./IngredientsView";
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark as regularBookMark}  from '@fortawesome/free-regular-svg-icons';
 import {faBookmark as solidBookMark}  from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from "react";
 import Recipe from "./Recipe";
 import StepsView from "./StepsView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserBadge from "./UserBadge";
 import { useState } from "react";
-import { getRecipesByName, saveRecipe, removeSaveRecipe } from "../services/recipe";
+import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes } from "../services/recipe";
 export default function RecipeView(props){
     const [recipe,setRecipe]  = useState(props.recipe)
     const [saved,setSaved] = useState(false);
@@ -28,7 +29,7 @@ export default function RecipeView(props){
         if (saved === false) {
         saveRecipe(props.loggedUserId,recipe.id)
         .then((response)=> {
-            console.log(response);
+           
         })
         .catch((error)=> {
             console.log(error);
@@ -37,7 +38,10 @@ export default function RecipeView(props){
         {
             removeSaveRecipe(props.loggedUserId,recipe.id)
             .then((response)=> {
-                console.log(response);
+                if (props.handleRemoveSavedRecipe !== undefined)
+                    {
+                    props.handleRemoveSavedRecipe();}
+                    props.handleCloseRecipe();
             })
             .catch((error)=> {
                 console.log(error);
@@ -46,6 +50,15 @@ export default function RecipeView(props){
         setSaved(!saved);
     }
 
+    useEffect(()=> {
+        getUserSavedRecipes(props.loggedUserId)
+        .then((response)=> {
+            if (response.some(saved => saved.id === props.recipe.id) === true)
+                    setSaved(true)})
+        .catch((error)=> {
+            console.log(error);
+        })
+    },[])
     return(
         <div className="recipeView">
             <div className="close" onClick={handleCloseRecipe}>

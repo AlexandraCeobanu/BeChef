@@ -1,6 +1,6 @@
 import "../styles/options.scss"
 import { useState } from "react"
-export default function ProfileOptions(){
+export default function ProfileOptions(props){
     const[classApplication1,setClassApplication1] = useState(true);
     const[classApplication2,setClassApplication2] = useState(false);
     const[classApplication3,setClassApplication3] = useState(false);
@@ -8,16 +8,19 @@ export default function ProfileOptions(){
         setClassApplication2(false);
         setClassApplication3(false);
         setClassApplication1(!classApplication1);
+        props.handleOption(1);
     }
     const handleClick2 = () => {
         setClassApplication1(false);
         setClassApplication3(false);
         setClassApplication2(!classApplication2);
+        props.handleOption(2);
     }
     const handleClick3 = () => {
         setClassApplication1(false);
         setClassApplication2(false);
         setClassApplication3(!classApplication3);
+        props.handleOption(2);
     }
     return(
         <div className="options">

@@ -5,12 +5,11 @@ import '../styles/recipesView.scss'
 import { getRecipeImage } from "../services/getRecipeImage";
 import RecipeView from "../components/RecipeView";
 import { getUserById } from "../services/user/getUserById";
-export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur})
+export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur,handleRemoveSavedRecipe})
 {
     const [viewRecipe,setViewRecipe] = useState(false);
     const [clickedRecipe,setClickedRecipe] = useState(null);
     const [viewedUser,setViewedUser] =  useState(null);
-    const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
     const handleViewRecipe = (index) => {
             setViewRecipe(true);
@@ -49,7 +48,11 @@ useEffect(() => {
     return(
         <div>
         {
-        viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]} image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}  index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} handleChangeLikes={handleChangeLikes} ></RecipeView>}
+        viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]}
+          image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}
+          index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} 
+          handleChangeLikes={handleChangeLikes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} ></RecipeView>}
+
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
