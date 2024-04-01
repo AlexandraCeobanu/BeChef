@@ -29,7 +29,7 @@ export default function RecipeView(props){
         if (saved === false) {
         saveRecipe(props.loggedUserId,recipe.id)
         .then((response)=> {
-            console.log(response);
+           
         })
         .catch((error)=> {
             console.log(error);
@@ -38,7 +38,10 @@ export default function RecipeView(props){
         {
             removeSaveRecipe(props.loggedUserId,recipe.id)
             .then((response)=> {
-                console.log(response);
+                if (props.handleRemoveSavedRecipe !== undefined)
+                    {
+                    props.handleRemoveSavedRecipe();}
+                    props.handleCloseRecipe();
             })
             .catch((error)=> {
                 console.log(error);
@@ -50,7 +53,6 @@ export default function RecipeView(props){
     useEffect(()=> {
         getUserSavedRecipes(props.loggedUserId)
         .then((response)=> {
-            console.log(response);
             if (response.some(saved => saved.id === props.recipe.id) === true)
                     setSaved(true)})
         .catch((error)=> {
