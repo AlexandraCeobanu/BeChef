@@ -12,6 +12,7 @@ export default function ShoppingList(props) {
     useEffect(()=> {
         getShoppingList(props.userId)
         .then((response)=> {
+            console.log(response)
             setShoppingList(response);
         })
         .catch((error)=> {
@@ -50,10 +51,10 @@ export default function ShoppingList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
-            }
+            {/* {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
+            } */}
             <div className="">
-            {items.map((item,index) => (
+            {items.length !== 0 && items.map((item,index) => (
                 <div key={index}>
                     <div className="add-item-box">
                     <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>

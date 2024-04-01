@@ -6,7 +6,7 @@ export default function ItemsView(props) {
     })
     return(
         <div className="items">
-            {props.items.map((item,index)=> (
+            {props.items.length !==0 && props.items.map((item,index)=> (
                 item.item!="" && 
                 <div className="item" key={index}>
                 <input type="checkbox"></input>

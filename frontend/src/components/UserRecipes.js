@@ -95,7 +95,7 @@ export default function UserRecipes(props)
         {
             option === 3 && <div className="lists">
             <ShoppingList userId={props.loggedUserId}></ShoppingList>
-            <StockList userId={props.loggedUserId}></StockList>
+            {/* <StockList userId={props.loggedUserId}></StockList> */}
             </div>
         }
         </div>
