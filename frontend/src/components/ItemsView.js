@@ -1,6 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faMinus} from '@fortawesome/free-solid-svg-icons';
 export default function ItemsView(props) {
+    const handleRemove  = ((index)=> {
+        props.handleRemoveItem(index);
+    })
     return(
         <div className="items">
             {props.items.map((item,index)=> (
@@ -16,7 +19,7 @@ export default function ItemsView(props) {
                 <p>3</p>
                 </div>
                 </div>
-                <FontAwesomeIcon icon={faMinus} className="icons"></FontAwesomeIcon>
+                <FontAwesomeIcon icon={faMinus} onClick={()=>handleRemove(item.id)} className="icons"></FontAwesomeIcon>
                 </div>
             </div>
         ))}

@@ -4,7 +4,7 @@ import { getShoppingList,updateShoppingList,deleteItem } from "../services/shopp
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
-export default function ShoppingList(props) {
+export default function StockList(props) {
     const [items,setItems] = useState([])
     const [shoppingList,setShoppingList] = useState(null)
     
@@ -45,7 +45,7 @@ export default function ShoppingList(props) {
     })
     return (
         <div className="shoppingList">
-            <h1>Your shopping list</h1> 
+            <h1>Your stock list</h1> 
             <div className="add-item">
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
@@ -63,7 +63,7 @@ export default function ShoppingList(props) {
                )}
             </div>
             <div className="save">
-            <button type="button" onClick={handleSaveShoppingList}>Save Shopping List</button>
+            <button type="button" onClick={handleSaveShoppingList}>Save Stock List</button>
             </div>
         </div>
     )

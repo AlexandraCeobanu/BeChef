@@ -1,9 +1,8 @@
 @import "../styles/variables.scss";
 .shoppingList {
     height: 100%;
-    width: 50%;
-    border:2px solid rgba(228,123,6,0.3);
-    border-radius: 3em;
+    width: 40%;
+    border-left:2px solid rgba(228,123,6,0.3);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,7 +10,7 @@
     padding-top: 1em;
     .items {
         margin-top: 2em;
-        width:40%;
+        width:70%;
        .item {
             width: 100%;
             height: 2em;
@@ -46,7 +45,7 @@
        }
     }
     .add-item {
-        width: 30%;
+        width: 70%;
         background-color: rgba(0,0,0,0.05);
         color:black;
         display: flex;
@@ -72,6 +71,7 @@
         border: none;
         button {
             border:none;
+            border-radius:3em;
             background-color: $primary-color;
             font-size: medium;
             cursor: pointer;

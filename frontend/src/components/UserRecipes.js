@@ -8,6 +8,7 @@ import { getRecipesByUserId, getUserSavedRecipes } from "../services/recipe";
 import ProfileOptions from "./ProfileOptions";
 import RecipesView from "./RecipesView";
 import ShoppingList from "./ShoppingList";
+import StockList from "./StockList";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
@@ -92,8 +93,10 @@ export default function UserRecipes(props)
             )
         }
         {
-            option === 3 &&
+            option === 3 && <div className="lists">
             <ShoppingList userId={props.loggedUserId}></ShoppingList>
+            <StockList userId={props.loggedUserId}></StockList>
+            </div>
         }
         </div>
     )
