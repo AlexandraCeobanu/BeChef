@@ -114,3 +114,18 @@ export const removeSaveRecipe = async(userId,recipeId) => {
     throw error.response.data;
 }
 }
+
+export const getUserSavedRecipes = async(userId) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/save?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
