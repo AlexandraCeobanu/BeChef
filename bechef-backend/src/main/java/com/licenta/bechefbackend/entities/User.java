@@ -53,6 +53,9 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user")
     private ShoppingList shoppingList;
+
+    @OneToOne(mappedBy = "user")
+    private StockList stockList;
     public User(String username,String email, String password, Role role)
     {
         this.userUsername = username;

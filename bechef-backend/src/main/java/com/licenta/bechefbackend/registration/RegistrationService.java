@@ -5,11 +5,14 @@ import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.email.EmailSender;
 import com.licenta.bechefbackend.email.EmailService;
 import com.licenta.bechefbackend.entities.Role;
+import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.registration.token.ConfirmationToken;
 import com.licenta.bechefbackend.registration.token.ConfirmationTokenService;
 import com.licenta.bechefbackend.repository.UserRepository;
 import com.licenta.bechefbackend.services.JWTService;
+import com.licenta.bechefbackend.services.ShoppingListService;
+import com.licenta.bechefbackend.services.StockListService;
 import com.licenta.bechefbackend.services.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +31,10 @@ import static com.licenta.bechefbackend.ValidationUtil.*;
 public class RegistrationService {
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private ShoppingListService shoppingListService;
+    @Autowired
+    private StockListService stockListService;
     private final PasswordEncoder passwordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
@@ -45,7 +51,9 @@ public class RegistrationService {
         newUser.setRole(Role.USER);
         newUser.setNrLikes(0L);
         newUser.setNrRecipes(0L);
-        userRepository.save(newUser);
+        User user = userRepository.save(newUser);
+        shoppingListService.createShoppingList(user.getId());
+        stockListService.createStockList(user.getId());
        /* sendEmail(userDTO,newUser);*/
         var jwtToken = jwtService.generateToken(newUser);
         return AuthenticationResponse.builder()

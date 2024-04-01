@@ -1,35 +1,36 @@
 package com.licenta.bechefbackend.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class ShoppingList {
+public class StockItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(
+            nullable = false,
+            name = "stockList_id"
+    )
     @JsonIgnore
-    private User user;
+    private StockList stockList;
 
-    @OneToMany(mappedBy = "shoppingList")
-    private List<Item> items;
-
-    public ShoppingList(User user, List<Item> items)
+    String item;
+    public StockItem(StockList stockList, String item)
     {
-        this.user = user;
-        this.items = items;
+        this.stockList = stockList;
+        this.item = item;
     }
 
 }
+

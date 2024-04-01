@@ -12,21 +12,20 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ShoppingList {
+public class StockList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @OneToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "shoppingList")
-    private List<Item> items;
+    @OneToMany(mappedBy = "stockList")
+    private List<StockItem> items;
 
-    public ShoppingList(User user, List<Item> items)
+    public StockList(User user, List<StockItem> items)
     {
         this.user = user;
         this.items = items;
