@@ -14,6 +14,7 @@ import com.licenta.bechefbackend.repository.UserRepository;
 import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -181,5 +182,24 @@ public class RecipeService {
             recipesDTO.add(recipeDTO);
         }
         return recipesDTO;
+    }
+
+    public void saveRecipe(Long recipeId, Long userId) {
+            User user = userRepository.findById(userId).orElse(null);
+            Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+            if (user != null && recipe!=null)
+            {
+                user.getSavedRecipes().add(recipe);
+                userRepository.save(user);
+            }
+    }
+    public void deleteSaveRecipe(Long recipeId, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        if (user != null && recipe!=null)
+        {
+            user.getSavedRecipes().remove(recipe);
+            userRepository.save(user);
+        }
     }
 }
