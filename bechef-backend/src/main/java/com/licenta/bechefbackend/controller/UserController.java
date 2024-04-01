@@ -1,5 +1,6 @@
 package com.licenta.bechefbackend.controller;
 
+import com.licenta.bechefbackend.DTO.UserResponseDTO;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserController {
     public ResponseEntity<?> getUserById(@PathVariable Long id)
     {
         try {
-            User user = userService.getUserById(id);
+            UserResponseDTO user = userService.getUserById(id);
             if (user != null)
                 return ResponseEntity.status(HttpStatus.OK).body(user);
             else

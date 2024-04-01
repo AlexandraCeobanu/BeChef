@@ -47,11 +47,11 @@ public class ImageUploadService {
         }
         return null;
     }
-    public byte[] getImage(String username) throws IOException {
+    public byte[] getImage(Long id) throws IOException {
 
         String imageDirectory = "src/main/resources/static/uploads/";
        try{
-      User user = userRepository.findByUserUsername(username).orElse(null);
+      User user = userRepository.findById(id).orElse(null);
       String imageName = user.getProfilePicture();
       if(imageName != null){
        Path imagePath = Path.of(imageDirectory, imageName);

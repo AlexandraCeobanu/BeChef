@@ -1,5 +1,7 @@
 package com.licenta.bechefbackend.services;
 
+import com.licenta.bechefbackend.DTO.UserResponseDTO;
+import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,8 +49,20 @@ public class UserService implements UserDetailsService {
         return userList;
     }
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+    public UserResponseDTO getUserById(Long id) {
+
+        User user = userRepository.findById(id).orElse(null);
+        return UserResponseDTO.builder()
+                .id(user.getId())
+                .userUsername(user.getUserUsername())
+                .nrRecipes(user.getNrRecipes())
+                .nrLikes(user.getNrLikes())
+                .email(user.getEmail())
+                .recipes(user.getRecipes())
+                .likesGiven(user.getLikesGiven())
+                .likesReceived(user.getLikesReceived())
+                .build();
+
     }
 //    @Override
 //    public UserDetailsService userDetailsService(){

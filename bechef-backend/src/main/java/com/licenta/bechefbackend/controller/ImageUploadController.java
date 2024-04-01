@@ -34,10 +34,10 @@ public class ImageUploadController {
         }
 
     }
-    @GetMapping("/profileImage/{username}")
-    public ResponseEntity<?> findImage(@PathVariable String username) throws IOException {
+    @GetMapping("/profileImage/{id}")
+    public ResponseEntity<?> findImage(@PathVariable Long id) throws IOException {
         try{
-        byte[] imageURL = imageUploadService.getImage(username);
+        byte[] imageURL = imageUploadService.getImage(id);
             if(imageURL!=null)
             return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageURL);
             else

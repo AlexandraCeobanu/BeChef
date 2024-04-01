@@ -11,6 +11,7 @@ import com.licenta.bechefbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,11 +33,6 @@ public class CommentService {
                 Comment comment = new Comment(comm.getComm(),senderUser,receiverUser,recipe);
                 commentRepository.save(comment);
                 Long comms;
-                if (recipe.getNrComments() == null)
-                {
-                    comms = Long.valueOf(1);
-                }
-                else
                 comms = recipe.getNrComments() + 1;
                 recipeRepository.updateNrComments(comms,recipe.getId());
             }
@@ -50,8 +46,14 @@ public class CommentService {
         }
     }
 
-    public List<Comment> findCommentsByRecipeId(Long recipeId) {
+    public List<CommentDTO> findCommentsByRecipeId(Long recipeId) {
         List<Comment> comments = commentRepository.findAllByRecipeId(recipeId);
-        return comments;
+        List<CommentDTO> commentDTOS = new ArrayList<>();
+        for (Comment c: comments)
+        {
+            CommentDTO commentDTO = new CommentDTO(c.getComm(),c.getSenderUser().getId(),c.getReceiverUser().getId(),c.getRecipe().getId());
+            commentDTOS.add(commentDTO);
+        }
+        return commentDTOS;
     }
 }
