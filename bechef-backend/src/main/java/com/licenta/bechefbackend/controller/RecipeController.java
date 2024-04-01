@@ -178,4 +178,20 @@ public class RecipeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+    @GetMapping("/save")
+    public ResponseEntity<?> getUserSavedRecipes(@RequestParam Long userId)
+    {
+        try{
+            List<RecipeResponseDTO> savedRecipes = recipeService.findUserSavedRecipe(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(savedRecipes);
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }

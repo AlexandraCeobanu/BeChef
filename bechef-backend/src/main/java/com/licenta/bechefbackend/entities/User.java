@@ -50,6 +50,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "likedUser")
     private List<Like> likesReceived = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private ShoppingList shoppingList;
     public User(String username,String email, String password, Role role)
     {
         this.userUsername = username;
