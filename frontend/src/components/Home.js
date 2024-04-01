@@ -61,7 +61,7 @@ export default function Home()
              </div>
              <hr></hr>
              <div className="recipes">
-             {recipes.length !==0 && <RecipesView recipes = {recipes} userId = {user.id} handleBlur={handleBlur}></RecipesView>}
+             {recipes.length !==0 && <RecipesView recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur}></RecipesView>}
              </div>
         </div>
     )

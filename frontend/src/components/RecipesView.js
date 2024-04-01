@@ -4,10 +4,12 @@ import { useEffect,useState } from "react";
 import '../styles/recipesView.scss'
 import { getRecipeImage } from "../services/getRecipeImage";
 import RecipeView from "../components/RecipeView";
-export default function RecipesView({recipes,loggedUserId,viewedUserId,handleChangeLikes,handleBlur})
+import { getUserById } from "../services/user/getUserById";
+export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur})
 {
     const [viewRecipe,setViewRecipe] = useState(false);
     const [clickedRecipe,setClickedRecipe] = useState(null);
+    const [viewedUser,setViewedUser] =  useState(null);
     const navigate = useNavigate();
     const [recipesImages,setRecipesImages] = useState([]);
     const handleViewRecipe = (index) => {
@@ -19,6 +21,15 @@ export default function RecipesView({recipes,loggedUserId,viewedUserId,handleCha
         setViewRecipe(false);
         handleBlur(false);
 }
+useEffect(() => {
+    if(clickedRecipe != null) {
+    getUserById(recipes[clickedRecipe].userId)
+    .then((user) => {
+        setViewedUser(user);
+    })
+    .catch((error)=> {console.log(error)})}
+},[clickedRecipe])
+
     useEffect(() => {
         const fetchRecipesImages = async () => {
             try {
@@ -38,11 +49,11 @@ export default function RecipesView({recipes,loggedUserId,viewedUserId,handleCha
     return(
         <div>
         {
-        viewRecipe === true  && <RecipeView recipe={recipes[clickedRecipe]} image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUserId}  index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} handleChangeLikes={handleChangeLikes} ></RecipeView>}
+        viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]} image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}  index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} handleChangeLikes={handleChangeLikes} ></RecipeView>}
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipe image={recipeImage} recipe={recipes[index]} index={index} loggedUserId={loggedUserId} viewedUserId={viewedUserId} onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipe>
+                <Recipe image={recipeImage} recipe={recipes[index]} index={index} loggedUserId={loggedUserId}  onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipe>
             </div>
         )
             )}
