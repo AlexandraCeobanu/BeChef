@@ -70,6 +70,9 @@ export default function RecipeView(props){
            {saved === true &&  
             <FontAwesomeIcon  icon={solidBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
             <IngredientsView ingredients={props.recipe.ingredients}></IngredientsView>
+            <div className="button">
+            <button type="button">Add to your shopping list</button>
+            </div>
             </div>
             <div className="right-side">
             <div className="right-side-top">

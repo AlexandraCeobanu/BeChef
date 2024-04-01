@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getRecipesByUserId, getUserSavedRecipes } from "../services/recipe";
 import ProfileOptions from "./ProfileOptions";
 import RecipesView from "./RecipesView";
+import ShoppingList from "./ShoppingList";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
@@ -83,12 +84,16 @@ export default function UserRecipes(props)
 
         {savedRecipes.length === 0 && option === 2 ?
             (<div className="no-recipes">
-            <h3>No recipe saved</h3>
+            <h1>No recipe saved</h1>
             </div>) :
             (   
                 option === 2 &&
                 <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
             )
+        }
+        {
+            option === 3 && 
+            <ShoppingList userId={props.loggedUserId}></ShoppingList>
         }
         </div>
     )

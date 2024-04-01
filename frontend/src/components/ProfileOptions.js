@@ -20,7 +20,7 @@ export default function ProfileOptions(props){
         setClassApplication1(false);
         setClassApplication2(false);
         setClassApplication3(!classApplication3);
-        props.handleOption(2);
+        props.handleOption(3);
     }
     return(
         <div className="options">
