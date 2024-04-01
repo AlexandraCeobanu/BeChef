@@ -2,7 +2,6 @@ package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.CommentDTO;
 import com.licenta.bechefbackend.entities.Comment;
-import com.licenta.bechefbackend.entities.Like;
 import com.licenta.bechefbackend.entities.Recipe;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.CommentRepository;

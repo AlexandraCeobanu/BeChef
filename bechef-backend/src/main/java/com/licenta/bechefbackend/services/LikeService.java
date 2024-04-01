@@ -69,10 +69,11 @@ public class LikeService {
 
         User likerUser = userRepository.findById(userId).orElse(null);
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        User likedUser = userRepository.findById(recipe.getUser().getId()).orElse(null);
         if(likerUser != null){
             int deletedLikes = likeRepository.deleteByUserAndRecipeIds(userId,recipeId);
-            Long nrLikes = likerUser.getNrLikes() - deletedLikes;
-            userRepository.updateNrLikes(nrLikes,userId);
+            Long nrLikes = likedUser.getNrLikes()   - deletedLikes;
+            userRepository.updateNrLikes(nrLikes,likedUser.getId());
             Long likes;
             likes = recipe.getNrLikes() + 1;
             recipeRepository.updateNrLikes(likes, recipe.getId());
