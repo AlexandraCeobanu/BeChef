@@ -20,6 +20,7 @@ public class UserResponseDTO {
     private Long nrLikes;
     private Long nrRecipes;
     private List<Recipe> recipes;
+    private List<Recipe> savedRecipes;
     private List<Like> likesGiven;
     private List<Like> likesReceived;
 }

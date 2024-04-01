@@ -59,6 +59,7 @@ public class UserService implements UserDetailsService {
                 .nrLikes(user.getNrLikes())
                 .email(user.getEmail())
                 .recipes(user.getRecipes())
+                .savedRecipes(user.getSavedRecipes())
                 .likesGiven(user.getLikesGiven())
                 .likesReceived(user.getLikesReceived())
                 .build();

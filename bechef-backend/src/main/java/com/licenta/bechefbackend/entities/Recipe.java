@@ -29,6 +29,11 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe")
     private List<Like> likes = new ArrayList<>();
+
+
+    @ManyToMany(mappedBy = "savedRecipes")
+    @JsonIgnore
+    private List<User> savedByUsers = new ArrayList<>();
     private String name;
     private String description;
     private String image;

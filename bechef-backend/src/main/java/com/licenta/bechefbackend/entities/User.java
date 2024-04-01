@@ -37,6 +37,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Recipe> recipes = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_savedRecipe",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+    )
+    private List<Recipe> savedRecipes = new ArrayList<>();
+
     @OneToMany(mappedBy = "likerUser")
     private List<Like> likesGiven = new ArrayList<>();
 
