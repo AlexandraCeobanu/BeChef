@@ -32,7 +32,7 @@ public class ShoppingListService {
         List<Item> items = new ArrayList<>();
         for(ItemDTO itemDTO: itemsDTO)
         {
-            Item item = new Item(shoppingList, itemDTO.getItem());
+            Item item = new Item(shoppingList, itemDTO.getItem(),itemDTO.getQuantity());
             itemRepository.save(item);
             items.add(item);
         }

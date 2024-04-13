@@ -39,7 +39,7 @@ public class StockListService {
         List<StockItem> items = new ArrayList<>();
         for(ItemDTO itemDTO: itemsDTO)
         {
-            StockItem item = new StockItem(stockList, itemDTO.getItem());
+            StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
             stockItemRepository.save(item);
             items.add(item);
         }

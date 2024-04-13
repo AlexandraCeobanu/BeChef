@@ -26,10 +26,12 @@ public class Item {
 
 
     String item;
-    public Item(ShoppingList shoppingList, String item)
+    String quantity;
+    public Item(ShoppingList shoppingList, String item,String quantity)
     {
         this.shoppingList = shoppingList;
         this.item = item;
+        this.quantity = quantity;
     }
 
 }

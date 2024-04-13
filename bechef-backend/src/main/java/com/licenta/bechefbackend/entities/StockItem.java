@@ -26,10 +26,12 @@ public class StockItem {
     private StockList stockList;
 
     String item;
-    public StockItem(StockList stockList, String item)
+    String quantity;
+    public StockItem(StockList stockList, String item, String quantity)
     {
         this.stockList = stockList;
         this.item = item;
+        this.quantity = quantity;
     }
 
 }
