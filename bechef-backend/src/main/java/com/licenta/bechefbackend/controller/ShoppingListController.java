@@ -53,4 +53,18 @@ public class ShoppingListController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+    @PatchMapping("/items/{id}")
+    public ResponseEntity<?> checkedItem(@PathVariable Long id,@RequestBody Boolean value)
+    {
+        try {
+            shoppingListService.checkedItem(id,value);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }

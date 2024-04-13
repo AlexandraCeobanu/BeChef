@@ -7,6 +7,7 @@ import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.ItemRepository;
 import com.licenta.bechefbackend.repository.ShoppingListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,15 @@ public class ShoppingListService {
         itemRepository.deleteById(id);
         ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
         return shoppingList;
+    }
+
+
+    public void checkedItem(Long id, Boolean value) {
+
+
+        Item item = itemRepository.findById(id).orElse(null);
+        Long listId = item.getShoppingList().getId();
+        itemRepository.updateChecked(value,id);
+
     }
 }

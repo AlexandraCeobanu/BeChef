@@ -27,11 +27,24 @@ public class Item {
 
     String item;
     String quantity;
+
+    Boolean checked = false;
     public Item(ShoppingList shoppingList, String item,String quantity)
     {
         this.shoppingList = shoppingList;
         this.item = item;
         this.quantity = quantity;
+
     }
 
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+
+                ", item='" + item + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", checked=" + checked +
+                '}';
+    }
 }
