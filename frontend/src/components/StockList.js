@@ -55,7 +55,7 @@ export default function StockList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {stockList !== null && <ItemsView items={stockList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
+            {stockList !== null && <ItemsView items={stockList.items} list="stock" handleRemoveItem={handleRemoveItem}></ItemsView>
             }
             <div className="">
             {items.map((item,index) => (

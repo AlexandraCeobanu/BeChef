@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import ItemsView from "./ItemsView"
-import { getShoppingList,updateShoppingList,deleteItem } from "../services/shoppingList"
+import { getShoppingList,updateShoppingList,deleteItem,checkItem } from "../services/shoppingList"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
 export default function ShoppingList(props) {
     const [items,setItems] = useState([])
@@ -12,7 +12,6 @@ export default function ShoppingList(props) {
     useEffect(()=> {
         getShoppingList(props.userId)
         .then((response)=> {
-            console.log(response)
             setShoppingList(response);
         })
         .catch((error)=> {
@@ -50,6 +49,23 @@ export default function ShoppingList(props) {
         })
         .catch((error)=> {console.log(error)});
     })
+
+    const handleCheckedItem=((id, value)=> {
+        checkItem(id,value)
+        .then(()=> {
+
+            getShoppingList(props.userId)
+                .then((response)=> {
+                    console.log(response)
+                    setShoppingList(response);
+                })
+                .catch((error)=> {
+                    console.log(error);
+        })
+           
+        })
+        .catch((error)=> {console.log(error)});
+    })
     return (
         <div className="shoppingList">
             <h1>Your shopping list</h1> 
@@ -57,7 +73,7 @@ export default function ShoppingList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
+            {shoppingList !== null && <ItemsView items={shoppingList.items} list="shopping" handleRemoveItem={handleRemoveItem} handleCheckedItem={handleCheckedItem}></ItemsView>
             }
             <div className="">
             {items.length !== 0 && items.map((item,index) => (

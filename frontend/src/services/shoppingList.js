@@ -37,3 +37,16 @@ export const deleteItem = async(id) => {
     throw error.response.data;
 }
 }
+
+export const checkItem = async(id,value) => {
+    try{
+        const response = await axios.patch(`${API_URL}/shoppingList/items/${id}`,value,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
