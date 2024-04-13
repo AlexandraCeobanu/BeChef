@@ -20,12 +20,18 @@ export default function ShoppingList(props) {
         })
     },[])
     const handleAddItem = ()=>{
-        setItems([...items,{item: ""}]);
+        setItems([...items,{item: "", quantity: ""}]);
         
     }
     const handleChangeItem = (index,value) =>{
         const newItems = [...items];
         newItems[index] = {item: value};
+        setItems(newItems);
+    }
+
+    const handleChangeQuantity = (index,value) =>{
+        const newItems = [...items];
+        newItems[index].quantity = value; 
         setItems(newItems);
     }
     const handleSaveShoppingList = ()=>{
@@ -51,13 +57,14 @@ export default function ShoppingList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {/* {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
-            } */}
+            {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
+            }
             <div className="">
             {items.length !== 0 && items.map((item,index) => (
                 <div key={index}>
                     <div className="add-item-box">
                     <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>
+                    <input type="text" placeholder={"quantity"} value={item.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
                     </div>
                 </div>
                )

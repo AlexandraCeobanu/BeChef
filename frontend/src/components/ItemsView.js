@@ -16,7 +16,7 @@ export default function ItemsView(props) {
                 <p>{item.item}</p>
                 </div>
                 <div className="quantity-item">
-                <p>3</p>
+                <p>{item.quantity}</p>
                 </div>
                 </div>
                 <FontAwesomeIcon icon={faMinus} onClick={()=>handleRemove(item.id)} className="icons"></FontAwesomeIcon>

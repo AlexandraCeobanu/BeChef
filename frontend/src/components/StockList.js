@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react"
 import ItemsView from "./ItemsView"
-import { getShoppingList,updateShoppingList,deleteItem } from "../services/shoppingList"
+import { getStockList, deleteItem,updateStockList } from "../services/stockList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
 export default function StockList(props) {
     const [items,setItems] = useState([])
-    const [shoppingList,setShoppingList] = useState(null)
+    const [stockList,setStockList] = useState(null)
     
 
     useEffect(()=> {
-        getShoppingList(props.userId)
+        getStockList(props.userId)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
         })
         .catch((error)=> {
             console.log(error);
@@ -27,10 +27,15 @@ export default function StockList(props) {
         newItems[index] = {item: value};
         setItems(newItems);
     }
-    const handleSaveShoppingList = ()=>{
-        updateShoppingList(shoppingList.id,items)
+    const handleChangeQuantity = (index,value) =>{
+        const newItems = [...items];
+        newItems[index].quantity = value; 
+        setItems(newItems);
+    }
+    const handleSaveStockList = ()=>{
+        updateStockList(stockList.id,items)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
             setItems([])
         })
         .catch((error)=>console.log(error))
@@ -38,7 +43,7 @@ export default function StockList(props) {
     const handleRemoveItem=((id)=> {
         deleteItem(id)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
 
         })
         .catch((error)=> {console.log(error)});
@@ -50,20 +55,21 @@ export default function StockList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {shoppingList !== null && <ItemsView items={shoppingList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
+            {stockList !== null && <ItemsView items={stockList.items} handleRemoveItem={handleRemoveItem}></ItemsView>
             }
             <div className="">
             {items.map((item,index) => (
                 <div key={index}>
                     <div className="add-item-box">
                     <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>
+                    <input type="text" placeholder={"quantity"} value={item.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
                     </div>
                 </div>
                )
                )}
             </div>
             <div className="save">
-            <button type="button" onClick={handleSaveShoppingList}>Save Stock List</button>
+            <button type="button" onClick={handleSaveStockList}>Save Stock List</button>
             </div>
         </div>
     )
