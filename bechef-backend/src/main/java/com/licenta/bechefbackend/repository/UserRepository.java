@@ -42,4 +42,6 @@ public interface UserRepository  extends CrudRepository<User,Long> {
     @Modifying
     @Query("UPDATE User a " + "SET a.nrLikes = ?1 WHERE a.id = ?2")
     int updateNrLikes(Long nrLikes,Long id);
+
+
 }

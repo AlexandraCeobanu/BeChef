@@ -3,6 +3,7 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.entities.Item;
 import com.licenta.bechefbackend.entities.ShoppingList;
+import com.licenta.bechefbackend.entities.StockItem;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.ItemRepository;
 import com.licenta.bechefbackend.repository.ShoppingListRepository;
@@ -22,6 +23,8 @@ public class ShoppingListService {
     ItemRepository itemRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StockListService stockListService;
 
     public ShoppingList createShoppingList(Long userId){
         User user = userRepository.findById(userId).orElse(null);
@@ -63,6 +66,19 @@ public class ShoppingListService {
         Item item = itemRepository.findById(id).orElse(null);
         Long listId = item.getShoppingList().getId();
         itemRepository.updateChecked(value,id);
+
+
+       ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
+       Long userId = shoppingList.getUser().getId();
+       if(value == true) {
+        List<ItemDTO> items = new ArrayList<>();
+        ItemDTO itemDTO = new ItemDTO(item.getItem(), item.getQuantity());
+        items.add(itemDTO);
+        stockListService.addItemFromShoppingList(userId,itemDTO,id);}
+       else
+       {
+           stockListService.deleteItemFromShoppingList(userId,id);
+       }
 
     }
 }

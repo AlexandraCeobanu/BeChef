@@ -27,6 +27,9 @@ public class StockItem {
 
     String item;
     String quantity;
+
+    Long idItemShoppingList;
+
     public StockItem(StockList stockList, String item, String quantity)
     {
         this.stockList = stockList;

@@ -56,4 +56,22 @@ public class StockListService {
         StockList stockList = stockListRepository.findById(listId).orElse(null);
         return stockList;
     }
+
+    public StockList addItemFromShoppingList(Long userId, ItemDTO itemDTO,Long idItemShoppingList) {
+        StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
+        StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
+        item.setIdItemShoppingList(idItemShoppingList);
+        stockItemRepository.save(item);
+        stockList.getItems().add(item);
+        stockListRepository.save(stockList);
+        return stockList;
+    }
+
+    public void deleteItemFromShoppingList(Long userId, Long idItemShoppingList) {
+        StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
+        StockItem stockItem = stockItemRepository.findByItemShoppingId(idItemShoppingList).orElse(null);
+        stockItemRepository.deleteById(stockItem.getId());
+
+    }
+
 }
