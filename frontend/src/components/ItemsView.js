@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faMinus} from '@fortawesome/free-solid-svg-icons';
+import {faMinus,faBasketShopping} from '@fortawesome/free-solid-svg-icons';
 export default function ItemsView(props) {
     
     const handleRemove  = ((index)=> {
@@ -9,6 +9,13 @@ export default function ItemsView(props) {
     {
         
         props.handleCheckedItem(item.id, !item.checked);
+       
+    })
+
+    const handleAddToShoppingList = ((item) => 
+    {
+        
+        props.handleAddtoShoppingList(item);
        
     })
    
@@ -28,7 +35,10 @@ export default function ItemsView(props) {
                 <p>{item.quantity}</p>
                 </div>
                 </div>
+                <div className="right-icons">
                 <FontAwesomeIcon icon={faMinus} onClick={()=>handleRemove(item.id)} className="icons"></FontAwesomeIcon>
+                {props.list === "stock" && <FontAwesomeIcon icon={faBasketShopping} onClick={()=>handleAddToShoppingList(item)} className="icons"></FontAwesomeIcon>}
+                </div>
                 </div>
             </div>
         ))}

@@ -37,3 +37,4 @@ export const deleteItem = async(id) => {
     throw error.response.data;
 }
 }
+

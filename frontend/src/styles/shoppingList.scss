@@ -21,7 +21,7 @@
             border-top: 1px solid rgba(0,0,0,0.3);
             color:black;
             .remove {
-                width: 85%;
+                width: 100%;
                 display: flex;
                 justify-content: space-between;
                 .icons {
@@ -40,6 +40,10 @@
                     .quantity-item {
                         color:rgba(0,0,0,0.3);
                     }
+                }
+                .right-icons{
+                    display: flex;
+                    gap:1em;
                 }
             }
        }
