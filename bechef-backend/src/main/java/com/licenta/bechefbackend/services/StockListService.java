@@ -39,7 +39,7 @@ public class StockListService {
         List<StockItem> items = new ArrayList<>();
         for(ItemDTO itemDTO: itemsDTO)
         {
-            StockItem item = new StockItem(stockList, itemDTO.getItem());
+            StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
             stockItemRepository.save(item);
             items.add(item);
         }
@@ -52,8 +52,27 @@ public class StockListService {
     public StockList deleteItem(Long id) {
         StockItem item = stockItemRepository.findById(id).orElse(null);
         Long listId = item.getStockList().getId();
-        itemRepository.deleteById(id);
+        stockItemRepository.deleteById(id);
         StockList stockList = stockListRepository.findById(listId).orElse(null);
         return stockList;
     }
+
+    public StockList addItemFromShoppingList(Long userId, ItemDTO itemDTO,Long idItemShoppingList) {
+        StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
+        StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
+        item.setIdItemShoppingList(idItemShoppingList);
+        stockItemRepository.save(item);
+        stockList.getItems().add(item);
+        stockListRepository.save(stockList);
+        return stockList;
+    }
+
+    public void deleteItemFromShoppingList(Long userId, Long idItemShoppingList) {
+        StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
+        StockItem stockItem = stockItemRepository.findByItemShoppingId(idItemShoppingList).orElse(null);
+        if(stockItem!=null)
+        stockItemRepository.deleteById(stockItem.getId());
+
+    }
+
 }
