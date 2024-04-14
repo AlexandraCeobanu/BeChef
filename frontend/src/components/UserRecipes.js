@@ -8,11 +8,13 @@ import { getRecipesByUserId, getUserSavedRecipes } from "../services/recipe";
 import ProfileOptions from "./ProfileOptions";
 import RecipesView from "./RecipesView";
 import ShoppingList from "./ShoppingList";
+import StockList from "./StockList";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
     const [savedRecipes, setSavedRecipes] = useState([])
     const [option,setOption] = useState(1);
+    const [checkedItem,setCheckedItem] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         getRecipesByUserId(props.loggedUserId)
@@ -61,6 +63,10 @@ export default function UserRecipes(props)
             console.log(error);
         })
     }
+    const handleCheckedItem=(value) =>
+    {
+        setCheckedItem(value);
+    }
     return(
         <div className="recipes-view">
         <div className="title">
@@ -92,8 +98,10 @@ export default function UserRecipes(props)
             )
         }
         {
-            option === 3 && 
-            <ShoppingList userId={props.loggedUserId}></ShoppingList>
+            option === 3 && <div className="lists">
+            <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem}></ShoppingList>
+            <StockList userId={props.loggedUserId} checkedItem={checkedItem}></StockList>
+            </div>
         }
         </div>
     )

@@ -53,6 +53,11 @@
             cursor: pointer;
             
     }}
+    .lists {
+        display: flex;
+        margin-right: 7em;
+        justify-content: space-around;
+    }
 }
 .recipes-grid {
     

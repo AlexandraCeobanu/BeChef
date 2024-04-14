@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react"
 import ItemsView from "./ItemsView"
-import { getShoppingList,updateShoppingList,deleteItem,checkItem } from "../services/shoppingList"
+import { getStockList, deleteItem,updateStockList } from "../services/stockList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
+import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
-export default function ShoppingList(props) {
+export default function StockList(props) {
     const [items,setItems] = useState([])
-    const [shoppingList,setShoppingList] = useState(null)
+    const [stockList,setStockList] = useState(null)
     
 
     useEffect(()=> {
-        getShoppingList(props.userId)
+        getStockList(props.userId)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
         })
         .catch((error)=> {
             console.log(error);
         })
-    },[])
+    },[props])
     const handleAddItem = ()=>{
-        setItems([...items,{item: "", quantity: ""}]);
+        setItems([...items,{item: ""}]);
         
     }
     const handleChangeItem = (index,value) =>{
@@ -27,16 +27,15 @@ export default function ShoppingList(props) {
         newItems[index] = {item: value};
         setItems(newItems);
     }
-
     const handleChangeQuantity = (index,value) =>{
         const newItems = [...items];
         newItems[index].quantity = value; 
         setItems(newItems);
     }
-    const handleSaveShoppingList = ()=>{
-        updateShoppingList(shoppingList.id,items)
+    const handleSaveStockList = ()=>{
+        updateStockList(stockList.id,items)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
             setItems([])
         })
         .catch((error)=>console.log(error))
@@ -44,38 +43,24 @@ export default function ShoppingList(props) {
     const handleRemoveItem=((id)=> {
         deleteItem(id)
         .then((response)=> {
-            setShoppingList(response);
+            setStockList(response);
 
         })
         .catch((error)=> {console.log(error)});
     })
 
-    const handleCheckedItem=((id, value)=> {
-        checkItem(id,value)
-        .then(()=> {
 
-            getShoppingList(props.userId)
-                .then((response)=> {
-                    setShoppingList(response);
-                })
-                .catch((error)=> {
-                    console.log(error);
-                })
-           props.handleCheckedItem(value);
-        })
-        .catch((error)=> {console.log(error)});
-    })
     return (
         <div className="shoppingList">
-            <h1>Your shopping list</h1> 
+            <h1>Your stock list</h1> 
             <div className="add-item">
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {shoppingList !== null && <ItemsView items={shoppingList.items} list="shopping" handleRemoveItem={handleRemoveItem} handleCheckedItem={handleCheckedItem}></ItemsView>
+            {stockList !== null && <ItemsView items={stockList.items} list="stock" handleRemoveItem={handleRemoveItem}></ItemsView>
             }
             <div className="">
-            {items.length !== 0 && items.map((item,index) => (
+            {items.map((item,index) => (
                 <div key={index}>
                     <div className="add-item-box">
                     <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>
@@ -86,7 +71,7 @@ export default function ShoppingList(props) {
                )}
             </div>
             <div className="save">
-            <button type="button" onClick={handleSaveShoppingList}>Save Shopping List</button>
+            <button type="button" onClick={handleSaveStockList}>Save Stock List</button>
             </div>
         </div>
     )
