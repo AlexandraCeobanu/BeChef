@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
+import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.services.ShoppingListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,19 @@ public class ShoppingListController {
     {
         try {
             shoppingListService.checkedItem(id,value);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @PatchMapping("/addIngredients")
+    public ResponseEntity<?> addIngredients(@RequestParam Long userId, @RequestBody List<Ingredient> ingredients)
+    {
+        try {
+            shoppingListService.addIngredients(userId,ingredients);
             return ResponseEntity.status(HttpStatus.OK).body("");
         }
         catch(Exception e)

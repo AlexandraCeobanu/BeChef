@@ -52,7 +52,7 @@ public class StockListService {
     public StockList deleteItem(Long id) {
         StockItem item = stockItemRepository.findById(id).orElse(null);
         Long listId = item.getStockList().getId();
-        itemRepository.deleteById(id);
+        stockItemRepository.deleteById(id);
         StockList stockList = stockListRepository.findById(listId).orElse(null);
         return stockList;
     }
@@ -70,6 +70,7 @@ public class StockListService {
     public void deleteItemFromShoppingList(Long userId, Long idItemShoppingList) {
         StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
         StockItem stockItem = stockItemRepository.findByItemShoppingId(idItemShoppingList).orElse(null);
+        if(stockItem!=null)
         stockItemRepository.deleteById(stockItem.getId());
 
     }
