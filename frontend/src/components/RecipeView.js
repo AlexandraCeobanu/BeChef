@@ -9,10 +9,15 @@ import StepsView from "./StepsView";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserBadge from "./UserBadge";
 import { useState } from "react";
-import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes } from "../services/recipe";
+import { addIngredientsToShoppingList } from "../services/shoppingList";
+import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes, addIngredients } from "../services/recipe";
+import { getStockList } from "../services/stockList";
+import SuccessfullyAddedIngredients from "./SuccessfullyAddedIngredients";
 export default function RecipeView(props){
     const [recipe,setRecipe]  = useState(props.recipe)
     const [saved,setSaved] = useState(false);
+    const [stockList,setStockList] = useState(null);
+    const [ingredientsAdded,setIngredientsAdded] = useState(false);
     const handleCloseRecipe = () => {
         props.handleCloseRecipe();
     }
@@ -25,10 +30,26 @@ export default function RecipeView(props){
             console.log(error);
         })
     }
+    const handleAddIngredients = ()=> {
+        addIngredientsToShoppingList(props.loggedUserId,props.recipe.ingredients)
+        .then(()=> {
+           setIngredientsAdded(true);
+        })
+        .catch((error)=> {
+            console.log(error);
+        })
+    }
+    const handleCloseSuccessfully = ()=> {
+        setIngredientsAdded(false);
+    }
+    const handleGoToShoppingList =() =>{
+        setIngredientsAdded(false);
+        props.handleGoToShoppingList();
+    }
     const handleSaveRecipe=()=> {
         if (saved === false) {
         saveRecipe(props.loggedUserId,recipe.id)
-        .then((response)=> {
+        .then(()=> {
            
         })
         .catch((error)=> {
@@ -37,7 +58,7 @@ export default function RecipeView(props){
         else
         {
             removeSaveRecipe(props.loggedUserId,recipe.id)
-            .then((response)=> {
+            .then(()=> {
                 if (props.handleRemoveSavedRecipe !== undefined)
                     {
                     props.handleRemoveSavedRecipe();}
@@ -49,7 +70,6 @@ export default function RecipeView(props){
         }
         setSaved(!saved);
     }
-
     useEffect(()=> {
         getUserSavedRecipes(props.loggedUserId)
         .then((response)=> {
@@ -58,6 +78,14 @@ export default function RecipeView(props){
         .catch((error)=> {
             console.log(error);
         })
+        getStockList(props.loggedUserId)
+            .then((response)=> 
+            {
+                setStockList(response);
+            })
+            .catch((error)=> {
+                console.log(error);
+            })
     },[])
     return(
         <div className="recipeView">
@@ -69,9 +97,9 @@ export default function RecipeView(props){
             <FontAwesomeIcon beat icon={regularBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
            {saved === true &&  
             <FontAwesomeIcon  icon={solidBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
-            <IngredientsView ingredients={props.recipe.ingredients}></IngredientsView>
+            <IngredientsView ingredients={props.recipe.ingredients} stockList={stockList}></IngredientsView>
             <div className="button">
-            <button type="button">Add to your shopping list</button>
+            <button type="button" onClick={handleAddIngredients}>Add to your shopping list</button>
             </div>
             </div>
             <div className="right-side">
@@ -84,6 +112,7 @@ export default function RecipeView(props){
             </div>
             <StepsView steps={props.recipe.steps}></StepsView>
             </div>
+            {ingredientsAdded === true && <SuccessfullyAddedIngredients handleCloseSuccessfully = {handleCloseSuccessfully} handleGoToShoppingList={handleGoToShoppingList}></SuccessfullyAddedIngredients>}
         </div>
     )
 }

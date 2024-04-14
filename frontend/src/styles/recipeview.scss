@@ -83,6 +83,15 @@
         ul {
             li {
                 margin-bottom: 1em;
+                display: flex;
+                align-items: center;
+                gap:1em;
+                #xMark {
+                    color:red;
+                }
+                #checkedMark{
+                    color: green;
+                }
             }
         }
     }
