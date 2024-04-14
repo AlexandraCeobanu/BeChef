@@ -128,9 +128,11 @@ public class RecipeService {
             if (recipe !=null ){
                 for (IngredientDTO ingredient : ingredientsDTO) {
                     Ingredient recipeIngredient = new Ingredient();
-                    recipeIngredient.setName(ingredient.getName());
+                    if(!ingredient.getName().equals("") && !ingredient.getQuantity().equals(""))
+                    {recipeIngredient.setName(ingredient.getName());
+                    recipeIngredient.setQuantity(ingredient.getQuantity());
                     recipeIngredient.setRecipe(recipe);
-                    ingredients.add(recipeIngredient);
+                    ingredients.add(recipeIngredient);}
                 }
                 return (List<Ingredient>) ingredientRepository.saveAll(ingredients); }
             else {
