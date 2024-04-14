@@ -27,7 +27,7 @@ export default function Home()
             (response) => {
                 console.log(search)
                 console.log(response)
-                setRecipes(response)
+                setRecipes(response.reverse())
             }
           )
           .catch((error)=> {
@@ -39,7 +39,7 @@ export default function Home()
         ()=> {
             getAllRecipes()
             .then((response)=> {
-                    setRecipes(response);
+                    setRecipes(response.reverse());
             })
             .catch((error)=>
             {

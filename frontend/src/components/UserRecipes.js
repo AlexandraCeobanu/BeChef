@@ -21,7 +21,7 @@ export default function UserRecipes(props)
         getRecipesByUserId(props.loggedUserId)
         .then(
             (recipes) => {
-                    setRecipes(recipes);
+                    setRecipes(recipes.reverse());
             }
         )
         .catch((error) =>
@@ -34,7 +34,7 @@ export default function UserRecipes(props)
         getUserSavedRecipes(props.loggedUserId)
         .then(
             (recipes) => {
-                    setSavedRecipes(recipes);
+                    setSavedRecipes(recipes.reverse());
             }
         )
         .catch((error) =>
@@ -56,7 +56,7 @@ export default function UserRecipes(props)
         getUserSavedRecipes(props.loggedUserId)
         .then(
             (recipes) => {
-                    setSavedRecipes(recipes);
+                    setSavedRecipes(recipes.reverse());
             }
         )
         .catch((error) =>

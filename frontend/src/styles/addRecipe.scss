@@ -92,9 +92,11 @@
             display: flex;
             flex-direction: column;
             ul {
-                margin-left: 1em;
+               
                 li {
                     margin-bottom: 1em;
+                    display: flex;
+                    gap:1em;
                     input {
                         width:10em;
                         height: 2em;
@@ -102,6 +104,10 @@
                         border : 1px solid $primary-color;
                         border-radius: 3em;
                         background-color: $background-color;
+                    }
+                    #quantity {
+                        width:5em;
+                        
                     }
                     input:focus {
                         outline:none;
