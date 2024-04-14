@@ -56,13 +56,12 @@ export default function ShoppingList(props) {
 
             getShoppingList(props.userId)
                 .then((response)=> {
-                    console.log(response)
                     setShoppingList(response);
                 })
                 .catch((error)=> {
                     console.log(error);
-        })
-           
+                })
+           props.handleCheckedItem(value);
         })
         .catch((error)=> {console.log(error)});
     })

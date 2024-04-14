@@ -17,7 +17,7 @@ export default function StockList(props) {
         .catch((error)=> {
             console.log(error);
         })
-    },[])
+    },[props])
     const handleAddItem = ()=>{
         setItems([...items,{item: ""}]);
         
@@ -48,6 +48,8 @@ export default function StockList(props) {
         })
         .catch((error)=> {console.log(error)});
     })
+
+
     return (
         <div className="shoppingList">
             <h1>Your stock list</h1> 

@@ -5,11 +5,11 @@ export default function ItemsView(props) {
     const handleRemove  = ((index)=> {
         props.handleRemoveItem(index);
     })
-    const handleCheckedItem = ((index,value) => 
+    const handleCheckedItem = ((item) => 
     {
-        console.log("VALOARE DUPA CHECKED")
-        console.log(value);
-        props.handleCheckedItem(index, value);
+        
+        props.handleCheckedItem(item.id, !item.checked);
+       
     })
    
 
@@ -18,7 +18,7 @@ export default function ItemsView(props) {
             {props.items.length !==0 && props.items.map((item,index)=> (
                 item.item!="" && 
                 <div className="item" key={index}>
-                {props.list !== "stock"  && <input type="checkbox" checked={item.checked} onChange={() => handleCheckedItem(item.id,!item.checked)}></input>}
+                {props.list !== "stock"  && <input type="checkbox" checked={item.checked} onChange={() => handleCheckedItem(item)}></input>}
                 <div className="remove">
                 <div className="item-info">
                 <div className="name-item">
