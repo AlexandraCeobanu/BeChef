@@ -1,8 +1,9 @@
 import Logo from "./Logo"
 import '../styles/header.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHome,faMagnifyingGlass,faBell} from '@fortawesome/free-solid-svg-icons';
+import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
+import io from 'socket.io-client';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 export default function Header(props){
@@ -18,6 +19,15 @@ export default function Header(props){
     const handleHomeClick = () => {
         navigate("/home")
     }
+    useEffect (() => {
+        const socket = io('http://localhost:8082');
+        socket.emit('message', 'heei');
+
+        socket.on('reply', (data) => {
+            console.log('Received message from server:', data);
+          });
+    },[])
+
     return(
         <div className="header">
             <div id="logo">
