@@ -14,3 +14,32 @@
             margin-top: 3em;
     }
 }
+
+.successfully-added-ingredients{
+    width: 25em;
+    height: 15em;
+    position: absolute;
+    top:30%;
+    left: 50%;
+    background-color: $primary-color;
+    color:black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3em;
+    z-index:2;
+    gap:3em;
+    #xMark {
+        position: absolute;
+        top:10%;
+        right: 5%;
+        cursor: pointer;
+    }
+    button {
+        background-color: $primary-color;
+        border:none;
+        border-bottom: 1px solid black;
+        cursor: pointer;
+    }
+}

@@ -17,7 +17,7 @@ export default function ShoppingList(props) {
         .catch((error)=> {
             console.log(error);
         })
-    },[])
+    },[props])
     const handleAddItem = ()=>{
         setItems([...items,{item: "", quantity: ""}]);
         

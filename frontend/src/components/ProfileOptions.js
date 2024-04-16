@@ -1,9 +1,9 @@
 import "../styles/options.scss"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 export default function ProfileOptions(props){
-    const[classApplication1,setClassApplication1] = useState(true);
-    const[classApplication2,setClassApplication2] = useState(false);
-    const[classApplication3,setClassApplication3] = useState(false);
+    const[classApplication1,setClassApplication1] = useState(props.option===1 ? true : false);
+    const[classApplication2,setClassApplication2] = useState(props.option===2 ? true : false);
+    const[classApplication3,setClassApplication3] = useState(props.option===3 ? true : false);
     const handleClick1 = () => {
         setClassApplication2(false);
         setClassApplication3(false);
@@ -22,6 +22,12 @@ export default function ProfileOptions(props){
         setClassApplication3(!classApplication3);
         props.handleOption(3);
     }
+    useEffect(()=> {
+        setClassApplication1(props.option ===1 ?true : false);
+        setClassApplication2(props.option ===2 ?true : false);
+        setClassApplication3(props.option ===3 ?true : false);
+    },[props])
+
     return(
         <div className="options">
             <div className={classApplication1 ? "user-recipes clicked" : 'user-recipes'}>

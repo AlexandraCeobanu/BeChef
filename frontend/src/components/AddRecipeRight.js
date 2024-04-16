@@ -10,9 +10,9 @@ export default function AddRecipeRight({onRecipeStepChange})
     ]);
     const [recipeName,setRecipeName] = useState("");
     const [ingredients,setIngredients] = useState([
-        {name: "" },
-        {name: "" },
-        {name: ""}
+        {name: "", quantity: "" },
+        {name: "", quantity: ""},
+        {name: "", quantity: ""}
     ]);
     const handleRecipeName = (event)  =>{
         setRecipeName(event.target.value);
@@ -35,11 +35,17 @@ export default function AddRecipeRight({onRecipeStepChange})
         setSteps(newSteps);
     }
     const handleAddIngredient = () => {
-            setIngredients([...ingredients,{name: ""}]);
+            setIngredients([...ingredients,{name: "",quantity:""}]);
     }
     const handleChangeIngredient = (index,value) =>{
         const newIngredients = [...ingredients];
         newIngredients[index] = {name: value};
+        setIngredients(newIngredients);
+        onRecipeStepChange(recipeName, steps,ingredients);
+    }
+    const handleChangeQuantity = (index,value) =>{
+        const newIngredients = [...ingredients];
+        newIngredients[index].quantity = value;
         setIngredients(newIngredients);
         onRecipeStepChange(recipeName, steps,ingredients);
     }
@@ -67,7 +73,9 @@ export default function AddRecipeRight({onRecipeStepChange})
                 <div key={index}>
                     <ul>
                     <div className="remove-ingredient">
-                    <li><input type="text" placeholder={"ingredient "+ (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></input></li>
+                    <li><input type="text" placeholder={"ingredient "+ (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></input>
+                    <input type="text" placeholder="quantity" id="quantity" value={ingredient.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
+                    </li>
                     <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemoveIngredient(index)}></FontAwesomeIcon>
                     </div>
                     </ul>

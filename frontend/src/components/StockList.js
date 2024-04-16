@@ -4,6 +4,7 @@ import { getStockList, deleteItem,updateStockList } from "../services/stockList"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
+import { updateShoppingList } from "../services/shoppingList";
 export default function StockList(props) {
     const [items,setItems] = useState([])
     const [stockList,setStockList] = useState(null)
@@ -41,13 +42,23 @@ export default function StockList(props) {
         .catch((error)=>console.log(error))
     }
     const handleRemoveItem=((id)=> {
+       
         deleteItem(id)
         .then((response)=> {
+           
             setStockList(response);
 
         })
         .catch((error)=> {console.log(error)});
     })
+
+    const handleAddtoShoppingList = (item)=>{
+        updateShoppingList(stockList.id,[item])
+        .then(()=> {
+           props.handleAddedItem();
+        })
+        .catch((error)=>console.log(error))
+    }
 
 
     return (
@@ -57,7 +68,7 @@ export default function StockList(props) {
              <p>Add to your list</p>
              <FontAwesomeIcon icon={faCirclePlus} className="icons" onClick={handleAddItem}></FontAwesomeIcon>
              </div>
-            {stockList !== null && <ItemsView items={stockList.items} list="stock" handleRemoveItem={handleRemoveItem}></ItemsView>
+            {stockList !== null && <ItemsView items={stockList.items} list="stock" handleRemoveItem={handleRemoveItem} handleAddtoShoppingList={handleAddtoShoppingList}></ItemsView>
             }
             <div className="">
             {items.map((item,index) => (

@@ -11,6 +11,7 @@ export const loginUser = async (user) => {
             localStorage.setItem('token',JSON.stringify(token));
             localStorage.setItem('user',JSON.stringify(user));
             localStorage.setItem('isAuthenticated',"true");
+            return user;
         }
     }
     catch (error) {

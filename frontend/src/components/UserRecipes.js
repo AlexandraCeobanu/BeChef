@@ -15,12 +15,13 @@ export default function UserRecipes(props)
     const [savedRecipes, setSavedRecipes] = useState([])
     const [option,setOption] = useState(1);
     const [checkedItem,setCheckedItem] = useState(false);
+    const [addedItem,setAddedItem] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         getRecipesByUserId(props.loggedUserId)
         .then(
             (recipes) => {
-                    setRecipes(recipes);
+                    setRecipes(recipes.reverse());
             }
         )
         .catch((error) =>
@@ -33,7 +34,7 @@ export default function UserRecipes(props)
         getUserSavedRecipes(props.loggedUserId)
         .then(
             (recipes) => {
-                    setSavedRecipes(recipes);
+                    setSavedRecipes(recipes.reverse());
             }
         )
         .catch((error) =>
@@ -55,7 +56,7 @@ export default function UserRecipes(props)
         getUserSavedRecipes(props.loggedUserId)
         .then(
             (recipes) => {
-                    setSavedRecipes(recipes);
+                    setSavedRecipes(recipes.reverse());
             }
         )
         .catch((error) =>
@@ -67,10 +68,18 @@ export default function UserRecipes(props)
     {
         setCheckedItem(value);
     }
+    const handleAddedItem=() =>
+    {
+        setAddedItem(!addedItem);
+    }
+    const handleGoToShoppingList=()=> {
+       
+        setOption(3);
+    }
     return(
         <div className="recipes-view">
         <div className="title">
-        <ProfileOptions handleOption= {handleOption}></ProfileOptions>
+        <ProfileOptions handleOption= {handleOption} option={option}></ProfileOptions>
         <hr></hr>
         </div>
         {recipes.length !==0 && option === 1 &&
@@ -85,7 +94,8 @@ export default function UserRecipes(props)
         </div>) :
         (   
             option === 1 &&
-            <RecipesView recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
+            <RecipesView recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
+             handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}></RecipesView>
         )}
 
         {savedRecipes.length === 0 && option === 2 ?
@@ -94,13 +104,14 @@ export default function UserRecipes(props)
             </div>) :
             (   
                 option === 2 &&
-                <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
+                <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
+                 handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}></RecipesView>
             )
         }
         {
             option === 3 && <div className="lists">
-            <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem}></ShoppingList>
-            <StockList userId={props.loggedUserId} checkedItem={checkedItem}></StockList>
+            <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem} addedItem={addedItem}></ShoppingList>
+            <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList>
             </div>
         }
         </div>

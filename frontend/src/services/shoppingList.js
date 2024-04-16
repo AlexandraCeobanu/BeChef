@@ -50,3 +50,16 @@ export const checkItem = async(id,value) => {
     throw error.response.data;
 }
 }
+
+export const addIngredientsToShoppingList = async(userId,ingredients) => {
+    try{
+        const response = await axios.patch(`${API_URL}/shoppingList/addIngredients?userId=${userId}`,ingredients,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
