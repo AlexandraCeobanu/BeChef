@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
+import  io  from 'socket.io-client';
 import Logo from './Logo';
-import socket from '../services/global';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -39,7 +39,6 @@ export default function Login(){
                 setError(false);
                 setEmail("");
                 setPassword("");
-                socket.emit('connection', user.id);
                 navigate('/profile')
                 setErrorMessage("")
             }

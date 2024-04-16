@@ -6,6 +6,7 @@ import { getProfileImage } from "../services/getProfileImage"
 import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
 import { getUserById } from "../services/user/getUserById"
+import  io  from "socket.io-client"
 import UserRecipes from "./UserRecipes"
 export default function UserProfile()
 {
@@ -14,6 +15,7 @@ export default function UserProfile()
     const [uploadTrigger, setUploadTrigger] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
     const [blur, setBlur] = useState(false);
+    const [socket,setSocket] = useState(null);
     const defaultProfilePhoto = '/images/profile-no-photo.png';
     const handleImageChange = (formData) => {
         uploadProfileImage(formData,user.userUsername)
@@ -62,17 +64,25 @@ export default function UserProfile()
     const handleBlur = (value)=>{
         setBlur(value);
     }
+    useEffect(()=> {
+        const newSocket = io('http://localhost:8082'); 
+        newSocket.on('connect', () => {
+            
+            setSocket(newSocket);
+        });
+        newSocket.emit('connection', user.id);
+    },[])
 
     return(
         <div className="user-profile">
             <div className={blur === true ? "blur" : ""}>
-            <Header></Header>
+            <Header  socket={socket}></Header>
             </div>
             <div className="user-info">
             <div className={blur === true ? "blur fixed-description" : "fixed-description"}>
             <UserDescription  username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange} ></UserDescription>
             </div>
-            <UserRecipes loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipes>
+            <UserRecipes socket={socket} loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipes>
             </div>
         </div>
     )
