@@ -13,20 +13,22 @@ export default function Header(props){
             navigate("/profile");
     }
     const handleLogout = () => {
+        const socket = io('http://localhost:8082');
+        socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);
         localStorage.clear();
         navigate("/login")
     }
     const handleHomeClick = () => {
         navigate("/home")
     }
-    useEffect (() => {
-        const socket = io('http://localhost:8082');
-        socket.emit('message', 'heei');
+    // useEffect (() => {
+    //     const socket = io('http://localhost:8082');
+    //     socket.emit('message', 'heei');
 
-        socket.on('reply', (data) => {
-            console.log('Received message from server:', data);
-          });
-    },[])
+    //     socket.on('reply', (data) => {
+    //         console.log('Received message from server:', data);
+    //       });
+    // },[])
 
     return(
         <div className="header">
