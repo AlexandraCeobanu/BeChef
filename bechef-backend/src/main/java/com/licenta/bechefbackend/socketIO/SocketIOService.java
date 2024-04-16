@@ -1,11 +1,16 @@
 package com.licenta.bechefbackend.socketIO;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.licenta.bechefbackend.DTO.LikeDTO;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class SocketIOService {
@@ -23,6 +28,7 @@ public class SocketIOService {
         addEventListener();
         addConnection();
         removeConnection();
+        notifyLike();
     }
     public void stopServer()
     {
@@ -43,7 +49,12 @@ public class SocketIOService {
                 OnlineUser onlineUser = onlineUserRepository.findByUserId(Long.valueOf(data)).orElse(null);
                 if(onlineUser == null){
                 OnlineUser newOnlineUser = new OnlineUser(Long.valueOf(data),String.valueOf(client.getSessionId()));
-                onlineUserRepository.save(onlineUser);
+                onlineUserRepository.save(newOnlineUser);
+                }
+                else
+                {
+
+                    onlineUserRepository.updateSessionId(String.valueOf(client.getSessionId()), onlineUser.getId());
                 }
             });}
     private void removeConnection() {
@@ -54,5 +65,19 @@ public class SocketIOService {
                 if(onlineUser != null)
                     onlineUserRepository.deleteById(onlineUser.getId());
             });
-}
+        }
+    private void notifyLike() {
+        socketIOServer.addEventListener("notify", LikeDTO.class, (client, data, ackSender) -> {
+
+            System.out.println(client.getSessionId());
+
+           OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
+            System.out.println(onlineUser.getSessionId());
+           if(onlineUser != null)
+           {
+               SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
+              receiverClient.sendEvent("new-notification" , data.getLikerId() + " ti a dat like ");
+           }
+        });
+    }
 }
