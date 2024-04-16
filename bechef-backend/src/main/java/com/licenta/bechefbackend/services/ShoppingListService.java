@@ -4,6 +4,7 @@ import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.entities.*;
 import com.licenta.bechefbackend.repository.ItemRepository;
 import com.licenta.bechefbackend.repository.ShoppingListRepository;
+import com.licenta.bechefbackend.repository.StockItemRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ShoppingListService {
     UserRepository userRepository;
     @Autowired
     StockListService stockListService;
+    @Autowired
+    StockItemRepository stockItemRepository;
 
     public ShoppingList createShoppingList(Long userId){
         User user = userRepository.findById(userId).orElse(null);
@@ -49,10 +52,16 @@ public class ShoppingListService {
     }
 
     public ShoppingList deleteItem(Long id) {
+
         Item item = itemRepository.findById(id).orElse(null);
         Long listId = item.getShoppingList().getId();
         itemRepository.deleteById(id);
         ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
+
+        StockItem stockItem  = stockItemRepository.findByItemShoppingId(id).orElse(null);
+        if(stockItem != null)
+        stockItemRepository.updateItemShoppingListId(stockItem.getId());
+
         return shoppingList;
     }
 
@@ -99,7 +108,7 @@ public class ShoppingListService {
 
                 }
                 if(found == false){
-                Item item = new Item(shoppingList, ingredient.getName(),String.valueOf(0));
+                Item item = new Item(shoppingList, ingredient.getName(), ingredient.getQuantity());
                 itemRepository.save(item);
                 itemsToAdd.add(item);
                 }

@@ -25,8 +25,10 @@ public class Ingredient {
     @JsonIgnore
     private Recipe recipe;
     String name;
-    public Ingredient(Recipe recipe, String name){
+    String quantity;
+    public Ingredient(Recipe recipe, String name,String quantity){
         this.recipe=recipe;
         this.name=name;
+        this.quantity = quantity;
     }
 }

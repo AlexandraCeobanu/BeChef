@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class IngredientDTO {
     String name;
+    String quantity;
     public IngredientDTO(){
 
     }

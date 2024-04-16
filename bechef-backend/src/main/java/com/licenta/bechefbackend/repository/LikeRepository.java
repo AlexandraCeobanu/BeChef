@@ -1,7 +1,7 @@
 package com.licenta.bechefbackend.repository;
 
 import com.licenta.bechefbackend.entities.Like;
-import com.licenta.bechefbackend.entities.Recipe;
+
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
