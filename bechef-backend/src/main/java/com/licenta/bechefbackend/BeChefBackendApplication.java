@@ -3,6 +3,7 @@ package com.licenta.bechefbackend;
 import com.licenta.bechefbackend.entities.Role;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
+import com.licenta.bechefbackend.socketIO.SocketIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

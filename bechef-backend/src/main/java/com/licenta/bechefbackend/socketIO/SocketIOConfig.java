@@ -1,4 +1,4 @@
-package com.licenta.bechefbackend;
+package com.licenta.bechefbackend.socketIO;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import org.springframework.context.annotation.Bean;
