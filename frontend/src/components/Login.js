@@ -3,7 +3,7 @@ import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
 import Logo from './Logo';
-import  io  from 'socket.io-client';
+import socket from '../services/global';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -39,7 +39,6 @@ export default function Login(){
                 setError(false);
                 setEmail("");
                 setPassword("");
-                const socket = io('http://localhost:8082');
                 socket.emit('connection', user.id);
                 navigate('/profile')
                 setErrorMessage("")

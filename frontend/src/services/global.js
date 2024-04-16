@@ -1,3 +1,4 @@
+import io from 'socket.io-client';
 export const config = {
     headers: {
       'Content-Type': 'application/json', 
@@ -9,3 +10,7 @@ export const config = {
     }
   }
 export const API_URL = "http://localhost:8081/api/v1";
+
+const socket = io('http://localhost:8082'); 
+
+export default socket;
