@@ -15,6 +15,9 @@ import java.util.Optional;
 public class BeChefBackendApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private SocketIOService socketIOService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(BeChefBackendApplication.class, args);
 	}
@@ -30,5 +33,6 @@ public class BeChefBackendApplication implements CommandLineRunner {
 			user.setEnabled(true);
 			userRepository.save(user);
 		}
+		socketIOService.startServer();
 	}
 }

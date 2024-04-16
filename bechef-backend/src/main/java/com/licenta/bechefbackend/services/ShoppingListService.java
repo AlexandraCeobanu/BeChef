@@ -52,12 +52,14 @@ public class ShoppingListService {
     }
 
     public ShoppingList deleteItem(Long id) {
+
         Item item = itemRepository.findById(id).orElse(null);
         Long listId = item.getShoppingList().getId();
         itemRepository.deleteById(id);
         ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
 
         StockItem stockItem  = stockItemRepository.findByItemShoppingId(id).orElse(null);
+        if(stockItem != null)
         stockItemRepository.updateItemShoppingListId(stockItem.getId());
 
         return shoppingList;
