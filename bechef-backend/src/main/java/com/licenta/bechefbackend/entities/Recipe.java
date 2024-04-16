@@ -30,6 +30,8 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe")
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "recipe")
+    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany(mappedBy = "savedRecipes")
     @JsonIgnore

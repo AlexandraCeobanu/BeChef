@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +31,7 @@ public class Notification {
     private Recipe recipe;
 
     String message ;
-    Boolean read = false;
+    Boolean is_read = false;
     public Notification(User senderUser,User receiverUser, Recipe recipe,String message)
     {
         this.senderUser=senderUser;

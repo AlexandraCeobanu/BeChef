@@ -51,6 +51,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "likedUser")
     private List<Like> likesReceived = new ArrayList<>();
 
+    @OneToMany(mappedBy = "senderUser")
+    private List<Notification> createdNotifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "receiverUser")
+    private List<Notification> userNotifications = new ArrayList<>();
+
     @OneToOne(mappedBy = "user")
     private ShoppingList shoppingList;
 
