@@ -20,7 +20,7 @@ export default function UserProfile()
     const handleImageChange = (formData) => {
         uploadProfileImage(formData,user.userUsername)
         .then(()=>{
-            setUploadTrigger(prevState => !prevState)}
+            setUploadTrigger(prevState => !prevState)} 
         )
         .catch(
             (error) => {
@@ -65,13 +65,19 @@ export default function UserProfile()
         setBlur(value);
     }
     useEffect(()=> {
+        if(socket === null){
         const newSocket = io('http://localhost:8082'); 
         newSocket.on('connect', () => {
-            
+            console.log(newSocket)
             setSocket(newSocket);
         });
-        newSocket.emit('connection', user.id);
+    }
     },[])
+    useEffect(() => 
+    {
+        if(socket!==null)
+        socket.emit('connection', user.id);
+    },[socket,user.id])
 
     return(
         <div className="user-profile">

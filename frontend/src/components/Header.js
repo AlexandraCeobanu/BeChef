@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 export default function Header(props){
     const navigate = useNavigate();
     const [blur,setBlur] =useState(props.blur);
-    const [notification,setNotification] = useState("");
+    const [notifications,setNotifications] = useState(0);
    
     const handleClickProfile = ()=> {
             navigate("/profile");
@@ -23,12 +23,13 @@ export default function Header(props){
         navigate("/home")
     }
     useEffect (() => {
-        if(props.socket!==null)
+        if(props.socket !==null){
         props.socket.on('new-notification', (data) => {
             console.log('Received message from server:', data);
-           setNotification(data);
+            setNotifications(prev=>prev+1);
           });
-    },[notification])
+        }
+    },[props.socket])
 
     return(
         <div className="header">
@@ -37,8 +38,10 @@ export default function Header(props){
             </div>
             <div className="nav-bar">
             <FontAwesomeIcon icon={faHome} className="icons" onClick={handleHomeClick} />
+            <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" />
-            <div className="notification-number">2</div>
+             <div className="notification-number">{notifications}</div>
+            </div>
             </div>
             <div className="logout">
                 <div>
