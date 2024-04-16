@@ -1,13 +1,13 @@
+import { useEffect } from "react";
 import Notification from "./Notification"
-export default function Notifications() {
+import { useLocation } from "react-router-dom";
+export default function Notifications(props) {
     return(
-        <div className="notifications">
-            <Notification></Notification>
-            <Notification></Notification>
-            <Notification></Notification>
-            <Notification></Notification>
-            <Notification></Notification>
-            <Notification></Notification>
+        <div className="notifications-box">
+
+            {props.notifications.length > 0 && props.notifications.map((notification,index)=> 
+            (<Notification key={index} notification={notification}></Notification>)
+        )}
         </div>
     )
 }

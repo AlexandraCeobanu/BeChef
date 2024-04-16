@@ -1,22 +1,30 @@
-.notifications {
-    border:1px solid black;
-    width:20em;
-    height: 15em;
+@import '../styles/variables.scss';
+.notifications-box {
+    position: absolute;
+    border:1px solid rgba(0,0,0,0.3);
+    width:22em;
+    max-height: 20em;
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap:1em;
     overflow: auto;
+    z-index:4;
+    background-color: $background-color;
 }
-.notifications::-webkit-scrollbar {
+.notifications-box::-webkit-scrollbar {
     display: none;
 }
 .notification {
     width:20em;
     display: flex;
     flex-direction: row;
-    gap:1em;
+    justify-content: space-between;
+    
     border-bottom: 1px solid rgba(0,0,0,0.3);
     padding-bottom: 0.3em;
+    padding-top: 0.3em;
+    padding-right: 0.3em;
     p {
         font-size: 0.8em;
     }
@@ -30,4 +38,8 @@
         height: 100%;
         object-fit: cover;
     }
+}
+.read-notification {
+    
+    border-bottom: 1px solid rgba(0,0,0,1);
 }

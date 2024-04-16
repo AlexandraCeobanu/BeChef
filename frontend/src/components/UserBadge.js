@@ -8,7 +8,7 @@ export default function UserBadge(props)
     const [username,setUsername] = useState("");
     const [profileImage,setProfileImage] = useState(defaultProfilePhoto);
     const [loggedUser,setLoggedUser] = useState(JSON.parse(localStorage.getItem('user')));
-    // const navigate = useNavigate();
+    
     useEffect(()=> {
         getUserById(props.userId)
         .then((response)=> {
