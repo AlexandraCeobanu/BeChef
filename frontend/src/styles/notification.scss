@@ -1,0 +1,33 @@
+.notifications {
+    border:1px solid black;
+    width:20em;
+    height: 15em;
+    display: flex;
+    flex-direction: column;
+    gap:1em;
+    overflow: auto;
+}
+.notifications::-webkit-scrollbar {
+    display: none;
+}
+.notification {
+    width:20em;
+    display: flex;
+    flex-direction: row;
+    gap:1em;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    padding-bottom: 0.3em;
+    p {
+        font-size: 0.8em;
+    }
+    .mini-recipe {
+        height: 2em;
+        width: 2em;
+        overflow: hidden;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
