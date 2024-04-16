@@ -39,8 +39,12 @@ public class SocketIOService {
             socketIOServer.addEventListener("connection", String.class, (client, data, ackSender) -> {
                 System.out.println("Received message from client: " + data);
                 System.out.println(client.getSessionId());
-                OnlineUser onlineUser = new OnlineUser(Long.valueOf(data),String.valueOf(client.getSessionId()));
+
+                OnlineUser onlineUser = onlineUserRepository.findByUserId(Long.valueOf(data)).orElse(null);
+                if(onlineUser == null){
+                OnlineUser newOnlineUser = new OnlineUser(Long.valueOf(data),String.valueOf(client.getSessionId()));
                 onlineUserRepository.save(onlineUser);
+                }
             });}
     private void removeConnection() {
             socketIOServer.addEventListener("remove-connection", String.class, (client, data, ackSender) -> {
