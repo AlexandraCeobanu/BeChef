@@ -8,7 +8,7 @@ export default function UserBadge(props)
     const [username,setUsername] = useState("");
     const [profileImage,setProfileImage] = useState(defaultProfilePhoto);
     const [loggedUser,setLoggedUser] = useState(JSON.parse(localStorage.getItem('user')));
-    const navigate = useNavigate();
+    
     useEffect(()=> {
         getUserById(props.userId)
         .then((response)=> {
@@ -31,11 +31,12 @@ export default function UserBadge(props)
         
         if(props.userId === loggedUser.id)
         {
-            navigate("/profile");
+            // navigate("/profile");
         }
         else {
         const data= {userId : props.userId};
-        navigate("/userProfileView",{state: data})}
+        // navigate("/userProfileView",{state: data})
+    }
     }
     return (
         <div className="comment" onClick={handleViewProfile}>

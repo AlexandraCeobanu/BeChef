@@ -6,13 +6,14 @@ import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
-
+import  io  from 'socket.io-client';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [recipe,setRecipe] = useState(props.recipe);
     const [nrLikes,setNrLikes] = useState(0);
     const [nrComments,setNrComments] = useState(0);
+    
     const handleClick=()=> {
         props.onClick(props.index);
     }
@@ -26,6 +27,8 @@ export default function Recipe(props)
             giveLike(like)
             .then(()=> {
             setLiked(!liked);
+            if(props.socket!==null)
+            props.socket.emit("notify", like)
             })
             .catch((error)=>{
                 console.log(error);

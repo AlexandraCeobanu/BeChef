@@ -14,6 +14,7 @@ import AddRecipeRight from './AddRecipeRight';
 import ImageDisplay from './ImageDisplay';
 import RecipeView from './RecipeView';
 import UserProfileView from './UserProfileView';
+import Notifications from './Notifications';
 export default function App(){
     return(
         <Router>
@@ -29,6 +30,7 @@ export default function App(){
                 <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
                 <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
                 <Route path="/userProfileView" element = {<ProtectedRoute><UserProfileView/></ProtectedRoute>}></Route>
+                <Route path="/notifications" element = {<ProtectedRoute><Notifications/></ProtectedRoute>}></Route>
             </Routes>
         </Router>
     )
