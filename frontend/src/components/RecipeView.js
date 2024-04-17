@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserBadge from "./UserBadge";
 import { useState } from "react";
 import { addIngredientsToShoppingList } from "../services/shoppingList";
-import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes, addIngredients } from "../services/recipe";
+import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes} from "../services/recipe";
 import { getStockList } from "../services/stockList";
 import SuccessfullyAddedIngredients from "./SuccessfullyAddedIngredients";
 export default function RecipeView(props){

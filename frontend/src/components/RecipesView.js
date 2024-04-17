@@ -60,10 +60,11 @@ useEffect(() => {
           handleGoToShoppingList = {handleToShoppingList} socket={socket} nrLikes ={nrLikes}
            ></RecipeView>}
 
-      <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
+      <div className={viewRecipe === true ? "blur recipes-grid" : "recipes-grid"}>
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
-                <Recipe socket={socket} image={recipeImage} recipe={recipes[index]} index={index} loggedUserId={loggedUserId}  onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipe>
+                <Recipe socket={socket} image={recipeImage} recipe={recipes[index]} index={index} loggedUserId={loggedUserId} 
+                 onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes}></Recipe>
             </div>
         )
             )}

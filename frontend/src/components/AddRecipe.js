@@ -7,11 +7,14 @@ import { useNavigate } from "react-router-dom";
 import { addRecipe, addSteps,addIngredients } from "../services/recipe";
 import { uploadRecipeImage } from "../services/uploadRecipeImage";
 import { getRecipeImage } from "../services/getRecipeImage";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [recipePhoto,setRecipePhoto] = useState(null);
     let [ingredients,setIngredients] = useState([]);
+    const [socket,setSocket] = useState(null);
     const [recipe,setRecipe] = useState({
         userId: user.id,
         name: '',
@@ -91,9 +94,23 @@ export default function AddRecipe()
         })
       };
 
+      useEffect(()=> {
+        if(socket === null){
+        const newSocket = io('http://localhost:8082'); 
+        newSocket.on('connect', () => {
+            setSocket(newSocket);
+        });
+    }
+    },[])
+    useEffect(() => 
+    {
+        if(socket!==null)
+        socket.emit('connection', user.id);
+    },[socket,user.id])
+
     return(
         <div className="main-page">
-            <Header></Header>
+            <Header socket={socket}></Header>
             <div className="without-header">
             <div className="fixed-side">
             <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} image={recipePhoto}></AddRecipeLeft>
