@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.bechefbackend.DTO.CommentDTO;
 import com.licenta.bechefbackend.DTO.LikeDTO;
 import com.licenta.bechefbackend.DTO.NotificationDTO;
+import com.licenta.bechefbackend.entities.Like;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
 import com.licenta.bechefbackend.services.NotificationService;
@@ -35,6 +36,7 @@ public class SocketIOService {
         removeConnection();
         notifyLike();
         notifyComm();
+        removeLike();
     }
     public void stopServer()
     {
@@ -101,6 +103,17 @@ public class SocketIOService {
             {
                 SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
                 receiverClient.sendEvent("new-notification" , notificationDTO);
+            }
+        });
+    }
+    private void removeLike() {
+        socketIOServer.addEventListener("removed", LikeDTO.class, (client, data, ackSender) -> {
+            OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
+
+            if(onlineUser != null)
+            {
+                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
+                receiverClient.sendEvent("remove-like" , "removed-like" );
             }
         });
     }
