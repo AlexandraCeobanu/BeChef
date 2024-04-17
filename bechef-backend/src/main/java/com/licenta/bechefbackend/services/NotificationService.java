@@ -61,4 +61,10 @@ public class NotificationService {
             System.out.println(e);
         }
     }
+
+    public Long getNumberOfUnreadNotifications(Long userId) {
+
+        Long number = notificationRepository.findNumberOfUnreadNotifications(userId);
+        return number;
+    }
 }

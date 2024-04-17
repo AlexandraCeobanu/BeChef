@@ -30,6 +30,20 @@ public class NotificationController {
         }
 
     }
+    @GetMapping("/unread")
+    public ResponseEntity<Long> getNumberOfUnreadNotifications(@RequestParam Long userId)
+    {
+        try {
+            Long  number = notificationService.getNumberOfUnreadNotifications(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(number);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
     @PatchMapping
     public ResponseEntity<?> readAllNotifications(@RequestParam Long userId)
     {

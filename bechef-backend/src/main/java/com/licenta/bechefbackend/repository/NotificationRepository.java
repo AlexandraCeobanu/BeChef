@@ -16,6 +16,9 @@ public interface NotificationRepository extends CrudRepository<Notification,Long
     @Query("SELECT n from Notification n where n.receiverUser.id = ?1")
     List<Notification> findAllByUserId(Long userId);
 
+    @Query("SELECT COUNT(*) from Notification n where n.receiverUser.id = ?1 and n.isRead = false")
+    Long findNumberOfUnreadNotifications(Long userId);
+
     @Transactional
     @Modifying
     @Query("UPDATE Notification n " + "SET n.isRead = true WHERE n.isRead = false and n.receiverUser.id = ?1")
