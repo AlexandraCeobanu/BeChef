@@ -16,15 +16,16 @@
     display: none;
 }
 .notification {
-    width:20em;
+    width:21em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+    padding-right: 0.3em;
     border-bottom: 1px solid rgba(0,0,0,0.3);
     padding-bottom: 0.3em;
     padding-top: 0.3em;
-    padding-right: 0.3em;
+    opacity: 0.4;
+    gap:0.2em;
     p {
         font-size: 0.8em;
     }
@@ -38,8 +39,16 @@
         height: 100%;
         object-fit: cover;
     }
+    .without-image {
+        gap:0.3em;
+        width:19em;
+        display: flex;
+        flex-direction: row;
+        word-wrap: break-word;
+    }
 }
 .read-notification {
     
     border-bottom: 1px solid rgba(0,0,0,1);
+    opacity: 1;
 }

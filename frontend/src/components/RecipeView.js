@@ -108,7 +108,7 @@ export default function RecipeView(props){
             <UserBadge userId={props.recipe.userId}></UserBadge>
             <Recipe socket={props.socket} image={props.image} recipe={recipe} index={props.index} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
             </div>
-            <CommentsSection recipe={props.recipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleAddComment={handleAddComment}></CommentsSection>
+            <CommentsSection socket={props.socket} recipe={props.recipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleAddComment={handleAddComment}></CommentsSection>
             </div>
             <StepsView steps={props.recipe.steps}></StepsView>
             </div>
