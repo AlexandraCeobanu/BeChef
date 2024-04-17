@@ -3,6 +3,7 @@ package com.licenta.bechefbackend.socketIO;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.licenta.bechefbackend.DTO.CommentDTO;
 import com.licenta.bechefbackend.DTO.LikeDTO;
 import com.licenta.bechefbackend.DTO.NotificationDTO;
 import com.licenta.bechefbackend.entities.OnlineUser;
@@ -33,6 +34,7 @@ public class SocketIOService {
         addConnection();
         removeConnection();
         notifyLike();
+        notifyComm();
     }
     public void stopServer()
     {
@@ -87,6 +89,25 @@ public class SocketIOService {
                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
               receiverClient.sendEvent("new-notification" , notificationDTO);
            }
+        });
+    }
+
+
+    private void notifyComm() {
+        socketIOServer.addEventListener("notifyComm", CommentDTO.class, (client, data, ackSender) -> {
+
+            OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getReceiverId()).orElse(null);
+
+
+            NotificationDTO notificationDTO = new NotificationDTO(data.getSenderId(), onlineUser.getUserId(),
+                    data.getRecipeId(), "added a comment: " + data.getComm() ,false);
+            notificationService.createNotification(notificationDTO);
+
+            if(onlineUser != null)
+            {
+                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
+                receiverClient.sendEvent("new-notification" , notificationDTO);
+            }
         });
     }
 }
