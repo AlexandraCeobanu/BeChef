@@ -91,14 +91,10 @@ public class SocketIOService {
 
     private void notifyComm() {
         socketIOServer.addEventListener("notifyComm", CommentDTO.class, (client, data, ackSender) -> {
-
             OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getReceiverId()).orElse(null);
-
-
             NotificationDTO notificationDTO = new NotificationDTO(data.getSenderId(), onlineUser.getUserId(),
                     data.getRecipeId(), "added a comment: " + data.getComm() ,false);
             notificationService.createNotification(notificationDTO);
-
             if(onlineUser != null)
             {
                 SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
