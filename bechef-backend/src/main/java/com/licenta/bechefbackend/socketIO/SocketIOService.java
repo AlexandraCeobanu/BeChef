@@ -74,16 +74,10 @@ public class SocketIOService {
         }
     private void notifyLike() {
         socketIOServer.addEventListener("notify", LikeDTO.class, (client, data, ackSender) -> {
-
-
-
             OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
-
-
-            NotificationDTO notificationDTO = new NotificationDTO(data.getLikerId(), onlineUser.getUserId(),
+            NotificationDTO notificationDTO = new NotificationDTO(data.getLikerId(), data.getLikedId(),
                     data.getRecipeId(), "liked your recipe" ,false);
             notificationService.createNotification(notificationDTO);
-
            if(onlineUser != null)
            {
                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
