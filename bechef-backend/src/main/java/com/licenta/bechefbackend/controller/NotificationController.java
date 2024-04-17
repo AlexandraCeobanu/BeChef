@@ -6,10 +6,7 @@ import org.eclipse.persistence.exceptions.EclipseLinkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,34 @@ public class NotificationController {
         try {
         List<NotificationDTO> notificationDTOS = notificationService.getAllNotificationByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(notificationDTOS);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
+    @GetMapping("/unread")
+    public ResponseEntity<Long> getNumberOfUnreadNotifications(@RequestParam Long userId)
+    {
+        try {
+            Long  number = notificationService.getNumberOfUnreadNotifications(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(number);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
+    @PatchMapping
+    public ResponseEntity<?> readAllNotifications(@RequestParam Long userId)
+    {
+        try {
+            notificationService.readAllNotificationByUserId(userId);
+            return ResponseEntity.status(HttpStatus.OK).body("");
         }
         catch (Exception e)
         {

@@ -3,8 +3,10 @@ package com.licenta.bechefbackend.socketIO;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.licenta.bechefbackend.DTO.CommentDTO;
 import com.licenta.bechefbackend.DTO.LikeDTO;
 import com.licenta.bechefbackend.DTO.NotificationDTO;
+import com.licenta.bechefbackend.entities.Like;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
 import com.licenta.bechefbackend.services.NotificationService;
@@ -33,6 +35,8 @@ public class SocketIOService {
         addConnection();
         removeConnection();
         notifyLike();
+        notifyComm();
+        removeLike();
     }
     public void stopServer()
     {
@@ -72,21 +76,41 @@ public class SocketIOService {
         }
     private void notifyLike() {
         socketIOServer.addEventListener("notify", LikeDTO.class, (client, data, ackSender) -> {
-
-            System.out.println(client.getSessionId());
-
             OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
-            System.out.println(onlineUser.getSessionId());
-
-            NotificationDTO notificationDTO = new NotificationDTO(data.getLikerId(), onlineUser.getUserId(),
+            NotificationDTO notificationDTO = new NotificationDTO(data.getLikerId(), data.getLikedId(),
                     data.getRecipeId(), "liked your recipe" ,false);
             notificationService.createNotification(notificationDTO);
-
            if(onlineUser != null)
            {
                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
               receiverClient.sendEvent("new-notification" , notificationDTO);
            }
+        });
+    }
+
+
+    private void notifyComm() {
+        socketIOServer.addEventListener("notifyComm", CommentDTO.class, (client, data, ackSender) -> {
+            OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getReceiverId()).orElse(null);
+            NotificationDTO notificationDTO = new NotificationDTO(data.getSenderId(), onlineUser.getUserId(),
+                    data.getRecipeId(), "added a comment: " + data.getComm() ,false);
+            notificationService.createNotification(notificationDTO);
+            if(onlineUser != null)
+            {
+                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
+                receiverClient.sendEvent("new-notification" , notificationDTO);
+            }
+        });
+    }
+    private void removeLike() {
+        socketIOServer.addEventListener("removed", LikeDTO.class, (client, data, ackSender) -> {
+            OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
+
+            if(onlineUser != null)
+            {
+                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
+                receiverClient.sendEvent("remove-like" , "removed-like" );
+            }
         });
     }
 }

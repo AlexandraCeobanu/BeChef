@@ -15,4 +15,14 @@ public class NotificationDTO {
     String message;
     Boolean read;
 
+    @Override
+    public String toString() {
+        return "NotificationDTO{" +
+                "senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", recipeId=" + recipeId +
+                ", message='" + message + '\'' +
+                ", read=" + read +
+                '}';
+    }
 }

@@ -25,11 +25,16 @@ public class NotificationService {
     NotificationRepository notificationRepository;
     public void createNotification(NotificationDTO notificationDTO)
     {
+        try{
         User senderUser = userRepository.findById(notificationDTO.getSenderId()).orElse(null);
         User receiverUser = userRepository.findById(notificationDTO.getReceiverId()).orElse(null);
         Recipe recipe = recipeRepository.findById(notificationDTO.getRecipeId()).orElse(null);
         Notification notification = new Notification(senderUser,receiverUser,recipe, notificationDTO.getMessage());
-        notificationRepository.save(notification);
+        notificationRepository.save(notification);}
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
     }
 
     public List<NotificationDTO> getAllNotificationByUserId(Long userId)
@@ -39,10 +44,27 @@ public class NotificationService {
         for(Notification not: notifications)
         {
             NotificationDTO notDTO = new NotificationDTO(not.getSenderUser().getId(),
-                    not.getReceiverUser().getId(), not.getRecipe().getId(),not.getMessage(),not.getIs_read());
+                    not.getReceiverUser().getId(), not.getRecipe().getId(),not.getMessage(),not.getIsRead());
             notificationDTOS.add(notDTO);
         }
         Collections.reverse(notificationDTOS);
         return notificationDTOS;
+    }
+
+    public void readAllNotificationByUserId(Long userId) {
+
+        try {
+            notificationRepository.readAllNotifications(userId);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+
+    public Long getNumberOfUnreadNotifications(Long userId) {
+
+        Long number = notificationRepository.findNumberOfUnreadNotifications(userId);
+        return number;
     }
 }

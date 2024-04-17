@@ -12,4 +12,7 @@ public class CommentDTO {
     private Long senderId;
     private Long receiverId;
     private Long recipeId;
+    public CommentDTO() {
+
+    }
 }
