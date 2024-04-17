@@ -29,3 +29,18 @@ export const readAllNotifications = async(userId) => {
     throw error.response.data;
 }
 }
+
+export const getNumberOfUnreadNotifications = async(userId) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/notifications/unread?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}

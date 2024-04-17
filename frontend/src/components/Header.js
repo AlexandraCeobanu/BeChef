@@ -5,7 +5,7 @@ import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { readAllNotifications } from "../services/notification";
+import { getNumberOfUnreadNotifications, readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
 
 export default function Header(props){
@@ -52,6 +52,16 @@ export default function Header(props){
        
     }
     }
+
+    useEffect (() => {
+        getNumberOfUnreadNotifications(JSON.parse(localStorage.getItem('user')).id)
+        .then((response) => {
+                setNrNotifications(response);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    },[])
    
 
     return(
