@@ -106,7 +106,9 @@ export default function RecipeView(props){
             <div className="right-side-top">
             <div className="right-side-top-left">
             <UserBadge userId={props.recipe.userId}></UserBadge>
-            <Recipe socket={props.socket} image={props.image} recipe={recipe} index={props.index} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} onClick={props.onClick} handleChangeLikes={props.handleChangeLikes}></Recipe>
+            <Recipe socket={props.socket} image={props.image} recipe={recipe} index={props.index} 
+            loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} onClick={props.onClick} 
+            handleChangeLikes={props.handleChangeLikes} nrLikes ={props.nrLikes}></Recipe>
             </div>
             <CommentsSection socket={props.socket} recipe={props.recipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleAddComment={handleAddComment}></CommentsSection>
             </div>

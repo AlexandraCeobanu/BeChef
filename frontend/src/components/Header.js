@@ -30,6 +30,21 @@ export default function Header(props){
         if(props.socket !==null){
         props.socket.on('new-notification', (data) => {
             setNrNotifications(prev=> prev+1);
+            if (props.handleChangeLikes!==undefined)
+            {
+                props.handleChangeLikes();
+            }
+          });
+        }
+    },[props.socket])
+
+    useEffect (() => {
+        if(props.socket !==null){
+        props.socket.on('remove-like', (data) => {
+            if (props.handleChangeLikes!==undefined)
+            {
+                props.handleChangeLikes();
+            }
           });
         }
     },[props.socket])

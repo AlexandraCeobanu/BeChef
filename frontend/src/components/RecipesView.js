@@ -5,7 +5,7 @@ import '../styles/recipesView.scss'
 import { getRecipeImage } from "../services/getRecipeImage";
 import RecipeView from "../components/RecipeView";
 import { getUserById } from "../services/user/getUserById";
-export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur,handleRemoveSavedRecipe,handleGoToShoppingList,socket})
+export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur,handleRemoveSavedRecipe,handleGoToShoppingList,socket,nrLikes})
 {
     const [viewRecipe,setViewRecipe] = useState(false);
     const [clickedRecipe,setClickedRecipe] = useState(null);
@@ -57,7 +57,7 @@ useEffect(() => {
           image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}
           index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} 
           handleChangeLikes={handleChangeLikes} handleRemoveSavedRecipe={handleRemoveSavedRecipe}
-          handleGoToShoppingList = {handleToShoppingList} socket={socket}
+          handleGoToShoppingList = {handleToShoppingList} socket={socket} nrLikes ={nrLikes}
            ></RecipeView>}
 
       <div className={viewRecipe ===true ? "blur recipes-grid" : "recipes-grid"}>
