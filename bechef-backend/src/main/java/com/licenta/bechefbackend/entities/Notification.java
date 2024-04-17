@@ -31,7 +31,7 @@ public class Notification {
     private Recipe recipe;
 
     String message ;
-    Boolean is_read = false;
+    Boolean isRead = false;
     public Notification(User senderUser,User receiverUser, Recipe recipe,String message)
     {
         this.senderUser=senderUser;
