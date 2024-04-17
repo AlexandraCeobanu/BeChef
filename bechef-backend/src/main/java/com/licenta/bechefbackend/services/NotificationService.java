@@ -10,6 +10,9 @@ import com.licenta.bechefbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,7 +34,15 @@ public class NotificationService {
 
     public List<NotificationDTO> getAllNotificationByUserId(Long userId)
     {
-        List<NotificationDTO> notifications = notificationRepository.findAllByUserId( userId);
-        return notifications;
+        List<Notification> notifications = notificationRepository.findAllByUserId( userId);
+        List<NotificationDTO> notificationDTOS = new ArrayList<>();
+        for(Notification not: notifications)
+        {
+            NotificationDTO notDTO = new NotificationDTO(not.getSenderUser().getId(),
+                    not.getReceiverUser().getId(), not.getRecipe().getId(),not.getMessage(),not.getIs_read());
+            notificationDTOS.add(notDTO);
+        }
+        Collections.reverse(notificationDTOS);
+        return notificationDTOS;
     }
 }

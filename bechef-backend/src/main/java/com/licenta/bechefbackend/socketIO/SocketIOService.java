@@ -4,8 +4,10 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.licenta.bechefbackend.DTO.LikeDTO;
+import com.licenta.bechefbackend.DTO.NotificationDTO;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
+import com.licenta.bechefbackend.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class SocketIOService {
     }
     @Autowired
     private OnlineUserRepository onlineUserRepository;
+    @Autowired
+    private NotificationService notificationService;
     public void startServer()
     {
 
@@ -71,12 +75,17 @@ public class SocketIOService {
 
             System.out.println(client.getSessionId());
 
-           OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
+            OnlineUser onlineUser = onlineUserRepository.findByUserId(data.getLikedId()).orElse(null);
             System.out.println(onlineUser.getSessionId());
+
+            NotificationDTO notificationDTO = new NotificationDTO(data.getLikerId(), onlineUser.getUserId(),
+                    data.getRecipeId(), "liked your recipe" ,false);
+            notificationService.createNotification(notificationDTO);
+
            if(onlineUser != null)
            {
                SocketIOClient receiverClient = socketIOServer.getClient(UUID.fromString(onlineUser.getSessionId()));
-              receiverClient.sendEvent("new-notification" , data.getLikerId() + " ti a dat like ");
+              receiverClient.sendEvent("new-notification" , notificationDTO);
            }
         });
     }

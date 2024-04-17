@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface NotificationRepository extends CrudRepository<Notification,Long> {
     @Query("SELECT n from Notification n where n.receiverUser.id = ?1")
-    List<NotificationDTO> findAllByUserId(Long userId);
+    List<Notification> findAllByUserId(Long userId);
 
 }
