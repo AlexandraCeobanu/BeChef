@@ -24,7 +24,8 @@ export default function Header(props){
         navigate("/login")
     }
     const handleHomeClick = () => {
-        navigate("/home")
+        const data= {socket : props.socket};
+        navigate("/home", {state : data})
     }
     useEffect (() => {
         if(props.socket !==null){

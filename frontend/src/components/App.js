@@ -10,9 +10,6 @@ import ForgotPassword from './ForgotPassword';
 import EnterCode from './EnterCode';
 import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
-import AddRecipeRight from './AddRecipeRight';
-import ImageDisplay from './ImageDisplay';
-import RecipeView from './RecipeView';
 import UserProfileView from './UserProfileView';
 import Notifications from './Notifications';
 export default function App(){
