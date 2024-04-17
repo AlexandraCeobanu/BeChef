@@ -5,6 +5,7 @@ import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
 
 export default function Header(props){
@@ -36,10 +37,19 @@ export default function Header(props){
 
     const handleShowNotifications = ()=> {
         if(showNotification === false)
-        setShowNotification(true);
+        {setShowNotification(true);
+            setNrNotifications(0);}
+
     else{
-        setShowNotification(false);
-        setNrNotifications(0);
+        readAllNotifications(JSON.parse(localStorage.getItem('user')).id)
+        .then(()=> {
+            setShowNotification(false);
+            
+        })
+        .catch((error) => {
+                console.log(error);
+        })
+       
     }
     }
    

@@ -14,3 +14,18 @@ export const getAllNotifications = async(userId) => {
     throw error.response.data;
 }
 }
+
+export const readAllNotifications = async(userId) => {
+    try{
+        
+        const response = await axios.patch(`${API_URL}/notifications?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
