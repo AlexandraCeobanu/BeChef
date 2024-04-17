@@ -18,14 +18,13 @@ export default function Header(props){
             navigate("/profile");
     }
     const handleLogout = () => {
-        if(props.socket!==null)
-        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);
+        if(props.socket!==null){
+        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
         localStorage.clear();
         navigate("/login")
     }
     const handleHomeClick = () => {
-        const data= {socket : props.socket};
-        navigate("/home", {state : data})
+        navigate("/home")
     }
     useEffect (() => {
         if(props.socket !==null){
@@ -75,7 +74,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications newNotifications={nrNotifications}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications} socket={props.socket}></Notifications>}
             </div>
             </div>
             <div className="logout">

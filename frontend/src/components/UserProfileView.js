@@ -5,6 +5,7 @@ import UserDescriptionView from './UserDescriptionView';
 import UserRecipesView from './UserRecipesView';
 import Header from './Header';
 import {getProfileImage} from '../services/getProfileImage';
+import { io } from 'socket.io-client';
 export default function UserProfileView()
 {
     const [user, setUser] = useState(null);
@@ -12,6 +13,7 @@ export default function UserProfileView()
     const [changedNrLikes,setChangedNrLikes] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
     const [blur, setBlur] = useState(false);
+    const [socket,setSocket] = useState(null);
     const defaultProfilePhoto = '/images/profile-no-photo.png';
     const location = useLocation();
     const  data  = location.state;
@@ -58,18 +60,31 @@ export default function UserProfileView()
     const handleBlur = (value)=>{
         setBlur(value);
     }
+    useEffect(()=> {
+        if(socket === null){
+        const newSocket = io('http://localhost:8082'); 
+        newSocket.on('connect', () => {
+            setSocket(newSocket);
+        });
+    }
+    },[])
+    useEffect(() => 
+    {
+        if(socket!==null)
+        socket.emit('connection', logged.id);
+    },[socket,logged.id])
 
     return(
         <div className="user-profile">
             <div className={blur === true ? "blur" : ""}>
-            <Header></Header>
+            <Header socket={socket}></Header>
             </div>
             {user && 
             <div className="user-info">
             <div className={blur === true ? "blur fixed-description" : "fixed-description"}>
             <UserDescriptionView  username={'@'+user.userUsername}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0}></UserDescriptionView>
             </div>
-            <UserRecipesView loggedUserId = {logged.id}  viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipesView>
+            <UserRecipesView socket={socket} loggedUserId = {logged.id}  viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}></UserRecipesView>
             </div>
             }
         </div>

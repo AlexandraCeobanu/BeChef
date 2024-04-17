@@ -26,7 +26,7 @@ export default function Recipe(props)
             giveLike(like)
             .then(()=> {
             setLiked(!liked);
-            if(props.socket!==null)
+            if(props.socket!==null && like.likerId !== like.likedId)
             props.socket.emit("notify", like)
             })
             .catch((error)=>{

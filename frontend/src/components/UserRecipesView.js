@@ -24,7 +24,11 @@ export default function UserRecipesView(props)
         <div className="title">
         <hr></hr>
         </div> 
+        {recipes.length === 0 ? (<div className="no-recipes">
+            <h1>No recipes</h1>
+        </div>) : 
         <RecipesView recipes={recipes} loggedUserId = {props.loggedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur}></RecipesView>
+        }
         </div>
     )
 }

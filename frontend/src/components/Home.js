@@ -8,6 +8,7 @@ import "../styles/home.scss"
 import { getAllRecipes } from "../services/recipe";
 import RecipesView from "./RecipesView";
 import { getRecipesByName } from "../services/recipe";
+import { io } from "socket.io-client";
 export default function Home()
 {
     const [search,setSearch] = useState(null);
@@ -15,7 +16,7 @@ export default function Home()
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const [blur, setBlur] = useState(false);
     const location = useLocation();
-    const [socket, setSocket]  = useState( location.state);
+    const [socket, setSocket]  = useState(null);
     const searchChangeHandler=(event) =>{
         setSearch(event.target.value);
     }
@@ -49,10 +50,25 @@ export default function Home()
     const handleBlur = (value)=>{
         setBlur(value);
     }
+
+    useEffect(()=> {
+        if(socket === null){
+        const newSocket = io('http://localhost:8082'); 
+        newSocket.on('connect', () => {
+            setSocket(newSocket);
+        });
+    }
+    },[])
+    useEffect(() => 
+    {
+        if(socket!==null)
+        socket.emit('connection', user.id);
+    },[socket,user.id])
+
     return(
         <div className="home">
             <div className={blur === true ? "blur" : ""}>
-            <Header socket={socket}></Header>
+            <Header socket ={socket}></Header>
             </div>
             <div id="search-bar" className={blur === true ? "blur" : ""}>
             <input type="text" id="search" name="search" onChange={searchChangeHandler}  onKeyDown={handleKeyDown} placeholder="Search by recipe name" ></input>
@@ -62,6 +78,7 @@ export default function Home()
              <div className="recipes">
              {recipes.length !==0 && <RecipesView socket={socket} recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur}></RecipesView>}
              </div>
+
         </div>
     )
 }

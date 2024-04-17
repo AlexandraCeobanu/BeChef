@@ -5,7 +5,7 @@ export default function Notification(props){
     return(
         <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
             <div className="without-image">
-            <UserBadge userId={props.notification.senderId}></UserBadge>
+            <UserBadge userId={props.notification.senderId} socket={props.socket}></UserBadge>
             <p>{props.notification.message}</p>
             </div>
             <MiniRecipe recipeId={props.notification.recipeId}></MiniRecipe>
