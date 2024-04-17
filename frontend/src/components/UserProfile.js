@@ -68,7 +68,6 @@ export default function UserProfile()
         if(socket === null){
         const newSocket = io('http://localhost:8082'); 
         newSocket.on('connect', () => {
-            console.log(newSocket)
             setSocket(newSocket);
         });
     }

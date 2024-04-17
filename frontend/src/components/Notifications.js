@@ -1,11 +1,23 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Notification from "./Notification"
-import { useLocation } from "react-router-dom";
+import { getAllNotifications } from "../services/notification";
 export default function Notifications(props) {
+
+    const [notifications,setNotifications]= useState([])
+    useEffect (() => {
+        getAllNotifications(JSON.parse(localStorage.getItem('user')).id)
+        .then((notifications)=> 
+    {
+        setNotifications(notifications);
+    })
+    .catch((error)=> {
+        console.log(error);
+    })
+    },[props.newNotifications])
     return(
         <div className="notifications-box">
 
-            {props.notifications.length > 0 && props.notifications.map((notification,index)=> 
+            {notifications.length > 0 && notifications.map((notification,index)=> 
             (<Notification key={index} notification={notification}></Notification>)
         )}
         </div>
