@@ -12,7 +12,7 @@ export default function MiniRecipe(props){
             }
         })
         .catch((error)=> {console.log(error)})
-    },[])
+    },[props.recipeId])
     return (
         <div className="mini-recipe">
             <img src={recipeImage} alt="image"></img>

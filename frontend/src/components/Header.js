@@ -5,13 +5,13 @@ import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
-import { getAllNotifications } from "../services/notification";
+
 export default function Header(props){
     const navigate = useNavigate();
     // const [blur,setBlur] =useState(props.blur);
     const [nrNotifications,setNrNotifications] = useState(0);
-    const [notifications,setNotifications] = useState([]);
     const [showNotification,setShowNotification] = useState(false);
    
     const handleClickProfile = ()=> {
@@ -29,31 +29,27 @@ export default function Header(props){
     useEffect (() => {
         if(props.socket !==null){
         props.socket.on('new-notification', (data) => {
-            console.log('Received message from server:', data);
             setNrNotifications(prev=> prev+1);
-            console.log(notifications);
-            setNotifications([...notifications, data]);
           });
         }
     },[props.socket])
 
-    useEffect (() => {
-        getAllNotifications(JSON.parse(localStorage.getItem('user')).id)
-        .then((notifications)=> 
-    {
-        setNotifications(notifications);
-    })
-    .catch((error)=> {
-        console.log(error);
-    })
-    },[])
 
     const handleShowNotifications = ()=> {
         if(showNotification === false)
-        setShowNotification(true);
+        {setShowNotification(true);
+            setNrNotifications(0);}
+
     else{
-        setShowNotification(false);
-        setNrNotifications(0);
+        readAllNotifications(JSON.parse(localStorage.getItem('user')).id)
+        .then(()=> {
+            setShowNotification(false);
+            
+        })
+        .catch((error) => {
+                console.log(error);
+        })
+       
     }
     }
    
@@ -68,7 +64,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications notifications={notifications}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications}></Notifications>}
             </div>
             </div>
             <div className="logout">

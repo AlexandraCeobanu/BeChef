@@ -6,7 +6,6 @@ import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
-import  io  from 'socket.io-client';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);

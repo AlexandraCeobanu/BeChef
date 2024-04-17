@@ -17,6 +17,8 @@ export default function AddComment(props)
           postComment(comm)
           .then (
             () => {
+                if(props.socket!==null)
+                props.socket.emit("notifyComm", comm)
                 setComment("");
                 props.handleCommentAdded();
             }
