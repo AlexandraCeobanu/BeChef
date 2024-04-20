@@ -5,7 +5,7 @@ import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { readAllNotifications } from "../services/notification";
+import { getNumberOfUnreadNotifications, readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
 
 export default function Header(props){
@@ -18,8 +18,8 @@ export default function Header(props){
             navigate("/profile");
     }
     const handleLogout = () => {
-        if(props.socket!==null)
-        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);
+        if(props.socket!==null){
+        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
         localStorage.clear();
         navigate("/login")
     }
@@ -30,6 +30,21 @@ export default function Header(props){
         if(props.socket !==null){
         props.socket.on('new-notification', (data) => {
             setNrNotifications(prev=> prev+1);
+            if (props.handleChangeLikes!==undefined)
+            {
+                props.handleChangeLikes();
+            }
+          });
+        }
+    },[props.socket])
+
+    useEffect (() => {
+        if(props.socket !==null){
+        props.socket.on('remove-like', (data) => {
+            if (props.handleChangeLikes!==undefined)
+            {
+                props.handleChangeLikes();
+            }
           });
         }
     },[props.socket])
@@ -52,6 +67,16 @@ export default function Header(props){
        
     }
     }
+
+    useEffect (() => {
+        getNumberOfUnreadNotifications(JSON.parse(localStorage.getItem('user')).id)
+        .then((response) => {
+                setNrNotifications(response);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    },[])
    
 
     return(
@@ -64,7 +89,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications newNotifications={nrNotifications}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications} socket={props.socket}></Notifications>}
             </div>
             </div>
             <div className="logout">

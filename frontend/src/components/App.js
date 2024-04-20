@@ -10,11 +10,9 @@ import ForgotPassword from './ForgotPassword';
 import EnterCode from './EnterCode';
 import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
-import AddRecipeRight from './AddRecipeRight';
-import ImageDisplay from './ImageDisplay';
-import RecipeView from './RecipeView';
 import UserProfileView from './UserProfileView';
 import Notifications from './Notifications';
+import Filters from './Filters';
 export default function App(){
     return(
         <Router>

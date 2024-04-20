@@ -85,6 +85,20 @@ export const getRecipesByName = async(name) => {
     throw error.response.data;
 }
 }
+export const getRecipesByFilter = async(filter,userId) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/recipes/filter/${filter}?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const recipes = await response.data;
+            return recipes;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
 export const saveRecipe = async(userId,recipeId) => {
     try{
         

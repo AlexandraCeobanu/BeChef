@@ -17,16 +17,16 @@ export default function Recipe(props)
         props.onClick(props.index);
     }
     const handleLike=(value)=> {
-        if (value === true){
-            let like = {
+        let like = {
             likerId: props.loggedUserId,
             likedId: recipe.userId,
             recipeId: recipe.id
             }
+        if (value === true){
             giveLike(like)
             .then(()=> {
             setLiked(!liked);
-            if(props.socket!==null)
+            if(props.socket!==null && like.likerId !== like.likedId)
             props.socket.emit("notify", like)
             })
             .catch((error)=>{
@@ -37,6 +37,8 @@ export default function Recipe(props)
             removeLike(props.loggedUserId,recipe.id)
             .then(()=> {
             setLiked(false);
+            if(props.socket!==null && like.likerId !== like.likedId)
+                props.socket.emit("removed", like)
             })
             .catch((error)=>{
                 console.log(error);
@@ -53,6 +55,16 @@ export default function Recipe(props)
             })
             .catch((error)=>{console.log(error)})
         },[liked]
+    )
+
+    useEffect(
+        ()=> {
+            getRecipeLikes(recipe.id)
+            .then ((response)=> {
+                setNrLikes(response.length);
+            })
+            .catch((error)=>{console.log(error)})
+        },[props]
     )
 
     useEffect(

@@ -7,15 +7,20 @@ import { useNavigate } from "react-router-dom";
 import { addRecipe, addSteps,addIngredients } from "../services/recipe";
 import { uploadRecipeImage } from "../services/uploadRecipeImage";
 import { getRecipeImage } from "../services/getRecipeImage";
+import { useEffect } from "react";
+import { io } from "socket.io-client";
 export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [recipePhoto,setRecipePhoto] = useState(null);
     let [ingredients,setIngredients] = useState([]);
+    const [socket,setSocket] = useState(null);
     const [recipe,setRecipe] = useState({
         userId: user.id,
         name: '',
         description: '',
+        type: '',
+        time: null
       });
     
     let [steps,setSteps] = useState([]);
@@ -24,8 +29,19 @@ export default function AddRecipe()
         setRecipe({...recipe,description})
       };
     
-    const handleRecipeStepChange = (name, steps,ingredients) => {
-       setRecipe({...recipe,name})
+    const handleRecipeStepChange = (name, steps,ingredients,typeId,timeArg) => {
+        let  type ;
+        if(typeId === 1)
+            type= "Breakfast";
+        if(typeId === 2) 
+            type = "Lunch";
+        if(typeId === 3) 
+            type = "Dinner";
+        if(typeId === 4)
+            type = "Dessert";
+    
+       const time = timeArg.format('HH:mm:ss');
+       setRecipe({...recipe,name, type,time})
        setSteps(steps);
        setIngredients(ingredients);
 
@@ -91,9 +107,23 @@ export default function AddRecipe()
         })
       };
 
+      useEffect(()=> {
+        if(socket === null){
+        const newSocket = io('http://localhost:8082'); 
+        newSocket.on('connect', () => {
+            setSocket(newSocket);
+        });
+    }
+    },[])
+    useEffect(() => 
+    {
+        if(socket!==null)
+        socket.emit('connection', user.id);
+    },[socket,user.id])
+
     return(
         <div className="main-page">
-            <Header></Header>
+            <Header socket={socket}></Header>
             <div className="without-header">
             <div className="fixed-side">
             <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} image={recipePhoto}></AddRecipeLeft>

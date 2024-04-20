@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
+import { TimePicker } from "antd";
 import { useState } from "react";
+import dayjs from 'dayjs';
 import "../styles/addRecipe.scss"
+import Filter from "./Filter";
 export default function AddRecipeRight({onRecipeStepChange})
 {
     const [steps,setSteps] = useState([
@@ -14,6 +17,10 @@ export default function AddRecipeRight({onRecipeStepChange})
         {name: "", quantity: ""},
         {name: "", quantity: ""}
     ]);
+    const [type, SetType] = useState(1)
+    const [time, setTime] = useState(dayjs('01:00:00', 'HH:mm:ss'));
+    
+
     const handleRecipeName = (event)  =>{
         setRecipeName(event.target.value);
         onRecipeStepChange(recipeName, steps,ingredients);
@@ -26,7 +33,7 @@ export default function AddRecipeRight({onRecipeStepChange})
         const newSteps = [...steps];
         newSteps[index] = { recipeIndex: index, description: value };
         setSteps(newSteps);
-        onRecipeStepChange(recipeName, steps,ingredients);
+        onRecipeStepChange(recipeName, steps,ingredients, type);
       };
 
     const handleRemove = (index) => {
@@ -41,13 +48,13 @@ export default function AddRecipeRight({onRecipeStepChange})
         const newIngredients = [...ingredients];
         newIngredients[index] = {name: value};
         setIngredients(newIngredients);
-        onRecipeStepChange(recipeName, steps,ingredients);
+        onRecipeStepChange(recipeName, steps,ingredients,type);
     }
     const handleChangeQuantity = (index,value) =>{
         const newIngredients = [...ingredients];
         newIngredients[index].quantity = value;
         setIngredients(newIngredients);
-        onRecipeStepChange(recipeName, steps,ingredients);
+        onRecipeStepChange(recipeName, steps,ingredients,type);
     }
 
     const handleRemoveIngredient = (index) => {
@@ -56,12 +63,35 @@ export default function AddRecipeRight({onRecipeStepChange})
         setIngredients(newIngredients);
     }
 
+    const handleClickFilter=(value) => {
+        SetType(value);
+        onRecipeStepChange(recipeName, steps,ingredients, value);
+    }
+    
+  
+  const handleChangeTime = (newTime) => {
+    setTime(newTime);
+    onRecipeStepChange(recipeName, steps,ingredients, type, newTime);
+  };
 
     return(
         <div className="right">
             <div className="title">
             <input type="text" value={recipeName}  placeholder="Type Recipe Name"  onChange={handleRecipeName}></input>
             <hr></hr>
+            </div>
+            <div className="time-types">
+            <div className="time">
+           
+            <TimePicker className="time-picker" showNow={false} value ={time} onChange={handleChangeTime}/>
+           
+            </div>
+            <div className="types">
+                <Filter text= {"Breakfast"} clicked={type === 1 ? true : false} filter={1} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Lunch"} clicked={type === 2 ? true : false} filter={2} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Dinner"} clicked={type === 3 ? true : false} filter={3} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Dessert"} clicked={type === 4 ? true : false} filter={4} handleClickFilter={handleClickFilter}></Filter>
+            </div>
             </div>
             <div className="elements">
             <div className="ingredients">

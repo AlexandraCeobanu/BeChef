@@ -18,7 +18,7 @@ export default function Notifications(props) {
         <div className="notifications-box">
 
             {notifications.length > 0 && notifications.map((notification,index)=> 
-            (<Notification key={index} notification={notification}></Notification>)
+            (<Notification key={index} notification={notification} socket={props.socket}></Notification>)
         )}
         </div>
     )
