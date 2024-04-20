@@ -57,11 +57,12 @@ public class RecipeStepService {
             List<RecipeStep> steps = new ArrayList<>();
             if (recipe !=null ){
                 for (RecipeStepDTO step : recipeStepDTO) {
+                    if(!step.getDescription().equals("")){
                     RecipeStep recipeStep = new RecipeStep();
                     recipeStep.setDescription(step.getDescription());
                     recipeStep.setStepIndex(step.getRecipeIndex());
                     recipeStep.setRecipe(recipe);
-                    steps.add(recipeStep);
+                    steps.add(recipeStep);}
                 }
             return (List<RecipeStep>) recipeStepRepository.saveAll(steps); }
             else {
