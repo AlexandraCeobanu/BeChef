@@ -19,7 +19,8 @@ export default function AddRecipe()
         userId: user.id,
         name: '',
         description: '',
-        type: ''
+        type: '',
+        time: null
       });
     
     let [steps,setSteps] = useState([]);
@@ -28,7 +29,7 @@ export default function AddRecipe()
         setRecipe({...recipe,description})
       };
     
-    const handleRecipeStepChange = (name, steps,ingredients,typeId) => {
+    const handleRecipeStepChange = (name, steps,ingredients,typeId,timeArg) => {
         let  type ;
         if(typeId === 1)
             type= "Breakfast";
@@ -38,8 +39,9 @@ export default function AddRecipe()
             type = "Dinner";
         if(typeId === 4)
             type = "Dessert";
-        console.log(type)
-       setRecipe({...recipe,name, type})
+    
+       const time = timeArg.format('HH:mm:ss');
+       setRecipe({...recipe,name, type,time})
        setSteps(steps);
        setIngredients(ingredients);
 

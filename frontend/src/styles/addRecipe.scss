@@ -87,7 +87,28 @@
     .types {
         display: flex;
         width: 100%;
+        gap:1em;
+    }
+    .time {
+        display: flex;
+        gap:1em;
+        align-items: center;
+        .time-picker {
+            width: 10em;
+            height: 2em;
+            background-color: $background-color;
+        }
+        .time-picker:focus,.time-picker:hover, .time-picker:active {
+            border-color: $primary-color;
+        }
+    }
+    .time-types {
+        display: flex;
+        width: 100%;
+        gap:2em;
+        align-items: center;
         margin-bottom: 3em;
+        
     }
     .elements {
         width: 100%;

@@ -47,7 +47,7 @@ export default function Home()
             {
                 console.log(error);
         })
-        },[location.key,allFilter]
+        },[location.key]
     )
     const handleBlur = (value)=>{
         setBlur(value);
@@ -70,10 +70,27 @@ export default function Home()
     const handleFilter=(value)=>{
             if(value !== 1)
             {
-                getRecipesByFilter(value);
+                getRecipesByFilter(value,user.id)
+                .then (
+                    (response) => {
+                        setRecipes(response.reverse())
+                    }
+                  )
+                  .catch((error)=> {
+                    console.log(error);
+                  })
                 setAllFilter(false);
             }
             else {
+                getAllRecipes()
+                .then (
+                    (response) => {
+                        setRecipes(response.reverse())
+                    }
+                  )
+                  .catch((error)=> {
+                    console.log(error);
+                  })
                 setAllFilter(true);
             }
     }

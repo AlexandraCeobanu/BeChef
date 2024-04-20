@@ -1,6 +1,8 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
+import { TimePicker } from "antd";
 import { useState } from "react";
+import dayjs from 'dayjs';
 import "../styles/addRecipe.scss"
 import Filter from "./Filter";
 export default function AddRecipeRight({onRecipeStepChange})
@@ -16,6 +18,8 @@ export default function AddRecipeRight({onRecipeStepChange})
         {name: "", quantity: ""}
     ]);
     const [type, SetType] = useState(1)
+    const [time, setTime] = useState(dayjs('01:00:00', 'HH:mm:ss'));
+    
 
     const handleRecipeName = (event)  =>{
         setRecipeName(event.target.value);
@@ -63,6 +67,12 @@ export default function AddRecipeRight({onRecipeStepChange})
         SetType(value);
         onRecipeStepChange(recipeName, steps,ingredients, value);
     }
+    
+  
+  const handleChangeTime = (newTime) => {
+    setTime(newTime);
+    onRecipeStepChange(recipeName, steps,ingredients, type, newTime);
+  };
 
     return(
         <div className="right">
@@ -70,11 +80,18 @@ export default function AddRecipeRight({onRecipeStepChange})
             <input type="text" value={recipeName}  placeholder="Type Recipe Name"  onChange={handleRecipeName}></input>
             <hr></hr>
             </div>
+            <div className="time-types">
+            <div className="time">
+           
+            <TimePicker className="time-picker" showNow={false} value ={time} onChange={handleChangeTime}/>
+           
+            </div>
             <div className="types">
                 <Filter text= {"Breakfast"} clicked={type === 1 ? true : false} filter={1} handleClickFilter={handleClickFilter}></Filter>
                 <Filter text= {"Lunch"} clicked={type === 2 ? true : false} filter={2} handleClickFilter={handleClickFilter}></Filter>
                 <Filter text= {"Dinner"} clicked={type === 3 ? true : false} filter={3} handleClickFilter={handleClickFilter}></Filter>
                 <Filter text= {"Dessert"} clicked={type === 4 ? true : false} filter={4} handleClickFilter={handleClickFilter}></Filter>
+            </div>
             </div>
             <div className="elements">
             <div className="ingredients">
