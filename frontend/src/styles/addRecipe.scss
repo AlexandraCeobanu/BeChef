@@ -62,7 +62,7 @@
 .right {
     color : $primary-color;
     .title{
-        margin-bottom: 4em;
+        margin-bottom: 2em;
         hr {
             border-color: $primary-color;
             border-style: solid; 
@@ -83,6 +83,11 @@
             text-align: center;
             width: 100%;
         }
+    }
+    .types {
+        display: flex;
+        width: 100%;
+        margin-bottom: 3em;
     }
     .elements {
         width: 100%;

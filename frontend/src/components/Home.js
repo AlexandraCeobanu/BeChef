@@ -7,7 +7,7 @@ import Header from "./Header";
 import "../styles/home.scss"
 import { getAllRecipes } from "../services/recipe";
 import RecipesView from "./RecipesView";
-import { getRecipesByName } from "../services/recipe";
+import { getRecipesByName, getRecipesByFilter } from "../services/recipe";
 import { io } from "socket.io-client";
 import Filters from "./Filters";
 export default function Home()
