@@ -41,7 +41,10 @@ public class Recipe {
     private String image;
     private Long nrLikes ;
     private Long nrComments;
-    public Recipe(String name,String description, User user, List<RecipeStep> steps,String image,List<Ingredient> ingredients)
+
+    private String type;
+    private String time;
+    public Recipe(String name,String description, User user, List<RecipeStep> steps,String image,List<Ingredient> ingredients,String type,String time)
     {
         this.user = user;
         this.description=description;
@@ -51,6 +54,8 @@ public class Recipe {
         this.nrLikes = Long.valueOf(0);
         this.nrComments= Long.valueOf(0);
         this.ingredients = ingredients;
+        this.time = time;
+        this.type = type;
     }
 
     @Override
@@ -66,6 +71,8 @@ public class Recipe {
                 ", image='" + image + '\'' +
                 ", nrLikes=" + nrLikes +
                 ", nrComments=" + nrComments +
+                ", type=" + type +
+                ", time=" + time +
                 '}';
     }
 }

@@ -27,4 +27,6 @@ public class RecipeResponseDTO {
     private String image;
     private Long nrLikes ;
     private Long nrComments;
+    private String type;
+    private String time;
 }

@@ -37,7 +37,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments()
+                    , recipe.getType(),recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         Collections.reverse(recipesDTO);
@@ -50,7 +52,9 @@ public class RecipeService {
         RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                 ,recipe.getSteps(),
                 recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                recipe.getType(), recipe.getTime()
+        )   ;
         return recipeDTO;
     }
 
@@ -62,6 +66,8 @@ public class RecipeService {
             recipe.setDescription(recipeDTO.getDescription());
             recipe.setNrLikes(0L);
             recipe.setNrComments(0L);
+            recipe.setTime(recipeDTO.getTime());
+            recipe.setType(recipeDTO.getType());
             User user = userRepository.findById(recipeDTO.getUserId()).orElse(null);
             Long recipes = user.getNrRecipes() + 1;
             user.setNrRecipes(recipes);
@@ -72,7 +78,9 @@ public class RecipeService {
             RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(savedRecipe.getId(),savedRecipe.getUser().getId()
                     ,savedRecipe.getSteps(),
                     savedRecipe.getIngredients(),savedRecipe.getLikes(),savedRecipe.getName(),
-                    savedRecipe.getDescription(),savedRecipe.getImage(),savedRecipe.getNrLikes(),savedRecipe.getNrComments())   ;
+                    savedRecipe.getDescription(),savedRecipe.getImage(),savedRecipe.getNrLikes(),savedRecipe.getNrComments(),
+                    savedRecipe.getType(),savedRecipe.getTime()
+            )   ;
             return  recipeResponseDTO;
         }
         catch(Exception e)
@@ -97,7 +105,8 @@ public class RecipeService {
                 RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(updatedRecipe.getId(),updatedRecipe.getUser().getId()
                         ,updatedRecipe.getSteps(),
                         updatedRecipe.getIngredients(),updatedRecipe.getLikes(),updatedRecipe.getName(),
-                        updatedRecipe.getDescription(),updatedRecipe.getImage(),updatedRecipe.getNrLikes(),updatedRecipe.getNrComments());
+                        updatedRecipe.getDescription(),updatedRecipe.getImage(),updatedRecipe.getNrLikes(),
+                        updatedRecipe.getNrComments(), updatedRecipe.getType(), updatedRecipe.getTime());
                 return recipeResponseDTO;
             }
         }
@@ -114,7 +123,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                    recipe.getType(), recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         return recipesDTO;
@@ -179,7 +190,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                    recipe.getType(), recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         return recipesDTO;
@@ -216,7 +229,8 @@ public class RecipeService {
                         recipe.getId(),recipe.getUser().getId(), recipe.getSteps(),recipe.getIngredients(),
                         recipe.getLikes(),recipe.getName(), recipe.getDescription(),
                         recipe.getImage(),
-                        recipe.getNrLikes(),recipe.getNrComments()
+                        recipe.getNrLikes(),recipe.getNrComments(),
+                        recipe.getType(), recipe.getTime()
                 );
                 savedRecipesDTO.add(recipeResponseDTO);
             }

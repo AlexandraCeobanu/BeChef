@@ -14,4 +14,6 @@ public class RecipeDTO {
     private Long userId;
     private String name;
     private String description;
+    private String time;
+    private  String type;
 }
