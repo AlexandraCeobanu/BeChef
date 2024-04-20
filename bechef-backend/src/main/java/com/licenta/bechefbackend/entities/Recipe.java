@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class Recipe {
                 ", nrLikes=" + nrLikes +
                 ", nrComments=" + nrComments +
                 ", type=" + type +
-                ", time=" + time +
+                ", time=" + String.valueOf(time) +
                 '}';
     }
 }

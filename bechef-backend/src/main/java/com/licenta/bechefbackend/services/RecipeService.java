@@ -3,18 +3,17 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.IngredientDTO;
 import com.licenta.bechefbackend.DTO.RecipeDTO;
 import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
-import com.licenta.bechefbackend.DTO.RecipeStepDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.Recipe;
-import com.licenta.bechefbackend.entities.RecipeStep;
+import com.licenta.bechefbackend.entities.StockList;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.IngredientRepository;
 import com.licenta.bechefbackend.repository.RecipeRepository;
+import com.licenta.bechefbackend.repository.StockListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +28,9 @@ public class RecipeService {
 
     @Autowired
     IngredientRepository ingredientRepository;
+    @Autowired
+    StockListService stockListService;
+
     public List<RecipeResponseDTO> getAllRecipes() {
         List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
         List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
@@ -238,7 +240,7 @@ public class RecipeService {
         return savedRecipesDTO;
     }
 
-    public List<RecipeResponseDTO> getRecipesByFilter(int filter) {
+    public List<RecipeResponseDTO> getRecipesByFilter(int filter,Long userId) {
 
         List<Recipe> recipes = new ArrayList<>();
         if (filter == 2)
@@ -255,26 +257,39 @@ public class RecipeService {
         if (filter == 5){
              recipes = recipeRepository.findAllByName("Dessert");}
 
-       /* if (filter == 6){
-            List<Recipe> recipes = recipeRepository.findAllByName(n);}
-        if (filter == 7)
-            List<Recipe> recipes = recipeRepository.findAllByName(name);
-        if (filter == 8)
-            List<Recipe> recipes = recipeRepository.findAllByName(name);
-        if (filter == 9)
-            List<Recipe> recipes = recipeRepository.findAllByName(name);*/
+        if (filter == 6)
+            {
+                recipes = recipeRepository.findAllLessThan1();
+            }
+            if (filter == 7) {
+                recipes = recipeRepository.findAllLessThan2();
+            }
+        if (filter == 8){
+            List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
+            StockList stockList = stockListService.getStockList(userId);
 
-        List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
-        for (Recipe recipe : recipes)
-        {
-            RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
-                    ,recipe.getSteps(),
-                    recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
-                    recipe.getType(), recipe.getTime()
-            )   ;
-            recipesDTO.add(recipeDTO);
+            List<String>  allItemsStock = stockListService.getItemsNames(stockList.getId());
+
+            for(Recipe recipe : allRecipes )
+            {
+                List<String> ingredientsName = ingredientRepository.findAllIngredientsNames(recipe.getId());
+                boolean allPresent = allItemsStock.containsAll(ingredientsName);
+
+                if (allPresent) {
+                    recipes.add(recipe);
+                }
+            }
         }
-        return recipesDTO;
-    }
+            List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+            for (Recipe recipe : recipes) {
+                RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(), recipe.getUser().getId()
+                        , recipe.getSteps(),
+                        recipe.getIngredients(), recipe.getLikes(), recipe.getName(),
+                        recipe.getDescription(), recipe.getImage(), recipe.getNrLikes(), recipe.getNrComments(),
+                        recipe.getType(), recipe.getTime()
+                );
+                recipesDTO.add(recipeDTO);
+            }
+            return recipesDTO;
+        }
 }
