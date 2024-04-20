@@ -237,4 +237,44 @@ public class RecipeService {
         }
         return savedRecipesDTO;
     }
+
+    public List<RecipeResponseDTO> getRecipesByFilter(int filter) {
+
+        List<Recipe> recipes = new ArrayList<>();
+        if (filter == 2)
+        {
+             recipes = recipeRepository.findAllByType("Breakfast");
+        }
+        if (filter == 3) {
+            recipes = recipeRepository.findAllByType("Lunch");
+        }
+
+        if (filter == 4){
+             recipes = recipeRepository.findAllByName("Dinner");
+        }
+        if (filter == 5){
+             recipes = recipeRepository.findAllByName("Dessert");}
+
+       /* if (filter == 6){
+            List<Recipe> recipes = recipeRepository.findAllByName(n);}
+        if (filter == 7)
+            List<Recipe> recipes = recipeRepository.findAllByName(name);
+        if (filter == 8)
+            List<Recipe> recipes = recipeRepository.findAllByName(name);
+        if (filter == 9)
+            List<Recipe> recipes = recipeRepository.findAllByName(name);*/
+
+        List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+        for (Recipe recipe : recipes)
+        {
+            RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
+                    ,recipe.getSteps(),
+                    recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                    recipe.getType(), recipe.getTime()
+            )   ;
+            recipesDTO.add(recipeDTO);
+        }
+        return recipesDTO;
+    }
 }

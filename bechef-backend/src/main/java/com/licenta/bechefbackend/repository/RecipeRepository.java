@@ -33,6 +33,8 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
 
     @Query("SELECT r FROM Recipe r Where r.name = ?1")
     List<Recipe> findAllByName(String name);
+    @Query("SELECT r FROM Recipe r Where r.type = ?1")
+    List<Recipe> findAllByType(String type);
 
     @Transactional
     @Modifying
