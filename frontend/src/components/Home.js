@@ -9,6 +9,7 @@ import { getAllRecipes } from "../services/recipe";
 import RecipesView from "./RecipesView";
 import { getRecipesByName } from "../services/recipe";
 import { io } from "socket.io-client";
+import Filters from "./Filters";
 export default function Home()
 {
     const [search,setSearch] = useState(null);
@@ -17,6 +18,7 @@ export default function Home()
     const [blur, setBlur] = useState(false);
     const location = useLocation();
     const [socket, setSocket]  = useState(null);
+    const [allFilter,setAllFilter] = useState(true);
     const searchChangeHandler=(event) =>{
         setSearch(event.target.value);
     }
@@ -45,7 +47,7 @@ export default function Home()
             {
                 console.log(error);
         })
-        },[location.key]
+        },[location.key,allFilter]
     )
     const handleBlur = (value)=>{
         setBlur(value);
@@ -65,15 +67,26 @@ export default function Home()
         socket.emit('connection', user.id);
     },[socket,user.id])
 
+    const handleFilter=(value)=>{
+            if(value !== 1)
+            {
+                getRecipesByFilter(value);
+                setAllFilter(false);
+            }
+            else {
+                setAllFilter(true);
+            }
+    }
     return(
         <div className="home">
             <div className={blur === true ? "blur" : ""}>
-            <Header socket ={socket}></Header>
+            <Header socket ={socket} className={blur === true ? "blur" : ""}></Header>
             </div>
             <div id="search-bar" className={blur === true ? "blur" : ""}>
             <input type="text" id="search" name="search" onChange={searchChangeHandler}  onKeyDown={handleKeyDown} placeholder="Search by recipe name" ></input>
              <FontAwesomeIcon icon={faMagnifyingGlass} id="loop" />
              </div>
+             <Filters blur={blur} handleFilter = {handleFilter} allFilter={allFilter}></Filters>
              <hr></hr>
              <div className="recipes">
              {recipes.length !==0 && <RecipesView socket={socket} recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur}></RecipesView>}

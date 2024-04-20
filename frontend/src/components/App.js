@@ -12,6 +12,7 @@ import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
 import UserProfileView from './UserProfileView';
 import Notifications from './Notifications';
+import Filters from './Filters';
 export default function App(){
     return(
         <Router>
