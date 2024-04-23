@@ -9,15 +9,18 @@
 }
 .sidebar {
    
-    width:40%;
+    width:30%;
     background-color: $primary-color;
-    margin-left: 5em;
+    position: absolute;
+    height: 100%;
+    left:0;
+    top:0;
+    position: fixed;
 
 }
 .display-sidebar {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    justify-content: center;
+    
+   float:right;
+   
 
 }

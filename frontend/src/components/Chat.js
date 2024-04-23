@@ -29,15 +29,14 @@ export default function Chat()
     return(
         <div>
             <Header socket={socket}></Header>
-        <div className="display-sidebar">
-        {sidebar === true && <ChatSidebar></ChatSidebar>}
-        <div className="chat">
+        <div className={sidebar === true ? "display-sidebar chat" : "chat"}>
             <SearchTopic></SearchTopic>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
         </div>
+        {sidebar === true && <ChatSidebar></ChatSidebar>}
         </div>
-        </div>
+       
     )
 }
