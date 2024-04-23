@@ -1,4 +1,9 @@
 @import "./variables.scss";
+.search-topic {
+    position: relative;
+    width: 50%;
+    height: 100vh;
+}
 .initiate-topic {
     width: 8em;
     height: 2em;
@@ -11,4 +16,26 @@
     justify-content: space-between;
     padding-left: 1em;
     padding-right: 1em;
+    position: absolute;
+    top:0.5em;
+    right:2em;
+
+}
+
+.search-bar {
+    box-sizing: border-box;
+    width: 100%;
+    height: 3em;
+    border-radius: 3em;
+    border: 1px solid rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    padding-left: 2em;
+    gap : 1em;
+    color : $primary-color;
+    #input-search-bar {
+        border:none;
+        background-color: $background-color;
+    }
+   
 }

@@ -1,9 +1,9 @@
 import InitiateTopicButton from "./InitiateTopicButton";
 import SearchBar from "./SearchBar";
 
-export default function ThreadChat() {
+export default function SearchTopic() {
     return(
-        <div>
+        <div className="search-topic">
             <SearchBar></SearchBar>
             <InitiateTopicButton></InitiateTopicButton>
         </div>

@@ -11,10 +11,10 @@ import EnterCode from './EnterCode';
 import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
 import UserProfileView from './UserProfileView';
-import ThreadChat from './ThreadChat';
+import SearchTopic from './SearchTopic';
 export default function App(){
     return(
-        <ThreadChat></ThreadChat>
+        <SearchTopic></SearchTopic>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>
