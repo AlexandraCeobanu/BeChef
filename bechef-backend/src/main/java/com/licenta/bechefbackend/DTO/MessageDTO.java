@@ -11,7 +11,7 @@ import lombok.Setter;
 public class MessageDTO {
     private String message;
     private Long senderId;
-    private Long topicId;
+    private Long threadId;
     public MessageDTO(){
 
     }

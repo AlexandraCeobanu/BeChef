@@ -7,33 +7,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Message {
-    @Getter(AccessLevel.NONE)
-    @Setter(AccessLevel.NONE)
+public class ChatThread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String message;
     @ManyToOne
-    @JoinColumn(name = "sender_user_id")
+    @JoinColumn(name = "initiator_id")
     @JsonIgnore
-    private User senderUser;
+    private User initiatorUser;
 
-    @ManyToOne
-    @JoinColumn(name = "thread_id")
-    @JsonIgnore
-    private ChatThread thread ;
-    public Message(String message, User user, ChatThread thread)
+    @OneToMany(mappedBy = "thread")
+    private List<Message> messageList = new ArrayList<>();
+
+    private String topic ;
+
+    public ChatThread(String topic, User user)
     {
-        this.message = message;
-        this.senderUser = user;
-        this.thread = thread;
+        this.topic = topic;
+        this.initiatorUser = user;
     }
 
 }
