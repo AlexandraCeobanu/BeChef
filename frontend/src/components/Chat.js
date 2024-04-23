@@ -11,7 +11,10 @@ export default function Chat()
     const [socket, setSocket]  = useState(null);
     const [sidebar,setSidebar] = useState(false);
     const ShowThreadChat = () => {
+        if(sidebar === false)
         setSidebar(true);
+        else
+        setSidebar(false);
     }
     useEffect(()=> {
         if(socket === null){
@@ -35,7 +38,7 @@ export default function Chat()
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
         </div>
-        {sidebar === true && <ChatSidebar></ChatSidebar>}
+        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} ></ChatSidebar>}
         </div>
        
     )

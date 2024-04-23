@@ -1,10 +1,10 @@
 import TitleSideBar from "./TitleSideBar";
 import Comment from "./Comment";
 import AddMessage from "./AddMessage";
-export default function ChatSideBar() {
+export default function ChatSideBar(props) {
     return(
         <div className="sidebar">
-            <TitleSideBar></TitleSideBar>
+            <TitleSideBar showThreadChat={props.showThreadChat}></TitleSideBar>
             <div className="messages">
             <Comment></Comment>
             <Comment></Comment>
