@@ -112,6 +112,7 @@
     flex-direction: row;
     gap:1em;
     cursor: pointer;
+    align-items: center;
     .mini-photo {
         height: 1.5em;
         width: 1.5em;
@@ -127,6 +128,7 @@
 .comment-details {
     color:$primary-color;
     display: flex;
+    align-items: center; // am adaugat asta
     gap:1em;
     h6 {
         color: rgba(0,0,0,0.4);

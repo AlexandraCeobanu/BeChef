@@ -12,9 +12,10 @@ import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
 import UserProfileView from './UserProfileView';
 import SearchTopic from './SearchTopic';
+import ThreadChat from './ThreadChat';
 export default function App(){
     return(
-        <SearchTopic></SearchTopic>
+        <ThreadChat></ThreadChat>
         // <Router>
         //     <Routes>
         //         <Route path="/" element= {<Login/>}></Route>
