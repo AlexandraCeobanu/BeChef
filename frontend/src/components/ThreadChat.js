@@ -5,8 +5,8 @@ export default function ThreadChat(props)
     return (
         <div className="thread">
             <div className="info">
-            <UserBadge></UserBadge>
-            <h4>Cozonaci</h4>
+            <UserBadge userId={props.thread.initiatorId}></UserBadge>
+            <h4>{props.thread.topic}</h4>
             </div>
             <ChatBox showThreadChat ={props.showThreadChat}></ChatBox>
         </div>
