@@ -1,3 +1,4 @@
+@import "./variables.scss";
 .chat {
     display: flex;
     flex-direction: column;
@@ -5,4 +6,18 @@
     margin: auto;
     width: 70%;
     align-items: center;
+}
+.sidebar {
+   
+    width:40%;
+    background-color: $primary-color;
+    margin-left: 5em;
+
+}
+.display-sidebar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    justify-content: center;
+
 }

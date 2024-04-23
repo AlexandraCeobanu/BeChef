@@ -4,10 +4,15 @@ import "../styles/chat.scss";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import ChatSidebar from "./ChatSideBar";
 export default function Chat()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const [socket, setSocket]  = useState(null);
+    const [sidebar,setSidebar] = useState(false);
+    const ShowThreadChat = () => {
+        setSidebar(true);
+    }
     useEffect(()=> {
         if(socket === null){
         const newSocket = io('http://localhost:8082'); 
@@ -24,11 +29,14 @@ export default function Chat()
     return(
         <div>
             <Header socket={socket}></Header>
+        <div className="display-sidebar">
+        {sidebar === true && <ChatSidebar></ChatSidebar>}
         <div className="chat">
             <SearchTopic></SearchTopic>
-            <ThreadChat></ThreadChat>
-            <ThreadChat></ThreadChat>
-            <ThreadChat></ThreadChat>
+            <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
+            <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
+            <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
+        </div>
         </div>
         </div>
     )

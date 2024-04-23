@@ -1,6 +1,6 @@
 import ChatBox from "./ChatBox"
 import UserBadge from "./UserBadge"
-export default function ThreadChat()
+export default function ThreadChat(props)
 {
     return (
         <div className="thread">
@@ -8,7 +8,7 @@ export default function ThreadChat()
             <UserBadge></UserBadge>
             <h4>Cozonaci</h4>
             </div>
-            <ChatBox></ChatBox>
+            <ChatBox showThreadChat ={props.showThreadChat}></ChatBox>
         </div>
     )
 }
