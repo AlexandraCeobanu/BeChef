@@ -8,7 +8,7 @@ export default function ThreadChat(props)
             <UserBadge userId={props.thread.initiatorId}></UserBadge>
             <h4>{props.thread.topic}</h4>
             </div>
-            <ChatBox showThreadChat ={props.showThreadChat}></ChatBox>
+            <ChatBox thread= {props.thread} showThreadChat ={props.showThreadChat}></ChatBox>
         </div>
     )
 }

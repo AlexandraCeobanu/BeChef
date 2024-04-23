@@ -36,7 +36,6 @@ export default function Chat()
        getAllThreads()
        .then((response)=> {
         setThreads(response);
-        console.log(response);
        })
     },[])
     return(

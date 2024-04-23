@@ -10,9 +10,16 @@ export default function ChatBox(props)
         <div className="chat-box" onClick = {handleClick}>
             <div className="messages">
             <FontAwesomeIcon icon={faRocketchat}></FontAwesomeIcon>
-            <p>45</p>
+            <p>{props.thread.nrMessages}</p>
             </div>
-            <Comment></Comment>
+            {
+                props.thread.lastMessage !== null && (
+                    <Comment userId = {props.thread.lastMessage.senderUserId} comment ={props.thread.lastMessage.message}></Comment>
+                ) 
+               
+            }
+          
         </div>
+
     )
 }
