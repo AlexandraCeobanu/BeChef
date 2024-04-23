@@ -11,8 +11,8 @@ import EnterCode from './EnterCode';
 import UserProfile from './UserProfile';
 import AddRecipe from './AddRecipe';
 import UserProfileView from './UserProfileView';
+import Chat from './Chat';
 import Notifications from './Notifications';
-import Filters from './Filters';
 export default function App(){
     return(
         <Router>
@@ -29,6 +29,7 @@ export default function App(){
                 <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
                 <Route path="/userProfileView" element = {<ProtectedRoute><UserProfileView/></ProtectedRoute>}></Route>
                 <Route path="/notifications" element = {<ProtectedRoute><Notifications/></ProtectedRoute>}></Route>
+                <Route path="/chat" element = {<ProtectedRoute><Chat/></ProtectedRoute>}></Route>
             </Routes>
         </Router>
     )

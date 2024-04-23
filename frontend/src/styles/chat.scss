@@ -1,0 +1,72 @@
+@import "./variables.scss";
+.chat {
+    display: flex;
+    flex-direction: column;
+    gap:2em;
+    margin: auto;
+    width: 70%;
+    align-items: center;
+}
+.sidebar {
+    width:30%;
+    background-color: $primary-color;
+    position: absolute;
+    height: 100%;
+    left:0;
+    top:0;
+    position: fixed;
+    color: rgba(0,0,0,0.5);
+    .title {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 1em;
+        margin-right: 1em;
+        margin-top:1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid rgba(0,0,0,0.3);
+        .icons {
+            display: flex;
+            gap:2em;
+            cursor: pointer;
+        }
+    }
+
+    .messages {
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        margin-top: 2em;
+        margin-left: 1em;
+        font-size: larger;
+        color: rgba(0,0,0,0.5);
+    }
+    .add-message{
+        position: absolute;
+        bottom: 0;
+        width: 80%;
+        margin-left: 1em;
+        input {
+            width: 100%;
+            border:none;
+            color : rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            background-color: $primary-color;
+            padding-left: 1em;
+            padding-bottom: 1em;
+            margin-bottom: 2em;
+        }
+        input:focus {
+            outline: none;
+        }
+        input::placeholder {
+            color: rgba(0,0,0,0.5);
+          }
+    }
+
+}
+.display-sidebar {
+    
+   float:right;
+   
+
+}
