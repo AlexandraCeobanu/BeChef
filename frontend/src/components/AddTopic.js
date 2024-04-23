@@ -15,6 +15,8 @@ export default function AddTopic(props)
           postThread(thread)
           .then (
             () => {
+                setTopic("");
+                props.handleClick();
                 // if(props.socket!==null)
                 // props.socket.emit("notifyComm", comm)
                 // setComment("");
