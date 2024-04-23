@@ -1,0 +1,14 @@
+@import "./variables.scss";
+.initiate-topic {
+    width: 8em;
+    height: 2em;
+    border-radius: 3em;
+    cursor: pointer;
+    background-color: $primary-color;
+    color:$background-color;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1em;
+    padding-right: 1em;
+}
