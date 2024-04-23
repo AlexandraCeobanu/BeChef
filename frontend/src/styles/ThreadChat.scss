@@ -40,8 +40,8 @@
    
 }
 .chat-box {
-
-    width:50%;
+    box-sizing: border-box;
+    width:90%;
     border: 1px solid rgba(0,0,0,0.3);
     color:$primary-color;
     display: flex;
@@ -50,10 +50,31 @@
     height: 2em;
     border-radius:3em;
     padding-left: 1em;
+    background-color: $background-color;
     cursor: pointer;
     .messages {
        display: flex;
        align-items: center;
        gap:0.5em;
+    }
+}
+.thread {
+    width: 70%;
+    height: 10em;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    background-color: $primary-color;
+    align-items: center;
+    gap:1em;
+    .info {
+        width: 90%;
+        box-sizing: border-box;
+        padding-left: 1em;
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        padding-top: 1em;
+        color:rgba(0,0,0,0.3);
     }
 }
