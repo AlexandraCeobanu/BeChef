@@ -4,7 +4,7 @@ import Comment from "./Comment"
 export default function ChatBox()
 {
     return(
-        <div>
+        <div className="chat-box">
             <div className="messages">
             <FontAwesomeIcon icon={faRocketchat}></FontAwesomeIcon>
             <p>45</p>

@@ -39,4 +39,21 @@
     }
    
 }
+.chat-box {
 
+    width:50%;
+    border: 1px solid rgba(0,0,0,0.3);
+    color:$primary-color;
+    display: flex;
+    align-items: center;
+    gap:4em;
+    height: 2em;
+    border-radius:3em;
+    padding-left: 1em;
+    cursor: pointer;
+    .messages {
+       display: flex;
+       align-items: center;
+       gap:0.5em;
+    }
+}
