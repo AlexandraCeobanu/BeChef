@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,4 +21,7 @@ public interface StockItemRepository extends CrudRepository<StockItem,Long> {
     @Modifying
     @Query("UPDATE StockItem s " + "SET s.idItemShoppingList=null WHERE s.id = ?1")
     void updateItemShoppingListId(Long id);
+
+    @Query("SELECT s.item FROM StockItem s Where s.id = ?1")
+    List<String> findItemsNames(Long stockListId);
 }

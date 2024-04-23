@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 @Getter
@@ -27,4 +28,6 @@ public class RecipeResponseDTO {
     private String image;
     private Long nrLikes ;
     private Long nrComments;
+    private String type;
+    private String time;
 }

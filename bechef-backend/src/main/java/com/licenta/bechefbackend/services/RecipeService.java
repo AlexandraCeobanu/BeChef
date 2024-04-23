@@ -3,18 +3,17 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.IngredientDTO;
 import com.licenta.bechefbackend.DTO.RecipeDTO;
 import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
-import com.licenta.bechefbackend.DTO.RecipeStepDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.Recipe;
-import com.licenta.bechefbackend.entities.RecipeStep;
+import com.licenta.bechefbackend.entities.StockList;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.IngredientRepository;
 import com.licenta.bechefbackend.repository.RecipeRepository;
+import com.licenta.bechefbackend.repository.StockListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -29,6 +28,9 @@ public class RecipeService {
 
     @Autowired
     IngredientRepository ingredientRepository;
+    @Autowired
+    StockListService stockListService;
+
     public List<RecipeResponseDTO> getAllRecipes() {
         List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
         List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
@@ -37,7 +39,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments()
+                    , recipe.getType(),recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         Collections.reverse(recipesDTO);
@@ -50,7 +54,9 @@ public class RecipeService {
         RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                 ,recipe.getSteps(),
                 recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                recipe.getType(), recipe.getTime()
+        )   ;
         return recipeDTO;
     }
 
@@ -62,6 +68,8 @@ public class RecipeService {
             recipe.setDescription(recipeDTO.getDescription());
             recipe.setNrLikes(0L);
             recipe.setNrComments(0L);
+            recipe.setTime(recipeDTO.getTime());
+            recipe.setType(recipeDTO.getType());
             User user = userRepository.findById(recipeDTO.getUserId()).orElse(null);
             Long recipes = user.getNrRecipes() + 1;
             user.setNrRecipes(recipes);
@@ -72,7 +80,9 @@ public class RecipeService {
             RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(savedRecipe.getId(),savedRecipe.getUser().getId()
                     ,savedRecipe.getSteps(),
                     savedRecipe.getIngredients(),savedRecipe.getLikes(),savedRecipe.getName(),
-                    savedRecipe.getDescription(),savedRecipe.getImage(),savedRecipe.getNrLikes(),savedRecipe.getNrComments())   ;
+                    savedRecipe.getDescription(),savedRecipe.getImage(),savedRecipe.getNrLikes(),savedRecipe.getNrComments(),
+                    savedRecipe.getType(),savedRecipe.getTime()
+            )   ;
             return  recipeResponseDTO;
         }
         catch(Exception e)
@@ -97,7 +107,8 @@ public class RecipeService {
                 RecipeResponseDTO recipeResponseDTO = new RecipeResponseDTO(updatedRecipe.getId(),updatedRecipe.getUser().getId()
                         ,updatedRecipe.getSteps(),
                         updatedRecipe.getIngredients(),updatedRecipe.getLikes(),updatedRecipe.getName(),
-                        updatedRecipe.getDescription(),updatedRecipe.getImage(),updatedRecipe.getNrLikes(),updatedRecipe.getNrComments());
+                        updatedRecipe.getDescription(),updatedRecipe.getImage(),updatedRecipe.getNrLikes(),
+                        updatedRecipe.getNrComments(), updatedRecipe.getType(), updatedRecipe.getTime());
                 return recipeResponseDTO;
             }
         }
@@ -114,7 +125,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                    recipe.getType(), recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         return recipesDTO;
@@ -179,7 +192,9 @@ public class RecipeService {
             RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(),recipe.getUser().getId()
                     ,recipe.getSteps(),
                     recipe.getIngredients(),recipe.getLikes(),recipe.getName(),
-                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments())   ;
+                    recipe.getDescription(),recipe.getImage(),recipe.getNrLikes(),recipe.getNrComments(),
+                    recipe.getType(), recipe.getTime()
+            )   ;
             recipesDTO.add(recipeDTO);
         }
         return recipesDTO;
@@ -216,11 +231,65 @@ public class RecipeService {
                         recipe.getId(),recipe.getUser().getId(), recipe.getSteps(),recipe.getIngredients(),
                         recipe.getLikes(),recipe.getName(), recipe.getDescription(),
                         recipe.getImage(),
-                        recipe.getNrLikes(),recipe.getNrComments()
+                        recipe.getNrLikes(),recipe.getNrComments(),
+                        recipe.getType(), recipe.getTime()
                 );
                 savedRecipesDTO.add(recipeResponseDTO);
             }
         }
         return savedRecipesDTO;
     }
+
+    public List<RecipeResponseDTO> getRecipesByFilter(int filter,Long userId) {
+
+        List<Recipe> recipes = new ArrayList<>();
+        if (filter == 2)
+        {
+             recipes = recipeRepository.findAllByType("Breakfast");
+        }
+        if (filter == 3) {
+            recipes = recipeRepository.findAllByType("Lunch");
+        }
+
+        if (filter == 4){
+             recipes = recipeRepository.findAllByName("Dinner");
+        }
+        if (filter == 5){
+             recipes = recipeRepository.findAllByName("Dessert");}
+
+        if (filter == 6)
+            {
+                recipes = recipeRepository.findAllLessThan1();
+            }
+            if (filter == 7) {
+                recipes = recipeRepository.findAllLessThan2();
+            }
+        if (filter == 8){
+            List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
+            StockList stockList = stockListService.getStockList(userId);
+
+            List<String>  allItemsStock = stockListService.getItemsNames(stockList.getId());
+
+            for(Recipe recipe : allRecipes )
+            {
+                List<String> ingredientsName = ingredientRepository.findAllIngredientsNames(recipe.getId());
+                boolean allPresent = allItemsStock.containsAll(ingredientsName);
+
+                if (allPresent) {
+                    recipes.add(recipe);
+                }
+            }
+        }
+            List<RecipeResponseDTO> recipesDTO = new ArrayList<>();
+            for (Recipe recipe : recipes) {
+                RecipeResponseDTO recipeDTO = new RecipeResponseDTO(recipe.getId(), recipe.getUser().getId()
+                        , recipe.getSteps(),
+                        recipe.getIngredients(), recipe.getLikes(), recipe.getName(),
+                        recipe.getDescription(), recipe.getImage(), recipe.getNrLikes(), recipe.getNrComments(),
+                        recipe.getType(), recipe.getTime()
+                );
+                recipesDTO.add(recipeDTO);
+            }
+            return recipesDTO;
+        }
 }
