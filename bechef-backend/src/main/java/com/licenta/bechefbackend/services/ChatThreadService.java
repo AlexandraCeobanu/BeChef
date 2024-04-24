@@ -2,10 +2,12 @@ package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.ChatThreadDTO;
 import com.licenta.bechefbackend.DTO.ChatThreadResponse;
+import com.licenta.bechefbackend.DTO.MessageDTO;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.ChatThreadRepository;
+import com.licenta.bechefbackend.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class ChatThreadService {
     ChatThreadRepository chatThreadRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    MessageRepository messageRepository;
     public void postThread(ChatThreadDTO chatThreadDTO) {
         User user = userService.getUserById1(chatThreadDTO.getInitiatorId());
         ChatThread chatThread = new ChatThread(chatThreadDTO.getTopic(),user);
@@ -42,5 +46,23 @@ public class ChatThreadService {
             threadResponses.add(response);
         }
         return threadResponses;
+    }
+
+    public void postMessage(MessageDTO messageDTO) {
+        User user = userService.getUserById1(messageDTO.getSenderId());
+        ChatThread chatThread = chatThreadRepository.findById(messageDTO.getThreadId()).orElse(null);
+        Message message = new Message(messageDTO.getMessage(), user, chatThread);
+       messageRepository.save(message);
+    }
+
+    public List<Message> getMessagesByThread(Long threadId) {
+        ChatThread thread = chatThreadRepository.findById(threadId).orElse(null);
+        if(thread != null)
+        {
+            List<Message> messages = thread.getMessageList();
+            System.out.println(messages);
+            return messages;
+        }
+        return null;
     }
 }
