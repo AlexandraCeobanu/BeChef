@@ -6,6 +6,7 @@ import { getThreadMessages } from "../services/chat";
 export default function ChatSideBar(props) {
     const [messages, setMessages] = useState([]);
     useEffect(()=> {
+        
         getThreadMessages(props.thread.id)
         .then((response)=> {
             setMessages(response);
@@ -19,8 +20,8 @@ export default function ChatSideBar(props) {
             <TitleSideBar showThreadChat={props.showThreadChat} title={props.thread.topic}></TitleSideBar>
             <div className="messages">
             {
-                messages.map((message,index) => (
-                    <Comment key={index} userId={message.senderId} comment = {message.comment}></Comment>
+               messages.length !== 0 && messages.map((message,index) => (
+                    <Comment key={index} userId={message.senderId} comment = {message.message}></Comment>
                 ))
             }
             </div>
