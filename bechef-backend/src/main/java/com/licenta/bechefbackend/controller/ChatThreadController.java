@@ -3,6 +3,7 @@ package com.licenta.bechefbackend.controller;
 import com.licenta.bechefbackend.DTO.ChatThreadDTO;
 import com.licenta.bechefbackend.DTO.ChatThreadResponse;
 import com.licenta.bechefbackend.DTO.MessageDTO;
+import com.licenta.bechefbackend.DTO.MessageResponse;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
 import com.licenta.bechefbackend.services.ChatThreadService;
@@ -63,7 +64,7 @@ public class ChatThreadController {
     public ResponseEntity<?> getAllMessagesByThread(@PathVariable Long threadId)
     {
         try {
-            List<Message> messages = chatThreadService.getMessagesByThread(threadId);
+            List<MessageResponse> messages = chatThreadService.getMessagesByThread(threadId);
             return ResponseEntity.status(HttpStatus.OK).body(messages);
         }
         catch(Exception e)

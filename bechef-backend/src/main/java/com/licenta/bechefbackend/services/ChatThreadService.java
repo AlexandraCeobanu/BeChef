@@ -3,6 +3,7 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.ChatThreadDTO;
 import com.licenta.bechefbackend.DTO.ChatThreadResponse;
 import com.licenta.bechefbackend.DTO.MessageDTO;
+import com.licenta.bechefbackend.DTO.MessageResponse;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
 import com.licenta.bechefbackend.entities.User;
@@ -55,13 +56,20 @@ public class ChatThreadService {
        messageRepository.save(message);
     }
 
-    public List<Message> getMessagesByThread(Long threadId) {
+    public List<MessageResponse> getMessagesByThread(Long threadId) {
         ChatThread thread = chatThreadRepository.findById(threadId).orElse(null);
+        List<MessageResponse> messageResponseList = new ArrayList<>();
         if(thread != null)
         {
             List<Message> messages = thread.getMessageList();
-            System.out.println(messages);
-            return messages;
+            for(Message ms : messages)
+            {
+                MessageResponse msResponse = new MessageResponse(ms.getMessage(),ms.getSenderUser().getId(),ms.getThread().getId());
+                messageResponseList.add(msResponse);
+
+            }
+
+            return messageResponseList;
         }
         return null;
     }
