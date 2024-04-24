@@ -13,6 +13,7 @@ export default function Chat()
     const [sidebar,setSidebar] = useState(false);
     const [showThreadId, setShowThreadId] = useState(null);
     const [threads,setThreads] = useState([]);
+    const [topicAdded,setAddedTopic] = useState(false);
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
@@ -40,14 +41,19 @@ export default function Chat()
     useEffect(()=> {
        getAllThreads()
        .then((response)=> {
-        setThreads(response);
+        setThreads(response.reverse());
+        setAddedTopic(false);
        })
-    },[])
+    },[topicAdded])
+
+    const handleAddTopic=()=>{
+        setAddedTopic(true);
+    }
     return(
         <div>
             <Header socket={socket}></Header>
         <div className={sidebar === true ? "display-sidebar chat" : "chat"}>
-            <SearchTopic></SearchTopic>
+            <SearchTopic handleAddTopic = {handleAddTopic}></SearchTopic>
             {
                 threads.map((thread,index)=> (
                     <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat}></ThreadChat>
