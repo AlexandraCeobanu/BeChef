@@ -18,6 +18,7 @@ export default function AddMessage(props) {
                 // if(props.socket!==null)
                 // props.socket.emit("notifyComm", comm)
                 setMessage("");
+                props.handleMessageAdded();
                 // props.handleCommentAdded();
             }
           )
@@ -29,7 +30,7 @@ export default function AddMessage(props) {
     };
     return(
         <div className="add-message">
-            <input type="text" placeholder="Send a message" onChange={handleValueChange} onKeyDown={handleKeyDown}></input>
+            <input type="text" placeholder="Send a message" value={message} onChange={handleValueChange} onKeyDown={handleKeyDown}></input>
         </div>
     )
 }

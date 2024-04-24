@@ -13,8 +13,8 @@ export default function ChatBox(props)
             <p>{props.thread.nrMessages}</p>
             </div>
             {
-                props.thread.lastMessage !== null && (
-                    <Comment userId = {props.thread.lastMessage.senderUserId} comment ={props.thread.lastMessage.message}></Comment>
+                props.thread.lastMessage !== null && props.thread.nrMessages!==0 && (
+                    <Comment userId = {props.thread.lastMessage.senderId} comment ={props.thread.lastMessage.message}></Comment>
                 ) 
                
             }

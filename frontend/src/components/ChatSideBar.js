@@ -5,16 +5,22 @@ import { useEffect, useState } from "react";
 import { getThreadMessages } from "../services/chat";
 export default function ChatSideBar(props) {
     const [messages, setMessages] = useState([]);
+    const [messageAdded,setMessageAdded] = useState(false);
     useEffect(()=> {
         
         getThreadMessages(props.thread.id)
         .then((response)=> {
             setMessages(response);
+            setMessageAdded(false);
         })
         .catch((error) => {
             console.log(error)
         })
-    },[props.thread])
+    },[props.thread,messageAdded])
+    const handleMessageAdded=()=> {
+        setMessageAdded(true);
+    }
+
     return(
         <div className="sidebar">
             <TitleSideBar showThreadChat={props.showThreadChat} title={props.thread.topic}></TitleSideBar>
@@ -25,7 +31,7 @@ export default function ChatSideBar(props) {
                 ))
             }
             </div>
-            <AddMessage threadId={props.thread.id}></AddMessage>
+            <AddMessage threadId={props.thread.id} handleMessageAdded={handleMessageAdded}></AddMessage>
         </div>
     )
 }

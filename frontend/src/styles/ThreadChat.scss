@@ -66,11 +66,12 @@
     color:$primary-color;
     display: flex;
     align-items: center;
-    gap:4em;
-    height: 2em;
+    gap:2em;
+    height: 3em;
     border-radius:3em;
     padding-left: 1em;
     background-color: $background-color;
+    font-size:smaller;
     cursor: pointer;
     .messages {
        display: flex;
