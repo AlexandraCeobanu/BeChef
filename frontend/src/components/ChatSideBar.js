@@ -19,6 +19,7 @@ export default function ChatSideBar(props) {
     },[props.thread,messageAdded])
     const handleMessageAdded=()=> {
         setMessageAdded(true);
+        props.handleMessageAdded();
     }
 
     return(

@@ -14,6 +14,7 @@ export default function Chat()
     const [showThreadId, setShowThreadId] = useState(null);
     const [threads,setThreads] = useState([]);
     const [topicAdded,setAddedTopic] = useState(false);
+    const [messageAdded,setMessageAdded] = useState(false);
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
@@ -43,11 +44,16 @@ export default function Chat()
        .then((response)=> {
         setThreads(response.reverse());
         setAddedTopic(false);
+        setMessageAdded(false);
        })
-    },[topicAdded])
+    },[topicAdded,messageAdded])
 
     const handleAddTopic=()=>{
         setAddedTopic(true);
+    }
+
+    const handleMessageAdded =()=> {
+        setMessageAdded(true);
     }
     return(
         <div>
@@ -56,14 +62,14 @@ export default function Chat()
             <SearchTopic handleAddTopic = {handleAddTopic}></SearchTopic>
             {
                 threads.map((thread,index)=> (
-                    <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat}></ThreadChat>
+                    <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat} ></ThreadChat>
                 ))
             }
             {/* <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat> */}
         </div>
-        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]} ></ChatSidebar>}
+        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]} handleMessageAdded={handleMessageAdded}></ChatSidebar>}
         </div>
        
     )
