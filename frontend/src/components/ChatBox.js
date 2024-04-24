@@ -4,7 +4,7 @@ import Comment from "./Comment"
 export default function ChatBox(props)
 {
     const handleClick = () => {
-        props.showThreadChat();
+        props.showThreadChat(props.index);
     }
     return(
         <div className="chat-box" onClick = {handleClick}>

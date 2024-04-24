@@ -34,5 +34,6 @@ export default function AddComment(props)
         <div className="add-comment">
             <input type="text" placeholder="Add a comment" value={comment} onChange={handleValueChange} onKeyDown={handleKeyDown}></input>
         </div>
+        
     )
 }

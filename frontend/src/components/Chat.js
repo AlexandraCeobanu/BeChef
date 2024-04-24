@@ -11,12 +11,17 @@ export default function Chat()
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const [socket, setSocket]  = useState(null);
     const [sidebar,setSidebar] = useState(false);
+    const [showThreadId, setShowThreadId] = useState(null);
     const [threads,setThreads] = useState([]);
-    const ShowThreadChat = () => {
+    const ShowThreadChat = (value) => {
         if(sidebar === false)
-        setSidebar(true);
+        {setSidebar(true);
+        setShowThreadId(value)
+        }
         else
-        setSidebar(false);
+        {setSidebar(false);
+            setShowThreadId(null);
+        }
     }
     useEffect(()=> {
         if(socket === null){
@@ -45,14 +50,14 @@ export default function Chat()
             <SearchTopic></SearchTopic>
             {
                 threads.map((thread,index)=> (
-                    <ThreadChat key={index} thread = {thread} showThreadChat={ShowThreadChat}></ThreadChat>
+                    <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat}></ThreadChat>
                 ))
             }
             {/* <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
             <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat> */}
         </div>
-        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} ></ChatSidebar>}
+        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]} ></ChatSidebar>}
         </div>
        
     )
