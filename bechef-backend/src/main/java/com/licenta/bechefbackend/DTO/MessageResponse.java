@@ -1,18 +1,19 @@
 package com.licenta.bechefbackend.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class MessageResponse {
     String message;
     Long senderId;
     Long threadId;
 
-    public MessageResponse() {
+   /* public MessageResponse() {
 
-    }
+    }*/
+
 }

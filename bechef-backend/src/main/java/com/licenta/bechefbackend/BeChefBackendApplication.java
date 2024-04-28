@@ -16,7 +16,7 @@ import java.util.Optional;
 public class BeChefBackendApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
+@Autowired
 	private SocketIOService socketIOService;
 
 	public static void main(String[] args) {
