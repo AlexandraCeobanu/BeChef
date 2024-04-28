@@ -12,7 +12,7 @@ public class ChatThreadResponse {
     private Long id;
     private String topic;
     private Long initiatorId;
-    private Message lastMessage;
+    private MessageResponse lastMessage;
     private Long nrMessages;
 
 }

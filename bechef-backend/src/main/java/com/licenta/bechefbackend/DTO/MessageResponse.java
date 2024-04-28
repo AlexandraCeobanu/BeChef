@@ -11,4 +11,8 @@ public class MessageResponse {
     String message;
     Long senderId;
     Long threadId;
+
+    public MessageResponse() {
+
+    }
 }

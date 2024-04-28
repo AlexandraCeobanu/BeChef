@@ -36,11 +36,14 @@ public class ChatThreadService {
         {
             List<Message> messages = thread.getMessageList();
             Long nrMessages = Long.valueOf(messages.size());
-            Message message;
+            MessageResponse message = new MessageResponse();
             if(nrMessages != 0){
-             message = thread.getMessageList().get((int) (nrMessages-1));}
-            else
-            message = null;
+                Message ms = thread.getMessageList().get((int) (nrMessages-1));
+                message.setMessage(ms.getMessage());
+                message.setSenderId(ms.getSenderUser().getId());
+                message.setThreadId(ms.getThread().getId());
+
+            }
 
             ChatThreadResponse response = new ChatThreadResponse(thread.getId(),thread.getTopic(),
                     thread.getInitiatorUser().getId(),message,nrMessages);
