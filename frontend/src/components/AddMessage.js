@@ -15,8 +15,8 @@ export default function AddMessage(props) {
           postMessage(props.threadId,messageObject)
           .then (
             () => {
-                // if(props.socket!==null)
-                // props.socket.emit("notifyComm", comm)
+                if(props.stompClient!==null && props.stompClient !==undefined)
+                props.stompClient.send(`/app/messages`,[],JSON.stringify(messageObject));
                 setMessage("");
                 props.handleMessageAdded();
                 // props.handleCommentAdded();
