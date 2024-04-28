@@ -35,7 +35,9 @@ export default function ChatSideBar(props) {
             console.log('Conectat la server WebSocket');
             setStompClient(sc);
             sc.subscribe(`/newMessage`, function(message) {
-            setMessages((prevMessages) => [...prevMessages, JSON.parse(message.body)]);
+            const receivedMessage = JSON.parse(message.body)
+            if(receivedMessage.threadId === props.thread.id){
+            setMessages((prevMessages) => [...prevMessages, receivedMessage]);}
               props.handleMessageAdded();
              
             });

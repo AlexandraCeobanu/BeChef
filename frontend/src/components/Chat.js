@@ -65,9 +65,6 @@ export default function Chat()
                     <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat} ></ThreadChat>
                 ))
             }
-            {/* <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
-            <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat>
-            <ThreadChat showThreadChat={ShowThreadChat}></ThreadChat> */}
         </div>
         {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]} handleMessageAdded={handleMessageAdded}></ChatSidebar>}
         </div>
