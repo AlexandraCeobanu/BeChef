@@ -15,14 +15,13 @@ export default function Header(props){
     const [nrNotifications,setNrNotifications] = useState(0);
     const [showNotification,setShowNotification] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [receivedNot,setReceivedNot] = useState(null);
     const client = useStompClient();
 
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
     const handleLogout = () => {
-        // if(props.socket!==null){
-        // props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
         localStorage.clear();
         navigate("/login")
     }
@@ -56,13 +55,15 @@ export default function Header(props){
         if(client)
         {
            const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
-                        const receivedMessage = JSON.parse(message.body)
+                        const receivedNot = JSON.parse(message.body)
                         setNrNotifications(prev=> prev+1);
+                        setReceivedNot(receivedNot)
                          if (props.handleChangeLikes!==undefined)
                         {
                                 props.handleChangeLikes();
                         }
                        });
+            
    
            return () => {
                    subscription.unsubscribe();
@@ -99,7 +100,6 @@ export default function Header(props){
         })
     },[])
    
-
     return(
         <div className="header">
             <div id="logo">
@@ -110,7 +110,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications newNotifications={nrNotifications} socket={props.socket}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot}></Notifications>}
             </div>
             </div>
             <div className="logout">

@@ -13,12 +13,17 @@ export default function Notifications(props) {
     .catch((error)=> {
         console.log(error);
     })
+    },[])
+    useEffect (() => {
+        if(props.receivedNot !== null)
+        setNotifications((prevNot) => [props.receivedNot, ...prevNot]);
     },[props.newNotifications])
+
     return(
         <div className="notifications-box">
 
             {notifications.length > 0 && notifications.map((notification,index)=> 
-            (<Notification key={index} notification={notification} socket={props.socket}></Notification>)
+            (<Notification key={index} notification={notification}></Notification>)
         )}
         </div>
     )
