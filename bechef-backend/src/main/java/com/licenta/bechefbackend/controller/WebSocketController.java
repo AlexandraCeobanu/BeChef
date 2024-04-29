@@ -1,9 +1,6 @@
 package com.licenta.bechefbackend.controller;
 
-import com.licenta.bechefbackend.DTO.LikeDTO;
-import com.licenta.bechefbackend.DTO.MessageDTO;
-import com.licenta.bechefbackend.DTO.MessageResponse;
-import com.licenta.bechefbackend.DTO.NotificationDTO;
+import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
 import com.licenta.bechefbackend.services.NotificationService;
@@ -49,6 +46,16 @@ public class WebSocketController {
         return "Like removed";
     }
 
+    @MessageMapping("/{userId}/comment")
+    @SendTo("/newNotification/{userId}")
+    public NotificationDTO addComm(@DestinationVariable String userId, @Payload CommentDTO commentDTO)
+    {
+
+        NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
+                commentDTO.getRecipeId(), "added a comment: " + commentDTO.getComm() ,false);
+        notificationService.createNotification(notificationDTO);
+        return notificationDTO;
+    }
 
 
 
