@@ -7,47 +7,68 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getNumberOfUnreadNotifications, readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
+import { useStompClient } from "./WebSocketProvider";
 
 export default function Header(props){
     const navigate = useNavigate();
     // const [blur,setBlur] =useState(props.blur);
     const [nrNotifications,setNrNotifications] = useState(0);
     const [showNotification,setShowNotification] = useState(false);
-   
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const client = useStompClient();
+
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
     const handleLogout = () => {
-        if(props.socket!==null){
-        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
+        // if(props.socket!==null){
+        // props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
         localStorage.clear();
         navigate("/login")
     }
     const handleHomeClick = () => {
         navigate("/home")
     }
-    useEffect (() => {
-        if(props.socket !==null){
-        props.socket.on('new-notification', (data) => {
-            setNrNotifications(prev=> prev+1);
-            if (props.handleChangeLikes!==undefined)
-            {
-                props.handleChangeLikes();
-            }
-          });
-        }
-    },[props.socket])
+    // useEffect (() => {
+    //     if(props.socket !==null){
+    //     props.socket.on('new-notification', (data) => {
+    //         setNrNotifications(prev=> prev+1);
+    //         if (props.handleChangeLikes!==undefined)
+    //         {
+    //             props.handleChangeLikes();
+    //         }
+    //       });
+    //     }
+    // },[props.socket])
 
-    useEffect (() => {
-        if(props.socket !==null){
-        props.socket.on('remove-like', (data) => {
-            if (props.handleChangeLikes!==undefined)
-            {
-                props.handleChangeLikes();
-            }
-          });
+    // useEffect (() => {
+    //     if(props.socket !==null){
+    //     props.socket.on('remove-like', (data) => {
+    //         if (props.handleChangeLikes!==undefined)
+    //         {
+    //             props.handleChangeLikes();
+    //         }
+    //       });
+    //     }
+    // },[props.socket])
+
+    useEffect(()=> {
+        if(client)
+        {
+           const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                        const receivedMessage = JSON.parse(message.body)
+                        setNrNotifications(prev=> prev+1);
+                         if (props.handleChangeLikes!==undefined)
+                        {
+                                props.handleChangeLikes();
+                        }
+                       });
+   
+           return () => {
+                   subscription.unsubscribe();
+                       };
         }
-    },[props.socket])
+    },[client])
 
 
     const handleShowNotifications = ()=> {

@@ -6,13 +6,14 @@ import { giveLike } from '../services/like';
 import { getRecipeLikes } from '../services/like';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
+import { useStompClient } from "./WebSocketProvider";
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [recipe,setRecipe] = useState(props.recipe);
     const [nrLikes,setNrLikes] = useState(0);
     const [nrComments,setNrComments] = useState(0);
-    
+    const client = useStompClient();
     const handleClick=()=> {
         props.onClick(props.index);
     }
@@ -26,8 +27,9 @@ export default function Recipe(props)
             giveLike(like)
             .then(()=> {
             setLiked(!liked);
-            if(props.socket!==null && like.likerId !== like.likedId)
-            props.socket.emit("notify", like)
+            if(client!==null && client !==undefined){
+                console.log("ai dat like")
+            client.send(`/user/${like.likedId}/like`,[],JSON.stringify(like));}
             })
             .catch((error)=>{
                 console.log(error);
@@ -37,8 +39,8 @@ export default function Recipe(props)
             removeLike(props.loggedUserId,recipe.id)
             .then(()=> {
             setLiked(false);
-            if(props.socket!==null && like.likerId !== like.likedId)
-                props.socket.emit("removed", like)
+            // if(props.socket!==null && like.likerId !== like.likedId)
+            //     props.socket.emit("removed", like)
             })
             .catch((error)=>{
                 console.log(error);
