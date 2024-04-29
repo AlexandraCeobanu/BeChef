@@ -1,5 +1,5 @@
 import '../styles/recipe.scss'
-import {faHeart,faComment} from '@fortawesome/free-regular-svg-icons';
+import {faHeart,faComment,faClock} from '@fortawesome/free-regular-svg-icons';
 import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
@@ -7,6 +7,8 @@ import { getRecipeLikes } from '../services/like';
 import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
 import { useStompClient } from "./WebSocketProvider";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faC } from '@fortawesome/free-solid-svg-icons';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
@@ -91,6 +93,10 @@ export default function Recipe(props)
     
     return(
         <div>
+            <div className='time'>
+                <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
+                <h5>{recipe.time}</h5>
+            </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>
             </div>

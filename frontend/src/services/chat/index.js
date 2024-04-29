@@ -57,3 +57,46 @@ export const getThreadMessages = async (threadId) => {
         throw error.response.data;
     }
 };
+
+export const subscribeToThread = async (threadId,userId) => {
+    try{
+        const response = await axios.post(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
+        if(response.status === 201)
+        {
+            const res  = await response.data;
+            return res;
+        }
+    }
+    catch (error) {
+        console.log(`Failed to get messages.`,error);
+        throw error.response.data;
+    }
+};
+export const unsubscribeToThread = async(threadId,userId) => {
+    try{
+        
+        const response = await axios.delete(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+export const getSubscribedThreads = async(userId) => {
+    try{
+        
+        const response = await axios.get(`${API_URL}/chat/subscribe?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
