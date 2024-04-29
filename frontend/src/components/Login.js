@@ -41,16 +41,7 @@ export default function Login(){
                 setEmail("");
                 setPassword("");
                 setErrorMessage("");
-                const socket = new SockJS('http://localhost:8081/ws');
-                let sc = null;
-                if(socket!==null){
-                sc = over(socket);
-                sc.connect({}, function(frame) {
-                console.log('Conectat la server WebSocket');
-                const data = {stompClient : sc}
-                navigate('/profile',{state: data})
-                }) 
-            }
+               navigate("/profile");
             }
         )
         .catch((error) => {
