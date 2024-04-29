@@ -13,6 +13,7 @@ export default function Chat()
     const [threads,setThreads] = useState([]);
     const [topicAdded,setAddedTopic] = useState(false);
     const [messageAdded,setMessageAdded] = useState(false);
+    const [subscribedThreads,setSubscribedThreads] = useState([]);
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
@@ -40,6 +41,15 @@ export default function Chat()
     const handleMessageAdded =()=> {
         setMessageAdded(true);
     }
+    useEffect(()=> {
+        // getSubscribedThreads(user.id)
+        // .then((response) => {
+        //     setSubscribedThreads(response);
+        // })
+        // .catch((error)=> {
+        //     console.log(error);
+        // })
+    },[])
     return(
         <div>
             <Header></Header>
@@ -51,7 +61,8 @@ export default function Chat()
                 ))
             }
         </div>
-        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]} handleMessageAdded={handleMessageAdded}></ChatSidebar>}
+        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]}
+        subscribedThreads={subscribedThreads} handleMessageAdded={handleMessageAdded} user={user}></ChatSidebar>}
         </div>
        
     )

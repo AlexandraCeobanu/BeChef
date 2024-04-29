@@ -48,7 +48,8 @@ export default function ChatSideBar(props) {
 
     return(
         <div className="sidebar">
-            <TitleSideBar showThreadChat={props.showThreadChat} title={props.thread.topic}></TitleSideBar>
+            <TitleSideBar showThreadChat={props.showThreadChat} title={props.thread.topic} 
+            subscribedThreads={props.subscribedThreads} threadId={props.thread.id} user={props.user}></TitleSideBar>
             <div className="messages">
             {
                messages.length !== 0 && messages.map((message,index) => (
