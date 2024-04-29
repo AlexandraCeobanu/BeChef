@@ -16,6 +16,7 @@ export default function TitleSideBar (props) {
             subscribeToThread(props.threadId,props.user.id)
             .then(() => {
                 setSubscribe(true)
+                props.handleSubscribeThread(true);
             })
             .catch((error) => {
                 console.log(error);
@@ -25,7 +26,9 @@ export default function TitleSideBar (props) {
         else{
             unsubscribeToThread(props.threadId,props.user.id)
             .then(() => {
+                
                 setSubscribe(false);
+                props.handleSubscribeThread(false);
             })
             .catch((error) => {
                 console.log(error);
@@ -33,10 +36,10 @@ export default function TitleSideBar (props) {
         }
     }
     useEffect(() => {
-        if(props.subscriebedThreads !== undefined){
-        if (props.subscriebedThreads.some(thread => thread.id === props.thread.id) === true)
+        if(props.subscribedThreads !== undefined){
+        if (props.subscribedThreads.some(thread => thread.id === props.threadId) === true)
         setSubscribe(true)}
-    },[])
+    },[props.subscribedThreads])
 
     return(
         <div className="title">
