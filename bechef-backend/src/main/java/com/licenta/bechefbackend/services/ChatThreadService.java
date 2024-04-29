@@ -88,4 +88,16 @@ public class ChatThreadService {
 
         }
     }
+
+    public void unsubscribeThread(Long threadId, Long userId) {
+
+        User user = userService.getUserById1(userId);
+        ChatThread chatThread = chatThreadRepository.findById(threadId).orElse(null);
+        if (user != null && chatThread!=null)
+        {
+            user.getSubscribedThreads().remove(chatThread);
+            userService.save(user);
+
+        }
+    }
 }

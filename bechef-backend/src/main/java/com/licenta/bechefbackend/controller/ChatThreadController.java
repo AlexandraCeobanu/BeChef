@@ -88,4 +88,19 @@ public class ChatThreadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+    @DeleteMapping("/subscribe/{threadId}")
+    public ResponseEntity<?> unsubscribeThread(@PathVariable Long threadId, @RequestParam Long userId)
+    {
+        try{
+            chatThreadService.unsubscribeThread(threadId,userId);
+            return ResponseEntity.status(HttpStatus.OK).body("Unsubscribed to thread");
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }
