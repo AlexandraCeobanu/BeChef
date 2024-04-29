@@ -6,6 +6,7 @@ import com.licenta.bechefbackend.DTO.MessageResponse;
 import com.licenta.bechefbackend.DTO.NotificationDTO;
 import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
+import com.licenta.bechefbackend.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,6 +19,8 @@ public class WebSocketController {
 
     @Autowired
     OnlineUserRepository onlineUserRepository;
+    @Autowired
+    NotificationService notificationService;
     @MessageMapping("/messages")
     @SendTo("/newMessage")
     public MessageResponse sendMessage(@Payload MessageDTO messageDTO)
@@ -34,26 +37,20 @@ public class WebSocketController {
 
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
                 likeDTO.getRecipeId(), "liked your recipe" ,false);
+        notificationService.createNotification(notificationDTO);
         return notificationDTO;
     }
 
-    @MessageMapping("/connect")
-    public void connectUser(@Payload String userId)
+    @MessageMapping("/{userId}/removeLike")
+    @SendTo("/newNotification/removeLike/{userId}")
+    public String removeLike(@DestinationVariable String userId, @Payload LikeDTO likeDTO)
     {
-        OnlineUser onlineUser = onlineUserRepository.findByUserId(Long.valueOf(userId)).orElse(null);
-        if(onlineUser == null){
-            OnlineUser newOnlineUser = new OnlineUser(Long.valueOf(userId),"abc");
-            onlineUserRepository.save(newOnlineUser);
-        }
+
+        return "Like removed";
     }
 
-    @MessageMapping("/disconnect")
-    public void disconnectUser(@Payload String userId)
-    {
-        OnlineUser onlineUser = onlineUserRepository.findByUserId(Long.valueOf(userId)).orElse(null);
-        if(onlineUser == null){
-            onlineUserRepository.deleteById(onlineUser.getUserId());
-        }
-    }
+
+
+
 
 }
