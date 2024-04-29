@@ -1,9 +1,6 @@
 package com.licenta.bechefbackend.services;
 
-import com.licenta.bechefbackend.DTO.ChatThreadDTO;
-import com.licenta.bechefbackend.DTO.ChatThreadResponse;
-import com.licenta.bechefbackend.DTO.MessageDTO;
-import com.licenta.bechefbackend.DTO.MessageResponse;
+import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
 import com.licenta.bechefbackend.entities.Recipe;
@@ -99,5 +96,21 @@ public class ChatThreadService {
             userService.save(user);
 
         }
+    }
+
+    public List<ThreadResponseDTO> findSubscribedThreads(Long userId) {
+        User user = userService.getUserById1(userId);
+        List<ThreadResponseDTO> subscribedThreadsDTO = new ArrayList<>();
+        if(user != null) {
+            List<ChatThread> subscribedThreads = user.getSubscribedThreads();
+            for (ChatThread thread : subscribedThreads)
+            {
+                ThreadResponseDTO threadResponseDTO = new ThreadResponseDTO(
+                        thread.getId(),thread.getInitiatorUser().getId(),thread.getTopic()
+                );
+                subscribedThreadsDTO.add(threadResponseDTO);
+            }
+        }
+        return subscribedThreadsDTO;
     }
 }
