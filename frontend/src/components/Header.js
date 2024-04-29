@@ -28,47 +28,34 @@ export default function Header(props){
     const handleHomeClick = () => {
         navigate("/home")
     }
-    // useEffect (() => {
-    //     if(props.socket !==null){
-    //     props.socket.on('new-notification', (data) => {
-    //         setNrNotifications(prev=> prev+1);
-    //         if (props.handleChangeLikes!==undefined)
-    //         {
-    //             props.handleChangeLikes();
-    //         }
-    //       });
-    //     }
-    // },[props.socket])
-
-    // useEffect (() => {
-    //     if(props.socket !==null){
-    //     props.socket.on('remove-like', (data) => {
-    //         if (props.handleChangeLikes!==undefined)
-    //         {
-    //             props.handleChangeLikes();
-    //         }
-    //       });
-    //     }
-    // },[props.socket])
 
     useEffect(()=> {
-        if(client)
+        if(client!== null) {
+        client.connect({}, () => {
+            const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                const receivedNot = JSON.parse(message.body)
+                setNrNotifications(prev=> prev+1);
+                setReceivedNot(receivedNot)
+                 if (props.handleChangeLikes!==undefined)
+                {
+                        props.handleChangeLikes();
+                }
+               });
+        const subscription2 = client.subscribe(`/newNotification/removeLike/${user.id}`, function(message){
+        console.log("dislike")
+        if (props.handleChangeLikes!==undefined)
         {
-           const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
-                        const receivedNot = JSON.parse(message.body)
-                        setNrNotifications(prev=> prev+1);
-                        setReceivedNot(receivedNot)
-                         if (props.handleChangeLikes!==undefined)
-                        {
-                                props.handleChangeLikes();
-                        }
-                       });
-            
-   
-           return () => {
-                   subscription.unsubscribe();
-                       };
+            props.handleChangeLikes();
         }
+    }
+)
+
+   return () => {
+           subscription.unsubscribe();
+           subscription2.unsubscribe();
+               };
+
+          });}
     },[client])
 
 

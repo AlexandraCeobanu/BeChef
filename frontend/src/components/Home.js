@@ -17,6 +17,7 @@ export default function Home()
     const [blur, setBlur] = useState(false);
     const location = useLocation();
     const [allFilter,setAllFilter] = useState(true);
+    const [changedNrLikes,setChangedNrLikes] = useState(false);
     const searchChangeHandler=(event) =>{
         setSearch(event.target.value);
     }
@@ -35,6 +36,9 @@ export default function Home()
           })
         }
     };
+    const handleChangeLikes = ()=>{
+      setChangedNrLikes(true);
+   }
     useEffect (
         ()=> {
             getAllRecipes()
@@ -82,7 +86,7 @@ export default function Home()
     return(
         <div className="home">
             <div className={blur === true ? "blur" : ""}>
-            <Header  className={blur === true ? "blur" : ""}></Header>
+            <Header  className={blur === true ? "blur" : ""} handleChangeLikes={handleChangeLikes}></Header>
             </div>
             <div id="search-bar" className={blur === true ? "blur" : ""}>
             <input type="text" id="search" name="search" onChange={searchChangeHandler}  onKeyDown={handleKeyDown} placeholder="Search by recipe name" ></input>
@@ -91,7 +95,7 @@ export default function Home()
              <Filters blur={blur} handleFilter = {handleFilter} allFilter={allFilter}></Filters>
              <hr></hr>
              <div className="recipes">
-             {recipes.length !==0 && <RecipesView  recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur}></RecipesView>}
+             {recipes.length !==0 && <RecipesView  recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur} handleChangeLikes={handleChangeLikes}></RecipesView>}
              </div>
 
         </div>

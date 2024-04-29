@@ -65,7 +65,7 @@ export default function UserProfileView()
     return(
         <div className="user-profile">
             <div className={blur === true ? "blur" : ""}>
-            <Header ></Header>
+            <Header className={blur === true ? "blur" : ""} handleChangeLikes={handleChangeLikes}></Header>
             </div>
             {user && 
             <div className="user-info">
@@ -76,5 +76,6 @@ export default function UserProfileView()
             </div>
             }
         </div>
+
     )
 }

@@ -28,8 +28,8 @@ export default function Recipe(props)
             .then(()=> {
             setLiked(!liked);
             if(client!==null && client !==undefined){
-                console.log("ai dat like")
             client.send(`/user/${like.likedId}/like`,[],JSON.stringify(like));}
+            
             })
             .catch((error)=>{
                 console.log(error);
@@ -39,8 +39,8 @@ export default function Recipe(props)
             removeLike(props.loggedUserId,recipe.id)
             .then(()=> {
             setLiked(false);
-            // if(props.socket!==null && like.likerId !== like.likedId)
-            //     props.socket.emit("removed", like)
+            if(client!==null && client !==undefined){
+            client.send(`/user/${like.likedId}/removeLike`,[],JSON.stringify(like));}
             })
             .catch((error)=>{
                 console.log(error);
