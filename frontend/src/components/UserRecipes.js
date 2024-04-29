@@ -94,7 +94,7 @@ export default function UserRecipes(props)
         </div>) :
         (   
             option === 1 &&
-            <RecipesView socket={props.socket} recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
+            <RecipesView  recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
              handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList} nrLikes ={props.nrLikes}
              ></RecipesView>
         )}
@@ -105,7 +105,7 @@ export default function UserRecipes(props)
             </div>) :
             (   
                 option === 2 &&
-                <RecipesView socket={props.socket} recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
+                <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
                  handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
                  nrLikes ={props.nrLikes}></RecipesView>
             )

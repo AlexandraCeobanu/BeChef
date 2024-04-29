@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
-import  io  from 'socket.io-client';
 import Logo from './Logo';
+import {over} from 'stompjs';
+import SockJS from 'sockjs-client/dist/sockjs';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -39,8 +40,8 @@ export default function Login(){
                 setError(false);
                 setEmail("");
                 setPassword("");
-                navigate('/profile')
-                setErrorMessage("")
+                setErrorMessage("");
+               navigate("/profile");
             }
         )
         .catch((error) => {

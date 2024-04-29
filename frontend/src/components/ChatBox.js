@@ -4,15 +4,22 @@ import Comment from "./Comment"
 export default function ChatBox(props)
 {
     const handleClick = () => {
-        props.showThreadChat();
+        props.showThreadChat(props.index);
     }
     return(
         <div className="chat-box" onClick = {handleClick}>
             <div className="messages">
             <FontAwesomeIcon icon={faRocketchat}></FontAwesomeIcon>
-            <p>45</p>
+            <p>{props.thread.nrMessages}</p>
             </div>
-            <Comment></Comment>
+            {
+                props.thread.lastMessage !== null && props.thread.nrMessages!==0 && (
+                    <Comment userId = {props.thread.lastMessage.senderId} comment ={props.thread.lastMessage.message}></Comment>
+                ) 
+               
+            }
+          
         </div>
+
     )
 }

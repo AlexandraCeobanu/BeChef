@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { postComment } from "../services/comments";
+import { useStompClient } from "./WebSocketProvider";
 export default function AddComment(props)
 {
     const [comment,setComment] = useState("");
+    const client = useStompClient();
     const handleValueChange = (event) => {
         setComment(event.target.value);
     }
@@ -17,10 +19,10 @@ export default function AddComment(props)
           postComment(comm)
           .then (
             () => {
-                if(props.socket!==null)
-                props.socket.emit("notifyComm", comm)
                 setComment("");
                 props.handleCommentAdded();
+                if(client!==null && client !==undefined){
+                    client.send(`/user/${comm.receiverId}/comment`,[],JSON.stringify(comm));}
             }
           )
           .catch((error)=> {
@@ -34,5 +36,6 @@ export default function AddComment(props)
         <div className="add-comment">
             <input type="text" placeholder="Add a comment" value={comment} onChange={handleValueChange} onKeyDown={handleKeyDown}></input>
         </div>
+        
     )
 }

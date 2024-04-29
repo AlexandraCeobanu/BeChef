@@ -6,7 +6,7 @@ export default function TitleSideBar (props) {
     }
     return(
         <div className="title">
-            <h4>Cozonaci</h4>
+            <h5>{props.title}</h5>
             <div className="icons">
             <FontAwesomeIcon icon= {faBell}></FontAwesomeIcon>
             <FontAwesomeIcon icon= {faXmark} onClick={handleCloseSidebar}></FontAwesomeIcon>

@@ -7,47 +7,56 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getNumberOfUnreadNotifications, readAllNotifications } from "../services/notification";
 import Notifications from "./Notifications";
+import { useStompClient } from "./WebSocketProvider";
 
 export default function Header(props){
     const navigate = useNavigate();
     // const [blur,setBlur] =useState(props.blur);
     const [nrNotifications,setNrNotifications] = useState(0);
     const [showNotification,setShowNotification] = useState(false);
-   
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const [receivedNot,setReceivedNot] = useState(null);
+    const client = useStompClient();
+
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
     const handleLogout = () => {
-        if(props.socket!==null){
-        props.socket.emit('remove-connection',JSON.parse(localStorage.getItem('user')).id);}
         localStorage.clear();
         navigate("/login")
     }
     const handleHomeClick = () => {
         navigate("/home")
     }
-    useEffect (() => {
-        if(props.socket !==null){
-        props.socket.on('new-notification', (data) => {
-            setNrNotifications(prev=> prev+1);
-            if (props.handleChangeLikes!==undefined)
-            {
-                props.handleChangeLikes();
-            }
-          });
-        }
-    },[props.socket])
 
-    useEffect (() => {
-        if(props.socket !==null){
-        props.socket.on('remove-like', (data) => {
-            if (props.handleChangeLikes!==undefined)
-            {
-                props.handleChangeLikes();
-            }
-          });
+    useEffect(()=> {
+        if(client!== null) {
+        client.connect({}, () => {
+            const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                const receivedNot = JSON.parse(message.body)
+                setNrNotifications(prev=> prev+1);
+                setReceivedNot(receivedNot)
+                 if (props.handleChangeLikes!==undefined)
+                {
+                        props.handleChangeLikes();
+                }
+               });
+        const subscription2 = client.subscribe(`/newNotification/removeLike/${user.id}`, function(message){
+        console.log("dislike")
+        if (props.handleChangeLikes!==undefined)
+        {
+            props.handleChangeLikes();
         }
-    },[props.socket])
+    }
+)
+
+   return () => {
+           subscription.unsubscribe();
+           subscription2.unsubscribe();
+               };
+
+          });}
+    },[client])
 
 
     const handleShowNotifications = ()=> {
@@ -78,7 +87,6 @@ export default function Header(props){
         })
     },[])
    
-
     return(
         <div className="header">
             <div id="logo">
@@ -89,7 +97,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications newNotifications={nrNotifications} socket={props.socket}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot}></Notifications>}
             </div>
             </div>
             <div className="logout">

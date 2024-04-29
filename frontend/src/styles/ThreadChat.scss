@@ -20,6 +20,26 @@
     top:0.5em;
     right:2em;
 
+    .add-thread {
+        position: absolute;
+        bottom: -3em;
+        right:0em;
+        width: 20em;
+        height: 3em;
+        input {
+        height: 100%;
+        width: 100%;
+        border:none;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background-color: $background-color;
+        padding-left: 1em;
+        // padding-bottom: 1em;
+        margin-bottom: 2em;
+    }
+    input:focus {
+        outline: none;
+    }
+    }
 }
 
 .search-bar {
@@ -46,11 +66,12 @@
     color:$primary-color;
     display: flex;
     align-items: center;
-    gap:4em;
-    height: 2em;
+    gap:2em;
+    height: 3em;
     border-radius:3em;
     padding-left: 1em;
     background-color: $background-color;
+    font-size:smaller;
     cursor: pointer;
     .messages {
        display: flex;
