@@ -3,6 +3,7 @@ import '../styles/header.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
+import { faRocketchat } from "@fortawesome/free-brands-svg-icons"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getNumberOfUnreadNotifications, readAllNotifications } from "../services/notification";
@@ -27,6 +28,9 @@ export default function Header(props){
     }
     const handleHomeClick = () => {
         navigate("/home")
+    }
+    const handleChatClick = () => {
+        navigate("/chat")
     }
 
     useEffect(()=> {
@@ -94,6 +98,7 @@ export default function Header(props){
             </div>
             <div className="nav-bar">
             <FontAwesomeIcon icon={faHome} className="icons" onClick={handleHomeClick} />
+            <FontAwesomeIcon icon={faRocketchat} className="icons" onClick={handleChatClick} />
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
