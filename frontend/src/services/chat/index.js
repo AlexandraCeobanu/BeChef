@@ -72,3 +72,17 @@ export const subscribeToThread = async (threadId,userId) => {
         throw error.response.data;
     }
 };
+export const unsubscribeToThread = async(threadId,userId) => {
+    try{
+        
+        const response = await axios.delete(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}

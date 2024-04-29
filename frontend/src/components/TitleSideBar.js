@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faXmark} from '@fortawesome/free-solid-svg-icons';
 import {faBellSlash,faBell} from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useState } from "react";
-import { subscribeToThread } from "../services/chat";
+import { subscribeToThread,unsubscribeToThread } from "../services/chat";
 export default function TitleSideBar (props) {
 
     const [subscribe, setSubscribe] = useState(false);
@@ -12,6 +12,7 @@ export default function TitleSideBar (props) {
     const handleThreadSubscribe=()=> {
         if(subscribe === false)
         {
+            console.log("subscribed")
             subscribeToThread(props.threadId,props.user.id)
             .then(() => {
                 setSubscribe(true)
@@ -22,7 +23,13 @@ export default function TitleSideBar (props) {
             
         }
         else{
-            setSubscribe(false);
+            unsubscribeToThread(props.threadId,props.user.id)
+            .then(() => {
+                setSubscribe(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         }
     }
     useEffect(() => {
@@ -30,6 +37,7 @@ export default function TitleSideBar (props) {
         if (props.subscriebedThreads.some(thread => thread.id === props.thread.id) === true)
         setSubscribe(true)}
     },[])
+
     return(
         <div className="title">
             <h5>{props.title}</h5>
