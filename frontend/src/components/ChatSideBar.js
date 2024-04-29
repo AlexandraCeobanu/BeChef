@@ -33,7 +33,9 @@ export default function ChatSideBar(props) {
                      const receivedMessage = JSON.parse(message.body)
                     if(receivedMessage.threadId === props.thread.id){
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);}
+                    else{
                      props.handleMessageAdded();
+                    }
                     });
 
         return () => {
