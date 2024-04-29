@@ -63,7 +63,11 @@ public class UserService implements UserDetailsService {
                 .likesGiven(user.getLikesGiven())
                 .likesReceived(user.getLikesReceived())
                 .build();
+    }
+    public User getUserById1(Long id) {
 
+        User user = userRepository.findById(id).orElse(null);
+        return user;
     }
 //    @Override
 //    public UserDetailsService userDetailsService(){
