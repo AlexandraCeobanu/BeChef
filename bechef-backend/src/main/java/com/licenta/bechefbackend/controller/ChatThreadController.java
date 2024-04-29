@@ -73,4 +73,19 @@ public class ChatThreadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+    @PostMapping("/subscribe/{threadId}")
+    public ResponseEntity<?> subscribeThread(@PathVariable Long threadId, @RequestParam Long userId)
+    {
+        try{
+            chatThreadService.subscribeThread(threadId,userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Subscribed to thread");
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }
