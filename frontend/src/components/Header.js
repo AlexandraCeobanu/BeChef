@@ -34,9 +34,9 @@ export default function Header(props){
     }
 
     useEffect(()=> {
-        if(client!== null) {
-        client.connect({}, () => {
+        if(client) {
             const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                console.log("new message")
                 const receivedNot = JSON.parse(message.body)
                 setNrNotifications(prev=> prev+1);
                 setReceivedNot(receivedNot)
@@ -51,15 +51,16 @@ export default function Header(props){
         {
             props.handleChangeLikes();
         }
-    }
-)
+        })
+  
 
    return () => {
            subscription.unsubscribe();
            subscription2.unsubscribe();
+        
                };
 
-          });}
+          }
     },[client])
 
 
