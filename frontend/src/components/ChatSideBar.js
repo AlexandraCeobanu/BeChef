@@ -29,7 +29,7 @@ export default function ChatSideBar(props) {
     useEffect (() => {
     if(client)
      {
-        const subscription = client.subscribe(`/newMessage`, function(message) {
+        const subscription = client.subscribe(`/newMessage/${props.thread.id}`, function(message) {
                      const receivedMessage = JSON.parse(message.body)
                     if(receivedMessage.threadId === props.thread.id){
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);}

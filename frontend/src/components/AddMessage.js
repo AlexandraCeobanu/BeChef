@@ -16,7 +16,12 @@ export default function AddMessage(props) {
           .then (
             () => {
                 if(props.stompClient!==null && props.stompClient !==undefined)
-                props.stompClient.send(`/app/messages`,[],JSON.stringify(messageObject));
+                {
+                    props.stompClient.send(`/app/${props.threadId}/messages`,[],JSON.stringify(messageObject));
+                    props.stompClient.send(`/app/${props.threadId}/newMessage`,[],JSON.stringify(messageObject));
+                    
+                }
+
                 setMessage("");
                 props.handleMessageAdded();
                 // props.handleCommentAdded();

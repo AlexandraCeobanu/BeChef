@@ -8,7 +8,10 @@ export default function Notification(props){
             <UserBadge userId={props.notification.senderId}></UserBadge>
             <p>{props.notification.message}</p>
             </div>
+            {
+             props.notification.receiverId !==null && 
             <MiniRecipe recipeId={props.notification.recipeId}></MiniRecipe>
+            }
         </div>
     )
 }
