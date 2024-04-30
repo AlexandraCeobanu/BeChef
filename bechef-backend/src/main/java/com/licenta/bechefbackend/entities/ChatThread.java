@@ -29,6 +29,9 @@ public class ChatThread {
     private List<Message> messageList = new ArrayList<>();
 
     private String topic ;
+    @ManyToMany(mappedBy = "subscribedThreads")
+    @JsonIgnore
+    private List<User> subscribedByUsers = new ArrayList<>();
 
     public ChatThread(String topic, User user)
     {

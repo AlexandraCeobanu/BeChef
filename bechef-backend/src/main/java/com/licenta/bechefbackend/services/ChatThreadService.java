@@ -1,11 +1,9 @@
 package com.licenta.bechefbackend.services;
 
-import com.licenta.bechefbackend.DTO.ChatThreadDTO;
-import com.licenta.bechefbackend.DTO.ChatThreadResponse;
-import com.licenta.bechefbackend.DTO.MessageDTO;
-import com.licenta.bechefbackend.DTO.MessageResponse;
+import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
+import com.licenta.bechefbackend.entities.Recipe;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.ChatThreadRepository;
 import com.licenta.bechefbackend.repository.MessageRepository;
@@ -75,5 +73,44 @@ public class ChatThreadService {
             return messageResponseList;
         }
         return null;
+    }
+
+    public void subscribeThread(Long threadId, Long userId) {
+        User user = userService.getUserById1(userId);
+        ChatThread chatThread = chatThreadRepository.findById(threadId).orElse(null);
+        if (user != null && chatThread!=null)
+        {
+            user.getSubscribedThreads().add(chatThread);
+            userService.save(user);
+
+        }
+    }
+
+    public void unsubscribeThread(Long threadId, Long userId) {
+
+        User user = userService.getUserById1(userId);
+        ChatThread chatThread = chatThreadRepository.findById(threadId).orElse(null);
+        if (user != null && chatThread!=null)
+        {
+            user.getSubscribedThreads().remove(chatThread);
+            userService.save(user);
+
+        }
+    }
+
+    public List<ThreadResponseDTO> findSubscribedThreads(Long userId) {
+        User user = userService.getUserById1(userId);
+        List<ThreadResponseDTO> subscribedThreadsDTO = new ArrayList<>();
+        if(user != null) {
+            List<ChatThread> subscribedThreads = user.getSubscribedThreads();
+            for (ChatThread thread : subscribedThreads)
+            {
+                ThreadResponseDTO threadResponseDTO = new ThreadResponseDTO(
+                        thread.getId(),thread.getInitiatorUser().getId(),thread.getTopic()
+                );
+                subscribedThreadsDTO.add(threadResponseDTO);
+            }
+        }
+        return subscribedThreadsDTO;
     }
 }

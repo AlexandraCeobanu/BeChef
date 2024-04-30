@@ -1,9 +1,6 @@
 package com.licenta.bechefbackend.controller;
 
-import com.licenta.bechefbackend.DTO.ChatThreadDTO;
-import com.licenta.bechefbackend.DTO.ChatThreadResponse;
-import com.licenta.bechefbackend.DTO.MessageDTO;
-import com.licenta.bechefbackend.DTO.MessageResponse;
+import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.Message;
 import com.licenta.bechefbackend.services.ChatThreadService;
@@ -70,6 +67,51 @@ public class ChatThreadController {
         catch(Exception e)
         {
             System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @PostMapping("/subscribe/{threadId}")
+    public ResponseEntity<?> subscribeThread(@PathVariable Long threadId, @RequestParam Long userId)
+    {
+        try{
+            chatThreadService.subscribeThread(threadId,userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Subscribed to thread");
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @DeleteMapping("/subscribe/{threadId}")
+    public ResponseEntity<?> unsubscribeThread(@PathVariable Long threadId, @RequestParam Long userId)
+    {
+        try{
+            chatThreadService.unsubscribeThread(threadId,userId);
+            return ResponseEntity.status(HttpStatus.OK).body("Unsubscribed to thread");
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @GetMapping("/subscribe")
+    public ResponseEntity<?> getSubscribedThreads(@RequestParam Long userId)
+    {
+        try{
+            List<ThreadResponseDTO> subscribedThreads = chatThreadService.findSubscribedThreads(userId);
+            return ResponseEntity.status(HttpStatus.OK).body(subscribedThreads);
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }

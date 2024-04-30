@@ -62,6 +62,15 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user")
     private StockList stockList;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscribedThreads",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "chatThread_id")
+    )
+    private List<ChatThread> subscribedThreads = new ArrayList<>();
+
     public User(String username,String email, String password, Role role)
     {
         this.userUsername = username;

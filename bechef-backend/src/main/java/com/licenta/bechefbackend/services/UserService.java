@@ -69,6 +69,10 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(id).orElse(null);
         return user;
     }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
 //    @Override
 //    public UserDetailsService userDetailsService(){
 //        return new UserDetailsService() {
