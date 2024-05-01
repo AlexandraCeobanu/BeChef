@@ -17,6 +17,7 @@
 }
 .notification {
     width:21em;
+    height: 3em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -40,11 +41,19 @@
         object-fit: cover;
     }
     .without-image {
-        gap:0.3em;
+        gap:0.5em;
         width:19em;
         display: flex;
         flex-direction: row;
+        align-items: center;
         word-wrap: break-word;
+    }
+    .thread-notification {
+        gap: 0.3em;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+        width:19em;
     }
 }
 .read-notification {
