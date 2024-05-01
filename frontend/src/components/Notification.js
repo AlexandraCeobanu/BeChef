@@ -18,6 +18,9 @@ export default function Notification(props){
             })
         }
     },[])
+    const handleViewRecipe=(value)=> {
+        props.handleViewRecipe(value);
+    }
     return(
         <div>
 
@@ -28,7 +31,7 @@ export default function Notification(props){
                     <UserBadge userId={props.notification.senderId}></UserBadge>
                     <p>{props.notification.message}</p>
                     </div>
-                    <MiniRecipe recipeId={props.notification.recipeId}></MiniRecipe>
+                    <MiniRecipe recipeId={props.notification.recipeId} handleViewRecipe={handleViewRecipe} index={props.index}></MiniRecipe>
                     </div>
                 ) : 
                 (

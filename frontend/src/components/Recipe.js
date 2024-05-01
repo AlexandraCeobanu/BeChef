@@ -16,6 +16,7 @@ export default function Recipe(props)
     const [nrComments,setNrComments] = useState(0);
     const client = useStompClient();
     const handleClick=()=> {
+        if(props.index !== undefined)
         props.onClick(props.index);
     }
     const handleLike=(value)=> {
@@ -96,7 +97,7 @@ export default function Recipe(props)
         <div>
             <div className='time'>
                 <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                <h5>{recipe!==undefined && recipe.time}</h5>
+                <h5>{recipe!==undefined && recipe!=null && recipe.time}</h5>
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>

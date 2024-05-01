@@ -12,6 +12,18 @@ export const addRecipe = async(recipe) => {
     throw error.response.data;
 }
 }
+export const getRecipeById = async(id) => {
+    try{
+        const response = await axios.get(`${API_URL}/recipes/${id}`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
 
 export const addSteps = async(recipeId,steps) => {
     try{

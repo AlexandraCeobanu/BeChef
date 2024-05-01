@@ -4,7 +4,7 @@ export default function StepsView(props)
     return(
         <div>
         {props.steps.map((step,index)=> (
-                step.description!="" && 
+                step.description!=="" && 
                 <div className="step-view" key={index}>
                 <p>{step.description}</p>
             </div>
