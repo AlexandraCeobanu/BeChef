@@ -1,30 +1,58 @@
 package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.*;
+import com.licenta.bechefbackend.entities.ChatThread;
 import com.licenta.bechefbackend.entities.OnlineUser;
+import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.OnlineUserRepository;
+import com.licenta.bechefbackend.repository.UserRepository;
+import com.licenta.bechefbackend.services.ChatThreadService;
 import com.licenta.bechefbackend.services.NotificationService;
+import com.licenta.bechefbackend.services.UserService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 @Controller
 public class WebSocketController {
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    OnlineUserRepository onlineUserRepository;
-    @Autowired
     NotificationService notificationService;
-    @MessageMapping("/messages")
-    @SendTo("/newMessage")
-    public MessageResponse sendMessage(@Payload MessageDTO messageDTO)
+    @Autowired
+    ChatThreadService chatThreadService;
+    @MessageMapping("/{threadId}/messages")
+    @SendTo("/newMessage/{threadId}")
+    public MessageResponse sendMessage(@DestinationVariable String threadId,@Payload MessageDTO messageDTO)
     {
         MessageResponse msResponse = new MessageResponse(messageDTO.getMessage(), messageDTO.getSenderId(),
                 messageDTO.getThreadId());
     return msResponse;
+    }
+
+    @MessageMapping("/{threadId}/newMessage")
+    public void newMessageNotification(@DestinationVariable String threadId, @Payload MessageDTO messageDTO)
+    {
+        ChatThread thread = chatThreadService.findById(Long.valueOf(threadId));
+        List<User> users  = thread.getSubscribedByUsers();
+
+        for(User user : users)
+        {
+            NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),
+                    messageDTO.getThreadId(), messageDTO.getMessage(),false);
+            notificationService.createNotification(notificationDTO);
+            simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
+
+        }
+
     }
 
     @MessageMapping("/{userId}/like")

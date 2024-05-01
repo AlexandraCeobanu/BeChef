@@ -113,4 +113,9 @@ public class ChatThreadService {
         }
         return subscribedThreadsDTO;
     }
+
+    public ChatThread findById(Long userId) {
+
+        return chatThreadRepository.findById(userId).orElse(null);
+    }
 }

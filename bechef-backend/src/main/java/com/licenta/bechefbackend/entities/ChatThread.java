@@ -29,7 +29,7 @@ public class ChatThread {
     private List<Message> messageList = new ArrayList<>();
 
     private String topic ;
-    @ManyToMany(mappedBy = "subscribedThreads")
+    @ManyToMany(mappedBy = "subscribedThreads",fetch = FetchType.EAGER)
     @JsonIgnore
     private List<User> subscribedByUsers = new ArrayList<>();
 
