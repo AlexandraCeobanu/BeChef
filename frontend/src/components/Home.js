@@ -11,8 +11,9 @@ import { getRecipesByName, getRecipesByFilter } from "../services/recipe";
 import Filters from "./Filters";
 export default function Home()
 {
-    const [search,setSearch] = useState(null);
+    const [search,setSearch] = useState("");
     const [recipes,setRecipes] = useState([]);
+    const [filteredRecipes,setFilteredRecipes] = useState([])
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
     const [blur, setBlur] = useState(false);
     const location = useLocation();
@@ -26,8 +27,6 @@ export default function Home()
           getRecipesByName(search)
           .then (
             (response) => {
-                console.log(search)
-                console.log(response)
                 setRecipes(response.reverse())
             }
           )
@@ -59,10 +58,12 @@ export default function Home()
     const handleFilter=(value)=>{
             if(value !== 1)
             {
-                getRecipesByFilter(value,user.id)
+              console.log(search)
+                getRecipesByFilter(value,user.id,search)
                 .then (
                     (response) => {
-                        setRecipes(response.reverse())
+                        // const uniqueRecipes = response.reverse().filter((item, index) => response.indexOf(item) === index);
+                        setFilteredRecipes(prev => [...prev, ...response])  
                     }
                   )
                   .catch((error)=> {
@@ -71,7 +72,18 @@ export default function Home()
                 setAllFilter(false);
             }
             else {
+              if(search === "")
                 getAllRecipes()
+                .then (
+                  (response) => {
+                      setRecipes(response.reverse())
+                  }
+                )
+                .catch((error)=> {
+                  console.log(error);
+                })
+              else
+                getRecipesByName(search)
                 .then (
                     (response) => {
                         setRecipes(response.reverse())
@@ -83,6 +95,12 @@ export default function Home()
                 setAllFilter(true);
             }
     }
+    useEffect(()=> {
+
+      console.log(filteredRecipes)
+      setRecipes(filteredRecipes);
+
+    },[filteredRecipes])
     return(
         <div className="home">
             <div className={blur === true ? "blur" : ""}>

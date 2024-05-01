@@ -23,7 +23,7 @@ export default function AddRecipeRight({onRecipeStepChange})
 
     const handleRecipeName = (event)  =>{
         setRecipeName(event.target.value);
-        onRecipeStepChange(recipeName, steps,ingredients);
+        onRecipeStepChange(recipeName, steps,ingredients,type,time);
 
     }
     const handleClick =() => {
@@ -33,7 +33,7 @@ export default function AddRecipeRight({onRecipeStepChange})
         const newSteps = [...steps];
         newSteps[index] = { recipeIndex: index, description: value };
         setSteps(newSteps);
-        onRecipeStepChange(recipeName, steps,ingredients, type);
+        onRecipeStepChange(recipeName, steps,ingredients, type,time);
       };
 
     const handleRemove = (index) => {
@@ -48,13 +48,13 @@ export default function AddRecipeRight({onRecipeStepChange})
         const newIngredients = [...ingredients];
         newIngredients[index] = {name: value};
         setIngredients(newIngredients);
-        onRecipeStepChange(recipeName, steps,ingredients,type);
+        onRecipeStepChange(recipeName, steps,ingredients,type,time);
     }
     const handleChangeQuantity = (index,value) =>{
         const newIngredients = [...ingredients];
         newIngredients[index].quantity = value;
         setIngredients(newIngredients);
-        onRecipeStepChange(recipeName, steps,ingredients,type);
+        onRecipeStepChange(recipeName, steps,ingredients,type,time);
     }
 
     const handleRemoveIngredient = (index) => {
@@ -65,7 +65,7 @@ export default function AddRecipeRight({onRecipeStepChange})
 
     const handleClickFilter=(value) => {
         SetType(value);
-        onRecipeStepChange(recipeName, steps,ingredients, value);
+        onRecipeStepChange(recipeName, steps,ingredients, value,time);
     }
     
   
