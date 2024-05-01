@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { postComment } from "../services/comments";
 import { useStompClient } from "./WebSocketProvider";
 export default function AddComment(props)

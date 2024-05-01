@@ -14,6 +14,20 @@ export const postThread = async (thread) => {
         throw error.response.data;
     }
 };
+export const getThreadById = async (threadId) => {
+    try{
+        const response = await axios.get(`${API_URL}/chat/${threadId}`,config);
+        if(response.status === 200)
+        {
+            const res  = await response.data;
+            return res;
+        }
+    }
+    catch (error) {
+        console.log(`Failed to add thread.`,error);
+        throw error.response.data;
+    }
+};
 export const getAllThreads = async () => {
     try{
         const response = await axios.get(`${API_URL}/chat`,config);

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { postThread } from "../services/chat";
 export default function AddTopic(props)
 {
@@ -18,10 +18,6 @@ export default function AddTopic(props)
                 setTopic("");
                 props.handleClick();
                 props.handleAddTopic();
-                // if(props.socket!==null)
-                // props.socket.emit("notifyComm", comm)
-                // setComment("");
-                // props.handleCommentAdded();
             }
           )
           .catch((error)=> {

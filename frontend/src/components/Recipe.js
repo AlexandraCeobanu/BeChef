@@ -8,7 +8,6 @@ import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
 import { useStompClient } from "./WebSocketProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faC } from '@fortawesome/free-solid-svg-icons';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);

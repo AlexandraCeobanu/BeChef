@@ -10,7 +10,3 @@ export const config = {
     }
   }
 export const API_URL = "http://localhost:8081/api/v1";
-
-const socket = io('http://localhost:8082'); 
-
-export default socket;

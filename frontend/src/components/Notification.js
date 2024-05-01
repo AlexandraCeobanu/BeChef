@@ -1,7 +1,23 @@
 import UserBadge from "./UserBadge"
 import MiniRecipe from "./MiniRecipe"
 import "../styles/notification.scss";
+import { useEffect } from "react";
+import { useState } from "react";
+import { getThreadById } from "../services/chat";
 export default function Notification(props){
+    const [thread,setThread ] = useState(null);
+    useEffect(() => {
+        if(props.notification.type === "message")
+        {
+            getThreadById(props.notification.recipeId)
+            .then((response) => {
+                setThread(response)
+            })
+            .catch((error)=> {
+                console.log(error);
+            })
+        }
+    },[])
     return(
         <div>
 
@@ -18,7 +34,7 @@ export default function Notification(props){
                 (
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="thread-notification">
-                    <h6>Unde se coc cozonacii?</h6>
+                    <h6>{thread !== null && thread.topic}</h6>
                     <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
                     <p>{props.notification.message}</p>

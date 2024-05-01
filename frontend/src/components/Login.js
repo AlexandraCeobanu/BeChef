@@ -3,8 +3,6 @@ import '../styles/login.scss';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/login";
 import Logo from './Logo';
-import {over} from 'stompjs';
-import SockJS from 'sockjs-client/dist/sockjs';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
