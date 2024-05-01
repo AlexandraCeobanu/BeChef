@@ -118,4 +118,15 @@ public class ChatThreadService {
 
         return chatThreadRepository.findById(userId).orElse(null);
     }
+
+    public ThreadResponseDTO getThreadById(Long threadId) {
+
+        ChatThread thread = chatThreadRepository.findById(threadId).orElse(null);
+        ThreadResponseDTO threadResponse = new ThreadResponseDTO(thread.getId(),
+                thread.getInitiatorUser().getId(),
+                thread.getTopic()
+        );
+
+        return threadResponse;
+    }
 }
