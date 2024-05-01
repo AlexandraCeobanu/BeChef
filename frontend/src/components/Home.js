@@ -62,7 +62,7 @@ export default function Home()
                 getRecipesByFilter(value,user.id,search)
                 .then (
                     (response) => {
-                        // const uniqueRecipes = response.reverse().filter((item, index) => response.indexOf(item) === index);
+                    
                         setFilteredRecipes(prev => [...prev, ...response])  
                     }
                   )
@@ -97,8 +97,12 @@ export default function Home()
     }
     useEffect(()=> {
 
-      console.log(filteredRecipes)
-      setRecipes(filteredRecipes);
+      const uniqueRecipes = filteredRecipes.filter((item, index, self) =>
+                      index === self.findIndex((t) => (
+                        t.id === item.id
+                      ))
+                    );
+      setRecipes(uniqueRecipes);
 
     },[filteredRecipes])
     return(
