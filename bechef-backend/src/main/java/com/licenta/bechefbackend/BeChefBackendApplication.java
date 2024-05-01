@@ -3,7 +3,6 @@ package com.licenta.bechefbackend;
 import com.licenta.bechefbackend.entities.Role;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
-import com.licenta.bechefbackend.socketIO.SocketIOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +15,7 @@ import java.util.Optional;
 public class BeChefBackendApplication implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
-@Autowired
-	private SocketIOService socketIOService;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BeChefBackendApplication.class, args);
@@ -34,6 +32,5 @@ public class BeChefBackendApplication implements CommandLineRunner {
 			user.setEnabled(true);
 			userRepository.save(user);
 		}
-		socketIOService.startServer();
 	}
 }
