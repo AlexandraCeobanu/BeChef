@@ -82,6 +82,7 @@ export default function Recipe(props)
 
     useEffect(
         ()=> {
+            setRecipe(props.recipe);
             getRecipeComments(recipe.id)
             .then ((response)=> {
                 setNrComments(response.length);
@@ -90,15 +91,17 @@ export default function Recipe(props)
         },[props]
     )
     
+    
     return(
         <div>
             <div className='time'>
                 <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                <h5>{recipe.time}</h5>
+                <h5>{recipe!==undefined && recipe.time}</h5>
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>
             </div>
+            
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>
             <Feedback text='Comments' icon={faComment} nr ={nrComments} ></Feedback>

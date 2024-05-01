@@ -53,6 +53,7 @@ useEffect(() => {
     return(
         <div>
         {
+
         viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]}
           image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}
           index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} 
