@@ -1,15 +1,9 @@
 package com.licenta.bechefbackend.controller;
-
 import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
-import com.licenta.bechefbackend.entities.OnlineUser;
 import com.licenta.bechefbackend.entities.User;
-import com.licenta.bechefbackend.repository.OnlineUserRepository;
-import com.licenta.bechefbackend.repository.UserRepository;
 import com.licenta.bechefbackend.services.ChatThreadService;
 import com.licenta.bechefbackend.services.NotificationService;
-import com.licenta.bechefbackend.services.UserService;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -30,7 +24,7 @@ public class WebSocketController {
     @Autowired
     ChatThreadService chatThreadService;
     @MessageMapping("/{threadId}/messages")
-    @SendTo("/newMessage/{threadId}")
+    @SendTo("/newMessage")
     public MessageResponse sendMessage(@DestinationVariable String threadId,@Payload MessageDTO messageDTO)
     {
         MessageResponse msResponse = new MessageResponse(messageDTO.getMessage(), messageDTO.getSenderId(),
@@ -47,7 +41,7 @@ public class WebSocketController {
         for(User user : users)
         {
             NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),
-                    messageDTO.getThreadId(), messageDTO.getMessage(),false);
+                    messageDTO.getThreadId(), messageDTO.getMessage(),false, "message");
             notificationService.createNotification(notificationDTO);
             simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
 
@@ -61,7 +55,7 @@ public class WebSocketController {
     {
 
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
-                likeDTO.getRecipeId(), "liked your recipe" ,false);
+                likeDTO.getRecipeId(), "liked your recipe" ,false, "like");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;
     }
@@ -80,7 +74,7 @@ public class WebSocketController {
     {
 
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
-                commentDTO.getRecipeId(), "added a comment: " + commentDTO.getComm() ,false);
+                commentDTO.getRecipeId(), "added a comment: " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;
     }

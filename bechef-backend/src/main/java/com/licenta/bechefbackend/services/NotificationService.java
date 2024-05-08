@@ -29,7 +29,7 @@ public class NotificationService {
         User senderUser = userRepository.findById(notificationDTO.getSenderId()).orElse(null);
         User receiverUser = userRepository.findById(notificationDTO.getReceiverId()).orElse(null);
         Recipe recipe = recipeRepository.findById(notificationDTO.getRecipeId()).orElse(null);
-        Notification notification = new Notification(senderUser,receiverUser,recipe, notificationDTO.getMessage());
+        Notification notification = new Notification(senderUser,receiverUser,recipe, notificationDTO.getMessage(), notificationDTO.getType());
         notificationRepository.save(notification);}
         catch (Exception e)
         {
@@ -44,7 +44,7 @@ public class NotificationService {
         for(Notification not: notifications)
         {
             NotificationDTO notDTO = new NotificationDTO(not.getSenderUser().getId(),
-                    not.getReceiverUser().getId(), not.getRecipe().getId(),not.getMessage(),not.getIsRead());
+                    not.getReceiverUser().getId(), not.getRecipe().getId(),not.getMessage(),not.getIsRead(), not.getType());
             notificationDTOS.add(notDTO);
         }
         Collections.reverse(notificationDTOS);

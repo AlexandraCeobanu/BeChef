@@ -240,32 +240,65 @@ public class RecipeService {
         return savedRecipesDTO;
     }
 
-    public List<RecipeResponseDTO> getRecipesByFilter(int filter,Long userId) {
+    public List<RecipeResponseDTO> getRecipesByFilter(int filter,Long userId, String recipeName) {
+
 
         List<Recipe> recipes = new ArrayList<>();
         if (filter == 2)
         {
+             if(recipeName.equals(""))
              recipes = recipeRepository.findAllByType("Breakfast");
+             else{
+                 recipes = recipeRepository.findAllByTypeAndName("Breakfast",recipeName);
+             }
         }
         if (filter == 3) {
+            if(recipeName.equals(""))
             recipes = recipeRepository.findAllByType("Lunch");
+            else{
+                recipes = recipeRepository.findAllByTypeAndName("Lunch",recipeName);
+            }
         }
 
         if (filter == 4){
+            if(recipeName.equals(""))
              recipes = recipeRepository.findAllByName("Dinner");
+            else {
+                recipes = recipeRepository.findAllByTypeAndName("Dinner",recipeName);
+            }
         }
         if (filter == 5){
-             recipes = recipeRepository.findAllByName("Dessert");}
+            if(recipeName.equals(""))
+             recipes = recipeRepository.findAllByName("Dessert");
+            else {
+                recipes = recipeRepository.findAllByTypeAndName("Dessert",recipeName);
+            }
+        }
 
         if (filter == 6)
             {
+                if(recipeName.equals(""))
                 recipes = recipeRepository.findAllLessThan1();
+                else
+                {
+                    recipes = recipeRepository.findAllLessThan1ByName(recipeName);
+                }
             }
             if (filter == 7) {
+                if(recipeName.equals(""))
                 recipes = recipeRepository.findAllLessThan2();
+                else
+                {
+                    recipes = recipeRepository.findAllLessThan2ByName(recipeName);
+                }
             }
         if (filter == 8){
-            List<Recipe> allRecipes = (List<Recipe>) recipeRepository.findAll();
+            List<Recipe> allRecipes = new ArrayList<>();
+            if(recipeName.equals("")){
+            allRecipes = (List<Recipe>) recipeRepository.findAll();}
+            else{
+                allRecipes =  recipeRepository.findAllByName(recipeName);
+            }
             StockList stockList = stockListService.getStockList(userId);
 
             List<String>  allItemsStock = stockListService.getItemsNames(stockList.getId());

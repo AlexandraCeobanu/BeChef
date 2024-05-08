@@ -56,7 +56,7 @@ public class PasswordService {
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = token;
-        emailSender.send(user.getEmail(),buildEmail(user.getUsername(),link));
+        emailSender.send(user.getEmail(),buildEmail(user.getUsername(),link),"Change your password");
     }
     @Transactional
     public String confirmToken(String token)

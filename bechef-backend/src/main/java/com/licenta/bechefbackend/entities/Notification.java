@@ -32,12 +32,14 @@ public class Notification {
 
     String message ;
     Boolean isRead = false;
-    public Notification(User senderUser,User receiverUser, Recipe recipe,String message)
+    String type ;
+    public Notification(User senderUser,User receiverUser, Recipe recipe,String message, String type)
     {
         this.senderUser=senderUser;
         this.recipe = recipe;
         this.receiverUser = receiverUser;
         this.message=message;
+        this.type = type;
     }
 
 }

@@ -12,6 +12,7 @@ public class NotificationDTO {
     Long recipeId;
     String message;
     Boolean read;
+    String type;
 
     @Override
     public String toString() {

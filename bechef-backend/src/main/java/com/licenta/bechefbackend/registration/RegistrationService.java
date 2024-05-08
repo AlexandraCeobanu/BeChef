@@ -54,7 +54,7 @@ public class RegistrationService {
         User user = userRepository.save(newUser);
         shoppingListService.createShoppingList(user.getId());
         stockListService.createStockList(user.getId());
-       /* sendEmail(userDTO,newUser);*/
+       sendEmail(userDTO,newUser);
         var jwtToken = jwtService.generateToken(newUser);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -65,8 +65,9 @@ public class RegistrationService {
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), newUser);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        String link = "http://localhost:8081/api/v1/register/confirm?token=" + token;
-        emailSender.send(userDTO.getEmail(),buildEmail(userDTO.getUsername(),link));
+        String link = "http://localhost:3000/confirmEmail?token=" + token;
+//        String link = "http://localhost:8081/api/v1/register/confirm?token=" + token;
+        emailSender.send(userDTO.getEmail(),buildEmail(userDTO.getUsername(),link), "Confirm your email");
     }
     @Transactional
     public String confirmToken(String token)
@@ -166,7 +167,7 @@ public class RegistrationService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to finish registration: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Confirm email address</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
