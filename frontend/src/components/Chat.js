@@ -5,6 +5,7 @@ import Header from "./Header";
 import { useEffect, useState } from "react";
 import ChatSidebar from "./ChatSideBar";
 import { getAllThreads,getSubscribedThreads } from "../services/chat";
+import { useStompClient } from "./WebSocketProvider";
 export default function Chat()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
@@ -15,6 +16,7 @@ export default function Chat()
     const [messageAdded,setMessageAdded] = useState(false);
     const [subscribedThreads,setSubscribedThreads] = useState([]);
     const [subscribeThread,setSubscribeThread] = useState(false);
+    const client = useStompClient();
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
@@ -55,6 +57,18 @@ export default function Chat()
     const handleSubscribeThread=(value)=>{
         setSubscribeThread(value);
     }
+
+    useEffect (() => {
+        if(client)
+         {
+            const subscription = client.subscribe(`/newMessage`, function(message) {
+                        handleMessageAdded();});
+    
+            return () => {
+                    subscription.unsubscribe();
+                        };
+         }
+        },[client])
     return(
         <div>
             <Header></Header>

@@ -1,5 +1,4 @@
 
-import React, {useState,useEffect} from 'react';
 import { BrowserRouter as Router, Routes,Route} from 'react-router-dom';
 import Login from '../components/Login'
 import Register from './Register';
@@ -13,6 +12,8 @@ import AddRecipe from './AddRecipe';
 import UserProfileView from './UserProfileView';
 import Chat from './Chat';
 import Notifications from './Notifications';
+import RecipeViewNotification from './RecipeViewNotification';
+import SuccessfullyRegistration from './SuccessfullyRegistration';
 export default function App(){
     return(
         <Router>
@@ -25,11 +26,13 @@ export default function App(){
                 <Route path="/success" element ={<SuccessfullyPage/>}></Route>
                 <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
                 <Route path="/entercode" element ={<EnterCode/>}></Route>
+                <Route path="/confirmEmail" element ={<SuccessfullyRegistration/>}></Route>
                 <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
                 <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
                 <Route path="/userProfileView" element = {<ProtectedRoute><UserProfileView/></ProtectedRoute>}></Route>
                 <Route path="/notifications" element = {<ProtectedRoute><Notifications/></ProtectedRoute>}></Route>
                 <Route path="/chat" element = {<ProtectedRoute><Chat/></ProtectedRoute>}></Route>
+                <Route path="/viewRecipe" element = {<ProtectedRoute><RecipeViewNotification/></ProtectedRoute>}></Route>
             </Routes>
         </Router>
     )

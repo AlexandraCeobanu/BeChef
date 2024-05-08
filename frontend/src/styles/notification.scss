@@ -17,6 +17,7 @@
 }
 .notification {
     width:21em;
+    height: 3em;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -26,6 +27,7 @@
     padding-top: 0.3em;
     opacity: 0.4;
     gap:0.2em;
+    align-items: center;
     p {
         font-size: 0.8em;
     }
@@ -33,6 +35,7 @@
         height: 2em;
         width: 2em;
         overflow: hidden;
+        cursor: pointer;
     }
     img {
         width: 100%;
@@ -40,11 +43,19 @@
         object-fit: cover;
     }
     .without-image {
-        gap:0.3em;
+        gap:0.5em;
         width:19em;
         display: flex;
         flex-direction: row;
+        align-items: center;
         word-wrap: break-word;
+    }
+    .thread-notification {
+        gap: 0.3em;
+        display: flex;
+        flex-direction: column;
+        word-wrap: break-word;
+        width:19em;
     }
 }
 .read-notification {

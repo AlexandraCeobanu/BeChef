@@ -103,7 +103,7 @@ export default function Header(props){
             <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
-             {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot}></Notifications>}
+             {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot} handleShowNotifications={handleShowNotifications}></Notifications>}
             </div>
             </div>
             <div className="logout">

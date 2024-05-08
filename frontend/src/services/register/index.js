@@ -5,16 +5,27 @@ export const registerUser = async (newUser) => {
         const response = await axios.post(`${API_URL}/register`,newUser,config);
         if(response.status === 201)
         {
-            const token = await response.data;
-            console.log(`User  successfully registered`);
-            localStorage.setItem('token',JSON.stringify(token));
-            localStorage.setItem('isAuthenticated',"true");
+            return response.data;
         }
     }
     catch(error)
     {
         
         console.log('Failed to register the user',error);
+        throw error.response.data;
+    }
+};
+export const sendConfirmationToken = async (token) => {
+    try{
+        const response = await axios.get(`${API_URL}/register/confirm?token=${token}`);
+        if (response.status === 200)
+        {
+            const message = await response.data;
+            return message;
+        }
+    }
+    catch(error) {
+        console.log(`Failed to send token.`, error);
         throw error.response.data;
     }
 };

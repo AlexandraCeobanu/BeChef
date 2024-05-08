@@ -40,6 +40,18 @@
                 font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
                 color : rgba(0, 0, 0,0.7);
             }
+            .password {
+                width: 17em;
+                height: 2.5em;
+               position: relative;
+                #eye {
+                    box-sizing: border-box;
+                    position: absolute;
+                    right: 0;
+                    bottom: 1em;
+                }
+            }
+            
             input {
                 width: 20em;
                 height: 2.5em;
@@ -89,6 +101,11 @@
             }
         }
     }
+}
+.finish-registration {
+    color : $primary-color;
+    align-self: flex-start;
+    margin-top: 10%;
 }
 
 // .page {

@@ -8,7 +8,6 @@ import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
 import { useStompClient } from "./WebSocketProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faC } from '@fortawesome/free-solid-svg-icons';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
@@ -17,6 +16,7 @@ export default function Recipe(props)
     const [nrComments,setNrComments] = useState(0);
     const client = useStompClient();
     const handleClick=()=> {
+        if(props.index !== undefined)
         props.onClick(props.index);
     }
     const handleLike=(value)=> {
@@ -83,6 +83,7 @@ export default function Recipe(props)
 
     useEffect(
         ()=> {
+            setRecipe(props.recipe);
             getRecipeComments(recipe.id)
             .then ((response)=> {
                 setNrComments(response.length);
@@ -91,15 +92,17 @@ export default function Recipe(props)
         },[props]
     )
     
+    
     return(
         <div>
             <div className='time'>
                 <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                <h5>{recipe.time}</h5>
+                <h5>{recipe!==undefined && recipe!=null && recipe.time}</h5>
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>
             </div>
+            
             <div className="recipie-feedback">
             <Feedback text='Likes' icon={faHeart} onClick={handleLike} nr = {nrLikes} liked={liked} ></Feedback>
             <Feedback text='Comments' icon={faComment} nr ={nrComments} ></Feedback>

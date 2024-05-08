@@ -16,6 +16,7 @@
     top:0;
     position: fixed;
     color: rgba(0,0,0,0.5);
+    
     .title {
         display: flex;
         justify-content: space-between;
@@ -34,17 +35,27 @@
     .messages {
         display: flex;
         flex-direction: column;
+        height: 75%;
         gap:1em;
         margin-top: 2em;
         margin-left: 1em;
         font-size: medium;
         color: rgba(0,0,0,0.5);
+        overflow: auto;
     }
+    .messages::-webkit-scrollbar {
+        display: none;
+    }
+
     .add-message{
         position: absolute;
         bottom: 0;
         width: 80%;
         margin-left: 1em;
+       
+        height: 13%;
+        display: flex;
+        align-items: center;
         input {
             width: 100%;
             border:none;
@@ -53,7 +64,6 @@
             background-color: $primary-color;
             padding-left: 1em;
             padding-bottom: 1em;
-            margin-bottom: 2em;
         }
         input:focus {
             outline: none;
@@ -64,6 +74,7 @@
     }
 
 }
+
 .display-sidebar {
     
    float:right;

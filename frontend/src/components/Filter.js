@@ -6,8 +6,10 @@ export default function Filter(props){
         if(clicked === false)
         {setClicked(true);
         props.handleClickFilter(props.filter);}
-        else
+        else{
         setClicked(false)
+        props.handleRemoveFilter(props.filter);
+    }
     }
     useEffect(()=> {
         setClicked(props.clicked);
