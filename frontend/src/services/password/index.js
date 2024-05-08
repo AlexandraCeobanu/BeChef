@@ -33,3 +33,18 @@ export const sendCode = async (code) => {
         throw error.response.data;
     }
 };
+export const resendLinkChangePassword = async (email) => {
+    try{
+
+        const response = await axios.get(`${API_URL}/changePassword/resendLink?email=${email}`);
+        if (response.status === 200)
+        {
+            const message = await response.data;
+            return message;
+        }
+    }
+    catch(error) {
+        console.log(`Failed to resend token.`, error);
+        throw error.response.data;
+    }
+};

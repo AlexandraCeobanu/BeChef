@@ -3,6 +3,8 @@ import '../styles/enterCode.scss'
 import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sendCode } from '../services/password';
+import { useLocation } from 'react-router-dom';
+import { resendLinkChangePassword } from '../services/password';
 export default function EnterCode()  {
     
    const [code,setCode] = useState('');
@@ -37,7 +39,7 @@ export default function EnterCode()  {
         )
     };
     const handleResendLink = () => {
-        resendLink(data.email)
+        resendLinkChangePassword(data.email)
         .then((response) => {
             console.log(response);
         })

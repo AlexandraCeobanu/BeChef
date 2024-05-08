@@ -40,8 +40,8 @@ export default function ForgotPassword(){
                 setEmail("");
                 setnewPassword("");
                 setErrorMessage("");
-                
-                navigate('/changePassword');
+                const data= {email: user.email};
+                navigate('/changePassword', { state: data });
             }
         )
         .catch((error) => {
