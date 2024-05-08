@@ -54,7 +54,7 @@ public class RegistrationService {
         User user = userRepository.save(newUser);
         shoppingListService.createShoppingList(user.getId());
         stockListService.createStockList(user.getId());
-       /* sendEmail(userDTO,newUser);*/
+       sendEmail(userDTO,newUser);
         var jwtToken = jwtService.generateToken(newUser);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

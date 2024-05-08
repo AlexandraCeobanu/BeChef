@@ -35,10 +35,16 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
     List<Recipe> findAllByName(String name);
     @Query("SELECT r FROM Recipe r Where r.type = ?1")
     List<Recipe> findAllByType(String type);
+    @Query("SELECT r FROM Recipe r Where r.type = ?1 and r.name = ?2")
+    List<Recipe> findAllByTypeAndName(String type,String recipeName);
     @Query("SELECT r FROM Recipe r WHERE FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '01:00:00'")
     List<Recipe> findAllLessThan1();
+    @Query("SELECT r FROM Recipe r WHERE r.name= ?1 and FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '01:00:00'")
+    List<Recipe> findAllLessThan1ByName(String recipeName);
     @Query("SELECT r FROM Recipe r WHERE FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '02:00:00'")
     List<Recipe> findAllLessThan2();
+    @Query("SELECT r FROM Recipe r WHERE r.name=?1 and  FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '02:00:00'")
+    List<Recipe> findAllLessThan2ByName(String recipeName);
     @Transactional
     @Modifying
     @Query("UPDATE Recipe r " + "SET r.nrLikes = ?1 WHERE r.id = ?2")

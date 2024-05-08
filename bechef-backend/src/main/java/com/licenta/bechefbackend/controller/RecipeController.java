@@ -104,10 +104,10 @@ public class RecipeController {
         }
     }
     @GetMapping("/filter/{filter}")
-    public ResponseEntity<?> getRecipesByFilter(@PathVariable int filter, @RequestParam Long userId)
+    public ResponseEntity<?> getRecipesByFilter(@PathVariable int filter, @RequestParam Long userId, @RequestParam String recipeName)
     {
         try {
-            return new ResponseEntity<List<RecipeResponseDTO>>(recipeService.getRecipesByFilter(filter,userId), HttpStatus.OK);
+            return new ResponseEntity<List<RecipeResponseDTO>>(recipeService.getRecipesByFilter(filter,userId,recipeName), HttpStatus.OK);
         }
         catch (Exception e)
         {

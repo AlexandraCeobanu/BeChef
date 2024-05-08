@@ -24,7 +24,7 @@ public class WebSocketController {
     @Autowired
     ChatThreadService chatThreadService;
     @MessageMapping("/{threadId}/messages")
-    @SendTo("/newMessage/{threadId}")
+    @SendTo("/newMessage")
     public MessageResponse sendMessage(@DestinationVariable String threadId,@Payload MessageDTO messageDTO)
     {
         MessageResponse msResponse = new MessageResponse(messageDTO.getMessage(), messageDTO.getSenderId(),
