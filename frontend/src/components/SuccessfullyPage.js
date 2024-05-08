@@ -14,6 +14,7 @@ export default function SuccessfullyPage()
         navigate("/Home");
     }
     return(
+        
         <div className='success'>
             <FontAwesomeIcon id="circle-check" icon={faCircleCheck} size="5x" />
             <h1>Congratulations!</h1>

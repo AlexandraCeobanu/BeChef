@@ -46,11 +46,12 @@ export default function Register(){
                 setEmail("");
                 setUsername("");
                 setPassword("");
-                const data= {message : 'You successfully registered',
-                            page : 'Home'
-                            };
                 setIsRegistered(true);
-                navigate('/success', { state: data });
+                // const data= {message : 'You successfully registered',
+                //             page : 'Home'
+                //             };
+                // setIsRegistered(true);
+                // navigate('/success', { state: data });
             }
         )
         .catch((error) => {
@@ -62,7 +63,8 @@ export default function Register(){
      }
     return(
         <div className="page">
-            <div className='mini-page'>
+            {isRegistered === false ? 
+            (<div className='mini-page'>
             <div className="left-side">
             </div>
             <div id="logo">
@@ -86,6 +88,12 @@ export default function Register(){
                 <button type="button" className='buttons' onClick={handleLoginClick}>Login</button>
             </div>
             </div>
-            </div>
+            </div>) : 
+            (
+                <div>
+                    <h1>To finish registration, please verify your email</h1>
+                </div>
+            )}
+
         </div>
     )}
