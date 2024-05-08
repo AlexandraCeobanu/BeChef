@@ -49,7 +49,9 @@ export default function Register(){
                 setUsername("");
                 setPassword("");
                 setIsRegistered(true);
-                navigate("/confirm")
+                const data= {email: user.email};
+                navigate('/confirm', { state: data });
+
             }
         )
         .catch((error) => {

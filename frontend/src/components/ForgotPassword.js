@@ -40,7 +40,8 @@ export default function ForgotPassword(){
                 setEmail("");
                 setnewPassword("");
                 setErrorMessage("");
-                navigate('/entercode');
+                
+                navigate('/changePassword');
             }
         )
         .catch((error) => {
