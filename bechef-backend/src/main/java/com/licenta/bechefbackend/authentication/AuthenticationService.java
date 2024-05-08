@@ -1,6 +1,8 @@
 package com.licenta.bechefbackend.authentication;
 
 import com.licenta.bechefbackend.entities.User;
+import com.licenta.bechefbackend.registration.token.ConfirmationToken;
+import com.licenta.bechefbackend.registration.token.ConfirmationTokenService;
 import com.licenta.bechefbackend.repository.UserRepository;
 import com.licenta.bechefbackend.services.JWTService;
 import lombok.RequiredArgsConstructor;
@@ -22,27 +24,23 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
-    /*public User login(AuthenticationRequest authenticationRequest)
-    {
-        User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElse(null);
-        if(user!=null) {
-
-
-            if (passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword())) {
-                return user;
-            }
-            else
-            {
-                throw new IllegalStateException("Incorrect password");
-            }
-        }
-        else
-        {
-            throw new IllegalStateException("Incorrect email");
-        }
-    }*/
+    @Autowired
+    ConfirmationTokenService confirmationTokenService;
     public AuthenticationResponse login(AuthenticationRequest authenticationRequest)
     {
+        User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElse(null);
+        if(user != null )
+        {
+            ConfirmationToken confirmationToken = confirmationTokenService.getTokenByUser(user.getId()).orElse(null);
+            if(confirmationToken != null)
+            {
+                if(confirmationToken.getConfirmedAt() == null)
+                {
+                    throw new IllegalStateException("Email address not confirmed");
+                }
+            }
+
+        }
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -50,6 +48,7 @@ public class AuthenticationService {
                             authenticationRequest.getPassword()
                     )
             );
+
         }catch (BadCredentialsException e) {
             System.out.println("Incorrect email or password: " + e.getMessage());
             throw new BadCredentialsException("Incorrect email or password.") {
@@ -59,8 +58,6 @@ public class AuthenticationService {
             System.out.println("Failed Authentication: " + e.getMessage());
             throw new RuntimeException("Failed Authentication");
         }
-        var user = userRepository.findByEmail(authenticationRequest.getEmail())
-                .orElseThrow(() -> new IllegalStateException("Incorrect email"));
 
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()

@@ -4,6 +4,7 @@ import com.licenta.bechefbackend.DTO.UserDTO;
 import com.licenta.bechefbackend.authentication.AuthenticationResponse;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.UserRepository;
+import org.eclipse.persistence.exceptions.EclipseLinkException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,14 @@ public class RegistrationController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(registrationService.confirmToken(token));
         } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+    @GetMapping(path = "register/resendLink")
+    public ResponseEntity<String> resendLink(@RequestParam("email") String email) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(registrationService.resendLink(email));
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }

@@ -54,40 +54,40 @@ public class RegistrationService {
         User user = userRepository.save(newUser);
         shoppingListService.createShoppingList(user.getId());
         stockListService.createStockList(user.getId());
-       sendEmail(userDTO,newUser);
+       sendEmail(newUser);
         var jwtToken = jwtService.generateToken(newUser);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
     }
-    void sendEmail(UserDTO userDTO,User newUser)
+    void sendEmail(User newUser)
     {
         String token = UUID.randomUUID().toString();
         ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), newUser);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = "http://localhost:3000/confirmEmail?token=" + token;
 //        String link = "http://localhost:8081/api/v1/register/confirm?token=" + token;
-        emailSender.send(userDTO.getEmail(),buildEmail(userDTO.getUsername(),link), "Confirm your email");
+        emailSender.send(newUser.getEmail(),buildEmail(newUser.getUsername(),link), "Confirm your email");
     }
     @Transactional
     public String confirmToken(String token)
     {
         ConfirmationToken confirmationToken = confirmationTokenService.getToken(token).orElseThrow(()
-        -> new IllegalStateException("token not found"));
+        -> new IllegalStateException("Link not found"));
         if (confirmationToken.getConfirmedAt() != null)
         {
-            throw new IllegalStateException("email already confirmed");
+            throw new IllegalStateException("Email already confirmed");
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if(expiredAt.isBefore(LocalDateTime.now()))
         {
-            throw new IllegalStateException("token expired");
+            throw new IllegalStateException("Link expired");
         }
         confirmationTokenService.setConfirmedAt(token);
 
         userService.enableUser(confirmationToken.getUser().getEmail());
 
-        return "confirmed";
+        return "Confirmed";
     }
     public void validateData(UserDTO userDTO)
     {
@@ -178,6 +178,16 @@ public class RegistrationService {
                 "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
                 "\n" +
                 "</div></div>";
+    }
+
+    public String resendLink(String email) {
+        User user  = userRepository.findByEmail(email).orElse(null);
+        if(user != null)
+        {
+            confirmationTokenService.deleteAllByUserId(user.getId());
+            sendEmail(user);
+        }
+        return "link send";
     }
 }
 
