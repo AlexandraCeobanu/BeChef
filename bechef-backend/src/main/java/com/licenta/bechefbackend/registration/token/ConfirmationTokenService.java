@@ -17,7 +17,7 @@ public class ConfirmationTokenService {
     public Optional<ConfirmationToken> getToken(String token) {
         return confirmationTokenRepository.findByToken(token);
     }
-    public Optional<ConfirmationToken> getTokenByUser(Long id) {return confirmationTokenRepository.findByUserId(id);}
+    public Optional<ConfirmationToken> getRegistrationTokenByUser(Long id) {return confirmationTokenRepository.findRegistrationByUserId(id);}
 
     public int setConfirmedAt(String token) {
         return confirmationTokenRepository.updateConfirmedAt(

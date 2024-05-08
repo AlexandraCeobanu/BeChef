@@ -31,7 +31,7 @@ public class AuthenticationService {
         User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElse(null);
         if(user != null )
         {
-            ConfirmationToken confirmationToken = confirmationTokenService.getTokenByUser(user.getId()).orElse(null);
+            ConfirmationToken confirmationToken = confirmationTokenService.getRegistrationTokenByUser(user.getId()).orElse(null);
             if(confirmationToken != null)
             {
                 if(confirmationToken.getConfirmedAt() == null)

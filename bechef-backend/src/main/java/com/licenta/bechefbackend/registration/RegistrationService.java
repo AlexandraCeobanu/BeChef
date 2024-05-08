@@ -63,7 +63,7 @@ public class RegistrationService {
     void sendEmail(User newUser)
     {
         String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), newUser);
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), newUser, "registration");
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = "http://localhost:3000/confirmEmail?token=" + token;
 //        String link = "http://localhost:8081/api/v1/register/confirm?token=" + token;

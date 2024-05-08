@@ -31,4 +31,13 @@ public class ForgotPasswordController {
             return  ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
 
-}}
+}
+    @GetMapping(path = "/changePassword/resendLink")
+    public ResponseEntity<String> resendLink(@RequestParam("email") String email) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(passwordService.resendLink(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
+    }
+}

@@ -28,8 +28,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests((request) -> request
                             .requestMatchers("api/v1/register/**" , "/api/v1/login/**" , "/api/v1/changePassword/**" ,
-                                    "/api/v1/confirmChangePassword/**", "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-                                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/ws/**").permitAll()
+                                    "/api/v1/confirmChangedPassword/**", "/v2/api-docs", "/configuration/ui", "/swagger-resources",
+                                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/ws/**", "/static/**").permitAll()
                             .anyRequest().authenticated()
           )
                 .cors(Customizer.withDefaults())
