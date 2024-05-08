@@ -86,7 +86,7 @@ export const subscribeToThread = async (threadId,userId) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
         config.headers.Authorization = `Bearer ${token}`;
-        const response = await axios.post(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
+        const response = await axios.post(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,null,config);
         if(response.status === 201)
         {
             const res  = await response.data;

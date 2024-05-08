@@ -92,7 +92,6 @@ export default function Recipe(props)
         },[props]
     )
     
-    
     return(
         <div>
             <div className='text'>
