@@ -5,10 +5,20 @@
 .time {
     color:rgba(0,0,0,0.3);
     display: flex;
-    gap:1em;
-    // margin-left: 1em;
-    margin-top: 1em;
+    gap:0.5em;
+    position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0; 
+        transition: opacity 0.3s ease;
+   
 }
+.text {
+  font-size: large;
+   margin-top:1em;
+    
+   }
 .recipie-photo {
     width: 15em;
     height: 15em;
@@ -23,8 +33,16 @@
     }
     img:hover{
         transform: scale(1.1);
+        opacity: 0.4;
     }
+    img:hover + .time {
+
+        opacity: 1; /* Afișat la hover */
+        font-size: 2em;
+        color:black;
+      }
 }
+
 .recipie-feedback{
     width: 15rem;
     display: flex;
