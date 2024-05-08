@@ -47,11 +47,6 @@ export default function Register(){
                 setUsername("");
                 setPassword("");
                 setIsRegistered(true);
-                // const data= {message : 'You successfully registered',
-                //             page : 'Home'
-                //             };
-                // setIsRegistered(true);
-                // navigate('/success', { state: data });
             }
         )
         .catch((error) => {
@@ -90,7 +85,7 @@ export default function Register(){
             </div>
             </div>) : 
             (
-                <div>
+                <div className='finish-registration'>
                     <h1>To finish registration, please verify your email</h1>
                 </div>
             )}
