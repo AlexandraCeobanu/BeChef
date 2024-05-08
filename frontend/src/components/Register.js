@@ -49,6 +49,7 @@ export default function Register(){
                 setUsername("");
                 setPassword("");
                 setIsRegistered(true);
+                localStorage.setItem("email" , email);
                 const data= {email: user.email};
                 navigate('/confirm', { state: data });
 

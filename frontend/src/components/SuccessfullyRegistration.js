@@ -6,6 +6,7 @@ import { faCircleCheck} from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import '../styles/successfullyPage.scss'
 import { sendConfirmationToken } from '../services/register';
+import { resendLink } from '../services/register';
 export default function SuccessfullyRegistration()
 {
     const [error, setError] = useState("");
@@ -26,6 +27,15 @@ export default function SuccessfullyRegistration()
             setError(error);
         })
     },[])
+    const handleResendLink = () => {
+        resendLink(localStorage.getItem("email"))
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }
     return(
         
         <div className='success'>
@@ -40,7 +50,7 @@ export default function SuccessfullyRegistration()
             (
                 error !== "" &&  ( <div> <h1>{error}</h1>
                 {error === "Email already confirmed" && <button  type="button" onClick={handleClick}>Login</button>}
-                {error !== "Email already confirmed" && <button  type="button" onClick={handleClick}>Resend Link</button>}
+                {error !== "Email already confirmed" && <button  type="button" onClick={handleResendLink}>Resend Link</button>}
                 </div>)
             )
          }
