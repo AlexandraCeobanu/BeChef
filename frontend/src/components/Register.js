@@ -2,7 +2,9 @@ import '../styles/login.scss';
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import {registerUser} from '../services/register'
-import SuccessfullyPage from './SuccessfullyPage';
+import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Logo from './Logo';
 export default function Register(){
 
@@ -13,7 +15,7 @@ export default function Register(){
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
     const [isRegistered, setIsRegistered] = useState(false);
-
+    const [seePassword,setSeePassword] = useState(false);
     const handleLoginClick = (event) => {
         navigate('/login');
     }
@@ -56,6 +58,12 @@ export default function Register(){
             setIsRegistered(false);
         })
      }
+     const handleSeePassword=(() => {
+        if(seePassword === false)
+        setSeePassword(true);
+        else
+        setSeePassword(false);
+    })
     return(
         <div className="page">
             {isRegistered === false ? 
@@ -74,7 +82,23 @@ export default function Register(){
                 {errorMessage === 'Invalid email' || errorMessage === 'Email already used' ? <p className="error-message">{errorMessage}</p> : <br></br>}
                 <input type="text" id="username" name="username" required onChange={changeUsernameHandler} placeholder='Username' style={{ marginBottom: errorMessage === 'Username already used' ? 0 : '1em' }}></input><br></br>
                 {errorMessage === 'Username already used' ? <p className="error-message">{errorMessage}</p> : <br></br>}
-                <input type="password" id="password" name="password" required onChange={changePasswordHandler} placeholder='Password' style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input><br></br>
+                <div className='password'>
+                {
+                    seePassword === false ? 
+                    (
+                        <input type="password" id="password" name="password" required onChange={changePasswordHandler} placeholder='Password' style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input>
+                        
+                    ) : 
+                    (<input type="text" id="password" name="password" required onChange={changePasswordHandler} placeholder='Password' style={{ marginBottom: errorMessage.includes("password") ? 0 : '1em' }}></input>)
+                }
+                {seePassword === false ? (
+                    <FontAwesomeIcon icon={faEyeSlash} id="eye" onClick={handleSeePassword}></FontAwesomeIcon>
+                ) : (
+                    <FontAwesomeIcon icon={faEye} id="eye" onClick={handleSeePassword}></FontAwesomeIcon>
+                )}
+                
+                </div>
+                
                 {errorMessage.includes("password") ? <p className="error-message">{errorMessage}</p> : <br></br>}
                 <button type="submit" id="submit" name="submit" value="Register">Register</button>
             </form>
