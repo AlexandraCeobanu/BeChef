@@ -12,7 +12,7 @@ export const getProfileImage = async(id)=>{
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
         config2.headers.Authorization = `Bearer ${token}`;
-        const response = await axios.get(`${API_URL}/upload/profileImage/${id}`,config2,{responseType: 'arraybuffer'});
+        const response = await axios.get(`${API_URL}/upload/profileImage/${id}`,config2);
         try{
         if (response.status === 200)
         {

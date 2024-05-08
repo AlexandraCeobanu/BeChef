@@ -2,7 +2,7 @@ import axios from 'axios'
 import { config,config2, API_URL } from '../global'
 export const loginUser = async (user) => {
     try{
-        const response = await axios.post(`${API_URL}/login`,user,config);
+        const response = await axios.post(`${API_URL}/login`,user);
         if(response.status === 200)
         {
             const user = await response.data;
