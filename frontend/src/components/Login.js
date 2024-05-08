@@ -51,7 +51,8 @@ export default function Login(){
             setError(true);
             setErrorMessage(error);
             if(error === "Email address not confirmed"){
-                navigate("/confirm")
+                const data= {email : email};
+                navigate("/confirm", {state: data})
             }
         })
     };
