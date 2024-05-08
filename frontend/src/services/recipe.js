@@ -2,6 +2,8 @@ import axios from "axios";
 import { config, API_URL } from './global'
 export const addRecipe = async(recipe) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/recipes`,recipe,config);
         if (response.status === 201)
         {
@@ -14,6 +16,8 @@ export const addRecipe = async(recipe) => {
 }
 export const getRecipeById = async(id) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes/${id}`,config);
         if (response.status === 200)
         {
@@ -27,7 +31,8 @@ export const getRecipeById = async(id) => {
 
 export const addSteps = async(recipeId,steps) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         let response = await axios.post(`${API_URL}/recipes/${recipeId}/recipeSteps`,steps,config);
         if (response.status === 201)
         {
@@ -41,7 +46,8 @@ export const addSteps = async(recipeId,steps) => {
 }
 export const addIngredients = async(recipeId,ingredients) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         let response = await axios.post(`${API_URL}/recipes/${recipeId}/ingredients`,ingredients,config);
         if (response.status === 201)
         {
@@ -55,7 +61,8 @@ export const addIngredients = async(recipeId,ingredients) => {
 }
 export const getRecipesByUserId = async(id) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes?id=${id}`,config);
         if (response.status === 200)
         {
@@ -70,7 +77,8 @@ export const getRecipesByUserId = async(id) => {
 
 export const getAllRecipes = async() => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes/all`,config);
         if (response.status === 200)
         {
@@ -85,7 +93,8 @@ export const getAllRecipes = async() => {
 
 export const getRecipesByName = async(name) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes/byname?name=${name}`,config);
         if (response.status === 200)
         {
@@ -99,7 +108,8 @@ export const getRecipesByName = async(name) => {
 }
 export const getRecipesByFilter = async(filter,userId,search) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes/filter/${filter}?userId=${userId}&recipeName=${search}`,config);
         if (response.status === 200)
         {
@@ -113,7 +123,8 @@ export const getRecipesByFilter = async(filter,userId,search) => {
 }
 export const saveRecipe = async(userId,recipeId) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/recipes/save/${recipeId}?userId=${userId}`,config);
         if (response.status === 201)
         {
@@ -128,7 +139,8 @@ export const saveRecipe = async(userId,recipeId) => {
 
 export const removeSaveRecipe = async(userId,recipeId) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.delete(`${API_URL}/recipes/save/${recipeId}?userId=${userId}`,config);
         if (response.status === 200)
         {
@@ -143,7 +155,8 @@ export const removeSaveRecipe = async(userId,recipeId) => {
 
 export const getUserSavedRecipes = async(userId) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/recipes/save?userId=${userId}`,config);
         if (response.status === 200)
         {

@@ -10,7 +10,9 @@ export const getProfileImage = async(id)=>{
     //     console.error('Eroare în obținerea imaginii:', error);
     // }
     try{
-        const response = await axios.get(`${API_URL}/upload/profileImage/${id}`,{responseType: 'arraybuffer'},config2);
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config2.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.get(`${API_URL}/upload/profileImage/${id}`,config2,{responseType: 'arraybuffer'});
         try{
         if (response.status === 200)
         {

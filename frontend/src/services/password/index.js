@@ -2,6 +2,7 @@ import axios from 'axios'
 import { config, API_URL } from '../global'
 export const changePassword = async (user) => {
     try{
+        
         const response = await axios.post(`${API_URL}/changePassword`,user,config);
         if(response.status === 200)
         {
@@ -19,6 +20,8 @@ export const changePassword = async (user) => {
 
 export const sendCode = async (code) => {
     try{
+        const token = localStorage.getItem('token');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/confirmChangedPassword?token=${code}`);
         if (response.status === 200)
         {

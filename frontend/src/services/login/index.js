@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { config, API_URL } from '../global'
+import { config,config2, API_URL } from '../global'
 export const loginUser = async (user) => {
     try{
         const response = await axios.post(`${API_URL}/login`,user,config);
