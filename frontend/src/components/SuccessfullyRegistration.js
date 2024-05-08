@@ -39,7 +39,9 @@ export default function SuccessfullyRegistration()
             ): 
             (
                 error !== "" &&  ( <div> <h1>{error}</h1>
-                <button onClick={handleClick}>Login</button></div>)
+                {error === "Email already confirmed" && <button  type="button" onClick={handleClick}>Login</button>}
+                {error !== "Email already confirmed" && <button  type="button" onClick={handleClick}>Resend Link</button>}
+                </div>)
             )
          }
            

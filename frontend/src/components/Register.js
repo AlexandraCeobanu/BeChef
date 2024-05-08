@@ -49,6 +49,7 @@ export default function Register(){
                 setUsername("");
                 setPassword("");
                 setIsRegistered(true);
+                navigate("/confirm")
             }
         )
         .catch((error) => {
@@ -66,8 +67,7 @@ export default function Register(){
     })
     return(
         <div className="page">
-            {isRegistered === false ? 
-            (<div className='mini-page'>
+            <div className='mini-page'>
             <div className="left-side">
             </div>
             <div id="logo">
@@ -107,12 +107,7 @@ export default function Register(){
                 <button type="button" className='buttons' onClick={handleLoginClick}>Login</button>
             </div>
             </div>
-            </div>) : 
-            (
-                <div className='finish-registration'>
-                    <h1>To finish registration, please verify your email</h1>
-                </div>
-            )}
+            </div>
 
         </div>
     )}
