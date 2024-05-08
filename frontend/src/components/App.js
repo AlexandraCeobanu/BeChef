@@ -14,6 +14,7 @@ import Chat from './Chat';
 import Notifications from './Notifications';
 import RecipeViewNotification from './RecipeViewNotification';
 import SuccessfullyRegistration from './SuccessfullyRegistration';
+import ConfirmEmailAdress from './ConfirmEmailAddress';
 export default function App(){
     return(
         <Router>
@@ -26,6 +27,7 @@ export default function App(){
                 <Route path="/success" element ={<SuccessfullyPage/>}></Route>
                 <Route path="/forgotpassword" element ={<ForgotPassword/>}></Route>
                 <Route path="/entercode" element ={<EnterCode/>}></Route>
+                <Route path="/confirm" element ={<ConfirmEmailAdress></ConfirmEmailAdress>}></Route>
                 <Route path="/confirmEmail" element ={<SuccessfullyRegistration/>}></Route>
                 <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
                 <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
