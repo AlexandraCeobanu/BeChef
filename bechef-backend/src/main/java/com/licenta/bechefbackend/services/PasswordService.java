@@ -53,7 +53,7 @@ public class PasswordService {
         int randomNumber = random.nextInt(900000) + 100000;
 
         String token = String.valueOf(randomNumber);
-        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), user);
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now() , LocalDateTime.now().plusMinutes(15), user, "password");
         confirmationTokenService.saveConfirmationToken(confirmationToken);
         String link = token;
         emailSender.send(user.getEmail(),buildEmail(user.getUsername(),link),"Change your password");
@@ -143,5 +143,15 @@ public class PasswordService {
                 "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
                 "\n" +
                 "</div></div>";
+    }
+
+    public String resendLink(String email) {
+        User user  = userRepository.findByEmail(email).orElse(null);
+        if(user != null)
+        {
+            confirmationTokenService.deleteAllByUserId(user.getId());
+            sendEmail(user);
+        }
+        return "link send";
     }
 }
