@@ -10,6 +10,7 @@ public class NotificationDTO {
     Long senderId;
     Long receiverId;
     Long recipeId;
+    Long threadId;
     String message;
     Boolean read;
     String type;
@@ -23,5 +24,13 @@ public class NotificationDTO {
                 ", message='" + message + '\'' +
                 ", read=" + read +
                 '}';
+    }
+
+    public void setThreadId(Long threadId) {
+        this.threadId = threadId;
+    }
+
+    public Long getThreadId() {
+        return threadId;
     }
 }

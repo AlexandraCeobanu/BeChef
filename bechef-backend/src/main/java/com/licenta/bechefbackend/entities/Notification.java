@@ -30,16 +30,22 @@ public class Notification {
     @JsonIgnore
     private Recipe recipe;
 
+    @ManyToOne
+    @JoinColumn(name = "thread_id")
+    @JsonIgnore
+    private ChatThread thread;
+
     String message ;
     Boolean isRead = false;
     String type ;
-    public Notification(User senderUser,User receiverUser, Recipe recipe,String message, String type)
+    public Notification(User senderUser,User receiverUser, Recipe recipe, ChatThread thread,String message, String type)
     {
         this.senderUser=senderUser;
         this.recipe = recipe;
         this.receiverUser = receiverUser;
         this.message=message;
         this.type = type;
+        this.thread = thread;
     }
 
 }

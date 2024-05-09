@@ -24,9 +24,10 @@ public class WebSocketController {
     @Autowired
     ChatThreadService chatThreadService;
     @MessageMapping("/{threadId}/messages")
-    @SendTo("/newMessage")
+    @SendTo("/newMessage/{threadId}")
     public MessageResponse sendMessage(@DestinationVariable String threadId,@Payload MessageDTO messageDTO)
     {
+
         MessageResponse msResponse = new MessageResponse(messageDTO.getMessage(), messageDTO.getSenderId(),
                 messageDTO.getThreadId());
     return msResponse;
@@ -40,7 +41,8 @@ public class WebSocketController {
 
         for(User user : users)
         {
-            NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),
+            System.out.println(messageDTO.getThreadId());
+            NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),null,
                     messageDTO.getThreadId(), messageDTO.getMessage(),false, "message");
             notificationService.createNotification(notificationDTO);
             simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
@@ -55,7 +57,7 @@ public class WebSocketController {
     {
 
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
-                likeDTO.getRecipeId(), "liked your recipe" ,false, "like");
+                likeDTO.getRecipeId(),null, "liked your recipe" ,false, "like");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;
     }
@@ -74,7 +76,7 @@ public class WebSocketController {
     {
 
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
-                commentDTO.getRecipeId(), "added a comment: " + commentDTO.getComm() ,false, "comment");
+                commentDTO.getRecipeId(), null,"added a comment: " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;
     }
