@@ -95,7 +95,7 @@ export default function Recipe(props)
     return(
         <div>
             <div className='text'>
-                {recipe.name !== "" && '@' + recipe.name}
+                {recipe !==undefined && recipe.name !== ""  && ('@' + recipe.name)}
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>

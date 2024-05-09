@@ -32,8 +32,9 @@ export default function Chat()
         }
     }
     useEffect(()=> {
+        if(data!== null){
         setSidebar(data.sidebar);
-        setShowThreadId(data.thread);
+        setShowThreadId(data.thread);}
     },[location.state])
 
     useEffect(()=> {

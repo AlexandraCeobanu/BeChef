@@ -184,7 +184,7 @@ export default function Home()
                         t.id === item.id
                       ))
                     );
-     
+    
       setRecipes(uniqueRecipes);
 
     },[filteredRecipes])
@@ -200,7 +200,7 @@ export default function Home()
              <Filters blur={blur} handleFilter = {handleFilter} allFilter={allFilter} handleRemoveFilter={handleRemoveFilter}></Filters>
              <hr></hr>
              <div className="recipes">
-             {recipes.length !==0 && <RecipesView  recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur} handleChangeLikes={handleChangeLikes}></RecipesView>}
+             { recipes.length !==0 && <RecipesView  recipes = {recipes} loggedUserId = {user.id} viewedUserId={user.id} handleBlur={handleBlur} handleChangeLikes={handleChangeLikes}></RecipesView>}
              </div>
 
         </div>

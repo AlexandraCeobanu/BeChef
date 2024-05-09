@@ -20,8 +20,8 @@ export default function App(){
         <Router>
             <Routes>
                 <Route path="/" element= {<Login/>}></Route>
-                <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                 <Route path="/login" element= {<Login/>}></Route>
+                <Route path="/home" element={<ProtectedRoute><Home/></ProtectedRoute>}/>
                 <Route path="/logout" element= {<Login/>}></Route>
                 <Route path="/register" element={<Register/>}></Route>
                 <Route path="/success" element ={<SuccessfullyPage/>}></Route>
