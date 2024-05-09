@@ -6,11 +6,14 @@ import { useEffect, useState } from "react";
 import ChatSidebar from "./ChatSideBar";
 import { getAllThreads,getSubscribedThreads } from "../services/chat";
 import { useStompClient } from "./WebSocketProvider";
+import { useLocation } from "react-router-dom";
 export default function Chat()
 {
+    const location = useLocation();
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')))
-    const [sidebar,setSidebar] = useState(false);
-    const [showThreadId, setShowThreadId] = useState(null);
+    const [data , setData]=useState(location.state);
+    const [sidebar,setSidebar] = useState(data!== null ? data.sidebar : false);
+    const [showThreadId, setShowThreadId] = useState(data!== null ? data.thread : null);
     const [threads,setThreads] = useState([]);
     const [topicAdded,setAddedTopic] = useState(false);
     const [messageAdded,setMessageAdded] = useState(false);
@@ -20,6 +23,7 @@ export default function Chat()
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
+            setData(null);
         setShowThreadId(value)
         }
         else
@@ -80,7 +84,7 @@ export default function Chat()
                 ))
             }
         </div>
-        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={threads[showThreadId]}
+        {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={data!==null ? showThreadId : threads[showThreadId]}
         subscribedThreads={subscribedThreads} handleMessageAdded={handleMessageAdded} user={user} 
         handleSubscribeThread={handleSubscribeThread} ></ChatSidebar>}
         </div>

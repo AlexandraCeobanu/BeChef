@@ -6,7 +6,7 @@ import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { faRocketchat } from "@fortawesome/free-brands-svg-icons"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getNumberOfUnreadNotifications, getAllNotifications} from "../services/notification";
+import { getNumberOfUnreadNotifications, readAllNotifications} from "../services/notification";
 import Notifications from "./Notifications";
 import { useStompClient } from "./WebSocketProvider";
 
@@ -70,7 +70,7 @@ export default function Header(props){
             setNrNotifications(0);}
 
     else{
-        getAllNotifications(JSON.parse(localStorage.getItem('user')).id)
+        readAllNotifications(JSON.parse(localStorage.getItem('user')).id)
         .then(()=> {
             setShowNotification(false);
             
