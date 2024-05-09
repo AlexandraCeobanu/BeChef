@@ -31,6 +31,10 @@ export default function Chat()
             setShowThreadId(null);
         }
     }
+    useEffect(()=> {
+        setSidebar(data.sidebar);
+        setShowThreadId(data.thread);
+    },[location.state])
 
     useEffect(()=> {
        getAllThreads()
