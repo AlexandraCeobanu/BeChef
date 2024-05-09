@@ -2,6 +2,8 @@ import axios from 'axios'
 import { config, API_URL } from '../global'
 export const postComment = async (comm) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/comments`,comm,config);
         if(response.status === 201)
         {
@@ -16,6 +18,8 @@ export const postComment = async (comm) => {
 };
 export const getRecipeComments = async (id) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/comments?recipeId=${id}`,config);
         if(response.status === 200)
         {

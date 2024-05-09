@@ -102,10 +102,23 @@
         }
     }
 }
-.finish-registration {
+.confirm {
     color : $primary-color;
-    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
     margin-top: 10%;
+    gap:3em;
+    button {
+                 width: 21em;
+                height: 2.5em;
+                margin-bottom: 1em;
+                border:1px solid rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                background-color: $background-color;
+                cursor: pointer;
+    }
 }
 
 // .page {

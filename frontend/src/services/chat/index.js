@@ -2,6 +2,8 @@ import axios from 'axios'
 import { config, API_URL } from '../global'
 export const postThread = async (thread) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+         config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/chat`,thread,config);
         if(response.status === 201)
         {
@@ -16,6 +18,8 @@ export const postThread = async (thread) => {
 };
 export const getThreadById = async (threadId) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/chat/${threadId}`,config);
         if(response.status === 200)
         {
@@ -30,6 +34,8 @@ export const getThreadById = async (threadId) => {
 };
 export const getAllThreads = async () => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/chat`,config);
         if(response.status === 200)
         {
@@ -44,6 +50,8 @@ export const getAllThreads = async () => {
 };
 export const postMessage = async (threadId,message) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.post(`${API_URL}/chat/${threadId}/messages`,message,config);
         if(response.status === 201)
         {
@@ -59,6 +67,8 @@ export const postMessage = async (threadId,message) => {
 
 export const getThreadMessages = async (threadId) => {
     try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/chat/${threadId}/messages`,config);
         if(response.status === 200)
         {
@@ -74,7 +84,9 @@ export const getThreadMessages = async (threadId) => {
 
 export const subscribeToThread = async (threadId,userId) => {
     try{
-        const response = await axios.post(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.post(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,null,config);
         if(response.status === 201)
         {
             const res  = await response.data;
@@ -88,7 +100,8 @@ export const subscribeToThread = async (threadId,userId) => {
 };
 export const unsubscribeToThread = async(threadId,userId) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.delete(`${API_URL}/chat/subscribe/${threadId}?userId=${userId}`,config);
         if (response.status === 200)
         {
@@ -102,7 +115,8 @@ export const unsubscribeToThread = async(threadId,userId) => {
 }
 export const getSubscribedThreads = async(userId) => {
     try{
-        
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
         const response = await axios.get(`${API_URL}/chat/subscribe?userId=${userId}`,config);
         if (response.status === 200)
         {

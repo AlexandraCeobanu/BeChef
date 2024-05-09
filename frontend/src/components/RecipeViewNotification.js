@@ -30,8 +30,6 @@ export default function RecipeViewNotification(props){
     const  data  = location.state;
 
     useEffect(()=> {
-        console.log("aloo")
-        console.log(data.recipeId)
         getRecipeById(data.recipeId)
         .then((response) => {
             setRecipe(response);
@@ -49,23 +47,6 @@ export default function RecipeViewNotification(props){
         .catch((error)=> {console.log(error)})
     },[])
 
-    useEffect(()=> {
-        getUserSavedRecipes(loggedUserId)
-        .then((response)=> {
-            if (response.some(saved => saved.id === recipe.id) === true)
-                    setSaved(true)})
-        .catch((error)=> {
-            console.log(error);
-        })
-        getStockList(loggedUserId)
-            .then((response)=> 
-            {
-                setStockList(response);
-            })
-            .catch((error)=> {
-                console.log(error);
-            })
-    },[])
     useEffect(() => {
          
         if(recipe!==null)

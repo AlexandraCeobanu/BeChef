@@ -2,7 +2,8 @@ import axios from 'axios'
 import { config, API_URL } from '../global'
 export const changePassword = async (user) => {
     try{
-        const response = await axios.post(`${API_URL}/changePassword`,user,config);
+        
+        const response = await axios.post(`${API_URL}/changePassword`,user);
         if(response.status === 200)
         {
             const message = await response.data;
@@ -19,6 +20,7 @@ export const changePassword = async (user) => {
 
 export const sendCode = async (code) => {
     try{
+        
         const response = await axios.post(`${API_URL}/confirmChangedPassword?token=${code}`);
         if (response.status === 200)
         {
@@ -28,6 +30,21 @@ export const sendCode = async (code) => {
     }
     catch(error) {
         console.log(`Failed to send code.`, error);
+        throw error.response.data;
+    }
+};
+export const resendLinkChangePassword = async (email) => {
+    try{
+
+        const response = await axios.get(`${API_URL}/changePassword/resendLink?email=${email}`);
+        if (response.status === 200)
+        {
+            const message = await response.data;
+            return message;
+        }
+    }
+    catch(error) {
+        console.log(`Failed to resend token.`, error);
         throw error.response.data;
     }
 };

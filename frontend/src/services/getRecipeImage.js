@@ -3,7 +3,9 @@ import { config2,API_URL } from "./global";
 export const getRecipeImage = async(recipeId)=>{
 
     try{
-        const response = await axios.get(`${API_URL}/upload/recipeImage/${recipeId}`,{responseType: 'arraybuffer'},config2);
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config2.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.get(`${API_URL}/upload/recipeImage/${recipeId}`,config2);
         try{
         if (response.status === 200)
         {

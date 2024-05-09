@@ -3,17 +3,28 @@
     margin-top: 10em;
     text-align: center;
     color : $primary-color;
+   
     #circle-check{
         color: $primary-color;
     }
+    // button {
+    //     border:none;
+    //         background: none;
+    //         color : $primary-color;
+    //         transform: scale(2.5);
+    //         margin-top: 3em;
+    //         cursor: pointer;
+    // }
     button {
-        border:none;
-            background: none;
-            color : $primary-color;
-            transform: scale(2.5);
-            margin-top: 3em;
-            cursor: pointer;
-    }
+        margin-top: 3em;
+        width: 21em;
+       height: 2.5em;
+       margin-bottom: 1em;
+       border:1px solid rgba(0, 0, 0, 0.2);
+       border-radius: 10px;
+       background-color: $background-color;
+       cursor: pointer;
+}
 }
 
 .successfully-added-ingredients{

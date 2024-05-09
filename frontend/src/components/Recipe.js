@@ -92,15 +92,18 @@ export default function Recipe(props)
         },[props]
     )
     
-    
     return(
         <div>
-            <div className='time'>
-                <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
-                <h5>{recipe!==undefined && recipe!=null && recipe.time}</h5>
+            <div className='text'>
+                {recipe.name !== "" && '@' + recipe.name}
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>
+                {/* <div class="text">{recipe.name}</div> */}
+                <div className='time'>
+                <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
+                <h5>{recipe!==undefined && recipe!=null && recipe.time}</h5>
+                </div>
             </div>
             
             <div className="recipie-feedback">

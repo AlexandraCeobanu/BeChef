@@ -50,6 +50,10 @@ export default function Login(){
             console.log(error);
             setError(true);
             setErrorMessage(error);
+            if(error === "Email address not confirmed"){
+                const data= {email : email};
+                navigate("/confirm", {state: data})
+            }
         })
     };
 

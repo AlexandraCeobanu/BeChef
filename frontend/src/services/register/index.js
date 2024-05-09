@@ -29,3 +29,19 @@ export const sendConfirmationToken = async (token) => {
         throw error.response.data;
     }
 };
+export const resendLink = async (email) => {
+    try{
+
+        const response = await axios.get(`${API_URL}/register/resendLink?email=${email}`);
+        if (response.status === 200)
+        {
+            const message = await response.data;
+            return message;
+        }
+    }
+    catch(error) {
+        console.log(`Failed to resend token.`, error);
+        throw error.response.data;
+    }
+};
+
