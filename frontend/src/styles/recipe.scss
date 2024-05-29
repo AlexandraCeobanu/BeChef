@@ -17,6 +17,14 @@
 .text {
   font-size: large;
    margin-top:1em;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   #trash {
+    cursor: pointer;
+    font-size: smaller;
+    
+   }
     
    }
 .recipie-photo {

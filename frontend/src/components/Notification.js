@@ -8,6 +8,7 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import{ Alert } from "antd";
 import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
@@ -26,7 +27,6 @@ export default function Notification(props){
         }
         if(props.notification.type === "expires")
             {
-                console.log(dayjs());
                 getStockItemById(props.notification.stockItemId)
                 .then((response) => {
                     setStockItem(response)
@@ -80,12 +80,15 @@ export default function Notification(props){
                 (
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className={props.notification.message === "expired" ? "ingredient-expired" : "ingredient-expires"}>
+                    
                     <FontAwesomeIcon icon={faExclamation} id="exclamation"></FontAwesomeIcon>
                     {props.notification.message === "expired" && (<p>Ingredient expired: </p>)}
                     {stockItem !== null && props.notification.message.includes("Expires") && (<p>{props.notification.message}</p>)}
                     <h6>{stockItem !== null && stockItem.item}</h6>
-                    {/* <p>{props.notification.message}</p> */}
                     </div>
+                    {/* {stockItem !== null && (<Alert message={props.notification.message} type="error" style={{"height" : "100%"}}></Alert>)} */}
+                    
+                    
                     </div>
 
                 )

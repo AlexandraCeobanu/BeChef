@@ -76,6 +76,18 @@ export default function UserRecipes(props)
        
         setOption(3);
     }
+    const handleRecipeDeleted = ()=>{
+        getRecipesByUserId(props.loggedUserId)
+        .then(
+            (recipes) => {
+                    setRecipes(recipes.reverse());
+            }
+        )
+        .catch((error) =>
+        {
+            console.log(error);
+        })
+    }
     return(
         <div className="recipes-view">
         <div className="title">
@@ -94,8 +106,8 @@ export default function UserRecipes(props)
         </div>) :
         (   
             option === 1 &&
-            <RecipesView  recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
-             handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList} nrLikes ={props.nrLikes}
+            <RecipesView profile="true" recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
+             handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList} nrLikes ={props.nrLikes} recipeDeleted={handleRecipeDeleted}
              ></RecipesView>
         )}
 

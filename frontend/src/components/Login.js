@@ -43,7 +43,7 @@ export default function Login(){
                 setEmail("");
                 setPassword("");
                 setErrorMessage("");
-               navigate("/profile");
+               navigate("/home");
             }
         )
         .catch((error) => {
