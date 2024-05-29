@@ -11,6 +11,8 @@ import com.licenta.bechefbackend.repository.IngredientRepository;
 import com.licenta.bechefbackend.repository.RecipeRepository;
 import com.licenta.bechefbackend.repository.StockListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -25,6 +27,8 @@ public class RecipeService {
     RecipeRepository recipeRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     IngredientRepository ingredientRepository;
@@ -325,4 +329,17 @@ public class RecipeService {
             }
             return recipesDTO;
         }
+
+
+    public void deleteRecipe(Long recipeId) {
+
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        List<User> users = recipe.getSavedByUsers();
+        for(User user: users)
+        {
+            user.getSavedRecipes().remove(recipe);
+            userRepository.save(user);
+        }
+        recipeRepository.deleteById(recipeId);
+    }
 }

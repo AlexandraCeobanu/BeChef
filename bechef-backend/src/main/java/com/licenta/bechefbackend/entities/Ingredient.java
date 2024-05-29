@@ -17,7 +17,7 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(
             nullable = false,
             name = "recipe_id"

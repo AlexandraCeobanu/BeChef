@@ -25,7 +25,7 @@ public class Notification {
     @JoinColumn(name = "receiver_user_id")
     @JsonIgnore
     private User receiverUser;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
     private Recipe recipe;

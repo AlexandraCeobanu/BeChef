@@ -205,4 +205,20 @@ public class RecipeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+    @DeleteMapping("/{recipeId}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable Long recipeId)
+    {
+        try{
+            recipeService.deleteRecipe(recipeId);
+            return ResponseEntity.status(HttpStatus.OK).body("Recipe deleted");
+        }catch(IllegalStateException e)
+        {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }

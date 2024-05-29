@@ -24,7 +24,7 @@ public class Like {
     @JoinColumn(name = "liked_user_id")
     @JsonIgnore
     private User likedUser;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
     private Recipe recipe;
