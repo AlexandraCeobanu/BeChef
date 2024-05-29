@@ -3,6 +3,7 @@ package com.licenta.bechefbackend.controller;
 import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.ShoppingList;
+import com.licenta.bechefbackend.entities.StockItem;
 import com.licenta.bechefbackend.entities.StockList;
 import com.licenta.bechefbackend.services.ShoppingListService;
 import com.licenta.bechefbackend.services.StockListService;
@@ -50,6 +51,18 @@ public class StockListController {
         try {
             StockList stockList = stockListService.deleteItem(id);
             return ResponseEntity.status(HttpStatus.OK).body(stockList);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @GetMapping("/items/{id}")
+    public ResponseEntity<?> getItem(@PathVariable Long id)
+    {
+        try {
+            StockItem stockItem = stockListService.getItem(id);
+            return ResponseEntity.status(HttpStatus.OK).body(stockItem);
         }
         catch(Exception e)
         {

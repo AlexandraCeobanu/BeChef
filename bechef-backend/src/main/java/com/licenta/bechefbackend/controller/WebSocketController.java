@@ -43,7 +43,7 @@ public class WebSocketController {
         {
             System.out.println(messageDTO.getThreadId());
             NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),null,
-                    messageDTO.getThreadId(), messageDTO.getMessage(),false, "message");
+                    messageDTO.getThreadId(),null, messageDTO.getMessage(),false, "message");
             notificationService.createNotification(notificationDTO);
             simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
 
@@ -57,7 +57,7 @@ public class WebSocketController {
     {
         if(likeDTO.getLikerId() != likeDTO.getLikedId()){
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
-                likeDTO.getRecipeId(),null, "liked your recipe" ,false, "like");
+                likeDTO.getRecipeId(),null,null, "liked your recipe" ,false, "like");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;}
         return null;
@@ -78,10 +78,20 @@ public class WebSocketController {
 
         if(commentDTO.getSenderId() != commentDTO.getReceiverId()){
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
-                commentDTO.getRecipeId(), null,"added a comment: " + commentDTO.getComm() ,false, "comment");
+                commentDTO.getRecipeId(), null,null,"added a comment: " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;}
         return null;
+    }
+
+
+    @SendTo("/newNotification/{userId}")
+    public NotificationDTO ingredientExpired(@DestinationVariable String userId)
+    {
+            NotificationDTO notificationDTO = new NotificationDTO(Long.valueOf(userId), Long.valueOf(userId),
+                    null,null,null, "ingredient expires" ,false, "like");
+            notificationService.createNotification(notificationDTO);
+            return notificationDTO;
     }
 
 

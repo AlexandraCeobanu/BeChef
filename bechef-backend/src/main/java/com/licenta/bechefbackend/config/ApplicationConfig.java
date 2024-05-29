@@ -1,9 +1,12 @@
 package com.licenta.bechefbackend.config;
 
+import com.licenta.bechefbackend.Thread.CheckExpirationDate;
 import com.licenta.bechefbackend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -39,5 +42,6 @@ public class ApplicationConfig {
             throws Exception{
         return config.getAuthenticationManager();
     }
+
 }
 

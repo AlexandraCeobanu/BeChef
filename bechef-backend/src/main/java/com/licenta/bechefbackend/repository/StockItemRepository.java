@@ -24,4 +24,7 @@ public interface StockItemRepository extends CrudRepository<StockItem,Long> {
 
     @Query("SELECT s.item FROM StockItem s Where s.id = ?1")
     List<String> findItemsNames(Long stockListId);
+
+    @Query("SELECT s FROM StockItem s WHERE s.stockList.id = ?1")
+    List<StockItem> findAllByListId(Long id);
 }

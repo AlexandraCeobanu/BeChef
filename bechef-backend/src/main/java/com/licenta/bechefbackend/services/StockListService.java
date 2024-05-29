@@ -82,4 +82,16 @@ public class StockListService {
         List<String> itemsNames = stockItemRepository.findItemsNames(id);
         return itemsNames;
     }
+
+    public StockItem getItem(Long id) {
+        return stockItemRepository.findById(id).orElse(null);
+    }
+    public List<StockItem> getAllStockItmes()
+    {
+        return (List<StockItem>) stockItemRepository.findAll();
+    }
+    public List<StockItem> getItemsByListId(Long id)
+    {
+        return (List<StockItem>) stockItemRepository.findAllByListId(id);
+    }
 }
