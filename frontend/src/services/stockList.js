@@ -44,3 +44,16 @@ export const deleteItem = async(id) => {
 }
 }
 
+export const getStockItemById= async(itemId) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.get(`${API_URL}/stockList/items/${itemId}`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}}

@@ -10,7 +10,7 @@
     padding-top: 1em;
     .items {
         margin-top: 2em;
-        width:90%;
+        width:91%;
         display: flex;
         flex-direction: column;
         gap:1em;
@@ -29,6 +29,7 @@
                 width: 10em;
                 margin-top: 0;
             }
+
         }
        .item {
             width: 80%;
@@ -125,6 +126,15 @@
             width: 100%;
             height: 3em;
             background-color: $background-color;
+        }
+        .expired {
+            border:  2px solid red;
+        }
+        .close-expiration {
+            border:  2px solid orange;
+        }
+        .ok {
+            border: 2px solid green;
         }
         .ant-picker-input input {
             border: none;

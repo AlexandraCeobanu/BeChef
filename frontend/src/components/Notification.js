@@ -5,8 +5,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getThreadById } from "../services/chat";
+import { getStockItemById } from "../services/stockList";
+import {faExclamation} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
+    const [stockItem,setStockItem] = useState(null);
     const navigate = useNavigate();
     useEffect(() => {
         if(props.notification.type === "message")
@@ -19,7 +24,19 @@ export default function Notification(props){
                 console.log(error);
             })
         }
+        if(props.notification.type === "expires")
+            {
+                console.log(dayjs());
+                getStockItemById(props.notification.stockItemId)
+                .then((response) => {
+                    setStockItem(response)
+                })
+                .catch((error)=> {
+                    console.log(error);
+                })
+            }
     },[])
+
     const handleViewRecipe=(value)=> {
         props.handleViewRecipe(value);
     }
@@ -34,7 +51,7 @@ export default function Notification(props){
         <div>
 
             {
-                props.notification.type !== "message" ? (
+                (props.notification.type === "like" || props.notification.type === "comment") && (
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
@@ -42,7 +59,9 @@ export default function Notification(props){
                     </div>
                     <MiniRecipe recipeId={props.notification.recipeId} handleViewRecipe={handleViewRecipe} index={props.index}></MiniRecipe>
                     </div>
-                ) : 
+                ) }
+            {
+                props.notification.type === "message" && 
                 (
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="thread-notification">
@@ -56,6 +75,22 @@ export default function Notification(props){
 
                 )
             }
+            {
+                props.notification.type === "expires"   &&
+                (
+                    <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
+                    <div className={props.notification.message === "expired" ? "ingredient-expired" : "ingredient-expires"}>
+                    <FontAwesomeIcon icon={faExclamation} id="exclamation"></FontAwesomeIcon>
+                    {props.notification.message === "expired" && (<p>Ingredient expired: </p>)}
+                    {stockItem !== null && props.notification.message.includes("Expires") && (<p>{props.notification.message}</p>)}
+                    <h6>{stockItem !== null && stockItem.item}</h6>
+                    {/* <p>{props.notification.message}</p> */}
+                    </div>
+                    </div>
+
+                )
+            }
+        
         </div>
     )
 }
