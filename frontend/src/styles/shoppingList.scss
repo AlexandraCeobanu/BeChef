@@ -1,7 +1,7 @@
 @import "../styles/variables.scss";
 .shoppingList {
     height: 100%;
-    width: 40%;
+    width: 50%;
     border-left:2px solid rgba(228,123,6,0.3);
     display: flex;
     flex-direction: column;
@@ -10,9 +10,28 @@
     padding-top: 1em;
     .items {
         margin-top: 2em;
-        width:70%;
-       .item {
+        width:90%;
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        .with-expiration {
             width: 100%;
+            display: flex;
+            gap:6em;
+            align-items: center;
+            height: 100%;
+            .expiration {
+                display: flex;
+                flex-direction: column;
+                p{
+                    font-size: small;
+                }
+                width: 10em;
+                margin-top: 0;
+            }
+        }
+       .item {
+            width: 80%;
             height: 2em;
             display: flex;
             gap:1em;
@@ -97,6 +116,25 @@
         }
         input:focus {
             outline:none;
+        }
+    }
+    .expiration {
+        margin-top:2em;
+        width: 20em;
+        .expiration-date {
+            width: 100%;
+            height: 3em;
+            background-color: $background-color;
+        }
+        .ant-picker-input input {
+            border: none;
+            width: 100%;
+            height: 1em;
+            font-size: smaller;
+           
+          }
+        .expiration-date:focus,.expiration-date:hover, .expiration-date:active {
+            border-color: $primary-color;
         }
     }
 }

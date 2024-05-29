@@ -36,6 +36,7 @@ export default function Header(props){
     useEffect(()=> {
         if(client) {
             const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                if(message !== null){
                 console.log("new message")
                 const receivedNot = JSON.parse(message.body)
                 setNrNotifications(prev=> prev+1);
@@ -44,7 +45,7 @@ export default function Header(props){
                 {
                         props.handleChangeLikes();
                 }
-               });
+               }});
         const subscription2 = client.subscribe(`/newNotification/removeLike/${user.id}`, function(message){
         console.log("dislike")
         if (props.handleChangeLikes!==undefined)

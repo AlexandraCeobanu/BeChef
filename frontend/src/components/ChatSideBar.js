@@ -42,7 +42,7 @@ export default function ChatSideBar(props) {
                      console.log("am intrat aici")
                     if(receivedMessage.threadId === props.thread.id){
                     setMessages((prevMessages) => [...prevMessages, receivedMessage]);
-                   
+                    props.handleMessageAdded();
                 }
                     });
 
