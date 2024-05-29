@@ -55,11 +55,12 @@ public class WebSocketController {
     @SendTo("/newNotification/{userId}")
     public NotificationDTO addLike(@DestinationVariable String userId, @Payload LikeDTO likeDTO)
     {
-
+        if(likeDTO.getLikerId() != likeDTO.getLikedId()){
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
                 likeDTO.getRecipeId(),null, "liked your recipe" ,false, "like");
         notificationService.createNotification(notificationDTO);
-        return notificationDTO;
+        return notificationDTO;}
+        return null;
     }
 
     @MessageMapping("/{userId}/removeLike")
@@ -75,10 +76,12 @@ public class WebSocketController {
     public NotificationDTO addComm(@DestinationVariable String userId, @Payload CommentDTO commentDTO)
     {
 
+        if(commentDTO.getSenderId() != commentDTO.getReceiverId()){
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
                 commentDTO.getRecipeId(), null,"added a comment: " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
-        return notificationDTO;
+        return notificationDTO;}
+        return null;
     }
 
 

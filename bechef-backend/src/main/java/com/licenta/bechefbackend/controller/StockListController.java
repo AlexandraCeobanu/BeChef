@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
+import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.entities.StockList;
 import com.licenta.bechefbackend.services.ShoppingListService;
@@ -32,7 +33,7 @@ public class StockListController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> addItemsToStockList(@PathVariable Long id, @RequestBody List<ItemDTO> itemsDTO)
+    public ResponseEntity<?> addItemsToStockList(@PathVariable Long id, @RequestBody List<StockItemDTO> itemsDTO)
     {
         try {
             StockList stockList = stockListService.addItems(id,itemsDTO);
