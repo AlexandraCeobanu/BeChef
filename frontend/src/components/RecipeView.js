@@ -13,9 +13,11 @@ import { addIngredientsToShoppingList } from "../services/shoppingList";
 import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes} from "../services/recipe";
 import { getStockList } from "../services/stockList";
 import SuccessfullyAddedIngredients from "./SuccessfullyAddedIngredients";
+import Collection from "./Collection";
 export default function RecipeView(props){
     const [recipe,setRecipe]  = useState(props.recipe)
     const [saved,setSaved] = useState(false);
+    const [clickedSaved, setClickedSaved] = useState(false);
     const [stockList,setStockList] = useState(null);
     const [ingredientsAdded,setIngredientsAdded] = useState(false);
     const handleCloseRecipe = () => {
@@ -46,11 +48,14 @@ export default function RecipeView(props){
         setIngredientsAdded(false);
         props.handleGoToShoppingList();
     }
+    const closeViewCollections = () => {
+        setClickedSaved(false);
+    }
     const handleSaveRecipe=()=> {
         if (saved === false) {
         saveRecipe(props.loggedUserId,recipe.id)
         .then(()=> {
-           
+          setClickedSaved(true);
         })
         .catch((error)=> {
             console.log(error);
@@ -62,7 +67,9 @@ export default function RecipeView(props){
                 if (props.handleRemoveSavedRecipe !== undefined)
                     {
                     props.handleRemoveSavedRecipe();}
-                    props.handleCloseRecipe();
+                    // props.handleCloseRecipe();
+                    setClickedSaved(false);
+                    
             })
             .catch((error)=> {
                 console.log(error);
@@ -88,7 +95,8 @@ export default function RecipeView(props){
             })
     },[])
     return(
-        <div className="recipeView">
+        <div>
+        <div className={"recipeView"}>
             <div className="close" onClick={handleCloseRecipe}>
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
@@ -115,6 +123,10 @@ export default function RecipeView(props){
             <StepsView steps={props.recipe.steps}></StepsView>
             </div>
             {ingredientsAdded === true && <SuccessfullyAddedIngredients handleCloseSuccessfully = {handleCloseSuccessfully} handleGoToShoppingList={handleGoToShoppingList}></SuccessfullyAddedIngredients>}
+        </div>
+        {clickedSaved === true && 
+        <Collection recipeId={props.recipe.id} closeViewCollections={closeViewCollections}></Collection>
+        }
         </div>
     )
 }
