@@ -1,8 +1,10 @@
 package com.licenta.bechefbackend.Thread;
+import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.Role;
 import com.licenta.bechefbackend.entities.StockItem;
 import com.licenta.bechefbackend.entities.StockList;
 import com.licenta.bechefbackend.entities.User;
+import com.licenta.bechefbackend.repository.StockItemRepository;
 import com.licenta.bechefbackend.services.NotificationService;
 import com.licenta.bechefbackend.services.StockListService;
 import com.licenta.bechefbackend.services.UserService;
@@ -24,6 +26,8 @@ public class CheckExpirationDate {
     @Autowired NotificationService notificationService;
     @Autowired
     StockListService stockListService;
+    @Autowired
+    StockItemRepository stockItemRepository;
     @Autowired
     UserService userService;
     @Autowired
@@ -48,10 +52,12 @@ public class CheckExpirationDate {
                     {
                         Date expirationDate = stockItem.getExpirationDate();
                         int comparison = expirationDate.compareTo(currentDate);
-                        if (comparison < 0 || comparison ==0) {
+                        if (!stockItem.getStatus().equals("expired")  && (comparison < 0 || comparison ==0)) {
 
                             notificationService.ingredientExpired(user.getId(), "expired");
                             System.out.println("S-a trimit notificarea");
+                            stockItem.setStatus("expired");
+                            stockItemRepository.save(stockItem);
 
                         } else if (comparison > 0) {
                             LocalDate expirationLocalDate = expirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

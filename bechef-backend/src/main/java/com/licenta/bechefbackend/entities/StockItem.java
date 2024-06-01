@@ -32,6 +32,7 @@ public class StockItem {
 
     Long idItemShoppingList;
     private Date expirationDate;
+    private String status;
 
     public StockItem(StockList stockList, String item, String quantity, Date expirationDate)
     {
@@ -39,6 +40,7 @@ public class StockItem {
         this.item = item;
         this.quantity = quantity;
         this.expirationDate = expirationDate;
+        this.status = "good";
     }
 
 }
