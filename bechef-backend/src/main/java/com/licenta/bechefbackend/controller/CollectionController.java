@@ -54,4 +54,32 @@ public class CollectionController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
+    @PostMapping("/{collectionId}/recipes")
+    public ResponseEntity<?> saveRecipeInCollection(@PathVariable Long collectionId, @RequestParam Long recipeId)
+    {
+        try {
+            collectionService.saveRecipeInCollection(collectionId,recipeId);
+            return ResponseEntity.status(HttpStatus.CREATED).body("");
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+
+    @DeleteMapping("/{collectionId}")
+    public ResponseEntity<?> deleteCollection(@PathVariable Long collectionId)
+    {
+        try {
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(collectionService.deleteCollection(collectionId));
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
 }

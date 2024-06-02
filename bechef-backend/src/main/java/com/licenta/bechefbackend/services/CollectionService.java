@@ -1,9 +1,8 @@
 package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.CollectionDTO;
-import com.licenta.bechefbackend.DTO.RecipeDTO;
 import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
-import com.licenta.bechefbackend.entities.Collection;
+import com.licenta.bechefbackend.entities.RecipeCollection;
 import com.licenta.bechefbackend.entities.Recipe;
 import com.licenta.bechefbackend.entities.User;
 import com.licenta.bechefbackend.repository.CollectionRepository;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -24,12 +24,13 @@ public class CollectionService {
     UserRepository userRepository;
     @Autowired
     CollectionRepository collectionRepository;
+
     public void createCollection(CollectionDTO collectionDTO) {
         Recipe recipe = recipeRepository.findById(collectionDTO.getRecipeId()).orElse(null);
         User user = userRepository.findById(recipe.getUser().getId()).orElse(null);
         if(recipe != null && user != null)
         {
-            Collection newCollection  = new Collection();
+            RecipeCollection newCollection  = new RecipeCollection();
             newCollection.setName(collectionDTO.getName());
             newCollection.setUser(user);
             newCollection.getRecipes().add(recipe);
@@ -37,13 +38,13 @@ public class CollectionService {
         }
     }
 
-    public List<Collection> getCollectionsByUserId(Long userId) {
-        List<Collection> collections = collectionRepository.findAllByUserId(userId);
+    public List<RecipeCollection> getCollectionsByUserId(Long userId) {
+        List<RecipeCollection> collections = collectionRepository.findAllByUserId(userId);
         return collections;
     }
 
     public List<RecipeResponseDTO> getCollectionRecipes(Long id) {
-        Collection collection = collectionRepository.findById(id).orElse(null);
+        RecipeCollection collection = collectionRepository.findById(id).orElse(null);
         List<RecipeResponseDTO> savedRecipesDTO = new ArrayList<>();
         if(collection != null)
         {
@@ -61,6 +62,24 @@ public class CollectionService {
             }
         }
         return savedRecipesDTO;
+    }
 
+
+    public void saveRecipeInCollection(Long collectionId, Long recipeId) {
+        RecipeCollection collection = collectionRepository.findById(collectionId).orElse(null);
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        if(collection != null && recipe !=null)
+        {
+            collection.getRecipes().add(recipe);
+            collectionRepository.save(collection);
+        }
+    }
+
+    public List<RecipeCollection> deleteCollection(Long collectionId) {
+        RecipeCollection collection = collectionRepository.findById(collectionId).orElse(null);
+        Long userId = collection.getUser().getId();
+        collectionRepository.deleteById(collectionId);
+        List<RecipeCollection> collections = collectionRepository.findAllByUserId(userId);
+        return collections;
     }
 }
