@@ -1,6 +1,6 @@
 import '../styles/recipe.scss'
 import {faHeart,faComment,faClock} from '@fortawesome/free-regular-svg-icons';
-import {faT, faTrashCan} from '@fortawesome/free-solid-svg-icons';
+import {faMinus, faT, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
@@ -108,7 +108,7 @@ export default function Recipe(props)
             <div className='text'>
                 {recipe !==undefined && recipe.name !== ""  && ('@' + recipe.name)}
                 {props.profile !== undefined && (
-                        <FontAwesomeIcon id="trash" icon ={faTrashCan} onClick={handleDeleteRecipe}></FontAwesomeIcon>
+                        <FontAwesomeIcon id="trash" icon ={faMinus} onClick={handleDeleteRecipe}></FontAwesomeIcon>
                 )}
                 
             </div>

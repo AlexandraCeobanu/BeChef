@@ -8,11 +8,13 @@ import RecipesView from './RecipesView';
 import { getRecipesByCollection } from '../services/collection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { removeCollection } from '../services/collection';
+import { getRecipeImage } from '../services/getRecipeImage';
 const { Meta } = Card;
 export default function SavedRecipes(props) {
     const [collections, setCollections] = useState([])
     const [seeCollection, setSeeCollection] = useState(false)
     const [collectionRecipes , setCollectionRecipes] = useState(null);
+    const [collectionsImages,setCollectionsImages] = useState([]);
     useEffect(() => {
         getCollections(props.userId)
         .then((response) => {
@@ -23,6 +25,22 @@ export default function SavedRecipes(props) {
             console.log(error)
         })
     },[])
+
+    useEffect(() => {
+
+        const fetchCollectionsImages = async () => {
+            try {
+                if(collections !== undefined) {
+                const promises = collections.map(collection =>( getRecipeImage(collection.recipeIdImage)));
+                const images = await Promise.all(promises);
+                const newCollectionsImages = images.map(image => URL.createObjectURL(image));
+                setCollectionsImages(newCollectionsImages);}
+            } catch (error) {
+                console.error('Eroare la preluarea imaginilor:', error);
+            }
+        };
+        fetchCollectionsImages();
+    },[collections])
     const handleSeeCollection = (id)=>{
         setSeeCollection(true);
         getRecipesByCollection(id)
@@ -69,7 +87,7 @@ export default function SavedRecipes(props) {
            cover={
            <img
                alt="example"
-               src="../../images/recipie1.jpg"
+               src={collectionsImages[index]}
                onClick={() => handleSeeCollection(collection.id)}
            />
             }
@@ -89,7 +107,7 @@ export default function SavedRecipes(props) {
         (<RecipesView recipes={collectionRecipes} handleRemoveSavedRecipe={props.handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
         handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={props.handleGoToShoppingList}
         nrLikes ={props.nrLikes}></RecipesView>) :
-        (  seeCollection === true && (
+        (  seeCollection === true && collectionRecipes !== null && (
             <div className="no-recipes">
                 <h1>No recipes saved</h1>
                 </div> )

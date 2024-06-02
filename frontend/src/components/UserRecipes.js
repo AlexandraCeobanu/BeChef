@@ -10,6 +10,7 @@ import RecipesView from "./RecipesView";
 import ShoppingList from "./ShoppingList";
 import StockList from "./StockList";
 import SavedRecipes from "./SavedRecipes";
+import ShoppingListPage from "./ShoppingListPage";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
@@ -126,8 +127,9 @@ export default function UserRecipes(props)
         }
         {
             option === 3 && <div className="lists">
-            <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem} addedItem={addedItem}></ShoppingList>
-            <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList>
+            {/* <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem} addedItem={addedItem}></ShoppingList>
+            <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList> */}
+            <ShoppingListPage userId={props.loggedUserId}></ShoppingListPage>
             </div>
         }
         </div>

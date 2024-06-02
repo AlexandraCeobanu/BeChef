@@ -1,0 +1,117 @@
+@import "../styles/variables.scss";
+.card-list {
+    background-color: $background-color;
+    .ant-tabs {
+        display: flex;
+        justify-content: center;
+    }
+    .ant-tabs-nav{
+        color:$primary-color;
+    }
+        .ant-tabs-tab:hover {
+            color: $primary-color  }
+        .ant-tabs-nav-active{
+                color:$primary-color;
+            }
+    .ant-tabs-ink-bar {
+        background-color: $primary-color }
+    .ant-tabs-tab-active .ant-tabs-tab-btn {
+            color: $primary-color !important; /* Schimbă culoarea textului tabului activ */
+          }
+.add-item {
+    display: flex;
+    gap:1em;
+    #quantity {
+        width: 11%;
+        margin-bottom: 2em;
+        background-color: $background-color;
+    }
+   
+}
+.buttons {
+    height: 2.5em;
+    width: 5em;
+    margin-bottom: 2em;
+}
+button {
+    width: 80%;
+    font-size: small;
+    background-color: $primary-color;
+    border-radius: 8px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    border:1px solid $primary-color;
+}
+}
+.newList {
+    width: 20%;
+    margin-bottom: 2em;
+    background-color: $background-color;
+  }
+  .newList:focus, #quantity:focus {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid $primary-color;
+    background-color: $background-color;
+  }
+  .newList:hover, #quantity:hover {
+    border: 1px solid $primary-color;
+    background-color: $background-color;
+  }
+.list-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:1em;
+    background-color: $background-color;
+    .grid {
+        width: 20%;
+        display: flex;
+        align-items: center;
+        height: 1em;
+        border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .item {
+        display: flex;
+        border:none;
+        position: relative;
+        #delete-item {
+            cursor: pointer;
+        }
+    }
+    .name-item {
+        width:40%;
+        border: none;
+        border-radius: 0px;
+        border-right: 1px solid rgba(0,0,0,0.2);
+        background-color: white;
+    }
+    .checkbox {
+        font-size: small;
+        width: 1em;
+    }
+
+    .quantity-item {
+        width:40%;
+        border: none;
+        background-color: $background-color;
+    }
+     input:disabled  {
+        outline: none;
+        border: none;
+        background-color: $background-color;
+       
+      }
+      .quantity-item:focus, .checkbox:focus {
+        outline: none;
+        box-shadow: none;
+
+      }
+      .quantity-item:focus,.quantity-item:hover, .quantity-item:active, .quantity-item:checked {
+        border-color: $primary-color;
+    }
+}
