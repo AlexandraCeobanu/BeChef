@@ -37,3 +37,10 @@
    }
    
 }
+.collections {
+   display: flex;
+   gap:3em;
+   flex-wrap: wrap;
+   .ant-card {
+      background-color: $background-color;}
+}

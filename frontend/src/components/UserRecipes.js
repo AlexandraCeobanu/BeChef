@@ -9,6 +9,7 @@ import ProfileOptions from "./ProfileOptions";
 import RecipesView from "./RecipesView";
 import ShoppingList from "./ShoppingList";
 import StockList from "./StockList";
+import SavedRecipes from "./SavedRecipes";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
@@ -117,9 +118,13 @@ export default function UserRecipes(props)
             </div>) :
             (   
                 option === 2 &&
-                <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
-                 handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
-                 nrLikes ={props.nrLikes}></RecipesView>
+                // <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
+                //  handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
+                //  nrLikes ={props.nrLikes}></RecipesView>
+                <SavedRecipes userId ={props.loggedUserId} savedRecipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe}
+                viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
+                nrLikes = {props.nrLikes}
+                ></SavedRecipes>
             )
         }
         {
