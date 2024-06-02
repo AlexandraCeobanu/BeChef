@@ -1,11 +1,13 @@
 
-import { Avatar, Card } from 'antd';
+import { Card } from 'antd';
 import "../styles/collection.scss";
+import {faMinus}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import Collection from './Collection';
 import { getCollections } from '../services/collection';
 import RecipesView from './RecipesView';
 import { getRecipesByCollection } from '../services/collection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { removeCollection } from '../services/collection';
 const { Meta } = Card;
 export default function SavedRecipes(props) {
     const [collections, setCollections] = useState([])
@@ -15,6 +17,7 @@ export default function SavedRecipes(props) {
         getCollections(props.userId)
         .then((response) => {
             setCollections(response);
+            setSeeCollection(false);
         })
         .catch((error) =>{
             console.log(error)
@@ -35,6 +38,15 @@ export default function SavedRecipes(props) {
         setSeeCollection(true);
         setCollectionRecipes(props.savedRecipes);
     }
+    const handleRemoveCollection = (id) => {
+        removeCollection(id)
+        .then((response)=> {
+            setCollections(response);
+        })
+        .catch((error)=> {
+            console.log(error);
+        })
+    }
     return(
         <div>
         {seeCollection === false && <div className='collections'>
@@ -43,10 +55,10 @@ export default function SavedRecipes(props) {
            <img
                alt="example"
                src="../../images/recipie1.jpg"
+               onClick = {handleSeeAllSavedRecipes}
            />
             }
             style={{width:200}}
-            onClick = {handleSeeAllSavedRecipes}
             >
             <Meta
             title="All"
@@ -58,21 +70,31 @@ export default function SavedRecipes(props) {
            <img
                alt="example"
                src="../../images/recipie1.jpg"
+               onClick={() => handleSeeCollection(collection.id)}
            />
             }
             style={{width:200}}
-            onClick={() => handleSeeCollection(collection.id)}
+           
             >
             <Meta
-            title={collection.name}
+            title={<div className='title-card'>
+                <h4>{collection.name}</h4>
+                <FontAwesomeIcon className = "remove" icon={faMinus} onClick={() => handleRemoveCollection(collection.id)}></FontAwesomeIcon>
+                </div>}
             />
             </Card>)
         )} 
     </div>}
-    {seeCollection === true && collectionRecipes !== null &&
-        <RecipesView recipes={collectionRecipes} handleRemoveSavedRecipe={props.handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
+    {seeCollection === true && collectionRecipes !== null && collectionRecipes.length !== 0 ? 
+        (<RecipesView recipes={collectionRecipes} handleRemoveSavedRecipe={props.handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
         handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={props.handleGoToShoppingList}
-        nrLikes ={props.nrLikes}></RecipesView>
+        nrLikes ={props.nrLikes}></RecipesView>) :
+        (  seeCollection === true && (
+            <div className="no-recipes">
+                <h1>No recipes saved</h1>
+                </div> )
+        
+        )
     }
     </div>
     )

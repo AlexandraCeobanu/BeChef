@@ -2,12 +2,23 @@ import "../styles/collection.scss"
 import { Card, Space } from 'antd'
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from 'antd';
-import { saveCollection } from "../services/collection";
+import { getCollections, saveCollection } from "../services/collection";
+import { saveRecipeInCollection } from "../services/collection";
 export default function Collection(props){
     const [newCollection, setNewCollection] = useState(false);
     const [collectionName, setCollectionName] = useState("");
+    const [collections, setCollections] = useState([]); 
+    useEffect(() => {
+        getCollections(props.userId)
+        .then((response) => {
+            setCollections(response);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    },[])
     const handleAddCollection = ()=> {
         setNewCollection(true);
     }
@@ -27,18 +38,25 @@ export default function Collection(props){
             console.log(error);
         })
     }
+    const handleSaveRecipeInCollection = (collection) => {
+        saveRecipeInCollection(collection.id, props.recipeId)
+        .then(() => {
+            props.closeViewCollections();
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+    }
     return(
     <Space direction="vertical" size={16}>
     <Card title="Your collections" className="collection" extra={<FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollection}></FontAwesomeIcon>} style={{ width: 300 , minHeight: 300 }}>
-    <Card type="inner" hoverable="true">
-      Breakfast
-    </Card>
-    <Card type="inner" hoverable="true">
-      Dinner
-    </Card>
-    <Card type="inner" hoverable="true">
-      Dessert
-    </Card>
+
+        {collections!==undefined && collections.map((collection, index) => (
+            <Card key={index} type="inner" hoverable="true" onClick={() => handleSaveRecipeInCollection(collection)}>
+            {collection.name}
+          </Card>
+        ))}
     {newCollection === true && 
     <div className="new-collection">
     <Input placeholder="Collection Name" value ={collectionName} onChange={handleCollectionName} />

@@ -125,7 +125,7 @@ export default function RecipeView(props){
             {ingredientsAdded === true && <SuccessfullyAddedIngredients handleCloseSuccessfully = {handleCloseSuccessfully} handleGoToShoppingList={handleGoToShoppingList}></SuccessfullyAddedIngredients>}
         </div>
         {clickedSaved === true && 
-        <Collection recipeId={props.recipe.id} closeViewCollections={closeViewCollections}></Collection>
+        <Collection userId={props.loggedUserId} recipeId={props.recipe.id} closeViewCollections={closeViewCollections}></Collection>
         }
         </div>
     )

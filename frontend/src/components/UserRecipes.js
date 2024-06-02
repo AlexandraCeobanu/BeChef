@@ -112,10 +112,7 @@ export default function UserRecipes(props)
              ></RecipesView>
         )}
 
-        {savedRecipes.length === 0 && option === 2 ?
-            (<div className="no-recipes">
-            <h1>No recipe saved</h1>
-            </div>) :
+        {option === 2 &&
             (   
                 option === 2 &&
                 // <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
