@@ -9,8 +9,9 @@ export default function ItemList(props){
         props.handleRemoveItem(id);
     }
     useEffect(()=>{
-        console.log(props.item)
+        
     },[props.item])
+
     return(
         <>
         { props.item !== null && (

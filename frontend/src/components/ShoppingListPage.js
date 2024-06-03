@@ -38,11 +38,11 @@ const ShoppingListPage = (props) => {
 },[])
 
 const handleRemoveItem=((id)=> {
-    let newItems = {}
+    let newItems = { ...contentList}
     deleteItem(id)
     .then((response)=> {
-        newItems[id] = renderListItems(response.items);
-        setContentList({...contentList}, newItems)
+        newItems[response.id] = renderListItems(response.items);
+        setContentList( newItems)
     })
     .catch((error)=> {console.log(error)});
 })
@@ -103,13 +103,11 @@ const handleChangeQuantity = (index,value) =>{
 }
 
 const handleSaveItems = (id)=>{
-    let newItems = {}
+    let newItems = { ...contentList}
     updateShoppingList(id,items)
     .then((response)=> {
-       
         newItems[id] = renderListItems(response.items);
-       setContentList({...contentList}, newItems)
-       console.log("baai")
+       setContentList(newItems)
         setItems([])
     })
     .catch((error)=>console.log(error))
