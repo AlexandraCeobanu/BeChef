@@ -4,7 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import "../styles/ItemList.scss";
 import ItemList from './ItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addShoppingList,getShoppingLists,deleteItem } from '../services/shoppingList';
+import { addShoppingList,getShoppingLists,deleteItem,checkItem } from '../services/shoppingList';
 import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { updateShoppingList } from '../services/shoppingList';
 
@@ -50,7 +50,7 @@ const renderListItems = (items) => {
     return (
       <div className='list-items'>
         {items.map((item, index) => (
-          <ItemList key={index} item={item} handleRemoveItem={handleRemoveItem}></ItemList>
+          <ItemList key={index} item={item} handleRemoveItem={handleRemoveItem} handleCheckedItem={handleCheckedItem}></ItemList>
         ))}
       </div>
     );
@@ -112,6 +112,35 @@ const handleSaveItems = (id)=>{
     })
     .catch((error)=>console.log(error))
 }
+const handleCheckedItem=((id, value)=> {
+  let tabs = []
+  let items = {}
+  checkItem(id,value)
+  .then(()=> {
+      getShoppingLists(props.userId)
+      .then((response) => {
+        response.map((list,index)=> {
+            let myKey = list.id.toString();
+           const newTab = {
+            key: myKey,
+            tab: list.name
+           }
+           tabs.push(newTab);
+          items[myKey] = renderListItems(list.items);
+        })
+        
+        setContentList(items)
+        setTabList(tabs)
+        setActiveTabKey(tabs[0]?.key);
+    })
+          .catch((error)=> {
+              console.log(error);
+          })
+    //  props.handleCheckedItem(value);
+  })
+  .catch((error)=> {console.log(error)});
+})
+
 
   return (
     <Card

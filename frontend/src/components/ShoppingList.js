@@ -50,6 +50,7 @@ export default function ShoppingList(props) {
         .catch((error)=> {console.log(error)});
     })
 
+    
     const handleCheckedItem=((id, value)=> {
         checkItem(id,value)
         .then(()=> {
@@ -61,7 +62,7 @@ export default function ShoppingList(props) {
                 .catch((error)=> {
                     console.log(error);
                 })
-           props.handleCheckedItem(value);
+        //    props.handleCheckedItem(value);
         })
         .catch((error)=> {console.log(error)});
     })
