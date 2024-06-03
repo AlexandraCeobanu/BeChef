@@ -22,6 +22,8 @@ public class RecipeCollection {
     private User user;
 
     private String name;
+
+    private Long recipeIdImage;
     @OneToMany
     @JsonIgnore
     private List<Recipe> recipes = new ArrayList<>();

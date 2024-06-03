@@ -34,6 +34,7 @@ public class CollectionService {
             newCollection.setName(collectionDTO.getName());
             newCollection.setUser(user);
             newCollection.getRecipes().add(recipe);
+            newCollection.setRecipeIdImage(recipe.getId());
             collectionRepository.save(newCollection);
         }
     }
@@ -70,6 +71,11 @@ public class CollectionService {
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
         if(collection != null && recipe !=null)
         {
+                List<Recipe> recipes = collection.getRecipes();
+                if(recipes.isEmpty())
+                {
+                    collection.setRecipeIdImage(recipeId);
+                }
             collection.getRecipes().add(recipe);
             collectionRepository.save(collection);
         }

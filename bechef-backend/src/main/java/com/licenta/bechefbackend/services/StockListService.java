@@ -94,4 +94,12 @@ public class StockListService {
     {
         return (List<StockItem>) stockItemRepository.findAllByListId(id);
     }
+
+    public StockList updateItem(Long id, StockItemDTO stockItemDTO) {
+
+        StockItem stockItem = stockItemRepository.findById(id).orElse(null);
+        stockItem.setExpirationDate(stockItemDTO.getExpirationDate());
+        stockItemRepository.save(stockItem);
+        return stockListRepository.findById(stockItem.getStockList().getId()).orElse(null);
+    }
 }

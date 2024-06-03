@@ -56,8 +56,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiverUser")
     private List<Notification> userNotifications = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user")
-    private ShoppingList shoppingList;
+    @OneToMany(mappedBy = "user")
+    private List<ShoppingList> shoppingList;
 
     @OneToOne(mappedBy = "user")
     private StockList stockList;

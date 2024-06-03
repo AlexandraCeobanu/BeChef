@@ -221,6 +221,17 @@ public class RecipeService {
             {
                 if(collection.getRecipes().contains(recipe))
                 {
+                    if(collection.getRecipeIdImage() == recipeId)
+                    {
+                        List<Recipe> recipes = collection.getRecipes();
+                        if(recipes.size() == 1)
+                        {
+                            collection.setRecipeIdImage(null);
+                        }
+                        else {
+                            collection.setRecipeIdImage(recipes.get(1).getId());
+                        }
+                    }
                     collection.getRecipes().remove(recipe);
                     collectionRepository.save(collection);
                     break;
@@ -351,6 +362,17 @@ public class RecipeService {
             {
                 if(collection.getRecipes().contains(recipe))
                 {
+                    if(collection.getRecipeIdImage() == recipeId)
+                    {
+                        List<Recipe> recipes = collection.getRecipes();
+                        if(recipes.size() == 1)
+                        {
+                            collection.setRecipeIdImage(null);
+                        }
+                        else {
+                            collection.setRecipeIdImage(recipes.get(1).getId());
+                        }
+                    }
                     collection.getRecipes().remove(recipe);
                     collectionRepository.save(collection);
                     break;

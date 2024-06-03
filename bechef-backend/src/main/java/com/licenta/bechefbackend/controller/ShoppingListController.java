@@ -1,6 +1,8 @@
 package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
+import com.licenta.bechefbackend.DTO.ShoppingListDTO;
+import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.services.ShoppingListService;
@@ -12,17 +14,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/shoppingList")
+@RequestMapping("/api/v1/shoppingLists")
 public class ShoppingListController {
 
     @Autowired
     ShoppingListService shoppingListService;
 
-    @GetMapping
-    public ResponseEntity<?> getShoppingList(@RequestParam Long userId)
+    @PostMapping
+    public ResponseEntity<?> createShoppingList(@RequestBody ShoppingListDTO shoppingListDTO)
     {
         try {
-            ShoppingList shoppingList = shoppingListService.getShoppingList(userId);
+            ShoppingList shoppingList = shoppingListService.createShoppingList(shoppingListDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(shoppingList);
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+
+//    @GetMapping
+//    public ResponseEntity<?> getShoppingList(@RequestParam Long userId)
+//    {
+//        try {
+//            ShoppingList shoppingList = shoppingListService.getShoppingList(userId);
+//            return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
+//        }
+//        catch(Exception e)
+//        {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+//        }
+//    }
+    @GetMapping
+    public ResponseEntity<?> getShoppingLists(@RequestParam Long userId)
+    {
+        try {
+            List<ShoppingList> shoppingList = shoppingListService.getShoppingLists(userId);
             return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
         }
         catch(Exception e)
@@ -31,7 +58,7 @@ public class ShoppingListController {
         }
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> addItemsToShoppingList(@PathVariable Long id, @RequestBody List<ItemDTO> itemsDTO)
+    public ResponseEntity<?> addItemsToShoppingList(@PathVariable Long id, @RequestBody List<StockItemDTO> itemsDTO)
     {
         try {
         ShoppingList shoppingList = shoppingListService.addItems(id,itemsDTO);
@@ -39,6 +66,7 @@ public class ShoppingListController {
         }
         catch(Exception e)
         {
+            System.out.println(e);
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
@@ -51,6 +79,7 @@ public class ShoppingListController {
         }
         catch(Exception e)
         {
+            System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
@@ -68,6 +97,7 @@ public class ShoppingListController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+
     @PatchMapping("/addIngredients")
     public ResponseEntity<?> addIngredients(@RequestParam Long userId, @RequestBody List<Ingredient> ingredients)
     {

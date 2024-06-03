@@ -57,6 +57,19 @@ public class StockListController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+    @PatchMapping("/items/{id}")
+    public ResponseEntity<?> updateItem(@PathVariable Long id,@RequestBody StockItemDTO stockItemDTO )
+    {
+        try {
+
+            return ResponseEntity.status(HttpStatus.OK).body(stockListService.updateItem(id,stockItemDTO));
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
     @GetMapping("/items/{id}")
     public ResponseEntity<?> getItem(@PathVariable Long id)
     {

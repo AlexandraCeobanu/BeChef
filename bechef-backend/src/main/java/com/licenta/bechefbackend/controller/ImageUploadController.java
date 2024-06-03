@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @RestController
 @AllArgsConstructor
@@ -76,10 +78,17 @@ public class ImageUploadController {
         }
     }
     @GetMapping("/recipeImage/{id}")
-    public ResponseEntity<?> findRecipeImage(@PathVariable Long id) throws IOException {
+    public ResponseEntity<?> findRecipeImage(@PathVariable String id) throws IOException {
         try{
-            byte[] imageURL = imageUploadService.getRecipePhoto(id);
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageURL);
+            if(id.equals("null")) {
+                Path imagePath = Path.of("src/main/resources/static/uploads/", "no-image-background.png");
+                byte[] imageBytes = Files.readAllBytes(imagePath);
+                return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageBytes);
+            }
+
+            else{
+            byte[] imageURL = imageUploadService.getRecipePhoto(Long.valueOf(id));
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imageURL);}
         }
         catch (Exception e){
         }

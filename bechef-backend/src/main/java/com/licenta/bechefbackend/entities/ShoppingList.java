@@ -18,7 +18,7 @@ public class ShoppingList {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
@@ -26,10 +26,13 @@ public class ShoppingList {
     @OneToMany(mappedBy = "shoppingList")
     private List<Item> items;
 
-    public ShoppingList(User user, List<Item> items)
+    String name;
+
+    public ShoppingList(User user, List<Item> items, String name)
     {
         this.user = user;
         this.items = items;
+        this.name = name;
     }
 
 }
