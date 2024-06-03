@@ -119,32 +119,4 @@
             outline:none;
         }
     }
-    .expiration {
-        margin-top:2em;
-        width: 20em;
-        .expiration-date {
-            width: 100%;
-            height: 3em;
-            background-color: $background-color;
-        }
-        .expired {
-            border:  2px solid red;
-        }
-        .close-expiration {
-            border:  2px solid orange;
-        }
-        .ok {
-            border: 2px solid green;
-        }
-        .ant-picker-input input {
-            border: none;
-            width: 100%;
-            height: 1em;
-            font-size: smaller;
-           
-          }
-        .expiration-date:focus,.expiration-date:hover, .expiration-date:active {
-            border-color: $primary-color;
-        }
-    }
 }

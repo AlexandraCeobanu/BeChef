@@ -114,4 +114,47 @@ button:hover {
       .quantity-item:focus,.quantity-item:hover, .quantity-item:active, .quantity-item:checked {
         border-color: $primary-color;
     }
+
+
+    .grid-stock {
+
+        padding: 0;
+        margin: 0;
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        padding: 0.2em;
+    }
+}
+
+.expiration {
+    width: 10em;
+    .expiration-date {
+        width: 100%;
+        height: 2.2em;
+        background-color: $background-color;
+    }
+    .expired {
+        border:  2px solid red;
+    }
+    .close-expiration {
+        border:  2px solid orange;
+    }
+    .ok {
+        border: 2px solid green;
+    }
+    .ant-picker-input input {
+        border: none;
+        width: 100%;
+        height: 1em;
+        font-size: smaller;
+       
+      }
+      p {
+        font-size: smaller;
+      }
+    .expiration-date:focus,.expiration-date:hover, .expiration-date:active {
+        border-color: $primary-color;
+    }
 }
