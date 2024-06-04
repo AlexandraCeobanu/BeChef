@@ -1,9 +1,6 @@
 package com.licenta.bechefbackend.services;
 
-import com.licenta.bechefbackend.DTO.ItemDTO;
-import com.licenta.bechefbackend.DTO.ShoppingListDTO;
-import com.licenta.bechefbackend.DTO.ShoppingListResponseDTO;
-import com.licenta.bechefbackend.DTO.StockItemDTO;
+import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.email.EmailSender;
 import com.licenta.bechefbackend.entities.*;
 import com.licenta.bechefbackend.registration.token.ConfirmationToken;
@@ -62,11 +59,10 @@ public class ShoppingListService {
         return shoppingListRepository.save(shoppingList);
     }
 
-    public ShoppingList getShoppingList(Long userId) {
+    public ShoppingList getShoppingList(Long id) {
 
-//        ShoppingList shoppingList = shoppingListRepository.findByUserId(userId).orElse(null);
-//        return shoppingList;
-        return null;
+        ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
+        return shoppingList;
     }
 
     public ShoppingList deleteItem(Long id) {
@@ -179,5 +175,27 @@ public class ShoppingListService {
 
     public void deleteList(Long id) {
         shoppingListRepository.deleteById(id);
+    }
+
+    public List<CollaboratorDTO> getCollaborators(Long id) {
+        ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
+        List<CollaboratorDTO> collaboratorDTOS = new ArrayList<>();
+        List<User> collabs = shoppingList.getCollaborators();
+        for(User user : collabs)
+        {
+            CollaboratorDTO colab = new CollaboratorDTO(user.getId(),user.getEmail(),user.getUserUsername());
+            collaboratorDTOS.add(colab);
+        }
+        return collaboratorDTOS;
+    }
+
+    public void deleteCollaborator(Long listId, Long colId) {
+        ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
+        User user = userRepository.findById(colId).orElse(null);
+        if(user != null)
+        {
+            user.getShoppingListsColab().remove(shoppingList);
+            userRepository.save(user);
+        }
     }
 }
