@@ -174,7 +174,18 @@ public class ShoppingListService {
     }
 
     public void deleteList(Long id) {
+
+        ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
+
+        List<User> collabs = shoppingList.getCollaborators();
+        for(User user: collabs)
+        {
+
+            user.getShoppingListsColab().remove(shoppingList);
+
+        }
         shoppingListRepository.deleteById(id);
+
     }
 
     public List<CollaboratorDTO> getCollaborators(Long id) {

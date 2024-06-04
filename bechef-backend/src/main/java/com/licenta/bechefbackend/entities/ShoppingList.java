@@ -24,11 +24,13 @@ public class ShoppingList {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "shoppingList")
+    @OneToMany(mappedBy = "shoppingList",cascade = CascadeType.REMOVE)
     private List<Item> items;
 
     String name;
 
+    @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
+    private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingListsColab",fetch = FetchType.EAGER)
     @JsonIgnore
