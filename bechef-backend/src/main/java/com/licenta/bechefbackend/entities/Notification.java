@@ -40,10 +40,15 @@ public class Notification {
     @JsonIgnore
     private StockItem stockItem;
 
+    @ManyToOne
+    @JoinColumn(name = "list_id")
+    @JsonIgnore
+    private ShoppingList list;
+
     String message ;
     Boolean isRead = false;
     String type ;
-    public Notification(User senderUser,User receiverUser, Recipe recipe, ChatThread thread,StockItem stockItem,String message, String type)
+    public Notification(User senderUser,User receiverUser, Recipe recipe, ChatThread thread,StockItem stockItem,ShoppingList list,String message, String type)
     {
         this.senderUser=senderUser;
         this.recipe = recipe;
@@ -52,6 +57,7 @@ public class Notification {
         this.type = type;
         this.thread = thread;
         this.stockItem = stockItem;
+        this.list = list;
     }
 
 }

@@ -2,20 +2,30 @@ package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.DTO.ShoppingListDTO;
+import com.licenta.bechefbackend.DTO.ShoppingListResponseDTO;
 import com.licenta.bechefbackend.DTO.StockItemDTO;
+import com.licenta.bechefbackend.email.EmailSender;
 import com.licenta.bechefbackend.entities.*;
+import com.licenta.bechefbackend.registration.token.ConfirmationToken;
 import com.licenta.bechefbackend.repository.ItemRepository;
 import com.licenta.bechefbackend.repository.ShoppingListRepository;
 import com.licenta.bechefbackend.repository.StockItemRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class ShoppingListService {
     @Autowired
     ShoppingListRepository shoppingListRepository;
@@ -27,11 +37,16 @@ public class ShoppingListService {
     StockListService stockListService;
     @Autowired
     StockItemRepository stockItemRepository;
+    @Autowired
+    private final EmailSender emailSender;
 
-    public ShoppingList createShoppingList(ShoppingListDTO shoppingListDTO){
+    public ShoppingListResponseDTO createShoppingList(ShoppingListDTO shoppingListDTO){
         User user = userRepository.findById(shoppingListDTO.getUserId()).orElse(null);
         ShoppingList shoppingList = new ShoppingList(user,new ArrayList<>(),shoppingListDTO.getName());
-        return shoppingListRepository.save(shoppingList);
+        ShoppingList savedList = shoppingListRepository.save(shoppingList);
+        ShoppingListResponseDTO shoppingListResponseDTO = new ShoppingListResponseDTO(savedList.getId(),savedList.getName()
+        ,savedList.getUser().getId(),savedList.getItems());
+        return shoppingListResponseDTO;
     }
     public ShoppingList addItems(Long id,List<StockItemDTO> itemsDTO) {
         ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
@@ -123,8 +138,46 @@ public class ShoppingListService {
 
     }
 
-    public List<ShoppingList> getShoppingLists(Long userId) {
+    public List<ShoppingListResponseDTO> getShoppingLists(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
         List<ShoppingList> lists = shoppingListRepository.findByUserId(userId);
-        return lists;
+        List<ShoppingList> collabsList = user.getShoppingListsColab();
+        lists.addAll(collabsList);
+        List<ShoppingListResponseDTO> listsResponse = new ArrayList<>();
+        for(ShoppingList list: lists)
+        {
+            ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
+                  list.getName(), list.getUser().getId(), list.getItems());
+            listsResponse.add(shoppingListDTO);
+        }
+        return listsResponse;
+    }
+
+    public ShoppingList addCollaborator(Long id, Long userId) {
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null)
+        {
+            throw  new IllegalStateException("User not found");
+        }
+        else
+        {
+            ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
+            if(!user.getShoppingListsColab().contains(shoppingList))
+            { user.getShoppingListsColab().add(shoppingList);
+            userRepository.save(user);}
+
+//            if(!shoppingList.getCollaborators().contains(user))
+//            shoppingList.getCollaborators().add(user);
+            ShoppingList shoppingList2 = shoppingListRepository.findById(id).orElse(null);
+//            ShoppingListDTO shoppingListDTO = new ShoppingListDTO(
+//                    shoppingList2.getName(), shoppingList2.getUser().getId(), shoppingList2.getItems());
+            return shoppingList2;
+
+        }
+    }
+
+    public void deleteList(Long id) {
+        shoppingListRepository.deleteById(id);
     }
 }

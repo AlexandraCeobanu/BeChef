@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,6 +28,11 @@ public class ShoppingList {
     private List<Item> items;
 
     String name;
+
+
+    @ManyToMany(mappedBy = "shoppingListsColab",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<User> collaborators = new ArrayList<>();
 
     public ShoppingList(User user, List<Item> items, String name)
     {

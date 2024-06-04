@@ -30,13 +30,15 @@ public class NotificationService {
     StockItemRepository stockItemRepository;
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+    @Autowired
+    private ShoppingListRepository shoppingListRepository;
 
 
 
     public void ingredientExpired(Long userId, String message )
     {
         NotificationDTO notificationDTO = new NotificationDTO(userId, Long.valueOf(userId),
-                null,null, 13L, message ,false, "expires");
+                null,null, 13L,null, message ,false, "expires");
         createNotification(notificationDTO);
         simpMessagingTemplate.convertAndSend("/newNotification/" + userId, notificationDTO);
 
@@ -47,9 +49,9 @@ public class NotificationService {
         try{
         User senderUser = userRepository.findById(notificationDTO.getSenderId()).orElse(null);
         User receiverUser = userRepository.findById(notificationDTO.getReceiverId()).orElse(null);
-        Notification notification = new Notification(senderUser,receiverUser,null,null,null, notificationDTO.getMessage(),
+        Notification notification = new Notification(senderUser,receiverUser,null,null,null,null, notificationDTO.getMessage(),
                 notificationDTO.getType());
-        if(!notificationDTO.getType().equals("message") && !notificationDTO.getType().equals("expires"))
+        if(!notificationDTO.getType().equals("message") && !notificationDTO.getType().equals("expires") && !notificationDTO.getType().equals("list"))
         {
             Recipe recipe = recipeRepository.findById(notificationDTO.getRecipeId()).orElse(null);
             notification.setRecipe(recipe);
@@ -58,9 +60,13 @@ public class NotificationService {
             ChatThread thread = chatThreadRepository.findById(notificationDTO.getThreadId()).orElse(null);
             notification.setThread(thread);
         }
-        else {
+        else if(notificationDTO.getType().equals("expires")) {
             StockItem stockItem = stockItemRepository.findById(notificationDTO.getStockItemId()).orElse(null);
             notification.setStockItem(stockItem);
+        }
+        else{
+            ShoppingList shoppingList = shoppingListRepository.findById(notificationDTO.getListId()).orElse(null);
+            notification.setList(shoppingList);
         }
         notificationRepository.save(notification);}
         catch (Exception e)
@@ -76,7 +82,7 @@ public class NotificationService {
         for(Notification not: notifications)
         {
             NotificationDTO notDTO = new NotificationDTO(not.getSenderUser().getId(),
-                    not.getReceiverUser().getId(), null,null,null,not.getMessage(),not.getIsRead(), not.getType());
+                    not.getReceiverUser().getId(), null,null,null,null,not.getMessage(),not.getIsRead(), not.getType());
             if(not.getType().equals("message"))
             {
                 notDTO.setThreadId(not.getThread().getId());
@@ -84,6 +90,10 @@ public class NotificationService {
             else if(not.getType().equals("expires")) {
 
                 notDTO.setStockItemId(not.getStockItem().getId());
+            }
+            else if(not.getType().equals("list"))
+            {
+                notDTO.setListId(not.getList().getId());
             }
             else {
                 notDTO.setRecipeId(not.getRecipe().getId());

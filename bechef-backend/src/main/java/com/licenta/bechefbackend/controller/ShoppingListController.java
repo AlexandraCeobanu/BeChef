@@ -2,6 +2,7 @@ package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.DTO.ShoppingListDTO;
+import com.licenta.bechefbackend.DTO.ShoppingListResponseDTO;
 import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.ShoppingList;
@@ -24,7 +25,7 @@ public class ShoppingListController {
     public ResponseEntity<?> createShoppingList(@RequestBody ShoppingListDTO shoppingListDTO)
     {
         try {
-            ShoppingList shoppingList = shoppingListService.createShoppingList(shoppingListDTO);
+            ShoppingListResponseDTO shoppingList = shoppingListService.createShoppingList(shoppingListDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(shoppingList);
         }
         catch(Exception e)
@@ -49,7 +50,7 @@ public class ShoppingListController {
     public ResponseEntity<?> getShoppingLists(@RequestParam Long userId)
     {
         try {
-            List<ShoppingList> shoppingList = shoppingListService.getShoppingLists(userId);
+            List<ShoppingListResponseDTO> shoppingList = shoppingListService.getShoppingLists(userId);
             return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
         }
         catch(Exception e)
@@ -68,6 +69,19 @@ public class ShoppingListController {
         {
             System.out.println(e);
              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> addItemsToShoppingList(@PathVariable Long id)
+    {
+        try {
+            shoppingListService.deleteList(id);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
     @DeleteMapping("/items/{id}")
@@ -104,6 +118,24 @@ public class ShoppingListController {
         try {
             shoppingListService.addIngredients(userId,ingredients);
             return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @PostMapping("/{id}/collaborators")
+    public ResponseEntity<?> addCollaborator(@PathVariable Long id,@RequestBody String userId)
+    {
+        try {
+            ShoppingList shoppingList = shoppingListService.addCollaborator(id,Long.valueOf(userId));
+            return ResponseEntity.status(HttpStatus.CREATED).body(shoppingList);
+        }
+        catch (IllegalStateException e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
         }
         catch(Exception e)
         {

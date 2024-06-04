@@ -1,9 +1,13 @@
 package com.licenta.bechefbackend.controller;
 import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
+import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.entities.User;
+import com.licenta.bechefbackend.repository.ShoppingListRepository;
+import com.licenta.bechefbackend.repository.UserRepository;
 import com.licenta.bechefbackend.services.ChatThreadService;
 import com.licenta.bechefbackend.services.NotificationService;
+import com.licenta.bechefbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,6 +27,12 @@ public class WebSocketController {
     NotificationService notificationService;
     @Autowired
     ChatThreadService chatThreadService;
+
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ShoppingListRepository shoppingListRepository;
+
     @MessageMapping("/{threadId}/messages")
     @SendTo("/newMessage/{threadId}")
     public MessageResponse sendMessage(@DestinationVariable String threadId,@Payload MessageDTO messageDTO)
@@ -43,7 +53,7 @@ public class WebSocketController {
         {
             System.out.println(messageDTO.getThreadId());
             NotificationDTO notificationDTO = new NotificationDTO(messageDTO.getSenderId(), user.getId(),null,
-                    messageDTO.getThreadId(),null, messageDTO.getMessage(),false, "message");
+                    messageDTO.getThreadId(),null,null, messageDTO.getMessage(),false, "message");
             notificationService.createNotification(notificationDTO);
             simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
 
@@ -57,7 +67,7 @@ public class WebSocketController {
     {
         if(likeDTO.getLikerId() != likeDTO.getLikedId()){
         NotificationDTO notificationDTO = new NotificationDTO(likeDTO.getLikerId(), likeDTO.getLikedId(),
-                likeDTO.getRecipeId(),null,null, "liked your recipe" ,false, "like");
+                likeDTO.getRecipeId(),null,null, null,"liked your recipe" ,false, "like");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;}
         return null;
@@ -78,7 +88,7 @@ public class WebSocketController {
 
         if(commentDTO.getSenderId() != commentDTO.getReceiverId()){
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
-                commentDTO.getRecipeId(), null,null,"added a comment: " + commentDTO.getComm() ,false, "comment");
+                commentDTO.getRecipeId(), null,null,null,"added a comment: " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;}
         return null;
@@ -89,12 +99,33 @@ public class WebSocketController {
     public NotificationDTO ingredientExpired(@DestinationVariable String userId)
     {
             NotificationDTO notificationDTO = new NotificationDTO(Long.valueOf(userId), Long.valueOf(userId),
-                    null,null,null, "ingredient expires" ,false, "like");
+                    null,null,null,null, "ingredient expires" ,false, "like");
             notificationService.createNotification(notificationDTO);
             return notificationDTO;
     }
 
+    @MessageMapping("/{id}/shareShoppingList")
+    public void newShareShoppingListNotification(@DestinationVariable String id, @Payload String email)
+    {
+        System.out.println(id);
+        System.out.println(email);
+        User user = userRepository.findByEmail(email).orElse(null);
+        if(user == null)
+        {
+            throw  new IllegalStateException("User not found");
+        }
+        else
+        {
+            ShoppingList shoppingList = shoppingListRepository.findById(Long.valueOf(id)).orElse(null);
+            String message =  " shared a shopping list";
+            NotificationDTO notificationDTO = new NotificationDTO(shoppingList.getUser().getId(), user.getId(),null,
+                    null,null,Long.valueOf(id), message,false, "list");
+            notificationService.createNotification(notificationDTO);
+            simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
 
+        }
+
+    }
 
 
 }

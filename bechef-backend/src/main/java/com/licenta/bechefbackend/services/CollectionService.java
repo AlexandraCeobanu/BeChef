@@ -27,7 +27,7 @@ public class CollectionService {
 
     public void createCollection(CollectionDTO collectionDTO) {
         Recipe recipe = recipeRepository.findById(collectionDTO.getRecipeId()).orElse(null);
-        User user = userRepository.findById(recipe.getUser().getId()).orElse(null);
+        User user = userRepository.findById(collectionDTO.getUserId()).orElse(null);
         if(recipe != null && user != null)
         {
             RecipeCollection newCollection  = new RecipeCollection();

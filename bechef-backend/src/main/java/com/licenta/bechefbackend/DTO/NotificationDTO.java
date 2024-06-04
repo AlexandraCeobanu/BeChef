@@ -12,6 +12,7 @@ public class NotificationDTO {
     Long recipeId;
     Long threadId;
     Long stockItemId;
+    Long listId;
     String message;
     Boolean read;
     String type;

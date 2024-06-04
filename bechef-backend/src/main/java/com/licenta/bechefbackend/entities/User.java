@@ -70,6 +70,14 @@ public class User implements UserDetails {
     )
     private List<ChatThread> subscribedThreads = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "collaborator_id",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shoppingList_id")
+    )
+    private List<ShoppingList> shoppingListsColab = new ArrayList<>();
+
     public User(String username,String email, String password, Role role)
     {
         this.userUsername = username;
