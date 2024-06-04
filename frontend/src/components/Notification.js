@@ -8,9 +8,8 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { addCollaborator,getShoppingListById } from "../services/shoppingList";
+import { addCollaborator,getShoppingListById,declineCollaboration} from "../services/shoppingList";
 import{ Alert,Space } from "antd";
-import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
     const [stockItem,setStockItem] = useState(null);
@@ -62,10 +61,20 @@ export default function Notification(props){
     }}
     const handleAcceptInvitation=()=>{
         setSeeInvitation(true);
-
     }
     const handleInvitationAccepted=()=> {
         addCollaborator(props.notification.listId,props.notification.receiverId)
+        .then((response)=>{
+            console.log(response);
+            setSeeInvitation(false);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
+
+    const handleInvitationDeclined=()=> {
+        declineCollaboration(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
             console.log(response);
             setSeeInvitation(false);
@@ -147,7 +156,7 @@ export default function Notification(props){
     <Alert
       message="Accept or Decline the invitation" className="invitation-alert"
       description={<div style={{display:"flex" , gap:"2em"}}><button className="button" onClick={handleInvitationAccepted}>Accept</button>
-      <button className="button" onClick={handleInvitationAccepted}>Decline</button>
+      <button className="button" onClick={handleInvitationDeclined}>Decline</button>
       </div>}
       type="info"
       showIcon = {false}/>

@@ -11,9 +11,10 @@
       background-color: $background-color;
       margin-bottom: 0.2em;
    }
-  #add-col {
+  #add-col,#close {
    cursor: pointer;
   }
+
 
    .new-collection {
       input {

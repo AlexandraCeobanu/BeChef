@@ -4,14 +4,17 @@ import {faCirclePlus,faMinusCircle} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Input } from 'antd';
-import { getCollaborators,deleteCollaborator } from "../services/shoppingList";
+import { getCollaborators,deleteCollaborator, getInvitation,getInvitations,deleteInvitation } from "../services/shoppingList";
 import UserBadge from "./UserBadge";
 import { useStompClient } from "./WebSocketProvider";
+import { createInvitation } from "../services/shoppingList";
+
 export default function Collection(props){
     const [newCollaborator, setNewCollaborator] = useState(false);
     const [collaboratorEmail, setCollaboratorEmail] = useState("");
     const [collaborators, setCollaborators] = useState([]); 
-
+    const [invitations, setInvitations] = useState([]);
+    const [error,setError] = useState(null);
     const client = useStompClient();
     useEffect(() => {
         getCollaborators(props.listId)
@@ -22,17 +25,35 @@ export default function Collection(props){
             console.log(error);
         })
     },[])
+    useEffect(() => {
+        getInvitations(props.listId)
+        .then((response) => {
+            setInvitations(response);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    },[])
     const handleAddCollaborator = ()=> {
         setNewCollaborator(true);
     }
     const handleCollaboratorEmail =(event) => {
+        setError(null)
         setCollaboratorEmail(event.target.value);
     }
     const handleSaveCollaborator = (event) => {
-        if(client!==null && client !==undefined){
-            client.send(`/user/${props.listId}/shareShoppingList`,[],collaboratorEmail);
-            props.closeViewCollaborators();
-        }
+
+        createInvitation(props.listId,collaboratorEmail)
+        .then((response) => {
+            if(client!==null && client !==undefined){
+                client.send(`/user/${props.listId}/shareShoppingList`,[],collaboratorEmail);
+                props.closeViewCollaborators();
+            }
+        })
+        .catch((error)=> {
+            setError(error.message)
+            console.log("error " + error.message)
+        })
         }
     const handleDeleteCollaborator = (event, colId) =>{
         deleteCollaborator(colId,props.listId)
@@ -44,16 +65,48 @@ export default function Collection(props){
             console.log(error)
         })
     }
-    const handleCloseView=(event)=>{
-        if(event.key ="Enter")
-            {
+    const handleCloseView=()=>{
+
                 props.closeViewCollaborators();
-            }
+            
+    }
+    const findInvitation=(id)=>{
+        const invitation = invitations.find(inv => inv.receiverId == id)
+        if(invitation)
+            return invitation.status
+        else
+            return ""
+    }
+    const handleDeleteInvitation =(invitation) => {
+        deleteInvitation(invitation.listId, invitation.id)
+        .then(()=> {
+                const newList = invitations.filter(inv => inv.id !== invitation.id);
+                setInvitations(newList);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
     }
     return(
     <Space direction="vertical" size={16}>
-    <Card title="Your collaborators" className="collection" extra={<FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollaborator}></FontAwesomeIcon>} 
-    style={{ width: 300 , minHeight: 300 }} onClick={(event) => handleCloseView(event)} onKeyDown={(event)=> handleCloseView(event)}>
+    <Card title="Your collaborators" className="collection" extra={<div style={{display:"flex",gap:"1em"}}>
+    <FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollaborator}></FontAwesomeIcon>
+    <FontAwesomeIcon id= "close" icon={faMinusCircle} onClick={(e) => handleCloseView()}></FontAwesomeIcon>
+    </div>
+} 
+    style={{ width: 300 , minHeight: 300 }} >
+     {/* onClick={(event) => handleCloseView(event)} onKeyDown={(event)=> handleCloseView(event)} */}
+
+     {invitations!==undefined &&  invitations.map((invitation, index) => (
+            invitation.status !== "accepted" && 
+            <Card key={index} type="inner" hoverable="true">
+                <div className="user">
+            <UserBadge userId={invitation.receiverId}></UserBadge>
+            <p style={{color : (findInvitation(invitation.receiverId)=== "Pending" ? "rgba(228, 123, 6)" : "red" ) }}>{findInvitation(invitation.receiverId)}</p>
+            <FontAwesomeIcon icon={faMinusCircle} onClick={(e) => handleDeleteInvitation(invitation)}></FontAwesomeIcon>
+            </div>
+          </Card>
+        ))}
 
         {collaborators!==undefined && collaborators.map((collaborator, index) => (
             <Card key={index} type="inner" hoverable="true">
@@ -66,6 +119,7 @@ export default function Collection(props){
     {newCollaborator === true && 
     <div className="new-collection">
     <Input placeholder="Collaborator Email" value ={collaboratorEmail} onChange={handleCollaboratorEmail} />
+    {error!== null && <p style={{color:"red", fontSize:"smaller"}}>{error}</p>}
     <button type="button" className='buttons' onClick={handleSaveCollaborator}>Add</button>
     </div>
     } 
