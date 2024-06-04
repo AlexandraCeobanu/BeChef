@@ -44,6 +44,21 @@ export const deleteItem = async(id) => {
 }
 }
 
+export const updateItem = async(id,item) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.patch(`${API_URL}/stockList/items/${id}`,item,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+
 export const getStockItemById= async(itemId) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');

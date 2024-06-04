@@ -79,8 +79,11 @@ button:hover {
         display: flex;
         border:none;
         position: relative;
-        #delete-item {
+        #delete-item,#buy-item {
             cursor: pointer;
+        }
+        #buy-item {
+            margin-left: 1em;
         }
     }
     .name-item {
@@ -158,3 +161,16 @@ button:hover {
         border-color: $primary-color;
     }
 }
+.shopping-lists {
+    background-color: $background-color;
+   position: absolute;
+   right: 0;
+   z-index: 3;
+   top:10%;
+   left:32%;
+   border: 1px solid $primary-color;
+   .ant-card {
+      background-color: $background-color;
+      margin-bottom: 0.2em;
+   }
+  }

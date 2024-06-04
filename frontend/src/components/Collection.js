@@ -28,7 +28,8 @@ export default function Collection(props){
     const handleSaveCollection = (event) => {
         let collection = {
             name : collectionName,
-            recipeId: props.recipeId
+            recipeId: props.recipeId,
+            userId: props.userId
         }
         saveCollection(collection)
         .then(() => {

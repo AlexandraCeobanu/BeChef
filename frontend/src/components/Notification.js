@@ -8,11 +8,13 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import{ Alert } from "antd";
+import { addCollaborator } from "../services/shoppingList";
+import{ Alert,Space } from "antd";
 import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
     const [stockItem,setStockItem] = useState(null);
+    const [seeInvitation, setSeeInvitation] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         if(props.notification.type === "message")
@@ -47,6 +49,20 @@ export default function Notification(props){
                 };
                 navigate('/chat', { state: data });
     }}
+    const handleAcceptInvitation=()=>{
+        setSeeInvitation(true);
+
+    }
+    const handleInvitationAccepted=()=> {
+        addCollaborator(props.notification.listId,props.notification.receiverId)
+        .then((response)=>{
+            console.log(response);
+            setSeeInvitation(false);
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+    }
     return(
         <div>
 
@@ -61,12 +77,27 @@ export default function Notification(props){
                     </div>
                 ) }
             {
-                props.notification.type === "message" && 
+                props.notification.type === "message" &&
                 (
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="thread-notification">
                     <h6>{thread !== null && thread.topic}</h6>
                     <div className="without-image" onClick={handleViewThread}>
+                    <UserBadge userId={props.notification.senderId}></UserBadge>
+                    <p>{props.notification.message}</p>
+                    </div>
+                    </div>
+                    </div>
+
+                )
+            }
+              {
+                props.notification.type === "list" &&
+                (
+                    <div onClick={handleAcceptInvitation} className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
+                    <div  className="thread-notification">
+                    <h6>list</h6>
+                    <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
                     <p>{props.notification.message}</p>
                     </div>
@@ -93,7 +124,23 @@ export default function Notification(props){
 
                 )
             }
-        
+        {
+            seeInvitation === true && (
+                
+                <Space
+    direction="vertical"
+    style={{
+      width: '100%',
+    }}
+  >
+    <Alert
+      message="Accept invitation"
+      description={<button className="button" onClick={handleInvitationAccepted}>Accept</button>}
+      type="info"
+      showIcon = {false}/>
+      </Space>
+            )
+        }
         </div>
     )
 }

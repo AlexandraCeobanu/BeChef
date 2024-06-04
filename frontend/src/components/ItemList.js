@@ -26,7 +26,7 @@ export default function ItemList(props){
              <Card.Grid className='grid'>
             <div className='item'>
             <Input type="checkbox" className="checkbox" checked={props.item.checked} onChange={() => handleCheckedItem(props.item)}/>
-            <Input className='name-item'  value={props.item!== null ? props.item.item : ""} disabled="true"  placeholder={props.item!== null ? props.item.item : ""} />
+            <Input className='name-item'  value={props.item!== null ? props.item.item : ""} disabled={true}  placeholder={props.item!== null ? props.item.item : ""} />
             <Input className='quantity-item' value={props.item!==null && props.item.quantity}  placeholder={props.item!==null && props.item.quantity}/>
             <DeleteOutlined id="delete-item" onClick={(e) => {handleRemoveItem(props.item.id)}}></DeleteOutlined>
             </div>

@@ -3,7 +3,8 @@ import "../styles/ItemList.scss";
 import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { useState,useEffect } from 'react';
 import StockItemList from './StockItemList';
-import { getStockList, deleteItem,updateStockList } from "../services/stockList";
+import { getStockList, deleteItem,updateStockList ,updateItem} from "../services/stockList";
+import { updateShoppingList } from "../services/shoppingList";
 const myitem = {
     item : "oua", 
     quantity : "2buc",
@@ -70,6 +71,27 @@ export default function StockListPage(props){
         .catch((error)=> {console.log(error)});
     })
 
+    const updateExpirationDate = (item,newExpiration) => {
+        let updatedItem = {
+            item: item.item,
+            quantity:item.quantity,
+            expirationDate:  newExpiration
+        }
+        updateItem(item.id,updatedItem)
+        .then((response) =>{
+            setStockList(response);
+        })
+        .catch((error)=> {console.log(error)});
+      };
+
+      const handleAddtoShoppingList = (id,item)=>{
+        updateShoppingList(id,[item])
+        .then(()=> {
+          
+        })
+        .catch((error)=>console.log(error))
+    }
+
     return (
         <Card title="Stock List" className='card-list'
         style={{ width: '100%' }}
@@ -96,7 +118,8 @@ export default function StockListPage(props){
      <button type="button" className='buttons' onClick={handleSaveStockList}>Save</button>}
     </div>
          <div className='list-items'>
-        {stockList !== null && <StockItemList items={stockList.items} handleRemoveItem={handleRemoveItem}></StockItemList>}
+        {stockList !== null && <StockItemList items={stockList.items} handleRemoveItem={handleRemoveItem} userId={props.userId}
+        updateExpirationDate={updateExpirationDate} handleAddToShoppingList={handleAddtoShoppingList}></StockItemList>}
         </div> 
         </Card>
     )

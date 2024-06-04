@@ -5,16 +5,20 @@ import "../styles/ItemList.scss";
 import ItemList from './ItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addShoppingList,getShoppingLists,deleteItem,checkItem } from '../services/shoppingList';
-import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined,UserAddOutlined,ShareAltOutlined } from '@ant-design/icons';
+import { deleteList } from '../services/shoppingList';
 import { updateShoppingList } from '../services/shoppingList';
-
+import { useStompClient } from "./WebSocketProvider";
 const ShoppingListPage = (props) => {
-  const [activeTabKey, setActiveTabKey] = useState("tab");
+  const [activeTabKey, setActiveTabKey] = useState(null);
   const [newList, setNewList] = useState("");
   const [addList, setAddList] = useState(false);
   const [tabList, setTabList] = useState([]);
   const [contentList, setContentList] = useState({});
   const [items,setItems] = useState([])
+  const [addUser, setAddUser] = useState(false)
+  const [userEmail,setUserEmail] = useState("")
+  const client = useStompClient();
   useEffect(() =>
 {
     let tabs = []
@@ -25,7 +29,8 @@ const ShoppingListPage = (props) => {
             let myKey = list.id.toString();
            const newTab = {
             key: myKey,
-            tab: list.name
+            tab: <div>{list.userId===props.userId ? <p>{list.name}</p> :
+             <div style={{display:"flex", gap:"0.3em"}}><ShareAltOutlined></ShareAltOutlined><p>{list.name}</p></div>}</div>
            }
            tabs.push(newTab);
           items[myKey] = renderListItems(list.items);
@@ -42,7 +47,7 @@ const handleRemoveItem=((id)=> {
     deleteItem(id)
     .then((response)=> {
         newItems[response.id] = renderListItems(response.items);
-        setContentList( newItems)
+        setContentList(newItems)
     })
     .catch((error)=> {console.log(error)});
 })
@@ -68,6 +73,16 @@ const renderListItems = (items) => {
       };
       addShoppingList(shoppingList)
         .then((response) => {
+          let tabs = [...tabList]
+          let myKey = response.id.toString();
+          tabs.push(
+            {
+              key: myKey,
+              tab: <div>{response.userId===props.userId ? <p>{response.name}</p> :
+              <div style={{display:"flex", gap:"0.3em"}}><ShareAltOutlined></ShareAltOutlined><p>{response.name}</p></div>}</div>
+            }
+          )
+          setTabList(tabs);
           setNewList("");
           setAddList(false);
         })
@@ -141,6 +156,30 @@ const handleCheckedItem=((id, value)=> {
   .catch((error)=> {console.log(error)});
 })
 
+const handleAddUserEmail = () =>{
+  setAddUser(true);
+}
+const handleAddUser = (event, id) => {
+  if(client!==null && client !==undefined){
+    client.send(`/user/${id}/shareShoppingList`,[],userEmail);}
+    setAddUser(false);
+
+}
+const handleChangeUserName = (event) => {
+  setUserEmail(event.target.value);
+}
+const handleDeleteList=(id)=>{
+  if(id!==null)
+  deleteList(id)
+  .then((response)=> {
+    
+      const tabs = tabList.filter(item => item.key !== id);
+      setTabList(tabs);
+  })
+  .catch((error)=>{
+    console.log(error)
+  })
+}
 
   return (
     <Card
@@ -152,12 +191,12 @@ const handleCheckedItem=((id, value)=> {
       activeTabKey={activeTabKey}
       onTabChange={onTabChange}
       actions={[
-        <DeleteOutlined key="delete" />,
+        <DeleteOutlined key="delete" onClick={() => handleDeleteList(activeTabKey)}/>,
         <PlusOutlined key="add-ingredient" onClick={handleAddItem} />,
-        <EditOutlined key="ellipsis" />,
+        <UserAddOutlined key="ellipsis" onClick={handleAddUserEmail}/>,
       ]}
     >
-        
+    
     <div>
     {items.length !== 0 && items.map((item,index) => (
                 <div key={index} className='items-to-add'>
@@ -174,6 +213,12 @@ const handleCheckedItem=((id, value)=> {
     {
     addList === true &&
     <Input className='newList' value={newList} placeholder='Name' onChange={(event) => handleChangeShoppingList(event)} onKeyDown={(event) => handleSaveShoppingList(event)} />
+    }
+    {
+      addUser === true && <>
+      <Input className='newList' value={userEmail} placeholder='User Email' onChange={(event) => handleChangeUserName(event)}/>
+      <button type="button" className='buttons' style={{marginLeft: '2em'}} onClick={(e) => handleAddUser(e,activeTabKey)}>Save</button>
+      </>
     }
     {contentList[activeTabKey]}
     </Card>

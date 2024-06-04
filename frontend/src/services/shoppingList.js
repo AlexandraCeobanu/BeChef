@@ -101,3 +101,31 @@ export const addIngredientsToShoppingList = async(userId,ingredients) => {
     throw error.response.data;
 }
 }
+export const addCollaborator = async(id,userId) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.post(`${API_URL}/shoppingLists/${id}/collaborators`,userId,config);
+        if (response.status === 201)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+export const deleteList = async(id) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.delete(`${API_URL}/shoppingLists/${id}`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}

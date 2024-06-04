@@ -1,12 +1,20 @@
-import { Card } from 'antd';
+import { Card, Space } from 'antd';
 import { Input } from 'antd';
 import { useEffect,useState } from 'react';
-import { DeleteOutlined} from '@ant-design/icons';
+import { DeleteOutlined,ShoppingCartOutlined} from '@ant-design/icons';
+import {faCirclePlus, faClose} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker } from "antd";
 import dayjs from 'dayjs';
+import { getShoppingLists } from '../services/shoppingList';
 export default function StockItemList(props){
 
     const [items, setItems] = useState([]);
+    const [expiration, setExpiration] = useState(null);
+    const [item,setItem] = useState(null);
+    const [seeShoppingLists, setSeeShoppingLists] = useState(false);
+    const [lists, setLists] = useState([])
+    const [itemToAdd, setItemToAdd] = useState(null);
 
     useEffect(() => {
         const newItems = [...props.items]
@@ -23,6 +31,25 @@ export default function StockItemList(props){
     const handleRemoveItem = (id) => {
         if(props.handleRemoveItem !== undefined)
         props.handleRemoveItem(id);
+    }
+    const handleSeeShoppingLists = (item) => {
+        setItemToAdd(item)
+        getShoppingLists(props.userId)
+        .then((response) =>{
+            setLists(response)
+            setSeeShoppingLists(true);
+        })
+       .catch((error)=> {
+        console.log(error);
+       })
+        // if(props.handleAddToShoppingList !== undefined)
+        // props.handleAddToShoppingList(item);
+    }
+    const handleAddToShoppingList = (shoppingList) => {
+        if(props.handleAddToShoppingList !== undefined)
+        {props.handleAddToShoppingList(shoppingList.id,itemToAdd);
+            setSeeShoppingLists(false)}
+
     }
     useEffect(()=>{
        
@@ -42,6 +69,20 @@ export default function StockItemList(props){
         }
     })
 
+    const handleUpdateExpiration = (event) => {
+        if (event.key === 'Enter') {
+        props.updateExpirationDate(item,expiration)
+      };}
+
+      const handleChangeExpiration = (e,newExpiration,item) => {
+        setExpiration(newExpiration);
+        setItem(item);
+       
+      };
+
+      const handleSeeLists=()=>{
+        setSeeShoppingLists(false);
+      }
 
     return(
         <>
@@ -51,18 +92,31 @@ export default function StockItemList(props){
              <p>Expiration Date</p>
                      <DatePicker className={daysUntilExpiration(item.expirationDate) === -1 ? "expiration-date expired" : 
                      (daysUntilExpiration(item.expirationDate) === 0 ?  "expiration-date close-expiration" : "expiration-date ok")} 
-                     disabled="true" showNow={false} defaultValue={dayjs(item.expirationDate)}/>
+                     disabled={item.expirationDate !== null ? true : false} showNow={false} defaultValue={dayjs(item.expirationDate)} onChange={(e,dateString) => handleChangeExpiration(e,dateString,item)} onKeyDown={(event) => handleUpdateExpiration(event)}/>
             </div>
             <div className='item'>
-            <Input className='name-item'  value={item.item} disabled="true"  placeholder={item.item}/>
+            <Input className='name-item'  value={item.item} disabled={true}  placeholder={item.item}/>
             <Input className='quantity-item' value={item.quantity}  placeholder={item.quantity}/>
             <DeleteOutlined id="delete-item" onClick={(e) => {handleRemoveItem(item.id)}}></DeleteOutlined>
-            
+            <ShoppingCartOutlined id="buy-item"  onClick={(e) => {handleSeeShoppingLists(item)}}></ShoppingCartOutlined>
             </div>
              </Card.Grid>
         )
         )   
         }
+        {seeShoppingLists === true && (
+            <Space direction="vertical" size={16}>
+            <Card title="Choose a shopping list"extra={<FontAwesomeIcon id="add-col" icon={faClose} style={{cursor:'pointer'}} onClick={handleSeeLists}></FontAwesomeIcon>}  
+            className="shopping-lists" 
+            style={{ width: 300 , minHeight: 300 }}>
+                {lists!==undefined && lists.map((list, index) => (
+                    <Card key={index} type="inner" hoverable="true" onClick={() => handleAddToShoppingList(list)}>
+                    {list.name}
+                  </Card>
+                ))} 
+            </Card>
+          </Space>
+        )}
         </>
     )
 }
