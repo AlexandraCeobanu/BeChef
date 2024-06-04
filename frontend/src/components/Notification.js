@@ -134,8 +134,10 @@ export default function Notification(props){
     }}
   >
     <Alert
-      message="Accept invitation"
-      description={<button className="button" onClick={handleInvitationAccepted}>Accept</button>}
+      message="Accept or Decline the invitation" className="invitation-alert"
+      description={<div style={{display:"flex" , gap:"2em"}}><button className="button" onClick={handleInvitationAccepted}>Accept</button>
+      <button className="button" onClick={handleInvitationAccepted}>Decline</button>
+      </div>}
       type="info"
       showIcon = {false}/>
       </Space>
