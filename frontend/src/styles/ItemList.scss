@@ -1,0 +1,176 @@
+@import "../styles/variables.scss";
+.card-list {
+    background-color: $background-color;
+    .ant-tabs {
+        display: flex;
+        justify-content: center;
+    }
+    .ant-tabs-nav{
+        color:$primary-color;
+    }
+        .ant-tabs-tab:hover {
+            color: $primary-color  }
+        .ant-tabs-nav-active{
+                color:$primary-color;
+            }
+    .ant-tabs-ink-bar {
+        background-color: $primary-color }
+    .ant-tabs-tab-active .ant-tabs-tab-btn {
+            color: $primary-color !important; /* Schimbă culoarea textului tabului activ */
+          }
+.add-item {
+    display: flex;
+    gap:1em;
+    #quantity {
+        width: 11%;
+        margin-bottom: 2em;
+        background-color: $background-color;
+    }
+   
+}
+.buttons {
+    height: 2.5em;
+    width: 5em;
+    margin-bottom: 2em;
+}
+button {
+    width: 80%;
+    font-size: small;
+    background-color: $primary-color;
+    border-radius: 8px;
+    height: 100%;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    border:1px solid $primary-color;
+}
+}
+.newList {
+    width: 20%;
+    margin-bottom: 2em;
+    background-color: $background-color;
+  }
+  .newList:focus, #quantity:focus {
+    box-shadow: none;
+    outline: none;
+    border: 1px solid $primary-color;
+    background-color: $background-color;
+  }
+  .newList:hover, #quantity:hover {
+    border: 1px solid $primary-color;
+    background-color: $background-color;
+  }
+.list-items {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:1em;
+    background-color: $background-color;
+    .grid {
+        width: 20%;
+        display: flex;
+        align-items: center;
+        height: 1em;
+        border: 1px solid rgba(0,0,0,0.2);
+    }
+
+    .item {
+        display: flex;
+        border:none;
+        position: relative;
+        #delete-item,#buy-item {
+            cursor: pointer;
+        }
+        #buy-item {
+            margin-left: 1em;
+        }
+    }
+    .name-item {
+        width:40%;
+        border: none;
+        border-radius: 0px;
+        border-right: 1px solid rgba(0,0,0,0.2);
+        background-color: white;
+    }
+    .checkbox {
+        font-size: small;
+        width: 1em;
+    }
+
+    .quantity-item {
+        width:40%;
+        border: none;
+        background-color: $background-color;
+    }
+     input:disabled  {
+        outline: none;
+        border: none;
+        background-color: $background-color;
+       
+      }
+      .quantity-item:focus, .checkbox:focus {
+        outline: none;
+        box-shadow: none;
+
+      }
+      .quantity-item:focus,.quantity-item:hover, .quantity-item:active, .quantity-item:checked {
+        border-color: $primary-color;
+    }
+
+
+    .grid-stock {
+
+        padding: 0;
+        margin: 0;
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        gap:1em;
+        padding: 0.2em;
+    }
+}
+
+.expiration {
+    width: 10em;
+    .expiration-date {
+        width: 100%;
+        height: 2.2em;
+        background-color: $background-color;
+    }
+    .expired {
+        border:  2px solid red;
+    }
+    .close-expiration {
+        border:  2px solid orange;
+    }
+    .ok {
+        border: 2px solid green;
+    }
+    .ant-picker-input input {
+        border: none;
+        width: 100%;
+        height: 1em;
+        font-size: smaller;
+       
+      }
+      p {
+        font-size: smaller;
+      }
+    .expiration-date:focus,.expiration-date:hover, .expiration-date:active {
+        border-color: $primary-color;
+    }
+}
+.shopping-lists {
+    background-color: $background-color;
+   position: absolute;
+   right: 0;
+   z-index: 3;
+   top:10%;
+   left:32%;
+   border: 1px solid $primary-color;
+   .ant-card {
+      background-color: $background-color;
+      margin-bottom: 0.2em;
+   }
+  }

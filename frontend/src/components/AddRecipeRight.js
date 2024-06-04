@@ -81,7 +81,7 @@ export default function AddRecipeRight({onRecipeStepChange})
             <hr></hr>
             </div>
             <div className="time-types">
-            <div className="time">
+            <div className="time-p">
            
             <TimePicker className="time-picker" showNow={false} value ={time} onChange={handleChangeTime}/>
            

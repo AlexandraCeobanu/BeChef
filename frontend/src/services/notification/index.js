@@ -21,7 +21,7 @@ export const readAllNotifications = async(userId) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
         config.headers.Authorization = `Bearer ${token}`;
-        const response = await axios.patch(`${API_URL}/notifications?userId=${userId}`,config);
+        const response = await axios.patch(`${API_URL}/notifications?userId=${userId}`,null,config);
         if (response.status === 200)
         {
             const res = await response.data;

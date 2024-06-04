@@ -103,8 +103,10 @@ export default function RecipeViewNotification(props){
         setSaved(!saved);
     }
     useEffect(()=> {
+       
         getUserSavedRecipes(loggedUserId)
         .then((response)=> {
+            if(recipe!==null)
             if (response.some(saved => saved.id === recipe.id) === true)
                     setSaved(true)})
         .catch((error)=> {
@@ -118,7 +120,7 @@ export default function RecipeViewNotification(props){
             .catch((error)=> {
                 console.log(error);
             })
-    },[])
+    },[recipe])
     const handleCloseViewRecipe = ()=>{
         navigate("/home");
     }

@@ -6,7 +6,7 @@ import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { faRocketchat } from "@fortawesome/free-brands-svg-icons"
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getNumberOfUnreadNotifications, getAllNotifications} from "../services/notification";
+import { getNumberOfUnreadNotifications, readAllNotifications} from "../services/notification";
 import Notifications from "./Notifications";
 import { useStompClient } from "./WebSocketProvider";
 
@@ -36,6 +36,7 @@ export default function Header(props){
     useEffect(()=> {
         if(client) {
             const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
+                if(message !== null){
                 console.log("new message")
                 const receivedNot = JSON.parse(message.body)
                 setNrNotifications(prev=> prev+1);
@@ -44,7 +45,7 @@ export default function Header(props){
                 {
                         props.handleChangeLikes();
                 }
-               });
+               }});
         const subscription2 = client.subscribe(`/newNotification/removeLike/${user.id}`, function(message){
         console.log("dislike")
         if (props.handleChangeLikes!==undefined)
@@ -70,7 +71,7 @@ export default function Header(props){
             setNrNotifications(0);}
 
     else{
-        getAllNotifications(JSON.parse(localStorage.getItem('user')).id)
+        readAllNotifications(JSON.parse(localStorage.getItem('user')).id)
         .then(()=> {
             setShowNotification(false);
             

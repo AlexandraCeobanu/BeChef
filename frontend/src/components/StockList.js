@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react"
 import ItemsView from "./ItemsView"
 import { getStockList, deleteItem,updateStockList } from "../services/stockList";
+import { DatePicker } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus,faMinus} from '@fortawesome/free-solid-svg-icons';
+import dayjs from 'dayjs';
 import "../styles/shoppingList.scss";
 import { updateShoppingList } from "../services/shoppingList";
 export default function StockList(props) {
     const [items,setItems] = useState([])
     const [stockList,setStockList] = useState(null)
-    
-
+    const [expiration , setExpiration] = useState(null)
     useEffect(()=> {
         getStockList(props.userId)
         .then((response)=> {
@@ -60,6 +61,12 @@ export default function StockList(props) {
         .catch((error)=>console.log(error))
     }
 
+    const handleChangeExpiration = (index,e,newExpiration) => {
+        const newItems = [...items];
+        newItems[index].expirationDate = e;
+        setItems(newItems);
+        // setExpiration(e);
+      };
 
     return (
         <div className="shoppingList">
@@ -76,6 +83,10 @@ export default function StockList(props) {
                     <div className="add-item-box">
                     <input type="text" placeholder={"new item"} value={item.item} onChange={(e) => handleChangeItem(index, e.target.value)}></input>
                     <input type="text" placeholder={"quantity"} value={item.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
+    
+                    <div className="expiration">
+                    <DatePicker  className="expiration-date" placeholder="Choose an expiration date" showNow={false} value={item.expirationDate}  onChange={(e,dateString) => handleChangeExpiration(index,e,dateString)}/>
+                    </div> 
                     </div>
                 </div>
                )

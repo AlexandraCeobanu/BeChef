@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import ItemsView from "./ItemsView"
-import { getShoppingList,updateShoppingList,deleteItem,checkItem } from "../services/shoppingList"
+import { getShoppingListById,updateShoppingList,deleteItem,checkItem } from "../services/shoppingList"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import "../styles/shoppingList.scss";
@@ -10,7 +10,7 @@ export default function ShoppingList(props) {
     
 
     useEffect(()=> {
-        getShoppingList(props.userId)
+        getShoppingListById(props.userId)
         .then((response)=> {
             setShoppingList(response);
         })
@@ -50,18 +50,19 @@ export default function ShoppingList(props) {
         .catch((error)=> {console.log(error)});
     })
 
+    
     const handleCheckedItem=((id, value)=> {
         checkItem(id,value)
         .then(()=> {
 
-            getShoppingList(props.userId)
+            getShoppingListById(props.userId)
                 .then((response)=> {
                     setShoppingList(response);
                 })
                 .catch((error)=> {
                     console.log(error);
                 })
-           props.handleCheckedItem(value);
+        //    props.handleCheckedItem(value);
         })
         .catch((error)=> {console.log(error)});
     })

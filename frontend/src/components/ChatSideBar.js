@@ -37,17 +37,20 @@ export default function ChatSideBar(props) {
     useEffect (() => {
     if(client)
      {
-        const subscription = client.subscribe(`/newMessage`, function(message) {
+        const subscription = client.subscribe(`/newMessage/${props.thread.id}`, function(message) {
                      const receivedMessage = JSON.parse(message.body)
+                     console.log("am intrat aici")
                     if(receivedMessage.threadId === props.thread.id){
-                    setMessages((prevMessages) => [...prevMessages, receivedMessage]);}
+                    setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+                    props.handleMessageAdded();
+                }
                     });
 
         return () => {
                 subscription.unsubscribe();
                     };
      }
-    },[client])
+    },[])
 
 
     return(

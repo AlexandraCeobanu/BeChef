@@ -168,3 +168,18 @@ export const getUserSavedRecipes = async(userId) => {
     throw error.response.data;
 }
 }
+export const deleteRecipe = async(recipeId) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.delete(`${API_URL}/recipes/${recipeId}`,config);
+        if (response.status === 200)
+        {
+            const res = await response.data;
+            return res;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}

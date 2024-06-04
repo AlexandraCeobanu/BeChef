@@ -1,5 +1,6 @@
 import '../styles/recipe.scss'
 import {faHeart,faComment,faClock} from '@fortawesome/free-regular-svg-icons';
+import {faMinus, faT, faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import Feedback from './Feedback';
 import { useEffect, useState } from 'react';
 import { giveLike } from '../services/like';
@@ -8,6 +9,7 @@ import { getUserLikedRecipes,removeLike } from '../services/like';
 import { getRecipeComments } from '../services/comments';
 import { useStompClient } from "./WebSocketProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { deleteRecipe } from '../services/recipe';
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
@@ -91,11 +93,24 @@ export default function Recipe(props)
             .catch((error)=>{console.log(error)})
         },[props]
     )
+    const handleDeleteRecipe = ()=> {
+        deleteRecipe(recipe.id)
+        .then(()=> {
+            props.recipeDeleted();
+        })
+        .catch((error)=> {
+            console.log(error);
+        })
+    }
     
     return(
         <div>
             <div className='text'>
-                {recipe.name !== "" && '@' + recipe.name}
+                {recipe !==undefined && recipe.name !== ""  && ('@' + recipe.name)}
+                {props.profile !== undefined && (
+                        <FontAwesomeIcon id="trash" icon ={faMinus} onClick={handleDeleteRecipe}></FontAwesomeIcon>
+                )}
+                
             </div>
             <div className="recipie-photo" onClick={handleClick}>
                 <img src = {props.image} alt="Recipie"></img>

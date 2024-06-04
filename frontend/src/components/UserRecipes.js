@@ -9,6 +9,9 @@ import ProfileOptions from "./ProfileOptions";
 import RecipesView from "./RecipesView";
 import ShoppingList from "./ShoppingList";
 import StockList from "./StockList";
+import SavedRecipes from "./SavedRecipes";
+import ShoppingListPage from "./ShoppingListPage";
+import StockListPage from "./StockListPage";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
@@ -76,6 +79,18 @@ export default function UserRecipes(props)
        
         setOption(3);
     }
+    const handleRecipeDeleted = ()=>{
+        getRecipesByUserId(props.loggedUserId)
+        .then(
+            (recipes) => {
+                    setRecipes(recipes.reverse());
+            }
+        )
+        .catch((error) =>
+        {
+            console.log(error);
+        })
+    }
     return(
         <div className="recipes-view">
         <div className="title">
@@ -94,26 +109,36 @@ export default function UserRecipes(props)
         </div>) :
         (   
             option === 1 &&
-            <RecipesView  recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
-             handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList} nrLikes ={props.nrLikes}
+            <RecipesView profile="true" recipes={recipes} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes}
+             handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList} nrLikes ={props.nrLikes} recipeDeleted={handleRecipeDeleted}
              ></RecipesView>
         )}
 
-        {savedRecipes.length === 0 && option === 2 ?
-            (<div className="no-recipes">
-            <h1>No recipe saved</h1>
-            </div>) :
+        {option === 2 &&
             (   
                 option === 2 &&
-                <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
-                 handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
-                 nrLikes ={props.nrLikes}></RecipesView>
+                // <RecipesView recipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId}
+                //  handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
+                //  nrLikes ={props.nrLikes}></RecipesView>
+                <SavedRecipes userId ={props.loggedUserId} savedRecipes={savedRecipes} handleRemoveSavedRecipe={handleRemoveSavedRecipe}
+                viewedUserId={props.viewedUserId} handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={handleGoToShoppingList}
+                nrLikes = {props.nrLikes}
+                ></SavedRecipes>
             )
         }
         {
             option === 3 && <div className="lists">
-            <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem} addedItem={addedItem}></ShoppingList>
-            <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList>
+            {/* <ShoppingList  userId={props.loggedUserId} handleCheckedItem={handleCheckedItem} addedItem={addedItem}></ShoppingList>
+            <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList> */}
+            <ShoppingListPage userId={props.loggedUserId}></ShoppingListPage>
+            </div>
+        }
+        {
+            option === 4 && <div className="lists">
+            
+            {/* <StockList userId={props.loggedUserId} checkedItem={checkedItem} handleAddedItem ={handleAddedItem}></StockList> */}
+            <StockListPage userId={props.loggedUserId} ></StockListPage>
+           
             </div>
         }
         </div>
