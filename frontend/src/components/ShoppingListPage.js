@@ -6,6 +6,7 @@ import ItemList from './ItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addShoppingList,getShoppingLists,deleteItem,checkItem } from '../services/shoppingList';
 import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined,UserAddOutlined,ShareAltOutlined } from '@ant-design/icons';
+import CollaboratorsView from "./CollaboratorsView";
 import { deleteList } from '../services/shoppingList';
 import { updateShoppingList } from '../services/shoppingList';
 import { useStompClient } from "./WebSocketProvider";
@@ -19,6 +20,7 @@ const ShoppingListPage = (props) => {
   const [addUser, setAddUser] = useState(false)
   const [userEmail,setUserEmail] = useState("")
   const client = useStompClient();
+  const [blur, setBlur]= useState(false);
   useEffect(() =>
 {
     let tabs = []
@@ -159,15 +161,6 @@ const handleCheckedItem=((id, value)=> {
 const handleAddUserEmail = () =>{
   setAddUser(true);
 }
-const handleAddUser = (event, id) => {
-  if(client!==null && client !==undefined){
-    client.send(`/user/${id}/shareShoppingList`,[],userEmail);}
-    setAddUser(false);
-
-}
-const handleChangeUserName = (event) => {
-  setUserEmail(event.target.value);
-}
 const handleDeleteList=(id)=>{
   if(id!==null)
   deleteList(id)
@@ -180,10 +173,17 @@ const handleDeleteList=(id)=>{
     console.log(error)
   })
 }
+const closeViewCollaborators = ()=>{
+  setAddUser(false);
+  setBlur(false);
+}
+const viewCollaborators =()=>{
+  setBlur(true);
+}
 
   return (
     <Card
-      className='card-list'
+      className={'card-list'}
       style={{ width: '100%' }}
       title="Shopping Lists"
       extra={<FontAwesomeIcon icon={faPlus} onClick={handleAddShoppingList} style={{ cursor: "pointer" }} />}
@@ -215,10 +215,9 @@ const handleDeleteList=(id)=>{
     <Input className='newList' value={newList} placeholder='Name' onChange={(event) => handleChangeShoppingList(event)} onKeyDown={(event) => handleSaveShoppingList(event)} />
     }
     {
-      addUser === true && <>
-      <Input className='newList' value={userEmail} placeholder='User Email' onChange={(event) => handleChangeUserName(event)}/>
-      <button type="button" className='buttons' style={{marginLeft: '2em'}} onClick={(e) => handleAddUser(e,activeTabKey)}>Save</button>
-      </>
+      addUser === true &&
+      <CollaboratorsView userId={props.userId} listId={activeTabKey} closeViewCollaborators={closeViewCollaborators} viewCollaborators ={viewCollaborators}></CollaboratorsView>
+     
     }
     {contentList[activeTabKey]}
     </Card>

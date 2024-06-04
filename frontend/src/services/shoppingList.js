@@ -115,6 +115,34 @@ export const addCollaborator = async(id,userId) => {
     throw error.response.data;
 }
 }
+export const getCollaborators = async(id) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.get(`${API_URL}/shoppingLists/${id}/collaborators`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
+export const deleteCollaborator= async(colId,listId) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.delete(`${API_URL}/shoppingLists/${listId}/collaborators?colId=${colId}`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
 export const deleteList = async(id) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');

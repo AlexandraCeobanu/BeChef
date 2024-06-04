@@ -1,5 +1,6 @@
 @import "./variables.scss";
 .collection {
+   
    background-color: $background-color;
    position: absolute;
    left: 40%;
@@ -35,6 +36,12 @@
          border-radius: 4px;
          margin-top: 1em;
       }
+   }
+   .user {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
    }
    
 }
