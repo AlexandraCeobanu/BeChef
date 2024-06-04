@@ -2,6 +2,7 @@ package com.licenta.bechefbackend.controller;
 
 import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.Ingredient;
+import com.licenta.bechefbackend.entities.Invitation;
 import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.services.ShoppingListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +170,96 @@ public class ShoppingListController {
         {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+//    @GetMapping("/{id}/invitations")
+//    public ResponseEntity<?> getInvitation(@PathVariable Long id, @RequestParam Long senderId, @RequestParam Long receiverId)
+//    {
+//        try {
+//            Invitation invitation = shoppingListService.getInvitation(id,senderId,receiverId);
+//            return ResponseEntity.status(HttpStatus.OK).body(invitation);
+//        }
+//        catch (IllegalStateException e)
+//        {
+//            System.out.println(e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+//        }
+//    }
+@GetMapping("/{id}/invitations")
+public ResponseEntity<?> getInvitations(@PathVariable Long id)
+{
+    try {
+        List<InvitationDTO> invitations= shoppingListService.getInvitations(id);
+        return ResponseEntity.status(HttpStatus.OK).body(invitations);
+    }
+    catch (IllegalStateException e)
+    {
+        System.out.println(e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+    }
+    catch(Exception e)
+    {
+        System.out.println(e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+    }
+}
+    @PatchMapping("/{id}/invitations")
+    public ResponseEntity<?> declineInvitation(@PathVariable Long id, @RequestParam Long receiverId)
+    {
+        try {
+            shoppingListService.declineInvitation(id,receiverId);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch (IllegalStateException e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @PostMapping("/{id}/invitations")
+    public ResponseEntity<?> createInvitation(@PathVariable Long id, @RequestParam String email)
+    {
+        try {
+            shoppingListService.createInvitation(id,email);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch (IllegalStateException e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+    @DeleteMapping("/{listId}/invitations/{id}")
+    public ResponseEntity<?> deleteInvitation(@PathVariable Long listId, @PathVariable Long id)
+    {
+        try {
+            shoppingListService.deleteInvitation(id);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch (IllegalStateException e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
         }
         catch(Exception e)
         {

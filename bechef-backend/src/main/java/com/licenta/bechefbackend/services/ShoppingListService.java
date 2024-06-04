@@ -4,10 +4,8 @@ import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.email.EmailSender;
 import com.licenta.bechefbackend.entities.*;
 import com.licenta.bechefbackend.registration.token.ConfirmationToken;
-import com.licenta.bechefbackend.repository.ItemRepository;
-import com.licenta.bechefbackend.repository.ShoppingListRepository;
-import com.licenta.bechefbackend.repository.StockItemRepository;
-import com.licenta.bechefbackend.repository.UserRepository;
+import com.licenta.bechefbackend.repository.*;
+import io.swagger.models.auth.In;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,7 +33,8 @@ public class ShoppingListService {
     @Autowired
     StockItemRepository stockItemRepository;
     @Autowired
-    private final EmailSender emailSender;
+    InvitationRepository invitationRepository;
+
 
     public ShoppingListResponseDTO createShoppingList(ShoppingListDTO shoppingListDTO){
         User user = userRepository.findById(shoppingListDTO.getUserId()).orElse(null);
@@ -161,15 +160,16 @@ public class ShoppingListService {
             ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
             if(!user.getShoppingListsColab().contains(shoppingList))
             { user.getShoppingListsColab().add(shoppingList);
-            userRepository.save(user);}
-
-//            if(!shoppingList.getCollaborators().contains(user))
-//            shoppingList.getCollaborators().add(user);
+            userRepository.save(user);
+            Invitation invitation = invitationRepository.findByAll(shoppingList.getUser().getId(), userId, shoppingList.getId()).orElse(null);
+            if(invitation != null)
+            {
+                invitation.setStatus("accepted");
+                invitationRepository.save(invitation);
+            }
+            }
             ShoppingList shoppingList2 = shoppingListRepository.findById(id).orElse(null);
-//            ShoppingListDTO shoppingListDTO = new ShoppingListDTO(
-//                    shoppingList2.getName(), shoppingList2.getUser().getId(), shoppingList2.getItems());
             return shoppingList2;
-
         }
     }
 
@@ -208,5 +208,54 @@ public class ShoppingListService {
             user.getShoppingListsColab().remove(shoppingList);
             userRepository.save(user);
         }
+    }
+
+    public Invitation getInvitation(Long id, Long senderId, Long receiverId) {
+        Invitation invitation = invitationRepository.findByAll(senderId,receiverId,id).orElse(null);
+        return invitation;
+    }
+
+    public List<InvitationDTO> getInvitations(Long id) {
+        List<Invitation> invitations = invitationRepository.findAllByListId(id);
+        List<InvitationDTO> invitationDTOS = new ArrayList<>();
+        for(Invitation inv : invitations)
+        {
+            InvitationDTO invitationDTO = new InvitationDTO(inv.getId(),inv.getSender().getId(),
+                    inv.getReceiver().getId(),inv.getStatus(), inv.getList().getId());
+            invitationDTOS.add(invitationDTO);
+        }
+        return invitationDTOS;
+
+
+    }
+
+    public void declineInvitation(Long id, Long receiverId) {
+        ShoppingList list = shoppingListRepository.findById(id).orElse(null);
+        Long senderId = list.getUser().getId();
+        Invitation invitation = invitationRepository.findByAll(senderId,receiverId,id).orElse(null);
+        invitation.setStatus("Declined");
+        invitationRepository.save(invitation);
+    }
+
+    public void createInvitation(Long id, String email) {
+
+        ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
+        User user = userRepository.findByEmail(email).orElse(null);
+        Invitation invitation = invitationRepository.findByAll(shoppingList.getUser().getId(),user.getId(),shoppingList.getId()).orElse(null);
+
+        if (!shoppingList.getCollaborators().contains(user) && invitation == null) {
+            Invitation newInvitation = new Invitation(shoppingList.getUser(),
+                    user, shoppingList, "Pending");
+            invitationRepository.save(newInvitation);
+        }
+        else {
+            if(invitation == null)
+                throw  new IllegalStateException("invitation already send");
+            throw  new IllegalStateException("user already exists");
+        }
+    }
+
+    public void deleteInvitation(Long id) {
+        invitationRepository.deleteById(id);
     }
 }

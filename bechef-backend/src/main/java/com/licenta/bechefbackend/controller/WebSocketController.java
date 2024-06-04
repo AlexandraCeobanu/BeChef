@@ -1,12 +1,15 @@
 package com.licenta.bechefbackend.controller;
 import com.licenta.bechefbackend.DTO.*;
 import com.licenta.bechefbackend.entities.ChatThread;
+import com.licenta.bechefbackend.entities.Invitation;
 import com.licenta.bechefbackend.entities.ShoppingList;
 import com.licenta.bechefbackend.entities.User;
+import com.licenta.bechefbackend.repository.InvitationRepository;
 import com.licenta.bechefbackend.repository.ShoppingListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
 import com.licenta.bechefbackend.services.ChatThreadService;
 import com.licenta.bechefbackend.services.NotificationService;
+import com.licenta.bechefbackend.services.ShoppingListService;
 import com.licenta.bechefbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -32,6 +35,10 @@ public class WebSocketController {
     UserRepository userRepository;
     @Autowired
     ShoppingListRepository shoppingListRepository;
+    @Autowired
+    ShoppingListService shoppingListService;
+    @Autowired
+    InvitationRepository invitationRepository;
 
     @MessageMapping("/{threadId}/messages")
     @SendTo("/newMessage/{threadId}")
