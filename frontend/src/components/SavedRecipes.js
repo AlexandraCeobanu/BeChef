@@ -59,7 +59,8 @@ export default function SavedRecipes(props) {
     const handleRemoveCollection = (id) => {
         removeCollection(id)
         .then((response)=> {
-            setCollections(response);
+            const newCollections = collections.filter(collection => collection.id !== id)
+            setCollections(newCollections);
         })
         .catch((error)=> {
             console.log(error);
