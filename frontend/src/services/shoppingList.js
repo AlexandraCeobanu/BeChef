@@ -1,10 +1,10 @@
 import axios from "axios";
 import { config, API_URL } from './global'
-export const getShoppingList = async(userId) => {
+export const getShoppingListById = async(id) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
         config.headers.Authorization = `Bearer ${token}`;
-        const response = await axios.get(`${API_URL}/shoppingList?userId=${userId}`,config);
+        const response = await axios.get(`${API_URL}/shoppingLists/${id}`,config);
         if (response.status === 200)
         {
             return response.data;

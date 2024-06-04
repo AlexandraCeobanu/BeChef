@@ -10,23 +10,23 @@ import CollaboratorsView from "./CollaboratorsView";
 import { deleteList } from '../services/shoppingList';
 import { updateShoppingList } from '../services/shoppingList';
 import { useStompClient } from "./WebSocketProvider";
+import UserBadge from './UserBadge';
 const ShoppingListPage = (props) => {
   const [activeTabKey, setActiveTabKey] = useState(null);
   const [newList, setNewList] = useState("");
   const [addList, setAddList] = useState(false);
+  const [lists, setLists] = useState([]);
   const [tabList, setTabList] = useState([]);
   const [contentList, setContentList] = useState({});
   const [items,setItems] = useState([])
   const [addUser, setAddUser] = useState(false)
-  const [userEmail,setUserEmail] = useState("")
-  const client = useStompClient();
-  const [blur, setBlur]= useState(false);
   useEffect(() =>
 {
     let tabs = []
     let items = {}
     getShoppingLists(props.userId)
     .then((response) => {
+      setLists(response)
         response.map((list,index)=> {
             let myKey = list.id.toString();
            const newTab = {
@@ -75,6 +75,7 @@ const renderListItems = (items) => {
       };
       addShoppingList(shoppingList)
         .then((response) => {
+          setLists(response)
           let tabs = [...tabList]
           let myKey = response.id.toString();
           tabs.push(
@@ -136,6 +137,7 @@ const handleCheckedItem=((id, value)=> {
   .then(()=> {
       getShoppingLists(props.userId)
       .then((response) => {
+        setLists(response)
         response.map((list,index)=> {
             let myKey = list.id.toString();
            const newTab = {
@@ -165,9 +167,10 @@ const handleDeleteList=(id)=>{
   if(id!==null)
   deleteList(id)
   .then((response)=> {
-    
+      const newLists = lists.filter(list=> list.id !== id);
       const tabs = tabList.filter(item => item.key !== id);
       setTabList(tabs);
+      setLists(newLists);
   })
   .catch((error)=>{
     console.log(error)
@@ -175,10 +178,20 @@ const handleDeleteList=(id)=>{
 }
 const closeViewCollaborators = ()=>{
   setAddUser(false);
-  setBlur(false);
 }
-const viewCollaborators =()=>{
-  setBlur(true);
+const displayName = (id) =>{
+  const listToFind = lists.find(list => list.id == id);
+    if (listToFind) {
+      return listToFind.userId;}
+  else 
+  return -1;
+}
+const checkOwner = (id) =>{
+  const listToFind = lists.find(list => list.id == id);
+    if (listToFind && listToFind.userId !== props.userId) {
+      return "true";}
+  else 
+  return "false";
 }
 
   return (
@@ -195,9 +208,11 @@ const viewCollaborators =()=>{
         <PlusOutlined key="add-ingredient" onClick={handleAddItem} />,
         <UserAddOutlined key="ellipsis" onClick={handleAddUserEmail}/>,
       ]}
-    >
-    
-    <div>
+    >{
+      checkOwner(activeTabKey) === "true" && (
+      <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
+      <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>)}
+      <div>
     {items.length !== 0 && items.map((item,index) => (
                 <div key={index} className='items-to-add'>
                     <div className='add-item'>
@@ -216,7 +231,7 @@ const viewCollaborators =()=>{
     }
     {
       addUser === true &&
-      <CollaboratorsView userId={props.userId} listId={activeTabKey} closeViewCollaborators={closeViewCollaborators} viewCollaborators ={viewCollaborators}></CollaboratorsView>
+      <CollaboratorsView userId={props.userId} listId={activeTabKey} closeViewCollaborators={closeViewCollaborators}></CollaboratorsView>
      
     }
     {contentList[activeTabKey]}

@@ -8,12 +8,13 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { addCollaborator } from "../services/shoppingList";
+import { addCollaborator,getShoppingListById } from "../services/shoppingList";
 import{ Alert,Space } from "antd";
 import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
     const [stockItem,setStockItem] = useState(null);
+    const [list,setList] = useState(null);
     const [seeInvitation, setSeeInvitation] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
@@ -37,6 +38,16 @@ export default function Notification(props){
                     console.log(error);
                 })
             }
+            if(props.notification.type === "list")
+                {
+                    getShoppingListById(props.notification.listId)
+                    .then((response) => {
+                        setList(response)
+                    })
+                    .catch((error)=> {
+                        console.log(error);
+                    })
+                }
     },[])
 
     const handleViewRecipe=(value)=> {
@@ -96,7 +107,7 @@ export default function Notification(props){
                 (
                     <div onClick={handleAcceptInvitation} className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div  className="thread-notification">
-                    <h6>list</h6>
+                    <h6>{list!==null && list.name}</h6>
                     <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
                     <p>{props.notification.message}</p>
