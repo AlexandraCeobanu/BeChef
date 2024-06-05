@@ -5,12 +5,14 @@ import '../styles/recipesView.scss'
 import { getRecipeImage } from "../services/getRecipeImage";
 import RecipeView from "../components/RecipeView";
 import { getUserById } from "../services/user/getUserById";
-export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur,handleRemoveSavedRecipe,handleGoToShoppingList,nrLikes,profile, recipeDeleted})
+export default function RecipesView({recipes,loggedUserId,handleChangeLikes,handleBlur,handleRemoveSavedRecipe,handleGoToShoppingList,
+    nrLikes,profile, recipeDeleted,collectionId})
 {
     const [viewRecipe,setViewRecipe] = useState(false);
     const [clickedRecipe,setClickedRecipe] = useState(null);
     const [viewedUser,setViewedUser] =  useState(null);
     const [recipesImages,setRecipesImages] = useState([]);
+   
     const handleViewRecipe = (index) => {
             setViewRecipe(true);
             setClickedRecipe(index);
@@ -49,7 +51,9 @@ useEffect(() => {
         fetchRecipesImages();
     }, [recipes]);
 
-
+    const handleRemoveSavedRecipe2 = (id) =>{
+        handleRemoveSavedRecipe(id);
+    }
     return(
         <div>
         {
@@ -57,7 +61,7 @@ useEffect(() => {
         viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]}
           image={recipesImages[clickedRecipe]} loggedUserId={loggedUserId} viewedUserId={viewedUser.id}
           index={clickedRecipe} onClick={handleViewRecipe} handleCloseRecipe ={handleCloseRecipe} 
-          handleChangeLikes={handleChangeLikes} handleRemoveSavedRecipe={handleRemoveSavedRecipe}
+          handleChangeLikes={handleChangeLikes} handleRemoveSavedRecipe={handleRemoveSavedRecipe} handleRemoveSavedRecipe2={handleRemoveSavedRecipe2} collectionId = {collectionId}
           handleGoToShoppingList = {handleToShoppingList}  nrLikes ={nrLikes}
            ></RecipeView>}
 
@@ -65,7 +69,7 @@ useEffect(() => {
             {recipesImages.map((recipeImage,index) => (    
                 <div key={index}>
                 <Recipe profile={profile} image={recipeImage} recipe={recipes[index]} index={index} loggedUserId={loggedUserId} 
-                 onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes} recipeDeleted = {recipeDeleted}> </Recipe>
+                 onClick={handleViewRecipe} handleChangeLikes={handleChangeLikes} recipeDeleted = {recipeDeleted} collectionId = {collectionId}> </Recipe>
             </div>
         )
             )}

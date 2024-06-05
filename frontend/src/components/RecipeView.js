@@ -1,6 +1,6 @@
 import CommentsSection from "./CommentsSection";
 import IngredientsView from "./IngredientsView";
-import {faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faUpDownLeftRight, faXmark} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark as regularBookMark}  from '@fortawesome/free-regular-svg-icons';
 import {faBookmark as solidBookMark}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from "react";
@@ -66,7 +66,12 @@ export default function RecipeView(props){
             .then(()=> {
                 if (props.handleRemoveSavedRecipe !== undefined)
                     {
-                    props.handleRemoveSavedRecipe();}
+                        if(props.collectionId !== undefined){
+                            props.handleCloseRecipe();
+                    props.handleRemoveSavedRecipe2(props.collectionId);}
+                else
+                    props.handleRemoveSavedRecipe();
+                }
                     // props.handleCloseRecipe();
                     setClickedSaved(false);
                     
@@ -105,7 +110,7 @@ export default function RecipeView(props){
             <FontAwesomeIcon beat icon={regularBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
            {saved === true &&  
             <FontAwesomeIcon  icon={solidBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
-            <IngredientsView ingredients={props.recipe.ingredients} stockList={stockList}></IngredientsView>
+            {<IngredientsView ingredients={props.recipe.ingredients} stockList={stockList}></IngredientsView>}
             <div className="button">
             <button type="button" onClick={handleAddIngredients}>Add to your shopping list</button>
             </div>
