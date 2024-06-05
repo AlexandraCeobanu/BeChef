@@ -122,7 +122,13 @@ export default function RecipeViewNotification(props){
             })
     },[recipe])
     const handleCloseViewRecipe = ()=>{
-        navigate("/home");
+        navigate(-1);
+        // if (location.state && location.state.from) {
+        //     navigate(location.state.from);
+        //   } else {
+        //     navigate('/home');
+        //   }
+        
     }
     return(
         <div>

@@ -11,6 +11,8 @@ import { deleteList } from '../services/shoppingList';
 import { updateShoppingList } from '../services/shoppingList';
 import { useStompClient } from "./WebSocketProvider";
 import UserBadge from './UserBadge';
+import MiniRecipe from './MiniRecipe';
+import { useNavigate } from 'react-router-dom';
 const ShoppingListPage = (props) => {
   const [activeTabKey, setActiveTabKey] = useState(null);
   const [newList, setNewList] = useState("");
@@ -20,6 +22,7 @@ const ShoppingListPage = (props) => {
   const [contentList, setContentList] = useState({});
   const [items,setItems] = useState([])
   const [addUser, setAddUser] = useState(false)
+  const navigate = useNavigate();
   useEffect(() =>
 {
     let tabs = []
@@ -193,6 +196,17 @@ const checkOwner = (id) =>{
   else 
   return "false";
 }
+const checkRecipe = (id) =>{
+  const listToFind = lists.find(list => list.id == id);
+    if (listToFind && listToFind.recipeId !== null) {
+      return listToFind.recipeId;}
+  else 
+  return null;
+}
+const handleSeeRecipe = (id) => {
+  const data= {recipeId : id};
+  navigate('/viewRecipe', { state: data });
+}
 
   return (
     <Card
@@ -212,6 +226,12 @@ const checkOwner = (id) =>{
       checkOwner(activeTabKey) === "true" && (
       <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
       <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>)}
+    {
+      checkRecipe(activeTabKey) !==null && (
+                    <MiniRecipe recipeId={checkRecipe(activeTabKey)} handleSeeRecipe = {(e)=>handleSeeRecipe(checkRecipe(activeTabKey))}></MiniRecipe>
+       
+      )
+    }
       <div>
     {items.length !== 0 && items.map((item,index) => (
                 <div key={index} className='items-to-add'>

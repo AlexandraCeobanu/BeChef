@@ -15,7 +15,10 @@ export default function MiniRecipe(props){
     },[props.recipeId])
 
     const handleClickRecipe = ()=>{
+        if(props.handleViewRecipe !== undefined)
         props.handleViewRecipe(props.index);
+        if(props.handleSeeRecipe !== undefined)
+            props.handleSeeRecipe();
     }
     
     return (
