@@ -33,7 +33,7 @@ export default function RecipeView(props){
         })
     }
     const handleAddIngredients = ()=> {
-        addIngredientsToShoppingList(props.loggedUserId,props.recipe.ingredients)
+        addIngredientsToShoppingList(props.loggedUserId,props.recipe.id)
         .then(()=> {
            setIngredientsAdded(true);
         })

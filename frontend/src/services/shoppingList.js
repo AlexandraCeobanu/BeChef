@@ -87,11 +87,11 @@ export const checkItem = async(id,value) => {
 }
 }
 
-export const addIngredientsToShoppingList = async(userId,ingredients) => {
+export const addIngredientsToShoppingList = async(userId,recipeId) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
         config.headers.Authorization = `Bearer ${token}`;
-        const response = await axios.patch(`${API_URL}/shoppingLists/addIngredients?userId=${userId}`,ingredients,config);
+        const response = await axios.patch(`${API_URL}/shoppingLists/addIngredients?userId=${userId}`,recipeId,config);
         if (response.status === 200)
         {
             return response.data;

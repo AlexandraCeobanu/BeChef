@@ -62,7 +62,7 @@ export default function AddRecipe()
             })
             addIngredients(recipe.id,ingredients)
             .then(()=> {
-
+                
             })
             .catch((error)=> {
                 console.log(error);
