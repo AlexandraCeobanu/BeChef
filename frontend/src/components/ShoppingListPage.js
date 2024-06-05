@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Input } from 'antd';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
 import "../styles/ItemList.scss";
 import ItemList from './ItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -207,6 +207,13 @@ const handleSeeRecipe = (id) => {
   const data= {recipeId : id};
   navigate('/viewRecipe', { state: data });
 }
+const findList = (id) => {
+  const listToFind = lists.find(list => list.id == id);
+  if(listToFind)
+    return listToFind;
+  else 
+  return null;
+}
 
   return (
     <Card
@@ -251,7 +258,7 @@ const handleSeeRecipe = (id) => {
     }
     {
       addUser === true &&
-      <CollaboratorsView userId={props.userId} listId={activeTabKey} closeViewCollaborators={closeViewCollaborators}></CollaboratorsView>
+      <CollaboratorsView userId={props.userId} listId={activeTabKey} list = {findList(activeTabKey)}  closeViewCollaborators={closeViewCollaborators}></CollaboratorsView>
      
     }
     {contentList[activeTabKey]}

@@ -90,14 +90,17 @@ export default function Collection(props){
     return(
     <Space direction="vertical" size={16}>
     <Card title="Your collaborators" className="collection" extra={<div style={{display:"flex",gap:"1em"}}>
-    <FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollaborator}></FontAwesomeIcon>
+    {
+        props.list !== null && props.list.userId===props.userId &&
+        <FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollaborator}></FontAwesomeIcon>}
     <FontAwesomeIcon id= "close" icon={faMinusCircle} onClick={(e) => handleCloseView()}></FontAwesomeIcon>
     </div>
 } 
     style={{ width: 300 , minHeight: 300 }} >
      {/* onClick={(event) => handleCloseView(event)} onKeyDown={(event)=> handleCloseView(event)} */}
 
-     {invitations!==undefined &&  invitations.map((invitation, index) => (
+
+     {props.list !== null && props.list.userId===props.userId && invitations!==undefined &&  invitations.map((invitation, index) => (
             invitation.status !== "accepted" && 
             <Card key={index} type="inner" hoverable="true">
                 <div className="user">
@@ -112,7 +115,8 @@ export default function Collection(props){
             <Card key={index} type="inner" hoverable="true">
                 <div className="user">
             <UserBadge userId={collaborator.id}></UserBadge>
-            <FontAwesomeIcon icon={faMinusCircle} onClick={(e) => handleDeleteCollaborator(e,collaborator.id)}></FontAwesomeIcon>
+            {props.list !== null && props.list.userId===props.userId &&
+                <FontAwesomeIcon icon={faMinusCircle} onClick={(e) => handleDeleteCollaborator(e,collaborator.id)}></FontAwesomeIcon>}
             </div>
           </Card>
         ))}

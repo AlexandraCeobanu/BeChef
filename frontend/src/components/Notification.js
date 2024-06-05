@@ -145,7 +145,7 @@ export default function Notification(props){
                 )
             }
         {
-            seeInvitation === true && (
+            seeInvitation === true && props.notification.read === false && (
                 
                 <Space
     direction="vertical"
