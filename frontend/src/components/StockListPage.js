@@ -5,12 +5,7 @@ import { useState,useEffect } from 'react';
 import StockItemList from './StockItemList';
 import { getStockList, deleteItem,updateStockList ,updateItem} from "../services/stockList";
 import { updateShoppingList } from "../services/shoppingList";
-const myitem = {
-    item : "oua", 
-    quantity : "2buc",
-    expirationDate: "12.05.2002"
-
-}
+import { deleteAll } from '../services/stockList';
 
 export default function StockListPage(props){
 
@@ -91,12 +86,23 @@ export default function StockListPage(props){
         })
         .catch((error)=>console.log(error))
     }
+    const handleDeleteAll = ()=>{
+        deleteAll(stockList.id)
+        .then((response)=> {
+            setStockList(null);
+            setItems([])
+        })
+        .catch((error)=>{
+            console.log(error)
+            
+        })
+    }
 
     return (
         <Card title="Stock List" className='card-list'
         style={{ width: '100%' }}
         actions={[
-        <DeleteOutlined key="delete" />,
+        <DeleteOutlined key="delete" onClick={handleDeleteAll} />,
         <PlusOutlined key="add-ingredient" onClick={handleAddItem}/>,
         <EditOutlined key="ellipsis" />,
       ]}

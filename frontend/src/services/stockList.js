@@ -14,6 +14,20 @@ export const getStockList = async(userId) => {
     throw error.response.data;
 }
 }
+export const deleteAll = async(id) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.delete(`${API_URL}/stockList/${id}`,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
 export const updateStockList = async(id,items) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
