@@ -140,8 +140,9 @@ public class RecipeService {
             List<Ingredient> ingredients = new ArrayList<>();
             if (recipe !=null ){
                 for (IngredientDTO ingredient : ingredientsDTO) {
+                    System.out.println(ingredient);
                     Ingredient recipeIngredient = new Ingredient();
-                    if(!ingredient.getName().equals("") && ingredient.getQuantity() == null && !ingredient.getQuantity().equals(""))
+                    if(!ingredient.getName().equals("") && ingredient.getQuantity() != null && !ingredient.getQuantity().equals(""))
                     {recipeIngredient.setName(ingredient.getName());
 
                     recipeIngredient.setQuantity(ingredient.getQuantity());

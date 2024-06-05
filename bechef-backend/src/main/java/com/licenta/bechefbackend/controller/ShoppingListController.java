@@ -111,10 +111,10 @@ public class ShoppingListController {
     }
 
     @PatchMapping("/addIngredients")
-    public ResponseEntity<?> addIngredients(@RequestParam Long userId, @RequestBody List<Ingredient> ingredients)
+    public ResponseEntity<?> addIngredients(@RequestParam Long userId, @RequestBody Long recipeId)
     {
         try {
-            shoppingListService.addIngredients(userId,ingredients);
+            shoppingListService.addIngredients(userId,recipeId);
             return ResponseEntity.status(HttpStatus.OK).body("");
         }
         catch(Exception e)

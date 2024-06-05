@@ -34,6 +34,8 @@ public class ShoppingListService {
     StockItemRepository stockItemRepository;
     @Autowired
     InvitationRepository invitationRepository;
+    @Autowired
+    RecipeRepository recipeRepository;
 
 
     public ShoppingListResponseDTO createShoppingList(ShoppingListDTO shoppingListDTO){
@@ -101,8 +103,25 @@ public class ShoppingListService {
 
     }
 
-    public void addIngredients(Long userId, List<Ingredient> ingredients) {
+    public void addIngredients(Long userId, Long recipeId) {
 
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
+        if(recipe != null)
+        {
+            ShoppingList shoppingList = new ShoppingList(user,null,recipe.getName());
+            shoppingListRepository.save(shoppingList);
+            List<Ingredient> ingredients = recipe.getIngredients();
+            List<Item> itemsToAdd = new ArrayList<>();
+            for(Ingredient ingredient : ingredients) {
+                Item item = new Item(shoppingList, ingredient.getName(), ingredient.getQuantity());
+                itemRepository.save(item);
+                itemsToAdd.add(item);
+            }
+            shoppingList.setItems(itemsToAdd);
+            shoppingListRepository.save(shoppingList);
+
+        }
 //        ShoppingList shoppingList = shoppingListRepository.findByUserId(userId).orElse(null);
 //        StockList stockList = stockListService.getStockList(userId);
 //        List<StockItem> items = stockList.getItems();
@@ -128,10 +147,7 @@ public class ShoppingListService {
 //            }
 //            shoppingList.getItems().addAll(itemsToAdd);
 //            shoppingListRepository.save(shoppingList);
-//        }
-
-
-    }
+        }
 
     public List<ShoppingListResponseDTO> getShoppingLists(Long userId) {
         User user = userRepository.findById(userId).orElse(null);

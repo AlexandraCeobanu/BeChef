@@ -3,15 +3,13 @@ package com.licenta.bechefbackend.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.models.auth.In;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
