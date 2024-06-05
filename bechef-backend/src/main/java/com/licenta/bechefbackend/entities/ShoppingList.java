@@ -36,6 +36,12 @@ public class ShoppingList {
     @JsonIgnore
     private List<User> collaborators = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    @JsonIgnore
+    private Recipe recipe;
+
+
     public ShoppingList(User user, List<Item> items, String name)
     {
         this.user = user;

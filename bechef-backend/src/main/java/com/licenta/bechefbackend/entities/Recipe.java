@@ -41,6 +41,9 @@ public class Recipe {
     @ManyToMany(mappedBy = "savedRecipes")
     @JsonIgnore
     private List<User> savedByUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE )
+    private List<ShoppingList> lists;
     private String name;
     private String description;
     private String image;

@@ -43,7 +43,7 @@ public class ShoppingListService {
         ShoppingList shoppingList = new ShoppingList(user,new ArrayList<>(),shoppingListDTO.getName());
         ShoppingList savedList = shoppingListRepository.save(shoppingList);
         ShoppingListResponseDTO shoppingListResponseDTO = new ShoppingListResponseDTO(savedList.getId(),savedList.getName()
-        ,savedList.getUser().getId(),savedList.getItems());
+        ,savedList.getUser().getId(),savedList.getItems(),null);
         return shoppingListResponseDTO;
     }
     public ShoppingList addItems(Long id,List<StockItemDTO> itemsDTO) {
@@ -110,6 +110,7 @@ public class ShoppingListService {
         if(recipe != null)
         {
             ShoppingList shoppingList = new ShoppingList(user,null,recipe.getName());
+            shoppingList.setRecipe(recipe);
             shoppingListRepository.save(shoppingList);
             List<Ingredient> ingredients = recipe.getIngredients();
             List<Item> itemsToAdd = new ArrayList<>();
@@ -157,9 +158,16 @@ public class ShoppingListService {
         List<ShoppingListResponseDTO> listsResponse = new ArrayList<>();
         for(ShoppingList list: lists)
         {
-            ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
-                  list.getName(), list.getUser().getId(), list.getItems());
-            listsResponse.add(shoppingListDTO);
+            if(list.getRecipe()!= null)
+            {ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
+                  list.getName(), list.getUser().getId(), list.getItems() , list.getRecipe().getId());
+            listsResponse.add(shoppingListDTO);}
+            else
+            {
+                ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
+                        list.getName(), list.getUser().getId(), list.getItems() ,null);
+                listsResponse.add(shoppingListDTO);
+            }
         }
         return listsResponse;
     }

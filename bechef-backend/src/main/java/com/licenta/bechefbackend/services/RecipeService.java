@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Service
@@ -380,6 +384,14 @@ public class RecipeService {
                 }
             }
             userRepository.save(user);
+        }
+        String imageDirectory = "src/main/resources/static/uploads/";
+        String filePath = imageDirectory+recipe.getImage();
+        Path path = Paths.get(filePath);
+        try {
+            Files.deleteIfExists(path);
+        } catch (IOException e) {
+            System.err.println("Nu s-a putut șterge imaginea retetei: " + e.getMessage());
         }
         recipeRepository.deleteById(recipeId);
     }

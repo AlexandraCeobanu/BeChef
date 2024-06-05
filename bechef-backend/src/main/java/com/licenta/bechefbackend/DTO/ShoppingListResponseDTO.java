@@ -15,4 +15,5 @@ public class ShoppingListResponseDTO {
     String name;
     Long userId;
     private List<Item> items;
+    Long recipeId;
 }

@@ -33,6 +33,18 @@ public class StockListController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteStockList(@PathVariable Long id)
+    {
+        try {
+             stockListService.deleteStockList(id);
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+        catch(Exception e)
+        {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
     @PutMapping("/{id}")
     public ResponseEntity<?> addItemsToStockList(@PathVariable Long id, @RequestBody List<StockItemDTO> itemsDTO)
     {

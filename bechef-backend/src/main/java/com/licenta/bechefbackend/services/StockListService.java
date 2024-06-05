@@ -102,4 +102,15 @@ public class StockListService {
         stockItemRepository.save(stockItem);
         return stockListRepository.findById(stockItem.getStockList().getId()).orElse(null);
     }
+
+    public void deleteStockList(Long id) {
+        StockList stockList = stockListRepository.findById(id).orElse(null);
+        List<StockItem> items = stockList.getItems();
+        for(StockItem item : items)
+        {
+            stockItemRepository.deleteById(item.getId());
+        }
+        stockList.setItems(null);
+        stockListRepository.save(stockList);
+    }
 }
