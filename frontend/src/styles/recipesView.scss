@@ -61,11 +61,16 @@
     }
 }
 .recipes-grid {
-    
     display: flex;
     width: 90%;
     gap:5em;
-    justify-content: space-between;
     flex-wrap: wrap;
-    
+}
+
+@media(max-width:500px)
+{
+    .recipes-grid {
+        gap:3em;
+        justify-content: center;
+    }
 }

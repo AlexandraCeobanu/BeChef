@@ -55,7 +55,7 @@ useEffect(() => {
         handleRemoveSavedRecipe(id);
     }
     return(
-        <div>
+        <>
         {
 
         viewRecipe === true && viewedUser !== null  && <RecipeView recipe={recipes[clickedRecipe]}
@@ -74,7 +74,8 @@ useEffect(() => {
         )
             )}
         </div>
+
         
-         </div>
+         </>
         )
 }
