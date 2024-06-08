@@ -1,7 +1,7 @@
 import Logo from "./Logo"
 import '../styles/header.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
+import {faHome,faBell, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { faRocketchat } from "@fortawesome/free-brands-svg-icons"
 import { useNavigate } from "react-router-dom";
@@ -32,6 +32,7 @@ export default function Header(props){
     const handleChatClick = () => {
         navigate("/chat")
     }
+
 
     useEffect(()=> {
         if(client) {
@@ -101,20 +102,24 @@ export default function Header(props){
             <div className="nav-bar">
             <FontAwesomeIcon icon={faHome} className="icons" onClick={handleHomeClick} />
             <FontAwesomeIcon icon={faRocketchat} className="icons" onClick={handleChatClick} />
-            <div className="notifications">
+            { <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
              {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot} handleShowNotifications={handleShowNotifications}></Notifications>}
-            </div>
+            </div>}
+            
             </div>
             <div className="logout">
                 <div>
                 <FontAwesomeIcon icon={faUser} id="user-icon" onClick={handleClickProfile} />
                 </div>
-                <div className='buttons clicked'onClick={handleLogout} >
+                <div className='buttons clicked'  >
                 <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
+                <FontAwesomeIcon id="icon-logout" icon={faRightFromBracket} onClick={handleLogout}></FontAwesomeIcon>
             </div>
-        </div>
+           
+            </div>
+        
     )
 }

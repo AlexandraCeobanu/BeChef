@@ -29,6 +29,7 @@ export default function Notifications(props) {
     }
     return(
         <div className="notifications-box">
+            {notifications.length === 0 && <div id="no-notification"><h3>No Notification received</h3></div>}
             {notifications.length > 0 && notifications.map((notification,index)=> 
             (<Notification key={index} notification={notification} handleViewRecipe={handleViewRecipe} index={index}></Notification>)
         )}
