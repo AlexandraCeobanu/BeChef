@@ -118,7 +118,9 @@ const renderListItems = (items) => {
       };
       addShoppingList(shoppingList)
         .then((response) => {
-          setLists(response)
+          const newLists = [...lists]
+          newLists.push(response)
+          setLists(newLists)
           let tabs = [...tabList]
           let myKey = response.id.toString();
           tabs.push(
@@ -187,6 +189,7 @@ const handleCheckedItem=((id, value)=> {
   checkItem(id,value)
   .then((response)=> {
 
+    console.log(response);
     if(client!==null && client !==undefined){
             client.send(`/user/${id}/updateList`,[]);
           }
@@ -250,15 +253,13 @@ const checkOwner = (id) =>{
   const listToFind = lists.find(list => list.id == id);
     if (listToFind && listToFind.userId !== props.userId) {
       return "true";}
-  else 
-  return "false";
+return "false"
 }
 const checkRecipe = (id) =>{
   const listToFind = lists.find(list => list.id == id);
     if (listToFind && listToFind.recipeId !== null) {
       return listToFind.recipeId;}
-  else 
-  return null;
+return null;
 }
 const handleSeeRecipe = (id) => {
   const data= {recipeId : id};
@@ -268,8 +269,7 @@ const findList = (id) => {
   const listToFind = lists.find(list => list.id == id);
   if(listToFind)
     return listToFind;
-  else 
-  return null;
+return null;
 }
 
   return (
@@ -292,7 +292,7 @@ const findList = (id) => {
       <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>
       </>
     )}
-    {editing !== null && (
+    {/* {editing !== null && (
         <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
         <h4>Editing</h4>
         {editing.map((user, index) => (
@@ -303,7 +303,7 @@ const findList = (id) => {
           </div>
         ))}
         </div>
-      )}
+      )} */}
     {
       checkRecipe(activeTabKey) !==null && (
                     <MiniRecipe recipeId={checkRecipe(activeTabKey)} handleSeeRecipe = {(e)=>handleSeeRecipe(checkRecipe(activeTabKey))}></MiniRecipe>

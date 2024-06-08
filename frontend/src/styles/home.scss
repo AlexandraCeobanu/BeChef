@@ -37,6 +37,11 @@
         margin-bottom: 3em;
     }
     .recipes {
-        margin-left: 5%;
+        // margin-left: 5%;
+        // margin:auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+       
     }
 }

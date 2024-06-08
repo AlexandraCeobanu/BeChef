@@ -94,6 +94,7 @@ export default function StockItemList(props){
                      (daysUntilExpiration(item.expirationDate) === 0 ?  "expiration-date close-expiration" : "expiration-date ok")} 
                      disabled={item.expirationDate !== null ? true : false} showNow={false} defaultValue={dayjs(item.expirationDate)} onChange={(e,dateString) => handleChangeExpiration(e,dateString,item)} onKeyDown={(event) => handleUpdateExpiration(event)}/>
             </div>
+            
             <div className='item'>
             <Input className='name-item'  value={item.item} disabled={true}  placeholder={item.item}/>
             <Input className='quantity-item' value={item.quantity}  placeholder={item.quantity}/>
