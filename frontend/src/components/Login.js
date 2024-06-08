@@ -80,7 +80,6 @@ export default function Login(){
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">
                 <input type="text" id="email" name="email" required onChange={emailChangeHandler} placeholder='Email'></input><br></br>
-                {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
                 <div className='password'>
                 {
                     seePassword === false ? 
