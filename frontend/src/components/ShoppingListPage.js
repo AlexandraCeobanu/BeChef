@@ -9,10 +9,10 @@ import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined,UserAddOut
 import CollaboratorsView from "./CollaboratorsView";
 import { deleteList } from '../services/shoppingList';
 import { updateShoppingList } from '../services/shoppingList';
-import { useStompClient } from "./WebSocketProvider";
 import UserBadge from './UserBadge';
 import MiniRecipe from './MiniRecipe';
 import { useNavigate } from 'react-router-dom';
+import { useStompClient } from "./WebSocketProvider";
 const ShoppingListPage = (props) => {
   const [activeTabKey, setActiveTabKey] = useState(null);
   const [newList, setNewList] = useState("");
@@ -22,6 +22,8 @@ const ShoppingListPage = (props) => {
   const [contentList, setContentList] = useState({});
   const [items,setItems] = useState([])
   const [addUser, setAddUser] = useState(false)
+  const [editing, setEditing] = useState([])
+  const client = useStompClient();
   const navigate = useNavigate();
   useEffect(() =>
 {
@@ -47,10 +49,48 @@ const ShoppingListPage = (props) => {
     })
 },[])
 
+useEffect(()=> {
+  if(lists.length !==0)
+    {
+      lists.forEach(function(list) {
+        if(client!==null && client !==undefined){
+          const subscription = client.subscribe(`/updateList/${list.id}`, function(message){
+            let newItems = { ...contentList}
+            newItems[list.id] = renderListItems(JSON.parse(message.body).items)
+          })
+          const subscription2 = client.subscribe(`/editingList/${list.id}`, function(message){
+            console.log(editing)
+           const newEditing = [...editing]
+           newEditing.push(JSON.parse(message.body))
+           console.log("editing")
+           console.log(newEditing);
+           setEditing(newEditing)
+          })
+
+          // const subscription3 = client.subscribe(`/stopEditingList/${list.id}`, function(message){
+          //   const newEditing = editing.filter(user => user.id !== JSON.parse(message.body).id)
+          //   setEditing(newEditing)
+          //  })
+
+          return () => {
+            subscription.unsubscribe();
+            subscription2.unsubscribe();
+            // subscription3.unsubscribe();
+                };
+        }
+      });
+
+    }
+
+},[lists])
+
 const handleRemoveItem=((id)=> {
     let newItems = { ...contentList}
     deleteItem(id)
     .then((response)=> {
+      if(client!==null && client !==undefined){
+        client.send(`/user/${response.id}/updateList`,[]);
+      }
         newItems[response.id] = renderListItems(response.items);
         setContentList(newItems)
     })
@@ -107,7 +147,10 @@ const renderListItems = (items) => {
   const handleAddShoppingList = () => {
     setAddList(true);
   };
-  const handleAddItem = () =>{
+  const handleAddItem = (id) =>{
+    if(client!==null && client !==undefined){
+      client.send(`/user/${id}/editingList`,[],props.userId);
+    }
     setItems([...items,{item: "", quantity: ""}]);
   }
 
@@ -128,6 +171,10 @@ const handleSaveItems = (id)=>{
     updateShoppingList(id,items)
     .then((response)=> {
         newItems[id] = renderListItems(response.items);
+        if(client!==null && client !==undefined){
+          client.send(`/user/${id}/updateList`,[]);
+          // client.send(`/user/${id}/stopEditingList`,[],props.userId);
+        }
        setContentList(newItems)
         setItems([])
     })
@@ -136,28 +183,38 @@ const handleSaveItems = (id)=>{
 const handleCheckedItem=((id, value)=> {
   let tabs = []
   let items = {}
+  let newItems = { ...contentList}
   checkItem(id,value)
-  .then(()=> {
-      getShoppingLists(props.userId)
-      .then((response) => {
-        setLists(response)
-        response.map((list,index)=> {
-            let myKey = list.id.toString();
-           const newTab = {
-            key: myKey,
-            tab: list.name
-           }
-           tabs.push(newTab);
-          items[myKey] = renderListItems(list.items);
-        })
+  .then((response)=> {
+
+    if(client!==null && client !==undefined){
+            client.send(`/user/${id}/updateList`,[]);
+          }
+    newItems[response.id] = renderListItems(response.items);
+    setContentList(newItems)
+      // getShoppingLists(props.userId)
+    //   .then((response) => {
+    //     if(client!==null && client !==undefined){
+    //       client.send(`/user/${id}/updateList`,[]);
+    //     }
+    //     setLists(response)
+    //     response.map((list,index)=> {
+    //         let myKey = list.id.toString();
+    //        const newTab = {
+    //         key: myKey,
+    //         tab: list.name
+    //        }
+    //        tabs.push(newTab);
+    //       items[myKey] = renderListItems(list.items);
+    //     })
         
-        setContentList(items)
-        setTabList(tabs)
-        setActiveTabKey(tabs[0]?.key);
-    })
-          .catch((error)=> {
-              console.log(error);
-          })
+    //     setContentList(items)
+    //     setTabList(tabs)
+    //     setActiveTabKey(tabs[0]?.key);
+    // })
+    //       .catch((error)=> {
+    //           console.log(error);
+    //       })
     //  props.handleCheckedItem(value);
   })
   .catch((error)=> {console.log(error)});
@@ -226,13 +283,27 @@ const findList = (id) => {
       onTabChange={onTabChange}
       actions={[
         <DeleteOutlined key="delete" onClick={() => handleDeleteList(activeTabKey)}/>,
-        <PlusOutlined key="add-ingredient" onClick={handleAddItem} />,
+        <PlusOutlined key="add-ingredient" onClick={() =>handleAddItem(activeTabKey)} />,
         <UserAddOutlined key="ellipsis" onClick={handleAddUserEmail}/>,
       ]}
     >{
-      checkOwner(activeTabKey) === "true" && (
+      checkOwner(activeTabKey) === "true" && (<>
       <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
-      <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>)}
+      <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>
+      </>
+    )}
+    {editing !== null && (
+        <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
+        <h4>Editing</h4>
+        {editing.map((user, index) => (
+          user.id !== props.userId &&
+          <div key={index}  style={{display: "flex", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
+            <EditOutlined></EditOutlined>
+            <h6>{user.userUsername}</h6>
+          </div>
+        ))}
+        </div>
+      )}
     {
       checkRecipe(activeTabKey) !==null && (
                     <MiniRecipe recipeId={checkRecipe(activeTabKey)} handleSeeRecipe = {(e)=>handleSeeRecipe(checkRecipe(activeTabKey))}></MiniRecipe>

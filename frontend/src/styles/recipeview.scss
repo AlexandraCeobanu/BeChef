@@ -173,11 +173,15 @@
         outline: none;
     }
 }
-
+.steps {
+    margin-top: 4em;
+}
 .step-view {
+   
     p {
         margin: none;
         padding: none;
+        padding-top: 0.5em;
     }
     width: 90%;
     background-color: $background-color;
@@ -185,5 +189,5 @@
     border-bottom: 2px solid $primary-color;
     padding-left: 1em;
     padding-bottom: 1em;
-    margin-bottom:2em;
+    margin-bottom:1em;
 }

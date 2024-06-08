@@ -45,10 +45,28 @@ export default function Collection(props){
 
         createInvitation(props.listId,collaboratorEmail)
         .then((response) => {
+
             if(client!==null && client !==undefined){
                 client.send(`/user/${props.listId}/shareShoppingList`,[],collaboratorEmail);
-                props.closeViewCollaborators();
-            }
+            setNewCollaborator(false);
+            const newInvitations = [...invitations]
+            console.log(newInvitations)
+            newInvitations.push(response)
+            setInvitations(newInvitations);
+            const subscription = client.subscribe(`/changedStatus/${response.id}`, function(message){
+            const deleteInvitation = invitations.filter(inv => inv.id !== response.id );
+            setInvitations(deleteInvitation);
+            setCollaboratorEmail("");
+            getCollaborators(props.listId)
+            .then((response) => {
+                setCollaborators(response);
+            })
+            .catch((error)=>{
+                console.log(error);
+        })
+
+            })}
+            // props.closeViewCollaborators();
         })
         .catch((error)=> {
             setError(error.message)

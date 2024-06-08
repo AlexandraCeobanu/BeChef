@@ -106,7 +106,7 @@ export default function Recipe(props)
     return(
         <div>
             <div className='text'>
-                {recipe !==undefined && recipe.name !== ""  && ('@' + recipe.name)}
+                {recipe !==undefined && recipe.name !== ""  && (<h4>{recipe.name}</h4>)}
                 {props.profile !== undefined && (
                         <FontAwesomeIcon id="trash" icon ={faMinus} onClick={handleDeleteRecipe}></FontAwesomeIcon>
                 )}

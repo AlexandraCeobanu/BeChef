@@ -29,13 +29,17 @@ export default function AddRecipe()
     const handleRecipeStepChange = (name, steps,ingredients,typeId,timeArg) => {
         let  type ;
         if(typeId === 1)
-            type= "Breakfast";
+            type= "Meat";
         if(typeId === 2) 
-            type = "Lunch";
+            type = "Fish";
         if(typeId === 3) 
-            type = "Dinner";
+            type = "Pasta";
         if(typeId === 4)
-            type = "Dessert";
+            type = "Salad";
+        if(typeId === 5)
+            type = "Dessert"
+        if(typeId === 6)
+            type = "Other"
     
        const time = timeArg.format('HH:mm:ss');
        setRecipe({...recipe,name, type,time})

@@ -8,14 +8,17 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { addCollaborator,getShoppingListById,declineCollaboration} from "../services/shoppingList";
+import { addCollaborator,getShoppingListById,declineCollaboration,getInvitations} from "../services/shoppingList";
+import { useStompClient } from "./WebSocketProvider";
 import{ Alert,Space } from "antd";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
     const [stockItem,setStockItem] = useState(null);
     const [list,setList] = useState(null);
     const [seeInvitation, setSeeInvitation] = useState(false);
+    const [invitations, setInvitations] = useState([]);
     const navigate = useNavigate();
+    const client = useStompClient();
     useEffect(() => {
         if(props.notification.type === "message")
         {
@@ -41,7 +44,15 @@ export default function Notification(props){
                 {
                     getShoppingListById(props.notification.listId)
                     .then((response) => {
+
                         setList(response)
+                        getInvitations(props.notification.listId)
+                        .then((response) => {
+                            setInvitations(response);
+                        })
+                        .catch((error)=>{
+                            console.log(error);
+                        })
                     })
                     .catch((error)=> {
                         console.log(error);
@@ -65,7 +76,12 @@ export default function Notification(props){
     const handleInvitationAccepted=()=> {
         addCollaborator(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
-            console.log(response);
+
+            if(client!==null && client !==undefined && invitations !== undefined){
+               
+                const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
+                client.send(`/user/${invitation.id}/changedStatus`,[],"Accepted");
+                }
             setSeeInvitation(false);
         })
         .catch((error)=>{
@@ -76,7 +92,11 @@ export default function Notification(props){
     const handleInvitationDeclined=()=> {
         declineCollaboration(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
-            console.log(response);
+            if(client!==null && client !==undefined){
+                const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
+                client.send(`/user/${invitation.id}/status`,[],"Declined");
+                }
+          ;
             setSeeInvitation(false);
         })
         .catch((error)=>{
