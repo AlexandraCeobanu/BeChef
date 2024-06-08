@@ -3,6 +3,7 @@
     display: none;
 }
 .recipeView {
+    position: relative;
     box-shadow:  0px 0px 10px 3px rgba(228, 123, 0, 0.4);
     background-color: $background-color;
     z-index: 3;

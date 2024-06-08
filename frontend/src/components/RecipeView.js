@@ -104,8 +104,8 @@ export default function RecipeView(props){
         setShowIngredients(!showIngredients)
     }
     return(
-        <div>
-        <div className={"recipeView"}>
+        <>
+        <div className="recipeView">
             <div className="close" onClick={handleCloseRecipe}>
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
@@ -149,6 +149,6 @@ export default function RecipeView(props){
         {clickedSaved === true && 
         <Collection userId={props.loggedUserId} recipeId={props.recipe.id} closeViewCollections={closeViewCollections}></Collection>
         }
-        </div>
+        </>
     )
 }
