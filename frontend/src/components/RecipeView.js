@@ -1,6 +1,6 @@
 import CommentsSection from "./CommentsSection";
 import IngredientsView from "./IngredientsView";
-import {faUpDownLeftRight, faXmark} from '@fortawesome/free-solid-svg-icons';
+import {faUpDownLeftRight, faXmark,faBars} from '@fortawesome/free-solid-svg-icons';
 import {faBookmark as regularBookMark}  from '@fortawesome/free-regular-svg-icons';
 import {faBookmark as solidBookMark}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from "react";
@@ -20,6 +20,7 @@ export default function RecipeView(props){
     const [clickedSaved, setClickedSaved] = useState(false);
     const [stockList,setStockList] = useState(null);
     const [ingredientsAdded,setIngredientsAdded] = useState(false);
+    const [showIngredients,setShowIngredients] = useState(false);
     const handleCloseRecipe = () => {
         props.handleCloseRecipe();
     }
@@ -99,13 +100,28 @@ export default function RecipeView(props){
                 console.log(error);
             })
     },[])
+    const handleShowIngredients = () => {
+        setShowIngredients(!showIngredients)
+    }
     return(
         <div>
         <div className={"recipeView"}>
             <div className="close" onClick={handleCloseRecipe}>
             <FontAwesomeIcon icon={faXmark} className="icon"></FontAwesomeIcon>
             </div>
+            <FontAwesomeIcon id="bars" className={showIngredients === true ? "back" : ""} icon={faBars} onClick={handleShowIngredients}></FontAwesomeIcon>
+            {showIngredients === true && 
+                <div className="show-ingredients">
+                {saved === false &&  
+                <FontAwesomeIcon beat icon={regularBookMark} className="icon save" onClick={handleSaveRecipe} ></FontAwesomeIcon> }
+               {saved === true &&  
+                <FontAwesomeIcon  icon={solidBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
+                {<IngredientsView ingredients={props.recipe.ingredients} stockList={stockList}></IngredientsView>
+                }
+                </div>
+            }
             <div className="left-side">
+            <div className="ingredient-bar">
             {saved === false &&  
             <FontAwesomeIcon beat icon={regularBookMark} className="icon save" onClick={handleSaveRecipe}></FontAwesomeIcon> }
            {saved === true &&  
@@ -113,6 +129,7 @@ export default function RecipeView(props){
             {<IngredientsView ingredients={props.recipe.ingredients} stockList={stockList}></IngredientsView>}
             <div className="button">
             <button type="button" onClick={handleAddIngredients}>Add to your shopping list</button>
+            </div>
             </div>
             </div>
             <div className="right-side">

@@ -66,9 +66,6 @@ export default function Collection(props){
     } 
     </Card>
   </Space>
-        // <div className="collection">
-        //     <h3>Your collection</h3>
-        //     <hr></hr>
-        // </div>
+       
     )
 }

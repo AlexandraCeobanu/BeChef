@@ -10,7 +10,7 @@ export default function IngredientView(props)
                 <ul>
                     {props.ingredients.map((ingredient,index) => (
                         ingredient.name!==""  && 
-                        <li key={index}> {ingredient.quantity!== null &&  ingredient.quantity + " - "} {ingredient.name}
+                        <li key={index}> <div className='ingredient'>{ingredient.quantity!== null &&  ingredient.quantity + " - "} {ingredient.name}</div>
                         {(props.stockList !== null && props.stockList.items.length > 0  && (props.stockList.items.some(item => item.item === ingredient.name)) ? <FontAwesomeIcon icon={faCheck} id="checkedMark"></FontAwesomeIcon> :
                           <FontAwesomeIcon icon={faXmark} id="xMark"></FontAwesomeIcon>)
                           }

@@ -34,5 +34,6 @@ export default function CommentsSection(props)
             </div>
             <AddComment  recipe={props.recipe} loggedUserId={props.loggedUserId} handleCommentAdded= {handleCommentAdded}></AddComment>
         </div>
+        
     )
 }
