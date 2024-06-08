@@ -104,15 +104,6 @@ export default function AddRecipeRight({onRecipeStepChange})
                </div>
                {ingredients.map((ingredient,index) => (
                 <div key={index}>
-                    {/* <ul>
-                    <div className="remove-ingredient">
-
-                    <li><input type="text" placeholder={"ingredient "+ (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></input>
-                    <input type="text" placeholder="quantity" id="quantity" value={ingredient.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
-                    </li>
-                    <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemoveIngredient(index)}></FontAwesomeIcon>
-                    </div>
-                    </ul> */}
                     <div className='remove-ingredient'>
                     <Input className='newList'  placeholder={"ingredient " + (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></Input>
                     <Input id="quantity"  placeholder={"quantity"} value={ingredient.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)} ></Input>
@@ -142,4 +133,5 @@ export default function AddRecipeRight({onRecipeStepChange})
             </div>
         </div>
     )
+    
 }

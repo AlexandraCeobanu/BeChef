@@ -4,7 +4,7 @@ import AddMessage from "./AddMessage";
 import { useEffect, useState, useRef } from "react";
 import { getThreadMessages } from "../services/chat";
 import { useStompClient } from "./WebSocketProvider";
-
+import Message from "./Message";
 export default function ChatSideBar(props) {
     const [messages, setMessages] = useState([]);
     const [messageAdded,setMessageAdded] = useState(false);
@@ -61,7 +61,7 @@ export default function ChatSideBar(props) {
             <div ref={messageContainerRef} className="messages">
             {
                messages.length !== 0 && messages.map((message,index) => (
-                    <Comment key={index} userId={message.senderId} comment = {message.message}></Comment>
+                    <Message key={index} userId={message.senderId} comment = {message.message}></Message>
                 ))
             }
             </div>

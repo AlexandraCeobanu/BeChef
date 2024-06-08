@@ -22,3 +22,27 @@
             background-color: $primary-color;
         }
 }}
+@media(max-width:500px)
+{
+    .options{
+        .user-recipes,.saved-recipes,.shopping-list {
+            button {
+                font-size: 10px;
+                border-radius: 3em;
+                
+            }
+        }
+}
+}
+@media(max-width:300px)
+{
+    .options{
+        .user-recipes,.saved-recipes,.shopping-list {
+            button {
+                font-size: 8px;
+                border-radius: 3em;
+                
+            }
+        }
+}
+}

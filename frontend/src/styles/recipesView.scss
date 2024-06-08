@@ -54,11 +54,11 @@
             cursor: pointer;
             
     }}
-    .lists {
-        display: flex;
-        margin-right: 7em;
-        justify-content: space-around;
-    }
+    // .lists {
+    //     display: flex;
+    //     margin-right: 7em;
+    //     justify-content: space-around;
+    // }
 }
 .recipes-grid {
     display: flex;
@@ -71,6 +71,25 @@
 {
     .recipes-grid {
         gap:3em;
-        justify-content: center;
+        // justify-content: center;
+    }
+}
+@media(max-width:500px)
+{
+    .recipes-view{
+        
+        .title {
+           
+            hr {
+                width: 100%;
+            }
+        }
+        #new-recipe {
+            width:15%;
+            margin-left: 5%;
+        }
+        .recipes-grid {
+            margin: auto;
+        }
     }
 }

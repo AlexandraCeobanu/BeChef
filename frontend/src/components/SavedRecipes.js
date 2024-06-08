@@ -126,7 +126,6 @@ export default function SavedRecipes(props) {
            />
             }
             style={{width:200}}
-           
             >
             <Meta
             title={<div className='title-card'>

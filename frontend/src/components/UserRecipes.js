@@ -93,6 +93,7 @@ export default function UserRecipes(props)
     }
     return(
         <div className="recipes-view">
+            
         <div className="title">
         <ProfileOptions handleOption= {handleOption} option={option}></ProfileOptions>
         <hr></hr>

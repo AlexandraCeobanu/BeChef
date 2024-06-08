@@ -58,6 +58,7 @@ img {
     object-fit: cover;
 }
 }
+
 .newList {
     width: 20%;
     margin-bottom: 2em;
@@ -88,6 +89,7 @@ img {
     }
 
     .item {
+        min-width: 100%;
         display: flex;
         border:none;
         position: relative;
@@ -99,14 +101,14 @@ img {
         }
     }
     .name-item {
-        width:40%;
+        width:70%;
         border: none;
         border-radius: 0px;
         border-right: 1px solid rgba(0,0,0,0.2);
         background-color: white;
     }
     .checkbox {
-        font-size: small;
+        font-size:small;
         width: 1em;
     }
 
@@ -186,3 +188,25 @@ img {
       margin-bottom: 0.2em;
    }
   }
+ 
+@media(max-width:500px){
+    .card-list {
+    .add-item {
+        #quantity {
+            width: 25%;
+        } 
+    }
+    .newList {
+        width: 30%;
+    }
+  
+    .list-items {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .grid,.grid-stock {
+          width: 60%;
+         
+        }
+}
+}}

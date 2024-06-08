@@ -19,3 +19,23 @@
     }
    
 }
+
+@media(max-width:1200px)
+{.user-profile {
+    justify-content: center;
+    
+    .user-info {
+        flex-direction: column;
+        gap: 6em;
+        .user-info {
+            flex-direction: column;
+            gap: 6em;
+            }
+    .fixed-description {
+        top:0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+}  
+}}

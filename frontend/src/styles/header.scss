@@ -108,3 +108,28 @@
    }
    }
 }
+
+@media (max-width: 200px) {
+    .header {
+    margin-right: 0em;
+    font-size: 10px;
+    justify-content: flex-start;
+    gap:2em;
+    .nav-bar {
+     gap: 2em;
+     margin-left: 3em;
+    }
+    
+    .logout .buttons {
+     display: none;
+   }
+ 
+    #icon-logout {
+     display: block;
+    }
+    .logout {
+     margin-left: 2em;
+     gap:1em;
+    }
+    }
+ }
