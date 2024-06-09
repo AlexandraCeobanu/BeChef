@@ -64,7 +64,7 @@ public class CheckExpirationDate {
 
                             long daysUntilExpires = ChronoUnit.DAYS.between(localDate, expirationLocalDate);
                             System.out.println(daysUntilExpires);
-                            if(daysUntilExpires <= 5)
+                            if(daysUntilExpires <= 3)
                             {
                                 notificationService.ingredientExpired(user.getId(), "Expires in " + daysUntilExpires + " days");
                                 System.out.println("S-a trimit notificarea");

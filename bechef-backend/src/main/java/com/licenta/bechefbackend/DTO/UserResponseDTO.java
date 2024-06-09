@@ -1,5 +1,7 @@
 package com.licenta.bechefbackend.DTO;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.licenta.bechefbackend.entities.Like;
 import com.licenta.bechefbackend.entities.Recipe;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonDeserialize
+@JsonSerialize
 public class UserResponseDTO {
     private Long id;
     private String email;

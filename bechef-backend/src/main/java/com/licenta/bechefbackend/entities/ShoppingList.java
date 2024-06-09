@@ -2,9 +2,7 @@ package com.licenta.bechefbackend.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +11,8 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class ShoppingList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +24,13 @@ public class ShoppingList {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "shoppingList",cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "shoppingList",cascade = CascadeType.REMOVE)
     private List<Item> items;
 
     String name;
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany(mappedBy = "shoppingListsColab",fetch = FetchType.EAGER)

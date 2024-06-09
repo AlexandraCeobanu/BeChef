@@ -35,10 +35,8 @@ public class WebSocketController {
     UserRepository userRepository;
     @Autowired
     ShoppingListRepository shoppingListRepository;
-    @Autowired
-    ShoppingListService shoppingListService;
-    @Autowired
-    InvitationRepository invitationRepository;
+
+
 
     @MessageMapping("/{threadId}/messages")
     @SendTo("/newMessage/{threadId}")
@@ -129,10 +127,59 @@ public class WebSocketController {
                     null,null,Long.valueOf(id), message,false, "list");
             notificationService.createNotification(notificationDTO);
             simpMessagingTemplate.convertAndSend("/newNotification/" + user.getId(), notificationDTO);
-
         }
 
     }
 
+    @MessageMapping("/{invitationId}/changedStatus")
+    @SendTo("/changedStatus/{invitationId}")
+    public String changedStatus(@DestinationVariable String invitationId,@Payload String status) {
+        return status;
+
+    }
+
+    @MessageMapping("/{listId}/updateList")
+    @SendTo("/updateList/{listId}")
+    public ShoppingListResponseDTO  addItem(@DestinationVariable String listId) {
+        ShoppingList shoppingList = shoppingListRepository.findById(Long.valueOf(listId)).orElse(null);
+        ShoppingListResponseDTO shoppingListDTO;
+        if(shoppingList.getRecipe()!= null)
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), shoppingList.getRecipe().getId());
+        }
+        else
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), null);
+        }
+        return shoppingListDTO;
+    }
+
+    @MessageMapping("/{listId}/editingList")
+    @SendTo("/editingList/{listId}")
+    public UserResponseDTO editingList(@DestinationVariable String listId, @Payload String userId) {
+        User user = userRepository.findById(Long.valueOf(userId)).orElse(null);
+        if(user != null)
+        {
+            UserResponseDTO userResponseDTO = new UserResponseDTO(user.getId(),user.getEmail(),user.getUserUsername(),
+            user.getNrLikes(),user.getNrRecipes(),null,null,null,null);
+            return userResponseDTO;
+        }
+        return null;
+    }
+
+    @MessageMapping("/{listId}/stopEditingList")
+    @SendTo("/stopEditingList/{listId}")
+    public UserResponseDTO stopEditingList(@DestinationVariable String listId, @Payload String userId) {
+        User user = userRepository.findById(Long.valueOf(userId)).orElse(null);
+        if(user != null)
+        {
+            UserResponseDTO userResponseDTO = new UserResponseDTO(user.getId(),user.getEmail(),user.getUserUsername(),
+                    user.getNrLikes(),user.getNrRecipes(),null,null,null,null);
+            return userResponseDTO;
+        }
+        return null;
+    }
 
 }

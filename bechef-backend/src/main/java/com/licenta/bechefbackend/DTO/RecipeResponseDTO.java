@@ -1,6 +1,8 @@
 package com.licenta.bechefbackend.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.licenta.bechefbackend.entities.Ingredient;
 import com.licenta.bechefbackend.entities.Like;
 import com.licenta.bechefbackend.entities.RecipeStep;
@@ -9,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonDeserialize
+@JsonSerialize
 public class RecipeResponseDTO {
 
     private Long id;

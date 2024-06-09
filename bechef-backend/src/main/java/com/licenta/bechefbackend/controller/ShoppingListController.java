@@ -36,7 +36,7 @@ public class ShoppingListController {
     public ResponseEntity<?> getShoppingList(@PathVariable Long id)
     {
         try {
-            ShoppingList shoppingList = shoppingListService.getShoppingList(id);
+            ShoppingListResponseDTO shoppingList = shoppingListService.getShoppingList(id);
             return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
         }
         catch(Exception e)
@@ -60,7 +60,7 @@ public class ShoppingListController {
     public ResponseEntity<?> addItemsToShoppingList(@PathVariable Long id, @RequestBody List<StockItemDTO> itemsDTO)
     {
         try {
-        ShoppingList shoppingList = shoppingListService.addItems(id,itemsDTO);
+        ShoppingListResponseDTO shoppingList = shoppingListService.addItems(id,itemsDTO);
             return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
         }
         catch(Exception e)
@@ -86,7 +86,7 @@ public class ShoppingListController {
     public ResponseEntity<?> deleteItem(@PathVariable Long id)
     {
         try {
-            ShoppingList shoppingList = shoppingListService.deleteItem(id);
+            ShoppingListResponseDTO shoppingList = shoppingListService.deleteItem(id);
             return ResponseEntity.status(HttpStatus.OK).body(shoppingList);
         }
         catch(Exception e)
@@ -100,8 +100,8 @@ public class ShoppingListController {
     public ResponseEntity<?> checkedItem(@PathVariable Long id,@RequestBody Boolean value)
     {
         try {
-            shoppingListService.checkedItem(id,value);
-            return ResponseEntity.status(HttpStatus.OK).body("");
+
+            return ResponseEntity.status(HttpStatus.OK).body(shoppingListService.checkedItem(id,value));
         }
         catch(Exception e)
         {
@@ -127,7 +127,7 @@ public class ShoppingListController {
     public ResponseEntity<?> addCollaborator(@PathVariable Long id,@RequestBody String userId)
     {
         try {
-            ShoppingList shoppingList = shoppingListService.addCollaborator(id,Long.valueOf(userId));
+            ShoppingListResponseDTO shoppingList = shoppingListService.addCollaborator(id,Long.valueOf(userId));
             return ResponseEntity.status(HttpStatus.CREATED).body(shoppingList);
         }
         catch (IllegalStateException e)
@@ -235,8 +235,8 @@ public ResponseEntity<?> getInvitations(@PathVariable Long id)
     public ResponseEntity<?> createInvitation(@PathVariable Long id, @RequestParam String email)
     {
         try {
-            shoppingListService.createInvitation(id,email);
-            return ResponseEntity.status(HttpStatus.OK).body("");
+
+            return ResponseEntity.status(HttpStatus.OK).body(shoppingListService.createInvitation(id,email));
         }
         catch (IllegalStateException e)
         {

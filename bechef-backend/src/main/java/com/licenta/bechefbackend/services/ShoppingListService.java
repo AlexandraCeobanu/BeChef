@@ -46,7 +46,7 @@ public class ShoppingListService {
         ,savedList.getUser().getId(),savedList.getItems(),null);
         return shoppingListResponseDTO;
     }
-    public ShoppingList addItems(Long id,List<StockItemDTO> itemsDTO) {
+    public ShoppingListResponseDTO addItems(Long id,List<StockItemDTO> itemsDTO) {
         ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
         List<Item> items = new ArrayList<>();
         for(StockItemDTO itemDTO: itemsDTO)
@@ -56,38 +56,72 @@ public class ShoppingListService {
             items.add(item);
         }
         shoppingList.getItems().addAll(items);
+        ShoppingList newList = shoppingListRepository.save(shoppingList);
 
-        return shoppingListRepository.save(shoppingList);
+        ShoppingListResponseDTO shoppingListDTO;
+        if(newList.getRecipe()!= null)
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(newList.getId(),
+                    newList.getName(), newList.getUser().getId(), newList.getItems(), newList.getRecipe().getId());
+        }
+        else
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(newList.getId(),
+                    newList.getName(), newList.getUser().getId(), newList.getItems(), null);
+        }
+        return shoppingListDTO;
+
+
     }
 
-    public ShoppingList getShoppingList(Long id) {
+    public ShoppingListResponseDTO getShoppingList(Long id) {
 
         ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
-        return shoppingList;
+        ShoppingListResponseDTO shoppingListDTO;
+        if(shoppingList.getRecipe()!= null)
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), shoppingList.getRecipe().getId());
+        }
+        else
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), null);
+        }
+        return shoppingListDTO;
     }
 
-    public ShoppingList deleteItem(Long id) {
+    public ShoppingListResponseDTO deleteItem(Long id) {
 
         Item item = itemRepository.findById(id).orElse(null);
         Long listId = item.getShoppingList().getId();
         itemRepository.deleteById(id);
         ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
-
+        shoppingList.getItems().remove(item);
         StockItem stockItem  = stockItemRepository.findByItemShoppingId(id).orElse(null);
         if(stockItem != null)
         stockItemRepository.updateItemShoppingListId(stockItem.getId());
-
-        return shoppingList;
+        ShoppingListResponseDTO shoppingListDTO;
+        if(shoppingList.getRecipe()!= null)
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), shoppingList.getRecipe().getId());
+        }
+        else
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), null);
+        }
+        return shoppingListDTO;
     }
 
+    @Transactional
+    public ShoppingListResponseDTO checkedItem(Long id, Boolean value) {
 
-    public void checkedItem(Long id, Boolean value) {
-
-
-        Item item = itemRepository.findById(id).orElse(null);
-        Long listId = item.getShoppingList().getId();
         itemRepository.updateChecked(value,id);
-
+        Item item = itemRepository.findById(id).orElse(null);
+        if(item!= null){
+        Long listId = item.getShoppingList().getId();
 
        ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
        Long userId = shoppingList.getUser().getId();
@@ -100,7 +134,19 @@ public class ShoppingListService {
        {
            stockListService.deleteItemFromShoppingList(userId,id);
        }
-
+        ShoppingListResponseDTO shoppingListDTO;
+        if(shoppingList.getRecipe()!= null)
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), shoppingList.getRecipe().getId());
+        }
+        else
+        {
+            shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                    shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), null);
+        }
+        return shoppingListDTO;}
+        return null;
     }
 
     public void addIngredients(Long userId, Long recipeId) {
@@ -158,21 +204,23 @@ public class ShoppingListService {
         List<ShoppingListResponseDTO> listsResponse = new ArrayList<>();
         for(ShoppingList list: lists)
         {
+            ShoppingListResponseDTO shoppingListDTO;
             if(list.getRecipe()!= null)
-            {ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
-                  list.getName(), list.getUser().getId(), list.getItems() , list.getRecipe().getId());
-            listsResponse.add(shoppingListDTO);}
+            {
+                shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
+                        list.getName(), list.getUser().getId(), list.getItems(), list.getRecipe().getId());
+            }
             else
             {
-                ShoppingListResponseDTO shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
-                        list.getName(), list.getUser().getId(), list.getItems() ,null);
-                listsResponse.add(shoppingListDTO);
+                shoppingListDTO = new ShoppingListResponseDTO(list.getId(),
+                        list.getName(), list.getUser().getId(), list.getItems(), null);
             }
+            listsResponse.add(shoppingListDTO);
         }
         return listsResponse;
     }
 
-    public ShoppingList addCollaborator(Long id, Long userId) {
+    public ShoppingListResponseDTO addCollaborator(Long id, Long userId) {
 
         User user = userRepository.findById(userId).orElse(null);
         if(user == null)
@@ -193,7 +241,18 @@ public class ShoppingListService {
             }
             }
             ShoppingList shoppingList2 = shoppingListRepository.findById(id).orElse(null);
-            return shoppingList2;
+            ShoppingListResponseDTO shoppingListDTO;
+            if(shoppingList2.getRecipe()!= null)
+            {
+                shoppingListDTO = new ShoppingListResponseDTO(shoppingList2.getId(),
+                        shoppingList2.getName(), shoppingList2.getUser().getId(), shoppingList2.getItems(), shoppingList2.getRecipe().getId());
+            }
+            else
+            {
+                shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                        shoppingList2.getName(), shoppingList2.getUser().getId(), shoppingList2.getItems(), null);
+            }
+            return shoppingListDTO;
         }
     }
 
@@ -244,9 +303,10 @@ public class ShoppingListService {
         List<InvitationDTO> invitationDTOS = new ArrayList<>();
         for(Invitation inv : invitations)
         {
+            if(!inv.getStatus().equals("accepted")){
             InvitationDTO invitationDTO = new InvitationDTO(inv.getId(),inv.getSender().getId(),
                     inv.getReceiver().getId(),inv.getStatus(), inv.getList().getId());
-            invitationDTOS.add(invitationDTO);
+            invitationDTOS.add(invitationDTO);}
         }
         return invitationDTOS;
 
@@ -261,7 +321,7 @@ public class ShoppingListService {
         invitationRepository.save(invitation);
     }
 
-    public void createInvitation(Long id, String email) {
+    public InvitationDTO createInvitation(Long id, String email) {
 
         ShoppingList shoppingList = shoppingListRepository.findById(id).orElse(null);
         User user = userRepository.findByEmail(email).orElse(null);
@@ -270,12 +330,17 @@ public class ShoppingListService {
         if (!shoppingList.getCollaborators().contains(user) && invitation == null) {
             Invitation newInvitation = new Invitation(shoppingList.getUser(),
                     user, shoppingList, "Pending");
-            invitationRepository.save(newInvitation);
+
+            Invitation inv = invitationRepository.save(newInvitation);
+            InvitationDTO invitationDTO = new InvitationDTO(inv.getId(),inv.getSender().getId(),
+                    inv.getReceiver().getId(),inv.getStatus(), inv.getList().getId());
+            return invitationDTO;
         }
         else {
-            if(invitation == null)
+            if(shoppingList.getCollaborators().contains(user))
+                throw  new IllegalStateException("user already exists");
+            else
                 throw  new IllegalStateException("invitation already send");
-            throw  new IllegalStateException("user already exists");
         }
     }
 
