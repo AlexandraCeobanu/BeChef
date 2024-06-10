@@ -23,7 +23,7 @@ const ShoppingListPage = (props) => {
   const [items,setItems] = useState([])
   const [addUser, setAddUser] = useState(false)
   const [editing, setEditing] = useState([])
-  const client = useStompClient();
+  const {client} = useStompClient();
   const navigate = useNavigate();
   useEffect(() =>
 {
@@ -53,10 +53,11 @@ useEffect(()=> {
   if(lists.length !==0)
     {
       lists.forEach(function(list) {
-        if(client!==null && client !==undefined){
+        if(client!==null && client !==undefined && client.connected){
           const subscription = client.subscribe(`/updateList/${list.id}`, function(message){
             let newItems = { ...contentList}
             newItems[list.id] = renderListItems(JSON.parse(message.body).items)
+            setContentList(newItems)
           })
           const subscription2 = client.subscribe(`/editingList/${list.id}`, function(message){
             console.log(editing)
@@ -88,7 +89,7 @@ const handleRemoveItem=((id)=> {
     let newItems = { ...contentList}
     deleteItem(id)
     .then((response)=> {
-      if(client!==null && client !==undefined){
+      if(client!==null && client !==undefined && client.connected){
         client.send(`/user/${response.id}/updateList`,[]);
       }
         newItems[response.id] = renderListItems(response.items);
@@ -173,7 +174,7 @@ const handleSaveItems = (id)=>{
     updateShoppingList(id,items)
     .then((response)=> {
         newItems[id] = renderListItems(response.items);
-        if(client!==null && client !==undefined){
+        if(client!==null && client !==undefined && client.connected){
           client.send(`/user/${id}/updateList`,[]);
           // client.send(`/user/${id}/stopEditingList`,[],props.userId);
         }
@@ -188,37 +189,11 @@ const handleCheckedItem=((id, value)=> {
   let newItems = { ...contentList}
   checkItem(id,value)
   .then((response)=> {
-
-    console.log(response);
-    if(client!==null && client !==undefined){
-            client.send(`/user/${id}/updateList`,[]);
+    if(client!==null && client !==undefined && client.connected){
+            client.send(`/user/${response.id}/updateList`,[]);
           }
     newItems[response.id] = renderListItems(response.items);
     setContentList(newItems)
-      // getShoppingLists(props.userId)
-    //   .then((response) => {
-    //     if(client!==null && client !==undefined){
-    //       client.send(`/user/${id}/updateList`,[]);
-    //     }
-    //     setLists(response)
-    //     response.map((list,index)=> {
-    //         let myKey = list.id.toString();
-    //        const newTab = {
-    //         key: myKey,
-    //         tab: list.name
-    //        }
-    //        tabs.push(newTab);
-    //       items[myKey] = renderListItems(list.items);
-    //     })
-        
-    //     setContentList(items)
-    //     setTabList(tabs)
-    //     setActiveTabKey(tabs[0]?.key);
-    // })
-    //       .catch((error)=> {
-    //           console.log(error);
-    //       })
-    //  props.handleCheckedItem(value);
   })
   .catch((error)=> {console.log(error)});
 })

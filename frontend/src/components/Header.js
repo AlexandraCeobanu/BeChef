@@ -17,13 +17,17 @@ export default function Header(props){
     const [showNotification,setShowNotification] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [receivedNot,setReceivedNot] = useState(null);
-    const client = useStompClient();
+    const {client} = useStompClient();
 
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
     const handleLogout = () => {
-        localStorage.clear();
+        localStorage.clear()
+        if (client !==undefined && client !== null && client.connected) {
+            client.disconnect();
+            console.log('Deconectat de la server WebSocket');
+        }
         navigate("/login")
     }
     const handleHomeClick = () => {
@@ -35,7 +39,7 @@ export default function Header(props){
 
 
     useEffect(()=> {
-        if(client) {
+        if(client !==undefined && client !==null && client.connected) {
             const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
                 if(message !== null){
                 console.log("new message")
@@ -79,6 +83,7 @@ export default function Header(props){
         })
         .catch((error) => {
                 console.log(error);
+                navigate('/error')
         })
        
     }
@@ -91,6 +96,7 @@ export default function Header(props){
         })
         .catch((error) => {
             console.log(error)
+            navigate('/error')
         })
     },[])
    

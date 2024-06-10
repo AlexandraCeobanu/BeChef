@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { postComment } from "../services/comments";
 import { useStompClient } from "./WebSocketProvider";
+import {useNavigate } from "react-router-dom";
 export default function AddComment(props)
 {
     const [comment,setComment] = useState("");
     const client = useStompClient();
+    const navigate = useNavigate();
     const handleValueChange = (event) => {
         setComment(event.target.value);
     }
@@ -28,6 +30,7 @@ export default function AddComment(props)
           .catch((error)=> {
             setComment("");
             console.log(error);
+            navigate('/error');
           })
         }
     };

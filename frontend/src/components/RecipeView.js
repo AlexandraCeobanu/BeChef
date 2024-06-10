@@ -14,6 +14,7 @@ import { getRecipesByName, saveRecipe, removeSaveRecipe,getUserSavedRecipes} fro
 import { getStockList } from "../services/stockList";
 import SuccessfullyAddedIngredients from "./SuccessfullyAddedIngredients";
 import Collection from "./Collection";
+import {useNavigate } from "react-router-dom";
 export default function RecipeView(props){
     const [recipe,setRecipe]  = useState(props.recipe)
     const [saved,setSaved] = useState(false);
@@ -21,6 +22,7 @@ export default function RecipeView(props){
     const [stockList,setStockList] = useState(null);
     const [ingredientsAdded,setIngredientsAdded] = useState(false);
     const [showIngredients,setShowIngredients] = useState(false);
+    const navigate = useNavigate();
     const handleCloseRecipe = () => {
         props.handleCloseRecipe();
     }
@@ -31,6 +33,7 @@ export default function RecipeView(props){
         })
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         })
     }
     const handleAddIngredients = ()=> {
@@ -40,6 +43,7 @@ export default function RecipeView(props){
         })
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         })
     }
     const handleCloseSuccessfully = ()=> {
@@ -60,6 +64,7 @@ export default function RecipeView(props){
         })
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         }) }
         else
         {
@@ -79,6 +84,7 @@ export default function RecipeView(props){
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
         })
         }
         setSaved(!saved);
@@ -90,6 +96,7 @@ export default function RecipeView(props){
                     setSaved(true)})
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         })
         getStockList(props.loggedUserId)
             .then((response)=> 
@@ -98,6 +105,7 @@ export default function RecipeView(props){
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
             })
     },[])
     const handleShowIngredients = () => {

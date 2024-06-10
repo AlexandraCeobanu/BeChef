@@ -8,14 +8,15 @@ import { getCollaborators,deleteCollaborator, getInvitation,getInvitations,delet
 import UserBadge from "./UserBadge";
 import { useStompClient } from "./WebSocketProvider";
 import { createInvitation } from "../services/shoppingList";
-
+import {useNavigate } from "react-router-dom";
 export default function Collection(props){
     const [newCollaborator, setNewCollaborator] = useState(false);
     const [collaboratorEmail, setCollaboratorEmail] = useState("");
     const [collaborators, setCollaborators] = useState([]); 
     const [invitations, setInvitations] = useState([]);
     const [error,setError] = useState(null);
-    const client = useStompClient();
+    const {client} = useStompClient();
+    const navigate= useNavigate();
     useEffect(() => {
         getCollaborators(props.listId)
         .then((response) => {
@@ -23,6 +24,7 @@ export default function Collection(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     },[])
     useEffect(() => {
@@ -32,6 +34,7 @@ export default function Collection(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     },[])
     const handleAddCollaborator = ()=> {
@@ -46,7 +49,7 @@ export default function Collection(props){
         createInvitation(props.listId,collaboratorEmail)
         .then((response) => {
 
-            if(client!==null && client !==undefined){
+            if(client !==undefined && client!==null   && client.connected){
                 client.send(`/user/${props.listId}/shareShoppingList`,[],collaboratorEmail);
             setNewCollaborator(false);
             const newInvitations = [...invitations]
@@ -63,6 +66,7 @@ export default function Collection(props){
             })
             .catch((error)=>{
                 console.log(error);
+                navigate('/error')
         })
 
             })}
@@ -71,6 +75,7 @@ export default function Collection(props){
         .catch((error)=> {
             setError(error.message)
             console.log("error " + error.message)
+           
         })
         }
     const handleDeleteCollaborator = (event, colId) =>{
@@ -81,6 +86,7 @@ export default function Collection(props){
         })
         .catch((error)=>{
             console.log(error)
+            navigate('/error')
         })
     }
     const handleCloseView=()=>{
@@ -103,11 +109,12 @@ export default function Collection(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     }
     return(
     <Space direction="vertical" size={16}>
-    <Card title="Your collaborators" className="collection" extra={<div style={{display:"flex",gap:"1em"}}>
+    <Card title="Your collaborators" className="collaborators" extra={<div style={{display:"flex",gap:"1em"}}>
     {
         props.list !== null && props.list.userId===props.userId &&
         <FontAwesomeIcon id="add-col" icon={faCirclePlus} onClick={handleAddCollaborator}></FontAwesomeIcon>}

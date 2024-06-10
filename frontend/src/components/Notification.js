@@ -18,7 +18,7 @@ export default function Notification(props){
     const [seeInvitation, setSeeInvitation] = useState(false);
     const [invitations, setInvitations] = useState([]);
     const navigate = useNavigate();
-    const client = useStompClient();
+    const {client} = useStompClient();
     useEffect(() => {
         if(props.notification.type === "message")
         {
@@ -28,6 +28,7 @@ export default function Notification(props){
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
             })
         }
         if(props.notification.type === "expires")
@@ -38,6 +39,7 @@ export default function Notification(props){
                 })
                 .catch((error)=> {
                     console.log(error);
+                    navigate('/error')
                 })
             }
             if(props.notification.type === "list")
@@ -52,10 +54,14 @@ export default function Notification(props){
                         })
                         .catch((error)=>{
                             console.log(error);
+                            navigate('/error')
                         })
                     })
                     .catch((error)=> {
                         console.log(error);
+                        navigate(
+                            '/error'
+                        )
                     })
                 }
     },[])
@@ -77,7 +83,7 @@ export default function Notification(props){
         addCollaborator(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
 
-            if(client!==null && client !==undefined && invitations !== undefined){
+            if(client !==undefined && client !==null && client.connected && invitations !== undefined){
                
                 const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
                 client.send(`/user/${invitation.id}/changedStatus`,[],"Accepted");
@@ -86,13 +92,14 @@ export default function Notification(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     }
 
     const handleInvitationDeclined=()=> {
         declineCollaboration(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
-            if(client!==null && client !==undefined){
+            if(client !==undefined && client !==null && client.connected){
                 const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
                 client.send(`/user/${invitation.id}/status`,[],"Declined");
                 }
@@ -101,6 +108,7 @@ export default function Notification(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     }
     return(

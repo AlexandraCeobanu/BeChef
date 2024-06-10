@@ -35,6 +35,7 @@ export default function EnterCode()  {
             {
                 setError(error);
                 console.log(error);
+                
             }
         )
     };
@@ -45,6 +46,7 @@ export default function EnterCode()  {
         })
         .catch((error) => {
             console.log(error);
+            navigate('/error')
         })
     }
     return (

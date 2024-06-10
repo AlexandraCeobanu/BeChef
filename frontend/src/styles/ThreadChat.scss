@@ -57,6 +57,9 @@
         border:none;
         background-color: $background-color;
     }
+    input:focus {
+        outline: none;
+    }
    
 }
 .chat-box {
@@ -97,5 +100,15 @@
         gap:1em;
         padding-top: 1em;
         color:rgba(0,0,0,0.3);
+    }
+}
+@media(max-width:400px)
+{
+    .initiate-topic {
+        top:-3em;
+        right: 0;
+       .search-bar {
+        margin-top: 3em;
+       }
     }
 }

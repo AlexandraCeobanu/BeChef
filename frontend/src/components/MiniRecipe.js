@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import { getRecipeImage } from "../services/getRecipeImage"
-
+import {useNavigate } from "react-router-dom";
 export default function MiniRecipe(props){
     const [recipeImage, setRecipeImage] = useState("")
+    const navigate = useNavigate();
     useEffect(()=> {
         getRecipeImage(props.recipeId)
         .then((response)=> {
@@ -11,7 +12,10 @@ export default function MiniRecipe(props){
                 setRecipeImage(url);
             }
         })
-        .catch((error)=> {console.log(error)})
+        .catch((error)=> {console.log(error)
+            navigate('/error')
+
+        })
     },[props.recipeId])
 
     const handleClickRecipe = ()=>{

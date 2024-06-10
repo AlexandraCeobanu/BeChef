@@ -4,13 +4,14 @@ import AddMessage from "./AddMessage";
 import { useEffect, useState, useRef } from "react";
 import { getThreadMessages } from "../services/chat";
 import { useStompClient } from "./WebSocketProvider";
+import {useNavigate } from "react-router-dom";
 import Message from "./Message";
 export default function ChatSideBar(props) {
     const [messages, setMessages] = useState([]);
     const [messageAdded,setMessageAdded] = useState(false);
     const client = useStompClient();
     const messageContainerRef = useRef(null);
-
+    const navigate = useNavigate();
     useEffect(()=> {
         getThreadMessages(props.thread.id)
         .then((response)=> {
@@ -19,6 +20,7 @@ export default function ChatSideBar(props) {
         })
         .catch((error) => {
             console.log(error)
+            navigate('/error')
         })
     },[props.thread])
 
@@ -35,7 +37,7 @@ export default function ChatSideBar(props) {
       }, [messages]);
 
     useEffect (() => {
-    if(client)
+    if(client !==undefined && client !==null && client.connected)
      {
         const subscription = client.subscribe(`/newMessage/${props.thread.id}`, function(message) {
                      const receivedMessage = JSON.parse(message.body)

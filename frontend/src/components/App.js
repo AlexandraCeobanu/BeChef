@@ -15,9 +15,8 @@ import Notifications from './Notifications';
 import RecipeViewNotification from './RecipeViewNotification';
 import SuccessfullyRegistration from './SuccessfullyRegistration';
 import ConfirmEmailAdress from './ConfirmEmailAddress';
-import Collection from './Collection';
-import SavedRecipes from './SavedRecipes';
 import ShoppingListPage from './ShoppingListPage';
+import Error from './Error';
 export default function App(){
     return(
         <Router>
@@ -39,6 +38,7 @@ export default function App(){
                 <Route path="/chat" element = {<ProtectedRoute><Chat/></ProtectedRoute>}></Route>
                 <Route path="/viewRecipe" element = {<ProtectedRoute><RecipeViewNotification/></ProtectedRoute>}></Route>
                 <Route path="/shoppingList" element = {<ShoppingListPage/>}></Route>
+                <Route path="/error" element = {<Error/>}></Route>
             </Routes>
         </Router>
     )

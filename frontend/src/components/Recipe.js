@@ -10,13 +10,15 @@ import { getRecipeComments } from '../services/comments';
 import { useStompClient } from "./WebSocketProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { deleteRecipe } from '../services/recipe';
+import {useNavigate } from "react-router-dom";
 export default function Recipe(props)
 {
     const [liked,setLiked] = useState(false);
     const [recipe,setRecipe] = useState(props.recipe);
     const [nrLikes,setNrLikes] = useState(0);
     const [nrComments,setNrComments] = useState(0);
-    const client = useStompClient();
+    const {client} = useStompClient();
+    const navigate = useNavigate();
     const handleClick=()=> {
         if(props.index !== undefined)
         props.onClick(props.index);
@@ -31,23 +33,27 @@ export default function Recipe(props)
             giveLike(like)
             .then(()=> {
             setLiked(!liked);
-            if(client!==null && client !==undefined){
+            if(client !==undefined && client !==null && client.connected){
             client.send(`/user/${like.likedId}/like`,[],JSON.stringify(like));}
             
             })
             .catch((error)=>{
                 console.log(error);
+                navigate('/error')
             })}
         if (value === false)
         {
             removeLike(props.loggedUserId,recipe.id)
             .then(()=> {
             setLiked(false);
-            if(client!==null && client !==undefined){
+            if(client !==undefined && client !==null && client.connected){
             client.send(`/user/${like.likedId}/removeLike`,[],JSON.stringify(like));}
             })
             .catch((error)=>{
                 console.log(error);
+                navigate(
+                    '/error'
+                )
             })
         }
         }
@@ -59,7 +65,11 @@ export default function Recipe(props)
                 if (props.handleChangeLikes != undefined)
                 props.handleChangeLikes();
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{console.log(error)
+                navigate('/error')
+            }
+            
+        )
         },[liked]
     )
 
@@ -69,7 +79,9 @@ export default function Recipe(props)
             .then ((response)=> {
                 setNrLikes(response.length);
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{console.log(error)
+                navigate('/error')
+            })
         },[props]
     )
 
@@ -79,7 +91,9 @@ export default function Recipe(props)
             .then ((response)=> {
                 if (response.some(like => like.recipeId === props.recipe.id) === true)
                     setLiked(true)})
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{console.log(error)
+                navigate('/error')
+            })
         },[]
     )
 
@@ -90,7 +104,9 @@ export default function Recipe(props)
             .then ((response)=> {
                 setNrComments(response.length);
             })
-            .catch((error)=>{console.log(error)})
+            .catch((error)=>{console.log(error)
+                navigate('/error')
+            })
         },[props]
     )
     const handleDeleteRecipe = ()=> {
@@ -100,6 +116,7 @@ export default function Recipe(props)
         })
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         })
     }
     

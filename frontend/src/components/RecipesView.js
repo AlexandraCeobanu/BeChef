@@ -12,7 +12,7 @@ export default function RecipesView({recipes,loggedUserId,handleChangeLikes,hand
     const [clickedRecipe,setClickedRecipe] = useState(null);
     const [viewedUser,setViewedUser] =  useState(null);
     const [recipesImages,setRecipesImages] = useState([]);
-   
+   const navigate = useNavigate();
     const handleViewRecipe = (index) => {
             setViewRecipe(true);
             setClickedRecipe(index);
@@ -33,7 +33,9 @@ useEffect(() => {
     .then((user) => {
         setViewedUser(user);
     })
-    .catch((error)=> {console.log(error)})}
+    .catch((error)=> {console.log(error)
+        navigate('/error')
+    })}
 },[clickedRecipe])
 
     useEffect(() => {
@@ -45,6 +47,7 @@ useEffect(() => {
                 setRecipesImages(newRecipesImages);
             } catch (error) {
                 console.error('Eroare la preluarea imaginilor:', error);
+                navigate('/error')
             }
         };
     

@@ -63,6 +63,7 @@ export default function AddRecipe()
             .catch((error) => 
             {
                 console.log(error);
+                navigate('/error')
             })
             addIngredients(recipe.id,ingredients)
             .then(()=> {
@@ -70,6 +71,7 @@ export default function AddRecipe()
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
             })
             uploadRecipeImage(recipePhoto,recipe.id)
             .then(() => 
@@ -93,11 +95,13 @@ export default function AddRecipe()
                     )
                     .catch((error) => {
                         console.log(error);
+                        navigate('/error')
                     }
                     )
                 })
             .catch((error) => {
                     console.log(error);
+                    navigate('/error')
                 })
             
         }
@@ -105,6 +109,7 @@ export default function AddRecipe()
         .catch((error) =>
         {
             console.log(error);
+            navigate('/error')
         })
       };
 

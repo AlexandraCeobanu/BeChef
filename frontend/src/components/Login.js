@@ -6,6 +6,7 @@ import Logo from './Logo';
 import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useStompClient } from './WebSocketProvider';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -13,7 +14,7 @@ export default function Login(){
     const [errorMessage,setErrorMessage] = useState("");
     const [seePassword,setSeePassword] = useState(false);
     const navigate = useNavigate();
-
+    const { initializeConnection } = useStompClient();
     const handleRegisterClick = (event) => {
         navigate("/register");
     }
@@ -43,6 +44,7 @@ export default function Login(){
                 setEmail("");
                 setPassword("");
                 setErrorMessage("");
+                initializeConnection();
                navigate("/home");
             }
         )

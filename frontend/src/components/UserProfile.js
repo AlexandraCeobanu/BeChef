@@ -7,6 +7,7 @@ import "../styles/userProfile.scss"
 import { uploadProfileImage } from "../services/uploadProfileImage"
 import { getUserById } from "../services/user/getUserById"
 import UserRecipes from "./UserRecipes"
+import { useLocation } from "react-router-dom"
 export default function UserProfile()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
@@ -15,6 +16,8 @@ export default function UserProfile()
     const [profilePhoto,setProfilePhoto] = useState("");
     const [blur, setBlur] = useState(false);
    
+    const location = useLocation();
+    const  data  = location.state;
 
     const defaultProfilePhoto = '/images/profile-no-photo.png';
     const handleImageChange = (formData) => {
@@ -78,7 +81,12 @@ export default function UserProfile()
             <div className={blur === true ? "blur fixed-description" : "fixed-description"}>
             <UserDescription  username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange} ></UserDescription>
             </div>
-            <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0}></UserRecipes>
+            {data!==null && data.option !== null ? 
+             <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0} option = {data.option}></UserRecipes>
+             :
+             <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0}></UserRecipes>
+            }
+          
             </div>
         </div>
     )

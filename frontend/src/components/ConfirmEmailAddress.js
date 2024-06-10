@@ -1,8 +1,9 @@
 import { resendLink } from "../services/register"
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 export default function ConfirmEmailAdress(){
     const location = useLocation();
     const  data  = location.state;
+    const navigate = useNavigate();
     const handleResendLink = () => {
         resendLink(data.email)
         .then((response) => {
@@ -10,6 +11,7 @@ export default function ConfirmEmailAdress(){
         })
         .catch((error) => {
             console.log(error);
+            navigate('/error')
         })
     }
     return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
+import {useNavigate } from "react-router-dom";
 function ImageDisplay() {
     const [imageBlob, setImageBlob] = useState(null);
-
+    const navigate  = useNavigate();
     // Funcție pentru a obține imaginea și a o seta ca obiect Blob
     useEffect(() => {
         const fetchImage = async () => {
@@ -13,6 +13,7 @@ function ImageDisplay() {
                 setImageBlob(blob); 
             } catch (error) {
                 console.error('Eroare în obținerea imaginii:', error);
+                navigate('/error')
             }
         };
 
