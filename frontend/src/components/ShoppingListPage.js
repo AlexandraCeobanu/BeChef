@@ -24,6 +24,8 @@ const ShoppingListPage = (props) => {
   const [addUser, setAddUser] = useState(false)
   const [editing, setEditing] = useState([])
   const {client} = useStompClient();
+  let subscription=null; let subscription2=null;
+  let subscription3=null;let subscription4=null;
   const navigate = useNavigate();
   useEffect(() =>
 {
@@ -53,37 +55,64 @@ useEffect(()=> {
   if(lists.length !==0)
     {
       lists.forEach(function(list) {
-        if(client!==null && client !==undefined && client.connected){
-          const subscription = client.subscribe(`/updateList/${list.id}`, function(message){
+        if(client!==null && client !==undefined && client.connected && subscription===null && subscription2===null){
+           subscription = client.subscribe(`/updateList/${list.id}`, function(message){
             let newItems = { ...contentList}
             newItems[list.id] = renderListItems(JSON.parse(message.body).items)
             setContentList(newItems)
           })
-          const subscription2 = client.subscribe(`/editingList/${list.id}`, function(message){
-            console.log(editing)
-           const newEditing = [...editing]
-           newEditing.push(JSON.parse(message.body))
-           console.log("editing")
-           console.log(newEditing);
-           setEditing(newEditing)
+           subscription2 = client.subscribe(`/editingList/${list.id}`, function(message){
+           const newEditing = JSON.parse(message.body)
+           setEditing((prevEditing) => {
+            const unique = prevEditing.filter(user => user.id !== newEditing.id);
+            if(newEditing.id !== props.userId)
+            return [...unique, newEditing];
+          return [...unique]
+           });
           })
 
-          // const subscription3 = client.subscribe(`/stopEditingList/${list.id}`, function(message){
-          //   const newEditing = editing.filter(user => user.id !== JSON.parse(message.body).id)
-          //   setEditing(newEditing)
-          //  })
-
-          return () => {
-            subscription.unsubscribe();
-            subscription2.unsubscribe();
-            // subscription3.unsubscribe();
-                };
+           subscription3 = client.subscribe(`/stopEditingList/${list.id}`, function(message){
+            const newEditing = editing.filter(user => user.id !== JSON.parse(message.body).id)
+            setEditing(newEditing)
+           })
         }
+        return () => {
+          subscription.unsubscribe();
+          subscription=null;
+          subscription2.unsubscribe();
+          subscription=null;
+          subscription3.unsubscribe();
+          subscription=null;
+
+          // subscription3.unsubscribe();
+              };
       });
+      subscription4 = client.subscribe(`/stopEditingList/-1`, function(message){
+        const newEditing = editing.filter(user => user.id !== JSON.parse(message.body).id)
+        setEditing(newEditing)
+      })
 
     }
 
-},[lists])
+},[lists,client])
+
+useEffect(()=> {
+return () => {
+  if(subscription!==null && subscription2!==null && subscription3 && subscription4){
+  subscription.unsubscribe();
+          subscription=null;
+          subscription2.unsubscribe();
+          subscription3.unsubscribe();
+          subscription3=null;
+          subscription4.unsubscribe();
+          subscription4=null;
+          subscription2=null;}
+         
+          if(client!==null && client !==undefined && client.connected){
+            client.send(`/user/${-1}/stopEditingList`,[],props.userId);
+          }
+}
+},[])
 
 const handleRemoveItem=((id)=> {
     let newItems = { ...contentList}
@@ -151,7 +180,7 @@ const renderListItems = (items) => {
     setAddList(true);
   };
   const handleAddItem = (id) =>{
-    if(client!==null && client !==undefined){
+    if(client!==null && client !==undefined && client.connected){
       client.send(`/user/${id}/editingList`,[],props.userId);
     }
     setItems([...items,{item: "", quantity: ""}]);
@@ -176,7 +205,7 @@ const handleSaveItems = (id)=>{
         newItems[id] = renderListItems(response.items);
         if(client!==null && client !==undefined && client.connected){
           client.send(`/user/${id}/updateList`,[]);
-          // client.send(`/user/${id}/stopEditingList`,[],props.userId);
+          client.send(`/user/${id}/stopEditingList`,[],props.userId);
         }
        setContentList(newItems)
         setItems([])
@@ -267,7 +296,7 @@ return null;
       <h4>Owner  </h4> {}<UserBadge userId = {displayName(activeTabKey)}></UserBadge></div>
       </>
     )}
-    {/* {editing !== null && (
+    {editing !== null && editing.length!==0 && (
         <div style={{display: "flex",flexDirection: "column", gap: "0.5em", color: "rgba(228, 123, 6)", marginBottom: "1em"}}>
         <h4>Editing</h4>
         {editing.map((user, index) => (
@@ -278,7 +307,7 @@ return null;
           </div>
         ))}
         </div>
-      )} */}
+      )}
     {
       checkRecipe(activeTabKey) !==null && (
                     <MiniRecipe recipeId={checkRecipe(activeTabKey)} handleSeeRecipe = {(e)=>handleSeeRecipe(checkRecipe(activeTabKey))}></MiniRecipe>

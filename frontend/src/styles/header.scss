@@ -109,7 +109,7 @@
    }
 }
 
-@media (max-width: 200px) {
+@media (max-width: 400px) {
     .header {
     margin-right: 0em;
     font-size: 10px;
@@ -129,6 +129,31 @@
     }
     .logout {
      margin-left: 2em;
+     gap:1em;
+    }
+    }
+ }
+
+ @media (max-width: 260px) {
+    .header {
+    margin-right: 0em;
+    font-size: 10px;
+    justify-content: flex-start;
+    gap:1em;
+    .nav-bar {
+     gap: 2em;
+     margin-left: 1em;
+    }
+    
+    .logout .buttons {
+     display: none;
+   }
+ 
+    #icon-logout {
+     display: block;
+    }
+    .logout {
+     margin-left: 0em;
      gap:1em;
     }
     }
