@@ -33,7 +33,7 @@ export default function App(){
                 <Route path="/confirmEmail" element ={<SuccessfullyRegistration/>}></Route>
                 <Route path="/profile" element = {<ProtectedRoute><UserProfile/></ProtectedRoute>}></Route>
                 <Route path="/addRecipe" element = {<ProtectedRoute><AddRecipe/></ProtectedRoute>}></Route>
-                <Route path="/userProfileView" element = {<ProtectedRoute><UserProfileView/></ProtectedRoute>}></Route>
+                <Route path="/userProfileView/:name" element = {<ProtectedRoute><UserProfileView/></ProtectedRoute>}></Route>
                 <Route path="/notifications" element = {<ProtectedRoute><Notifications/></ProtectedRoute>}></Route>
                 <Route path="/chat" element = {<ProtectedRoute><Chat/></ProtectedRoute>}></Route>
                 <Route path="/viewRecipe" element = {<ProtectedRoute><RecipeViewNotification/></ProtectedRoute>}></Route>
