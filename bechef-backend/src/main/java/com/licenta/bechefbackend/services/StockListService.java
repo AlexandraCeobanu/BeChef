@@ -79,6 +79,7 @@ public class StockListService {
 
     public List<String> getItemsNames(Long id) {
 
+
         List<String> itemsNames = stockItemRepository.findItemsNames(id);
         return itemsNames;
     }

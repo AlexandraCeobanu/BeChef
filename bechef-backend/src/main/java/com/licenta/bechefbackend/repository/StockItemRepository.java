@@ -22,7 +22,7 @@ public interface StockItemRepository extends CrudRepository<StockItem,Long> {
     @Query("UPDATE StockItem s " + "SET s.idItemShoppingList=null WHERE s.id = ?1")
     void updateItemShoppingListId(Long id);
 
-    @Query("SELECT s.item FROM StockItem s Where s.id = ?1")
+    @Query("SELECT s.item FROM StockItem s Where s.stockList.id = ?1")
     List<String> findItemsNames(Long stockListId);
 
     @Query("SELECT s FROM StockItem s WHERE s.stockList.id = ?1")

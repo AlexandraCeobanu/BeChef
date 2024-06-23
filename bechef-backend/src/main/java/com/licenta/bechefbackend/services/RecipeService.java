@@ -8,7 +8,9 @@ import com.licenta.bechefbackend.repository.CollectionRepository;
 import com.licenta.bechefbackend.repository.IngredientRepository;
 import com.licenta.bechefbackend.repository.RecipeRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
+import io.swagger.models.auth.In;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -267,43 +269,48 @@ public class RecipeService {
         return savedRecipesDTO;
     }
 
+    @Transactional
     public List<RecipeResponseDTO> getRecipesByFilter(int filter,Long userId, String recipeName) {
 
 
         List<Recipe> recipes = new ArrayList<>();
-        if (filter == 2)
-        {
-             if(recipeName.equals(""))
-             recipes = recipeRepository.findAllByType("Breakfast");
-             else{
-                 recipes = recipeRepository.findAllByTypeAndName("Breakfast",recipeName);
-             }
+        if (filter == 2) {
+            if (recipeName.equals(""))
+                recipes = recipeRepository.findAllByType("Meat");
+            else {
+                recipes = recipeRepository.findAllByTypeAndName("Meat", recipeName);
+            }
         }
         if (filter == 3) {
-            if(recipeName.equals(""))
-            recipes = recipeRepository.findAllByType("Lunch");
-            else{
-                recipes = recipeRepository.findAllByTypeAndName("Lunch",recipeName);
+            if (recipeName.equals(""))
+                recipes = recipeRepository.findAllByType("Fish");
+            else {
+                recipes = recipeRepository.findAllByTypeAndName("Fish", recipeName);
             }
         }
 
-        if (filter == 4){
-            if(recipeName.equals(""))
-             recipes = recipeRepository.findAllByName("Dinner");
+        if (filter == 4) {
+            if (recipeName.equals(""))
+                recipes = recipeRepository.findAllByType("Pasta");
             else {
-                recipes = recipeRepository.findAllByTypeAndName("Dinner",recipeName);
+                recipes = recipeRepository.findAllByTypeAndName("Pasta", recipeName);
             }
         }
-        if (filter == 5){
-            if(recipeName.equals(""))
-             recipes = recipeRepository.findAllByName("Dessert");
+        if (filter == 5) {
+            if (recipeName.equals(""))
+                recipes = recipeRepository.findAllByType("Salad");
             else {
-                recipes = recipeRepository.findAllByTypeAndName("Dessert",recipeName);
+                recipes = recipeRepository.findAllByTypeAndName("Salad", recipeName);
             }
         }
-
-        if (filter == 6)
-            {
+        if (filter == 6) {
+            if (recipeName.equals(""))
+                recipes = recipeRepository.findAllByType("Dessert");
+            else {
+                recipes = recipeRepository.findAllByTypeAndName("Dessert", recipeName);
+            }
+        }
+            if (filter == 7) {
                 if(recipeName.equals(""))
                 recipes = recipeRepository.findAllLessThan1();
                 else
@@ -311,16 +318,16 @@ public class RecipeService {
                     recipes = recipeRepository.findAllLessThan1ByName(recipeName);
                 }
             }
-            if (filter == 7) {
-                if(recipeName.equals(""))
+        if (filter == 8) {
+            if(recipeName.equals(""))
                 recipes = recipeRepository.findAllLessThan2();
-                else
-                {
-                    recipes = recipeRepository.findAllLessThan2ByName(recipeName);
-                }
+            else
+            {
+                recipes = recipeRepository.findAllLessThan2ByName(recipeName);
             }
-        if (filter == 8){
-            List<Recipe> allRecipes = new ArrayList<>();
+        }
+        if (filter == 9){
+            List<Recipe> allRecipes;
             if(recipeName.equals("")){
             allRecipes = (List<Recipe>) recipeRepository.findAll();}
             else{
@@ -329,6 +336,7 @@ public class RecipeService {
             StockList stockList = stockListService.getStockList(userId);
 
             List<String>  allItemsStock = stockListService.getItemsNames(stockList.getId());
+            System.out.println(allItemsStock);
 
             for(Recipe recipe : allRecipes )
             {
@@ -350,6 +358,7 @@ public class RecipeService {
                 );
                 recipesDTO.add(recipeDTO);
             }
+        Collections.reverse(recipesDTO);
             return recipesDTO;
         }
 
@@ -392,6 +401,10 @@ public class RecipeService {
         } catch (IOException e) {
             System.err.println("Nu s-a putut șterge imaginea retetei: " + e.getMessage());
         }
+        User user = userRepository.findById(recipe.getUser().getId()).orElse(null);
+        if(user!=null)
+            user.setNrRecipes(user.getNrRecipes()-1);
         recipeRepository.deleteById(recipeId);
     }
+
 }

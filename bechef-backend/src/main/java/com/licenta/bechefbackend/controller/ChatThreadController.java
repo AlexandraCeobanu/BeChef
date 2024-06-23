@@ -57,6 +57,19 @@ public class ChatThreadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
         }
     }
+    @GetMapping("/byTopic")
+    public ResponseEntity<?> getThreadsByKeyword(@RequestParam String keyword)
+    {
+        try {
+            List<ChatThreadResponse> chatThreadList = chatThreadService.getThreadsByKeyword(keyword);
+            return ResponseEntity.status(HttpStatus.OK).body(chatThreadList);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
     @GetMapping("/{threadId}")
     public ResponseEntity<?> getThreadById(@PathVariable Long threadId)
     {

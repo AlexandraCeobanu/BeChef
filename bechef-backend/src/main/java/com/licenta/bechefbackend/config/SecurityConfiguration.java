@@ -7,12 +7,15 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
+import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +23,8 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfiguration {
+@EnableWebSocketMessageBroker
+public class SecurityConfiguration  {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
     @Bean
@@ -29,7 +33,8 @@ public class SecurityConfiguration {
             .authorizeHttpRequests((request) -> request
                             .requestMatchers("api/v1/register/**" , "/api/v1/login/**" , "/api/v1/changePassword/**" ,
                                     "/api/v1/confirmChangedPassword/**", "/v2/api-docs", "/configuration/ui", "/swagger-resources",
-                                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/ws/**", "/static/**").permitAll()
+                                    "/configuration/security", "/swagger-ui.html", "/webjars/**", "/static/**","/ws/**").permitAll()
+
                             .anyRequest().authenticated()
           )
                 .cors(Customizer.withDefaults())
@@ -38,6 +43,8 @@ public class SecurityConfiguration {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
             return http.build();
     }
+
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource()

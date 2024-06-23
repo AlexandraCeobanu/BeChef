@@ -172,6 +172,7 @@ public class WebSocketController {
     @MessageMapping("/{listId}/stopEditingList")
     @SendTo("/stopEditingList/{listId}")
     public UserResponseDTO stopEditingList(@DestinationVariable String listId, @Payload String userId) {
+
         User user = userRepository.findById(Long.valueOf(userId)).orElse(null);
         if(user != null)
         {

@@ -31,12 +31,12 @@ public interface RecipeRepository extends CrudRepository<Recipe,Long> {
     @Query("SELECT r FROM Recipe r Where r.user.id = ?1")
     List<Recipe> findAllByUserId(Long userId);
 
-    @Query("SELECT r FROM Recipe r Where r.name = ?1")
-    List<Recipe> findAllByName(String name);
+    @Query("SELECT r FROM Recipe r Where LOWER(r.name) LIKE LOWER(CONCAT('%', ?1, '%'))")
+    List<Recipe> findAllByName( String name);
     @Query("SELECT r FROM Recipe r Where r.type = ?1")
     List<Recipe> findAllByType(String type);
-    @Query("SELECT r FROM Recipe r Where r.type = ?1 and r.name = ?2")
-    List<Recipe> findAllByTypeAndName(String type,String recipeName);
+    @Query("SELECT r FROM Recipe r Where r.type = ?1 and LOWER(r.name) LIKE LOWER(CONCAT('%', ?2, '%'))")
+    List<Recipe> findAllByTypeAndName(String type, String recipeName);
     @Query("SELECT r FROM Recipe r WHERE FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '01:00:00'")
     List<Recipe> findAllLessThan1();
     @Query("SELECT r FROM Recipe r WHERE r.name= ?1 and FUNCTION('TIME_FORMAT', r.time, '%H:%i:%s') <= '01:00:00'")

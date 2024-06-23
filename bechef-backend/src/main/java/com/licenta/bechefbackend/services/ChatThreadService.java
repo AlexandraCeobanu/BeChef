@@ -129,4 +129,29 @@ public class ChatThreadService {
 
         return threadResponse;
     }
+
+    public List<ChatThreadResponse> getThreadsByKeyword(String keyword) {
+
+        List<ChatThread> threadList =  chatThreadRepository.findByKeyword(keyword);
+        List<ChatThreadResponse> threadResponses = new ArrayList<>();
+        for(ChatThread thread : threadList)
+        {
+            List<Message> messages = thread.getMessageList();
+            Long nrMessages = Long.valueOf(messages.size());
+            MessageResponse message = new MessageResponse();
+            if(nrMessages != 0){
+                Message ms = thread.getMessageList().get((int) (nrMessages-1));
+                message.setMessage(ms.getMessage());
+                message.setSenderId(ms.getSenderUser().getId());
+                message.setThreadId(ms.getThread().getId());
+
+            }
+
+            ChatThreadResponse response = new ChatThreadResponse(thread.getId(),thread.getTopic(),
+                    thread.getInitiatorUser().getId(),message,nrMessages);
+            threadResponses.add(response);
+        }
+        return threadResponses;
+
+    }
 }
