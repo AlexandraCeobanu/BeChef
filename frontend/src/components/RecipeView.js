@@ -157,6 +157,7 @@ export default function RecipeView(props){
         {clickedSaved === true && 
         <Collection userId={props.loggedUserId} recipeId={props.recipe.id} closeViewCollections={closeViewCollections}></Collection>
         }
+        
         </>
     )
 }

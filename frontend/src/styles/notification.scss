@@ -101,6 +101,9 @@
         border: 1px solid $primary-color;
     }
 }
+.warning {
+    color:$primary-color;
+}
 @media(max-width:500px)
 {
     .notifications-box {

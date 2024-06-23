@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/addRecipe.scss"
 import {faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import { useState } from "react";
-export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageChange,image})
+import MyAlert from "./Alert";
+export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageChange,image,photoRequired})
 {
     const [description,setDescription] = useState("")
     const [recipePhoto,setRecipePhoto] = useState(null);
@@ -31,7 +32,7 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
     return(
         <div className="left">
             <div className="image">
-                <input type="file" id="file-input" onChange={handleImageUpload} accept="image/*" style={{ display: 'none' }}></input>
+                <input type="file" id="file-input" onChange={handleImageUpload}  accept="image/*" style={{ display: 'none' }}></input>
                 <div className="addImage">
                 {recipePhoto === null ? 
                 (<div><FontAwesomeIcon icon={faCirclePlus} className="fa fa-envelope fa-3x" id="plus" onClick={handleDefaultImageClick}></FontAwesomeIcon>
@@ -42,6 +43,7 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
                 )
                 }
                 </div>
+                {photoRequired === true && <MyAlert text="Image required"></MyAlert>}
             </div>
             <div className="description">
                <textarea placeholder="Add a description"></textarea>

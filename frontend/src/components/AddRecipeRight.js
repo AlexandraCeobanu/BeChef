@@ -6,7 +6,8 @@ import dayjs from 'dayjs';
 import "../styles/addRecipe.scss"
 import Filter from "./Filter";
 import {Input} from "antd";
-export default function AddRecipeRight({onRecipeStepChange})
+import MyAlert from "./Alert";
+export default function AddRecipeRight({onRecipeStepChange, nameRequired})
 {
     const [steps,setSteps] = useState([
         {recipeIndex: 1, description: "" },
@@ -78,7 +79,8 @@ export default function AddRecipeRight({onRecipeStepChange})
     return(
         <div className="right">
             <div className="title">
-            <input type="text" value={recipeName}  placeholder="Type Recipe Name"  onChange={handleRecipeName}></input>
+            <input type="text" value={recipeName}  placeholder="Type Recipe Name" maxlength="40"  onChange={handleRecipeName}></input>
+            {nameRequired === true && <MyAlert text="Name required"></MyAlert>}
             <hr></hr>
             </div>
             <div className="time-types">
@@ -124,7 +126,7 @@ export default function AddRecipeRight({onRecipeStepChange})
             <h3>Pas {index+1} </h3>
             <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemove(index)}></FontAwesomeIcon>
             </div>
-          <textarea placeholder="Step Description" value={step.description} className="step"
+          <textarea placeholder="Step Description" value={step.description} maxlength="300"  className="step"
           onChange={(e) => handleChange(index, e.target.value)}
           ></textarea>
         </div>

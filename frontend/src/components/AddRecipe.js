@@ -11,6 +11,8 @@ export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [recipePhoto,setRecipePhoto] = useState(null);
+    const [nameRequired, setNameRequired] = useState(false);
+    const [photoRequired, setPhotoRequired] = useState(false);
     let [ingredients,setIngredients] = useState([]);
     const [recipe,setRecipe] = useState({
         userId: user.id,
@@ -42,6 +44,8 @@ export default function AddRecipe()
             type = "Other"
     
        const time = timeArg.format('HH:mm:ss');
+       if(name!=="")
+        setNameRequired(false);
        setRecipe({...recipe,name, type,time})
        setSteps(steps);
        setIngredients(ingredients);
@@ -50,9 +54,15 @@ export default function AddRecipe()
 
       const handleImageChange = (formData) => {
             setRecipePhoto(formData);
+            setPhotoRequired(false);
       }
 
       const handlePostRecipe = () => {
+        if(recipe.name === "" )
+            setNameRequired(true);
+        if(recipePhoto === null)
+            setPhotoRequired(true);
+        else if(recipe.name ==="" && recipePhoto!==null) {
         addRecipe(recipe)
         .then((recipe) =>{
             // console.log("Reteta adaugata cu succes",JSON.stringify(recipe));
@@ -111,7 +121,8 @@ export default function AddRecipe()
             console.log(error);
             navigate('/error')
         })
-      };
+      }; 
+    }
 
 
     return(
@@ -119,9 +130,10 @@ export default function AddRecipe()
             <Header></Header>
             <div className="without-header">
             <div className="fixed-side">
-            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} image={recipePhoto}></AddRecipeLeft>
+            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} 
+            image={recipePhoto} photoRequired={photoRequired}></AddRecipeLeft>
             </div>
-            <AddRecipeRight onRecipeStepChange={handleRecipeStepChange}></AddRecipeRight>
+            <AddRecipeRight onRecipeStepChange={handleRecipeStepChange} nameRequired = {nameRequired}></AddRecipeRight>
             </div>
         </div>
     )
