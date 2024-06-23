@@ -46,7 +46,8 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
                 {photoRequired === true && <MyAlert text="Image required"></MyAlert>}
             </div>
             <div className="description">
-               <textarea placeholder="Add a description"></textarea>
+               <textarea placeholder="Add a description" maxLength="130" value={description}
+                onChange={(e) => handleDescription( e.target.value)}></textarea>
             </div>
             <button type="button" onClick={handlePostRecipe}>Post Recipe</button>
         </div>

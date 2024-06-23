@@ -41,8 +41,9 @@
             display: flex;
             gap:8em;
             height: 70%;
-            margin-top: 2em;
+            // margin-top: 2em;
             .right-side-top-left {
+                margin-top: 2em;
                 display: flex;
                 flex-direction: column;
                 
@@ -153,6 +154,7 @@
     }
 }
 .comments-section {
+    margin-top: 2em;
     position: relative;
     height: 90%;
     width: 100%;
@@ -192,8 +194,76 @@
         outline: none;
     }
 }
+#description {
+    width: 70%;
+    margin-top: 3em;
+   
+    height: 4em;
+   
+    overflow: auto;
+    h4 {
+        color:$primary-color;
+    }
+    p {
+        font-size: smaller;
+    }
+}
+#description::-webkit-scrollbar {
+    display: none;
+}
 .steps-view {
     margin-top: 4em;
+    background-color: $background-color;
+    height: 100%;
+    margin-left: 1em;
+    transition: height 0.5s ease-in-out;
+   
+}
+.pos-absolute {
+    position: absolute;
+    z-index: 3;
+    background-color: $background-color;
+    transition: height 0.5s ease-in-out;
+    margin-left: -8em;
+    height: 100%;
+    width: 77%;
+    .more {
+        background-color: $primary-color;
+      
+        color:black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left:1em;
+        padding-right: 1em;
+        height: 3em;
+        #view-more {
+            cursor: pointer;
+        }
+        }
+}
+
+.view-more-steps {
+   
+    bottom:0;
+    width: 77%;
+    position: absolute;
+    margin-left: -8em;
+    
+    .more {
+        background-color: $primary-color;
+        color:black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left:1em;
+        padding-right: 1em;
+        height: 3em;
+        #view-more {
+            cursor: pointer;
+        }
+        }
+    
 }
 .step-view {
    

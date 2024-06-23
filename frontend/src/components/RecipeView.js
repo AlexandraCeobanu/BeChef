@@ -6,6 +6,7 @@ import {faBookmark as solidBookMark}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from "react";
 import Recipe from "./Recipe";
 import StepsView from "./StepsView";
+import Step from "./Step";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserBadge from "./UserBadge";
 import { useState } from "react";
@@ -150,7 +151,17 @@ export default function RecipeView(props){
             </div>
             <CommentsSection  recipe={props.recipe} loggedUserId={props.loggedUserId} viewedUserId={props.viewedUserId} handleAddComment={handleAddComment}></CommentsSection>
             </div>
-            <StepsView steps={props.recipe.steps}></StepsView>
+            {props.recipe.description !== ""  && 
+            <div id="description">
+            <h4>Description</h4>
+            <p>{props.recipe.description}
+            </p>
+            </div>
+            }
+            
+            
+            {/* <StepsView steps={props.recipe.steps}></StepsView> */}
+            <Step steps={props.recipe.steps}></Step>
             </div>
             {ingredientsAdded === true && <SuccessfullyAddedIngredients handleCloseSuccessfully = {handleCloseSuccessfully} handleGoToShoppingList={handleGoToShoppingList}></SuccessfullyAddedIngredients>}
         </div>
