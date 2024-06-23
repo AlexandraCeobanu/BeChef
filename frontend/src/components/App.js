@@ -17,6 +17,7 @@ import SuccessfullyRegistration from './SuccessfullyRegistration';
 import ConfirmEmailAdress from './ConfirmEmailAddress';
 import ShoppingListPage from './ShoppingListPage';
 import Error from './Error';
+import Articles from './Articles';
 export default function App(){
     return(
         <Router>
@@ -39,6 +40,7 @@ export default function App(){
                 <Route path="/viewRecipe" element = {<ProtectedRoute><RecipeViewNotification/></ProtectedRoute>}></Route>
                 <Route path="/shoppingList" element = {<ShoppingListPage/>}></Route>
                 <Route path="/error" element = {<Error/>}></Route>
+                <Route path="/articles" element = {<ProtectedRoute><Articles/></ProtectedRoute>}></Route>
             </Routes>
         </Router>
     )
