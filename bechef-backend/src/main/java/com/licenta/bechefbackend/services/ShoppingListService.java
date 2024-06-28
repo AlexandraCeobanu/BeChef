@@ -149,6 +149,29 @@ public class ShoppingListService {
         return null;
     }
 
+    @Transactional
+    public ShoppingListResponseDTO updateQuantity(Long id, String value) {
+
+        itemRepository.updateQuantity(value,id);
+        Item item = itemRepository.findById(id).orElse(null);
+        if(item!= null){
+            Long listId = item.getShoppingList().getId();
+            ShoppingList shoppingList = shoppingListRepository.findById(listId).orElse(null);
+            ShoppingListResponseDTO shoppingListDTO;
+            if(shoppingList.getRecipe()!= null)
+            {
+                shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                        shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), shoppingList.getRecipe().getId());
+            }
+            else
+            {
+                shoppingListDTO = new ShoppingListResponseDTO(shoppingList.getId(),
+                        shoppingList.getName(), shoppingList.getUser().getId(), shoppingList.getItems(), null);
+            }
+            return shoppingListDTO;}
+        return null;
+    }
+
     public void addIngredients(Long userId, Long recipeId) {
 
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);

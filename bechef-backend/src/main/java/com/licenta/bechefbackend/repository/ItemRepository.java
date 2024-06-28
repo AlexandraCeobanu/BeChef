@@ -16,6 +16,12 @@ public interface ItemRepository extends CrudRepository<Item,Long> {
     @Query("UPDATE Item i " + "SET i.checked = ?1 WHERE i.id = ?2")
     int updateChecked(Boolean value,Long id);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE Item i " + "SET i.quantity = ?1 WHERE i.id = ?2")
+    int updateQuantity(String value,Long id);
+
+
     @Query("SELECT i FROM Item i WHERE i.shoppingList.id =?1")
     List<Item> findByShoppingListId(Long listId);
 }

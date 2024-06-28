@@ -93,7 +93,7 @@ public class WebSocketController {
 
         if(commentDTO.getSenderId() != commentDTO.getReceiverId()){
         NotificationDTO notificationDTO = new NotificationDTO(commentDTO.getSenderId(), commentDTO.getReceiverId(),
-                commentDTO.getRecipeId(), null,null,null,"added a comment: " + commentDTO.getComm() ,false, "comment");
+                commentDTO.getRecipeId(), null,null,null," " + commentDTO.getComm() ,false, "comment");
         notificationService.createNotification(notificationDTO);
         return notificationDTO;}
         return null;

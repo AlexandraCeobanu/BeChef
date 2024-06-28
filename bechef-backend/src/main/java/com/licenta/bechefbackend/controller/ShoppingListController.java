@@ -110,6 +110,20 @@ public class ShoppingListController {
         }
     }
 
+    @PatchMapping("/items/{id}/quantity")
+    public ResponseEntity<?> updateQuantity(@PathVariable Long id,@RequestBody String value)
+    {
+        try {
+
+            return ResponseEntity.status(HttpStatus.OK).body(shoppingListService.updateQuantity(id,value));
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("");
+        }
+    }
+
     @PatchMapping("/addIngredients")
     public ResponseEntity<?> addIngredients(@RequestParam Long userId, @RequestBody Long recipeId)
     {

@@ -24,4 +24,9 @@ public interface NotificationRepository extends CrudRepository<Notification,Long
     @Query("UPDATE Notification n " + "SET n.isRead = true WHERE n.isRead = false and n.receiverUser.id = ?1")
     int readAllNotifications(Long userId);
 
+    @Transactional
+    @Modifying
+    @Query("Delete FROM Notification n where n.stockItem.id = ?1")
+    int deleteAllByItem(Long itemId);
+
 }

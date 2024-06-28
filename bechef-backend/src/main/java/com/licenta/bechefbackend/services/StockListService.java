@@ -3,10 +3,7 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.ItemDTO;
 import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.*;
-import com.licenta.bechefbackend.repository.ItemRepository;
-import com.licenta.bechefbackend.repository.StockItemRepository;
-import com.licenta.bechefbackend.repository.StockListRepository;
-import com.licenta.bechefbackend.repository.UserRepository;
+import com.licenta.bechefbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +21,8 @@ public class StockListService {
     ItemRepository itemRepository;
     @Autowired
     StockItemRepository stockItemRepository;
+    @Autowired
+    NotificationRepository notificationRepository;
 
     public StockList createStockList(Long userId){
         User user = userRepository.findById(userId).orElse(null);
@@ -46,13 +45,13 @@ public class StockListService {
             items.add(item);
         }
         stockList.getItems().addAll(items);
-        stockListRepository.save(stockList);
-        return stockList;
+        return stockListRepository.save(stockList);
     }
 
 
     public StockList deleteItem(Long id) {
         StockItem item = stockItemRepository.findById(id).orElse(null);
+        notificationRepository.deleteAllByItem(id);
         Long listId = item.getStockList().getId();
         stockItemRepository.deleteById(id);
         StockList stockList = stockListRepository.findById(listId).orElse(null);
@@ -100,6 +99,7 @@ public class StockListService {
 
         StockItem stockItem = stockItemRepository.findById(id).orElse(null);
         stockItem.setExpirationDate(stockItemDTO.getExpirationDate());
+        stockItem.setQuantity(stockItemDTO.getQuantity());
         stockItemRepository.save(stockItem);
         return stockListRepository.findById(stockItem.getStockList().getId()).orElse(null);
     }

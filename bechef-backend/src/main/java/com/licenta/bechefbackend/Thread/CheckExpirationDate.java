@@ -55,7 +55,7 @@ public class CheckExpirationDate {
                         int comparison = expirationDate.compareTo(currentDate);
                         if (!stockItem.getStatus().equals("expired")  && (comparison < 0 || comparison ==0)) {
 
-                            notificationService.ingredientExpired(user.getId(), "expired");
+                            notificationService.ingredientExpired(user.getId(), "expired",stockItem.getId());
                             System.out.println("S-a trimit notificarea");
                             stockItem.setStatus("expired");
                             stockItemRepository.save(stockItem);
@@ -66,7 +66,7 @@ public class CheckExpirationDate {
                             long daysUntilExpires = ChronoUnit.DAYS.between(localDate, expirationLocalDate);
                             if(daysUntilExpires <= 3)
                             {
-                                notificationService.ingredientExpired(user.getId(), "Expires in " + daysUntilExpires + " days");
+                                notificationService.ingredientExpired(user.getId(), "Expires in " + daysUntilExpires + " days", stockItem.getId());
                                 System.out.println("S-a trimit notificarea");
                             }
                         }
@@ -75,7 +75,7 @@ public class CheckExpirationDate {
                 }}
             }
         };
-        timer.scheduleAtFixedRate(task, 0, 24 * 60 * 60 * 1000);
+        timer.scheduleAtFixedRate(task, 7 * 60 * 1000, 24 * 60 * 60 * 1000);
     }
     public void stop() {
         timer.cancel();

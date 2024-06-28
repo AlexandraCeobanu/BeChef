@@ -35,10 +35,10 @@ public class NotificationService {
 
 
 
-    public void ingredientExpired(Long userId, String message )
+    public void ingredientExpired(Long userId, String message,Long itemId )
     {
         NotificationDTO notificationDTO = new NotificationDTO(userId, Long.valueOf(userId),
-                null,null, 13L,null, message ,false, "expires");
+                null,null, itemId,null, message ,false, "expires");
         createNotification(notificationDTO);
         simpMessagingTemplate.convertAndSend("/newNotification/" + userId, notificationDTO);
 
