@@ -1,7 +1,7 @@
 
 import { Card } from 'antd';
 import "../styles/collection.scss";
-import {faMinus}  from '@fortawesome/free-solid-svg-icons';
+import {faMinus,faChevronLeft}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { getCollections } from '../services/collection';
 import RecipesView from './RecipesView';
@@ -65,6 +65,10 @@ export default function SavedRecipes(props) {
         .catch((error) => {
             console.log(error)
         })
+    }
+    const handleUnSeeCollection = ()=>{
+        setSeeCollection(false);
+        
     }
     const handleSeeAllSavedRecipes = () =>{
         setSeeCollection(true);
@@ -137,16 +141,28 @@ export default function SavedRecipes(props) {
         )} 
     </div>}
     {seeCollection === true && collectionId!==null  && collectionRecipes !== null && collectionRecipes.length !== 0 ? 
-        (<RecipesView recipes={collectionRecipes} collectionId ={collectionId} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
+        (<>
+        <FontAwesomeIcon id="back" icon = {faChevronLeft} onClick={handleUnSeeCollection}></FontAwesomeIcon>
+    
+        <RecipesView recipes={collectionRecipes} collectionId ={collectionId} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
         handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={props.handleGoToShoppingList}
-        nrLikes ={props.nrLikes}></RecipesView>) :
-        (  seeCollection === true && collectionRecipes !== null && (
+        nrLikes ={props.nrLikes}></RecipesView></>) :
+
+        (  
+
+            seeCollection === true && collectionRecipes !== null && (
+                <>
+                <FontAwesomeIcon id="back" icon = {faChevronLeft} onClick={handleUnSeeCollection}></FontAwesomeIcon>
             <div className="no-recipes">
                 <h1>No recipes saved</h1>
-                </div> )
+                </div></>
+                 )
+                
         
         )
+        
     }
     </div>
+    
     )
 }

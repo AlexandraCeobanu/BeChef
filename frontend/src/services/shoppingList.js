@@ -86,7 +86,20 @@ export const checkItem = async(id,value) => {
     throw error.response.data;
 }
 }
-
+export const updateQuantity = async(id,value) => {
+    try{
+        const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        config.headers.Authorization = `Bearer ${token}`;
+        const response = await axios.patch(`${API_URL}/shoppingLists/items/${id}/quantity`,value,config);
+        if (response.status === 200)
+        {
+            return response.data;
+        }
+    }
+    catch(error){
+    throw error.response.data;
+}
+}
 export const addIngredientsToShoppingList = async(userId,recipeId) => {
     try{
         const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');

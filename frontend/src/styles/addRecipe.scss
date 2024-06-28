@@ -168,6 +168,54 @@
         }
     }
 }
+@media(max-width:1300px)
+{
+    .right {
+        .title {
+            font-size: medium;
+            hr {
+                width: 100%;
+                }
+                
+        }
+       
+        .time-types {
+            flex-direction: column;
+            width: 100%;
+            gap:1em;
+            button{
+            font-size: 10px;
+            }
+        flex-wrap: wrap;
+        .time-p {
+            width: 30%;
+            align-self: flex-start;
+        }
+        .types {
+            flex-wrap: wrap;
+           
+        }
+    
+    }
+        
+        .elements {
+            .ingredients{
+                
+                font-size: medium;
+                align-content: center;
+                .addIngredient {
+                    font-size: medium;
+                   
+                }
+            }
+            .steps {
+                
+                font-size: medium;
+            }
+        }
+        
+    }
+}
 
 @media(max-width:1024px)
 {

@@ -52,10 +52,12 @@
         object-fit: cover;
     }
     .without-image {
+        font-size: smaller;
         gap:0.5em;
         width:19em;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         word-wrap: break-word;
         cursor: pointer;

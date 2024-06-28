@@ -189,7 +189,7 @@ img {
    }
   }
  
-@media(max-width:500px){
+@media(max-width:600px){
     .card-list {
     .add-item {
         #quantity {
@@ -201,6 +201,7 @@ img {
     }
   
     .list-items {
+       
         flex-direction: column;
         justify-content: center;
         align-items: center;

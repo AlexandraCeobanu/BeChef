@@ -15,7 +15,7 @@ export default function UserProfile()
     const [uploadTrigger, setUploadTrigger] = useState(false);
     const [profilePhoto,setProfilePhoto] = useState("");
     const [blur, setBlur] = useState(false);
-   
+   const [recipeDeleted, setRecipeDeleted] = useState(false);
     const location = useLocation();
     const  data  = location.state;
 
@@ -56,10 +56,11 @@ export default function UserProfile()
         .then((user)=>{
             setUser(user);
             setChangedNrLikes(false);
+            setRecipeDeleted(false);
         }
         )
         .catch((error)=> {console.log(error)})
-    },[changedNrLikes]);
+    },[changedNrLikes, recipeDeleted]);
 
     const handleChangeLikes = ()=>{
        setChangedNrLikes(true);
@@ -69,7 +70,9 @@ export default function UserProfile()
         setBlur(value);
     }
    
-
+const handleRecipeDeleted = () => {
+    setRecipeDeleted(true);
+}
 
 
     return(
@@ -82,9 +85,13 @@ export default function UserProfile()
             <UserDescription  username={user.userUsername !==null ?'@'+user.userUsername : "anonim"}  profilePhoto = {profilePhoto ? profilePhoto : defaultProfilePhoto} nrLikes ={user!==null ? user.nrLikes :0} nrRecipes = {user !== null ? user.nrRecipes : 0} onImageChange={handleImageChange} ></UserDescription>
             </div>
             {data!==null && data.option !== null ? 
-             <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0} option = {data.option}></UserRecipes>
+             <UserRecipes    loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes} 
+              handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0} option = {data.option} recipeDeleted = {handleRecipeDeleted}>
+
+              </UserRecipes>
              :
-             <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur} nrLikes ={user!==null ? user.nrLikes :0}></UserRecipes>
+             <UserRecipes   loggedUserId={user.id} viewedUserId={user.id} handleChangeLikes={handleChangeLikes}  handleBlur={handleBlur}
+              nrLikes ={user!==null ? user.nrLikes :0}  recipeDeleted = {handleRecipeDeleted}></UserRecipes>
             }
           
             </div>

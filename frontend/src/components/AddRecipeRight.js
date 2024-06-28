@@ -126,7 +126,7 @@ export default function AddRecipeRight({onRecipeStepChange, nameRequired})
             <h3>Pas {index+1} </h3>
             <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemove(index)}></FontAwesomeIcon>
             </div>
-          <textarea placeholder="Step Description" value={step.description} maxlength="300"  className="step"
+          <textarea placeholder="Step Description" value={step.description} maxLength="300"  className="step"
           onChange={(e) => handleChange(index, e.target.value)}
           ></textarea>
         </div>

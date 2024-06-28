@@ -57,6 +57,16 @@ export default function Collection(props){
             newInvitations.push(response)
             setInvitations(newInvitations);
             const subscription = client.subscribe(`/changedStatus/${response.id}`, function(message){
+            if(message === "Declined") 
+                {
+                    const updatedInvitations = invitations.map(inv =>
+                        inv.id === response.id ? { ...inv, status: "Declined" } : inv
+                      );
+                      
+                    setInvitations(updatedInvitations);
+                    setCollaboratorEmail("");
+                }
+                else {
             const deleteInvitation = invitations.filter(inv => inv.id !== response.id );
             setInvitations(deleteInvitation);
             setCollaboratorEmail("");
@@ -67,7 +77,7 @@ export default function Collection(props){
             .catch((error)=>{
                 console.log(error);
                 navigate('/error')
-        })
+        })}
 
             })}
             // props.closeViewCollaborators();

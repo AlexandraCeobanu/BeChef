@@ -4,7 +4,7 @@ import { faEllipsisVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
 import "../styles/ItemList.scss";
 import ItemList from './ItemList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addShoppingList,getShoppingLists,deleteItem,checkItem } from '../services/shoppingList';
+import { addShoppingList,getShoppingLists,deleteItem,checkItem,updateQuantity } from '../services/shoppingList';
 import { DeleteOutlined, EllipsisOutlined, EditOutlined, PlusOutlined,UserAddOutlined,ShareAltOutlined } from '@ant-design/icons';
 import CollaboratorsView from "./CollaboratorsView";
 import { deleteList } from '../services/shoppingList';
@@ -126,11 +126,25 @@ const handleRemoveItem=((id)=> {
     })
     .catch((error)=> {console.log(error)});
 })
+
+const handleUpdateQuantity=((id, value)=> {
+
+  let newItems = { ...contentList}
+  updateQuantity(id,value)
+  .then((response)=> {
+    if(client!==null && client !==undefined && client.connected){
+            client.send(`/user/${response.id}/updateList`,[]);
+          }
+    newItems[response.id] = renderListItems(response.items);
+    setContentList(newItems)
+  })
+  .catch((error)=> {console.log(error)});
+})
 const renderListItems = (items) => {
     return (
       <div className='list-items'>
         {items.map((item, index) => (
-          <ItemList key={index} item={item} handleRemoveItem={handleRemoveItem} handleCheckedItem={handleCheckedItem}></ItemList>
+          <ItemList key={index} item={item} handleRemoveItem={handleRemoveItem} handleCheckedItem={handleCheckedItem} updateQuantity={handleUpdateQuantity}></ItemList>
         ))}
       </div>
     );
@@ -238,6 +252,7 @@ const handleDeleteList=(id)=>{
       const tabs = tabList.filter(item => item.key !== id);
       setTabList(tabs);
       setLists(newLists);
+      setActiveTabKey(tabs[0]?.key);
   })
   .catch((error)=>{
     console.log(error)

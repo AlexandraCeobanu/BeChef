@@ -9,7 +9,7 @@ export default function AddRecipeLeft({onDescriptionChange,onPostRecipe,onImageC
     const [recipePhoto,setRecipePhoto] = useState(null);
 
     const handleDescription = (event)=> {
-        setDescription(event.target.value);
+        setDescription(event);
         onDescriptionChange(description);
     }
     const handlePostRecipe = () => {

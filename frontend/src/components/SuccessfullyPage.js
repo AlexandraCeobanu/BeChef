@@ -11,6 +11,9 @@ export default function SuccessfullyPage()
     const  data  = location.state;
     const navigate = useNavigate();
     const handleClick = () => {
+        if(data.page == "Login")
+            navigate("/Login")
+        else
         navigate("/Home");
     }
     return(

@@ -17,8 +17,38 @@
         flex-direction: row;
         gap: 11em;
     }
+    #back {
+        cursor: pointer;
+        font-size: larger;
+    }
    
 }
+
+@media(max-width:300px)
+{.user-profile {
+    
+    
+    .user-info {
+        
+        .user-info {
+            
+            }
+    .fixed-description {
+       
+        .userDescription {
+            h3 {
+                font-size: smaller;
+            }
+        font-size: smaller;
+            .statistics {
+                font-size: smaller;
+                gap:1em;
+                margin-left: 0;
+            }
+        }
+    }
+}  
+}}
 
 @media(max-width:1200px)
 {.user-profile {

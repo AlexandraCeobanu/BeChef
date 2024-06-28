@@ -62,7 +62,7 @@ export default function AddRecipe()
             setNameRequired(true);
         if(recipePhoto === null)
             setPhotoRequired(true);
-        else if(recipe.name ==="" && recipePhoto!==null) {
+        else if(recipe.name !=="" && recipePhoto!==null) {
         addRecipe(recipe)
         .then((recipe) =>{
             // console.log("Reteta adaugata cu succes",JSON.stringify(recipe));

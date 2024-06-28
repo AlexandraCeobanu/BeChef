@@ -85,6 +85,7 @@ export default function UserRecipes(props)
         .then(
             (recipes) => {
                     setRecipes(recipes.reverse());
+                    props.recipeDeleted();
             }
         )
         .catch((error) =>

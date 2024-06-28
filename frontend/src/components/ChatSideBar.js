@@ -9,7 +9,7 @@ import Message from "./Message";
 export default function ChatSideBar(props) {
     const [messages, setMessages] = useState([]);
     const [messageAdded,setMessageAdded] = useState(false);
-    const client = useStompClient();
+    const {client} = useStompClient();
     const messageContainerRef = useRef(null);
     const navigate = useNavigate();
     useEffect(()=> {

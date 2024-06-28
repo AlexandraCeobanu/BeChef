@@ -101,7 +101,7 @@ export default function Notification(props){
         .then((response)=>{
             if(client !==undefined && client !==null && client.connected){
                 const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
-                client.send(`/user/${invitation.id}/status`,[],"Declined");
+                client.send(`/user/${invitation.id}/changedStatus`,[],"Declined");
                 }
           ;
             setSeeInvitation(false);
@@ -112,6 +112,7 @@ export default function Notification(props){
         })
     }
     return(
+
         <div>
 
             {
@@ -119,6 +120,9 @@ export default function Notification(props){
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
+                    {props.notification.type === "comment" && 
+                    
+                    <p>added a comment</p> }
                     <p>{props.notification.message}</p>
                     </div>
                     <MiniRecipe recipeId={props.notification.recipeId} handleViewRecipe={handleViewRecipe} index={props.index}></MiniRecipe>
