@@ -1,19 +1,25 @@
 @import "./variables.scss";
 .collection {
-   
-   background-color: $background-color;
-   position: absolute;
+   position: fixed;
    left: 40%;
    z-index: 3;
    top:10%;
    left:32%;
+}
+.collaborators {
+   margin-bottom: 1em;
+}
+.collection, .collaborators {
+   
+   background-color: $background-color;
    .ant-card {
       background-color: $background-color;
       margin-bottom: 0.2em;
    }
-  #add-col {
+  #add-col,#close {
    cursor: pointer;
   }
+
 
    .new-collection {
       input {
@@ -59,4 +65,11 @@
             cursor: pointer;
          }
         }
+       
+}
+@media(max-width:500px) {
+   .collections {
+      justify-content: center;
+   }
+   
 }

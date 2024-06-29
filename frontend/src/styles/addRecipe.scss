@@ -117,33 +117,23 @@
         .ingredients {
             display: flex;
             flex-direction: column;
-            ul {
-               
-                li {
-                    margin-bottom: 1em;
-                    display: flex;
-                    gap:1em;
-                    input {
-                        width:10em;
-                        height: 2em;
-                        padding-left: 1em;
-                        border : 1px solid $primary-color;
-                        border-radius: 3em;
-                        background-color: $background-color;
-                    }
-                    #quantity {
-                        width:5em;
-                        
-                    }
-                    input:focus {
-                        outline:none;
-                    }
-                }
-            }
             .remove-ingredient {
                 display: flex;
                 flex-direction: row;
                 gap:1em;
+                #quantity {
+                      
+                    width: 20%;
+                    margin-bottom: 2em;
+                    background-color: $background-color;
+                    height: 2em;
+                
+            }
+            .newList {
+                width: 25%;
+                margin-bottom: 2em;
+                background-color: $background-color;
+              }
             }
         }
     }
@@ -176,5 +166,106 @@
             flex-direction: row;
             justify-content: space-between;
         }
+    }
+}
+@media(max-width:1300px)
+{
+    .right {
+        .title {
+            font-size: medium;
+            hr {
+                width: 100%;
+                }
+                
+        }
+       
+        .time-types {
+            flex-direction: column;
+            width: 100%;
+            gap:1em;
+            button{
+            font-size: 10px;
+            }
+        flex-wrap: wrap;
+        .time-p {
+            width: 30%;
+            align-self: flex-start;
+        }
+        .types {
+            flex-wrap: wrap;
+           
+        }
+    
+    }
+        
+        .elements {
+            .ingredients{
+                
+                font-size: medium;
+                align-content: center;
+                .addIngredient {
+                    font-size: medium;
+                   
+                }
+            }
+            .steps {
+                
+                font-size: medium;
+            }
+        }
+        
+    }
+}
+
+@media(max-width:1024px)
+{
+    .right {
+        .title {
+            font-size: smaller;
+            hr {
+                width: 100%;
+                }
+                
+        }
+       
+        .time-types {
+            flex-direction: column;
+            width: 100%;
+            gap:1em;
+            button{
+            font-size: 10px;
+            }
+        flex-wrap: wrap;
+        .time-p {
+            width: 30%;
+            align-self: flex-start;
+        }
+        .types {
+            flex-wrap: wrap;
+           
+        }
+    
+    }
+        
+        .elements {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .ingredients{
+                width: 100%;
+                font-size: smaller;
+                align-content: center;
+                .addIngredient {
+                    font-size: smaller;
+                  
+                    
+                }
+            }
+            .steps {
+                width: 100%;
+                font-size: smaller;
+            }
+        }
+        
     }
 }

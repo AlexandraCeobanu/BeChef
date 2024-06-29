@@ -11,10 +11,12 @@ export default function StockItemList(props){
 
     const [items, setItems] = useState([]);
     const [expiration, setExpiration] = useState(null);
+    const [quantity, setQuantity] = useState(null);
     const [item,setItem] = useState(null);
     const [seeShoppingLists, setSeeShoppingLists] = useState(false);
     const [lists, setLists] = useState([])
     const [itemToAdd, setItemToAdd] = useState(null);
+    const [itemQuantity,setItemQuantity] = useState(null);
 
     useEffect(() => {
         const newItems = [...props.items]
@@ -84,6 +86,15 @@ export default function StockItemList(props){
         setSeeShoppingLists(false);
       }
 
+      const handleChangeQuantity = ((e,item) => {
+        setQuantity(e.target.value);
+        setItemQuantity(item)
+    })
+    const handleUpdateQuantity= (event) => {
+        if (event.key === 'Enter') {
+        props.updateQuantity(itemQuantity, quantity)
+      };}
+
     return(
         <>
         { items !== null && items.map((item,index) => (
@@ -92,11 +103,16 @@ export default function StockItemList(props){
              <p>Expiration Date</p>
                      <DatePicker className={daysUntilExpiration(item.expirationDate) === -1 ? "expiration-date expired" : 
                      (daysUntilExpiration(item.expirationDate) === 0 ?  "expiration-date close-expiration" : "expiration-date ok")} 
-                     disabled={item.expirationDate !== null ? true : false} showNow={false} defaultValue={dayjs(item.expirationDate)} onChange={(e,dateString) => handleChangeExpiration(e,dateString,item)} onKeyDown={(event) => handleUpdateExpiration(event)}/>
+                     disabled={item.expirationDate !== null ? true : false} showNow={false} defaultValue={dayjs(item.expirationDate)} 
+                     onChange={(e,dateString) => handleChangeExpiration(e,dateString,item)} onKeyDown={(event) => handleUpdateExpiration(event)}/>
             </div>
+            
             <div className='item'>
             <Input className='name-item'  value={item.item} disabled={true}  placeholder={item.item}/>
-            <Input className='quantity-item' value={item.quantity}  placeholder={item.quantity}/>
+
+            <Input className='quantity-item' value={(itemQuantity!==null && itemQuantity.id !== item.id) || itemQuantity===null ? item.quantity : quantity}  placeholder={(itemQuantity!==null && itemQuantity.id !== item.id) || itemQuantity===null ? item.quantity : quantity}
+            onChange={(e) => handleChangeQuantity(e,item)} onKeyDown={(event) => handleUpdateQuantity(event)} />
+
             <DeleteOutlined id="delete-item" onClick={(e) => {handleRemoveItem(item.id)}}></DeleteOutlined>
             <ShoppingCartOutlined id="buy-item"  onClick={(e) => {handleSeeShoppingLists(item)}}></ShoppingCartOutlined>
             </div>

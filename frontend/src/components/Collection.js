@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { Input } from 'antd';
 import { getCollections, saveCollection } from "../services/collection";
 import { saveRecipeInCollection } from "../services/collection";
+import {useNavigate } from "react-router-dom";
 export default function Collection(props){
     const [newCollection, setNewCollection] = useState(false);
     const [collectionName, setCollectionName] = useState("");
     const [collections, setCollections] = useState([]); 
+    const navigate = useNavigate();
     useEffect(() => {
         getCollections(props.userId)
         .then((response) => {
@@ -17,6 +19,7 @@ export default function Collection(props){
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
         })
     },[])
     const handleAddCollection = ()=> {
@@ -37,6 +40,7 @@ export default function Collection(props){
         })
         .catch((error) => {
             console.log(error);
+            navigate('/error')
         })
     }
     const handleSaveRecipeInCollection = (collection) => {
@@ -46,6 +50,7 @@ export default function Collection(props){
         })
         .catch((error) => {
             console.log(error);
+            navigate('/error')
         })
 
     }
@@ -66,9 +71,6 @@ export default function Collection(props){
     } 
     </Card>
   </Space>
-        // <div className="collection">
-        //     <h3>Your collection</h3>
-        //     <hr></hr>
-        // </div>
+       
     )
 }

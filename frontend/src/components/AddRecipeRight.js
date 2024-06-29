@@ -5,7 +5,9 @@ import { useState } from "react";
 import dayjs from 'dayjs';
 import "../styles/addRecipe.scss"
 import Filter from "./Filter";
-export default function AddRecipeRight({onRecipeStepChange})
+import {Input} from "antd";
+import MyAlert from "./Alert";
+export default function AddRecipeRight({onRecipeStepChange, nameRequired})
 {
     const [steps,setSteps] = useState([
         {recipeIndex: 1, description: "" },
@@ -77,7 +79,8 @@ export default function AddRecipeRight({onRecipeStepChange})
     return(
         <div className="right">
             <div className="title">
-            <input type="text" value={recipeName}  placeholder="Type Recipe Name"  onChange={handleRecipeName}></input>
+            <input type="text" value={recipeName}  placeholder="Type Recipe Name" maxlength="40"  onChange={handleRecipeName}></input>
+            {nameRequired === true && <MyAlert text="Name required"></MyAlert>}
             <hr></hr>
             </div>
             <div className="time-types">
@@ -87,10 +90,12 @@ export default function AddRecipeRight({onRecipeStepChange})
            
             </div>
             <div className="types">
-                <Filter text= {"Breakfast"} clicked={type === 1 ? true : false} filter={1} handleClickFilter={handleClickFilter}></Filter>
-                <Filter text= {"Lunch"} clicked={type === 2 ? true : false} filter={2} handleClickFilter={handleClickFilter}></Filter>
-                <Filter text= {"Dinner"} clicked={type === 3 ? true : false} filter={3} handleClickFilter={handleClickFilter}></Filter>
-                <Filter text= {"Dessert"} clicked={type === 4 ? true : false} filter={4} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Meat"} clicked={type === 1 ? true : false} filter={1} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Fish"} clicked={type === 2 ? true : false} filter={2} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Pasta"} clicked={type === 3 ? true : false} filter={3} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Salad"} clicked={type === 4 ? true : false} filter={4} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Dessert"} clicked={type === 5 ? true : false} filter={5} handleClickFilter={handleClickFilter}></Filter>
+                <Filter text= {"Other"} clicked={type === 6 ? true : false} filter={6} handleClickFilter={handleClickFilter}></Filter>
             </div>
             </div>
             <div className="elements">
@@ -101,14 +106,11 @@ export default function AddRecipeRight({onRecipeStepChange})
                </div>
                {ingredients.map((ingredient,index) => (
                 <div key={index}>
-                    <ul>
-                    <div className="remove-ingredient">
-                    <li><input type="text" placeholder={"ingredient "+ (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></input>
-                    <input type="text" placeholder="quantity" id="quantity" value={ingredient.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)}></input>
-                    </li>
+                    <div className='remove-ingredient'>
+                    <Input className='newList'  placeholder={"ingredient " + (index+1)} value={ingredient.name} onChange={(e) => handleChangeIngredient(index, e.target.value)}></Input>
+                    <Input id="quantity"  placeholder={"quantity"} value={ingredient.quantity} onChange={(e) => handleChangeQuantity(index, e.target.value)} ></Input>
                     <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemoveIngredient(index)}></FontAwesomeIcon>
                     </div>
-                    </ul>
                 </div>
                )
                )}
@@ -124,7 +126,7 @@ export default function AddRecipeRight({onRecipeStepChange})
             <h3>Pas {index+1} </h3>
             <FontAwesomeIcon icon={faMinus} className="icons" onClick={() => handleRemove(index)}></FontAwesomeIcon>
             </div>
-          <textarea placeholder="Step Description" value={step.description} className="step"
+          <textarea placeholder="Step Description" value={step.description} maxLength="300"  className="step"
           onChange={(e) => handleChange(index, e.target.value)}
           ></textarea>
         </div>
@@ -133,4 +135,5 @@ export default function AddRecipeRight({onRecipeStepChange})
             </div>
         </div>
     )
+    
 }

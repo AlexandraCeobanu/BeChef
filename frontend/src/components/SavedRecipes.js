@@ -1,7 +1,7 @@
 
 import { Card } from 'antd';
 import "../styles/collection.scss";
-import {faMinus}  from '@fortawesome/free-solid-svg-icons';
+import {faMinus,faChevronLeft}  from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { getCollections } from '../services/collection';
 import RecipesView from './RecipesView';
@@ -15,6 +15,8 @@ export default function SavedRecipes(props) {
     const [seeCollection, setSeeCollection] = useState(false)
     const [collectionRecipes , setCollectionRecipes] = useState(null);
     const [collectionsImages,setCollectionsImages] = useState([]);
+    const [allImage, setAllImage] = useState("");
+    const [collectionId, setCollectionId] = useState(null);
     useEffect(() => {
         getCollections(props.userId)
         .then((response) => {
@@ -26,8 +28,20 @@ export default function SavedRecipes(props) {
         })
     },[])
 
-    useEffect(() => {
+    useEffect(()=> {
+        const length = props.savedRecipes.length;
+        if(length !==0 )
+        getRecipeImage(props.savedRecipes[length-1].id)
+        .then((response)=> {
+            if (response !== undefined && response !==""){
+                const url = URL.createObjectURL(response)
+                setAllImage(url);
+            }
+        })
+        .catch((error)=> {console.log(error)})
+    },[props.savedRecipes])
 
+    useEffect(() => {
         const fetchCollectionsImages = async () => {
             try {
                 if(collections !== undefined) {
@@ -43,6 +57,7 @@ export default function SavedRecipes(props) {
     },[collections])
     const handleSeeCollection = (id)=>{
         setSeeCollection(true);
+        setCollectionId(id);
         getRecipesByCollection(id)
         .then((response) => {
             setCollectionRecipes(response);
@@ -50,10 +65,14 @@ export default function SavedRecipes(props) {
         .catch((error) => {
             console.log(error)
         })
-
+    }
+    const handleUnSeeCollection = ()=>{
+        setSeeCollection(false);
+        
     }
     const handleSeeAllSavedRecipes = () =>{
         setSeeCollection(true);
+        setCollectionId(-1);
         setCollectionRecipes(props.savedRecipes);
     }
     const handleRemoveCollection = (id) => {
@@ -66,14 +85,32 @@ export default function SavedRecipes(props) {
             console.log(error);
         })
     }
+
+    const handleRemoveSavedRecipe = (id)=>{
+
+        getRecipesByCollection(id)
+        .then((response) => {
+            if(response.length === 0)
+            props.handleBlur(false);
+            setCollectionRecipes(response);
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
+   
     return(
         <div>
-        {seeCollection === false && <div className='collections'>
+        {props.savedRecipes.length ===0 && collections!== undefined && collections.length === 0 &&  <div className="no-recipes">
+                <h1>No recipes saved</h1>
+                </div>}
+        { seeCollection === false && <div className='collections'>
+            {props.savedRecipes.length!==0 &&
         <Card  hoverable="true"
         cover={
            <img
-               alt="example"
-               src="../../images/recipie1.jpg"
+               alt="all"
+               src={allImage}
                onClick = {handleSeeAllSavedRecipes}
            />
             }
@@ -82,7 +119,7 @@ export default function SavedRecipes(props) {
             <Meta
             title="All"
             />
-            </Card>
+            </Card>}
         {collections!== undefined && collections.length !== 0 && collections.map((collection, index) => (
            <Card key={index}  hoverable="true"
            cover={
@@ -93,7 +130,6 @@ export default function SavedRecipes(props) {
            />
             }
             style={{width:200}}
-           
             >
             <Meta
             title={<div className='title-card'>
@@ -104,17 +140,29 @@ export default function SavedRecipes(props) {
             </Card>)
         )} 
     </div>}
-    {seeCollection === true && collectionRecipes !== null && collectionRecipes.length !== 0 ? 
-        (<RecipesView recipes={collectionRecipes} handleRemoveSavedRecipe={props.handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
+    {seeCollection === true && collectionId!==null  && collectionRecipes !== null && collectionRecipes.length !== 0 ? 
+        (<>
+        <FontAwesomeIcon id="back" icon = {faChevronLeft} onClick={handleUnSeeCollection}></FontAwesomeIcon>
+    
+        <RecipesView recipes={collectionRecipes} collectionId ={collectionId} handleRemoveSavedRecipe={handleRemoveSavedRecipe} loggedUserId={props.userId} viewedUserId={props.viewedUserId}
         handleChangeLikes={props.handleChangeLikes} handleBlur={props.handleBlur} handleGoToShoppingList={props.handleGoToShoppingList}
-        nrLikes ={props.nrLikes}></RecipesView>) :
-        (  seeCollection === true && collectionRecipes !== null && (
+        nrLikes ={props.nrLikes}></RecipesView></>) :
+
+        (  
+
+            seeCollection === true && collectionRecipes !== null && (
+                <>
+                <FontAwesomeIcon id="back" icon = {faChevronLeft} onClick={handleUnSeeCollection}></FontAwesomeIcon>
             <div className="no-recipes">
                 <h1>No recipes saved</h1>
-                </div> )
+                </div></>
+                 )
+                
         
         )
+        
     }
     </div>
+    
     )
 }

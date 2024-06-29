@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { postThread } from "../services/chat";
+import {useNavigate } from "react-router-dom";
 export default function AddTopic(props)
 {
     const [topic,setTopic] = useState("");
+    const navigate=useNavigate();
     const handleValueChange = (event) => {
         setTopic(event.target.value);
     }
@@ -23,6 +25,7 @@ export default function AddTopic(props)
           .catch((error)=> {
             setTopic("");
             console.log(error);
+            navigate('/error');
           })
         }
     };

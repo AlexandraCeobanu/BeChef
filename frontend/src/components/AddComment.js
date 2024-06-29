@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { postComment } from "../services/comments";
 import { useStompClient } from "./WebSocketProvider";
+import {useNavigate } from "react-router-dom";
 export default function AddComment(props)
 {
     const [comment,setComment] = useState("");
-    const client = useStompClient();
+    const {client} = useStompClient();
+    const navigate = useNavigate();
     const handleValueChange = (event) => {
         setComment(event.target.value);
     }
@@ -21,13 +23,14 @@ export default function AddComment(props)
             () => {
                 setComment("");
                 props.handleCommentAdded();
-                if(client!==null && client !==undefined){
+                if(client !==undefined && client !==null && client.connected) {
                     client.send(`/user/${comm.receiverId}/comment`,[],JSON.stringify(comm));}
             }
           )
           .catch((error)=> {
             setComment("");
             console.log(error);
+            navigate('/error');
           })
         }
     };

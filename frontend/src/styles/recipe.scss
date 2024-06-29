@@ -17,6 +17,7 @@
    display: flex;
    justify-content: space-between;
    align-items: center;
+   color : $primary-color;
    #trash {
     cursor: pointer;
     font-size: smaller;
@@ -53,4 +54,52 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+}
+@media(max-width:600px)
+{
+    .text {
+        font-size: 12px;
+    }
+    .recipie-photo {
+        width: 11em;
+        height: 11em;
+    }
+    .recipie-feedback {
+        width: 100%;
+        font-size: 12px;
+        
+        
+    }
+}
+@media(max-width:500px)
+{
+    .text {
+        font-size: 12px;
+    }
+    .recipie-photo {
+        width: 8em;
+        height: 8em;
+    }
+    .recipie-feedback {
+        width: 100%;
+        font-size: 12px;
+        
+        
+    }
+}
+@media(max-width:400px)
+{
+    .text {
+        font-size: 8px;
+    }
+    .recipie-photo {
+        width: 7em;
+        height: 7em;
+    }
+    .recipie-feedback {
+        width: 100%;
+        font-size: 8px;
+        
+        
+    }
 }

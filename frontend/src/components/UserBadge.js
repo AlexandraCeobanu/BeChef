@@ -35,7 +35,7 @@ export default function UserBadge(props)
         }
         else {
         const data= {userId : props.userId};
-        navigate("/userProfileView",{state: data})
+        navigate(`/userProfileView/${username}`,{state: data})
     }
     }
     return (

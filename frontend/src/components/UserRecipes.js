@@ -12,11 +12,12 @@ import StockList from "./StockList";
 import SavedRecipes from "./SavedRecipes";
 import ShoppingListPage from "./ShoppingListPage";
 import StockListPage from "./StockListPage";
+import { useLocation } from "react-router-dom";
 export default function UserRecipes(props)
 {
     const [recipes,setRecipes] = useState([]);
     const [savedRecipes, setSavedRecipes] = useState([])
-    const [option,setOption] = useState(1);
+    const [option,setOption] = useState(props.option!==undefined ? props.option : 1);
     const [checkedItem,setCheckedItem] = useState(false);
     const [addedItem,setAddedItem] = useState(false);
     const navigate = useNavigate();
@@ -84,6 +85,7 @@ export default function UserRecipes(props)
         .then(
             (recipes) => {
                     setRecipes(recipes.reverse());
+                    props.recipeDeleted();
             }
         )
         .catch((error) =>
@@ -93,6 +95,7 @@ export default function UserRecipes(props)
     }
     return(
         <div className="recipes-view">
+            
         <div className="title">
         <ProfileOptions handleOption= {handleOption} option={option}></ProfileOptions>
         <hr></hr>

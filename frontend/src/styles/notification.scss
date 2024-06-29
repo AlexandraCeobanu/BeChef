@@ -11,6 +11,14 @@
     overflow: auto;
     z-index:4;
     background-color: $background-color;
+    #no-notification {
+        width: 100%;
+        margin: 5%;
+        margin-left: 15%;
+        text-align: start;
+    h3 {
+        margin: none;
+    }}
 }
 .notifications-box::-webkit-scrollbar {
     display: none;
@@ -44,10 +52,12 @@
         object-fit: cover;
     }
     .without-image {
+        font-size: smaller;
         gap:0.5em;
         width:19em;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         word-wrap: break-word;
         cursor: pointer;
@@ -93,3 +103,47 @@
         border: 1px solid $primary-color;
     }
 }
+.warning {
+    color:$primary-color;
+}
+@media(max-width:500px)
+{
+    .notifications-box {
+        margin-top: 0.5em;
+        margin-left: -8em;
+        font-size: small;
+    }
+}
+@media(max-width:500px)
+{
+    .notifications-box {
+        margin-top: 0.5em;
+        margin-left: -8em;
+        font-size: small;
+    }
+}
+
+@media(max-width:300px)
+{
+    .notifications-box {
+        
+       
+        position: none;
+        margin-left: -10em;
+        
+        
+    }
+}
+@media(max-width:100px)
+{
+    .notifications-box {
+        
+       
+        position: none;
+        margin-left: -14em;
+        width:15em;
+        
+        
+    }
+}
+

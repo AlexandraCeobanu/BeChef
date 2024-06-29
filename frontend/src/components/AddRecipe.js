@@ -11,6 +11,8 @@ export default function AddRecipe()
 {
     const [user,setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [recipePhoto,setRecipePhoto] = useState(null);
+    const [nameRequired, setNameRequired] = useState(false);
+    const [photoRequired, setPhotoRequired] = useState(false);
     let [ingredients,setIngredients] = useState([]);
     const [recipe,setRecipe] = useState({
         userId: user.id,
@@ -29,15 +31,21 @@ export default function AddRecipe()
     const handleRecipeStepChange = (name, steps,ingredients,typeId,timeArg) => {
         let  type ;
         if(typeId === 1)
-            type= "Breakfast";
+            type= "Meat";
         if(typeId === 2) 
-            type = "Lunch";
+            type = "Fish";
         if(typeId === 3) 
-            type = "Dinner";
+            type = "Pasta";
         if(typeId === 4)
-            type = "Dessert";
+            type = "Salad";
+        if(typeId === 5)
+            type = "Dessert"
+        if(typeId === 6)
+            type = "Other"
     
        const time = timeArg.format('HH:mm:ss');
+       if(name!=="")
+        setNameRequired(false);
        setRecipe({...recipe,name, type,time})
        setSteps(steps);
        setIngredients(ingredients);
@@ -46,9 +54,15 @@ export default function AddRecipe()
 
       const handleImageChange = (formData) => {
             setRecipePhoto(formData);
+            setPhotoRequired(false);
       }
 
       const handlePostRecipe = () => {
+        if(recipe.name === "" )
+            setNameRequired(true);
+        if(recipePhoto === null)
+            setPhotoRequired(true);
+        else if(recipe.name !=="" && recipePhoto!==null) {
         addRecipe(recipe)
         .then((recipe) =>{
             // console.log("Reteta adaugata cu succes",JSON.stringify(recipe));
@@ -59,13 +73,15 @@ export default function AddRecipe()
             .catch((error) => 
             {
                 console.log(error);
+                navigate('/error')
             })
             addIngredients(recipe.id,ingredients)
             .then(()=> {
-
+                
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
             })
             uploadRecipeImage(recipePhoto,recipe.id)
             .then(() => 
@@ -89,11 +105,13 @@ export default function AddRecipe()
                     )
                     .catch((error) => {
                         console.log(error);
+                        navigate('/error')
                     }
                     )
                 })
             .catch((error) => {
                     console.log(error);
+                    navigate('/error')
                 })
             
         }
@@ -101,8 +119,10 @@ export default function AddRecipe()
         .catch((error) =>
         {
             console.log(error);
+            navigate('/error')
         })
-      };
+      }; 
+    }
 
 
     return(
@@ -110,9 +130,10 @@ export default function AddRecipe()
             <Header></Header>
             <div className="without-header">
             <div className="fixed-side">
-            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} image={recipePhoto}></AddRecipeLeft>
+            <AddRecipeLeft onDescriptionChange={handleDescriptionChange} onPostRecipe={handlePostRecipe} onImageChange={handleImageChange} 
+            image={recipePhoto} photoRequired={photoRequired}></AddRecipeLeft>
             </div>
-            <AddRecipeRight onRecipeStepChange={handleRecipeStepChange}></AddRecipeRight>
+            <AddRecipeRight onRecipeStepChange={handleRecipeStepChange} nameRequired = {nameRequired}></AddRecipeRight>
             </div>
         </div>
     )

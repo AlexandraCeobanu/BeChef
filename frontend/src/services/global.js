@@ -3,7 +3,6 @@ export const config = {
     headers: {
       'Content-Type': 'application/json', 
     }
-
   };
   export const config2 = {
     headers: {
@@ -11,4 +10,7 @@ export const config = {
     },
     responseType: "arraybuffer"
   }
+  export const configWS = {
+   headers: {}
+  };
 export const API_URL = "http://localhost:8081/api/v1";

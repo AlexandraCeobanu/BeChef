@@ -1,32 +1,47 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client/dist/sockjs';
+
 const WebSocketContext = createContext();
 
 export const WebSocketProvider = ({ children }) => {
+ 
   const [webSocket, setWebSocket] = useState(null);
   const [client, setClient] = useState(null);
 let stompClient;
-  useEffect(() => {
-    const socket = new SockJS('http://localhost:8081/ws');
+useEffect(() => {
+  
+  if (localStorage.getItem('isAuthenticated') === "true") {
+      initializeConnection();
+  }
+}, []);
+
+  const initializeConnection =() => {
+        // const token = localStorage.getItem('token').replace(/^"(.*)"$/, '$1');
+        //  const config = {
+        //   headers: {
+        //     'Authorization': `Bearer ${token}`, 
+        //   }
+        // };
+        const socket = new SockJS(`http://localhost:8081/ws`);
+        console.log(socket)
         if(socket!==null){
         setWebSocket(socket);
         stompClient = over(socket);
-        stompClient.connect({}, function(frame) {
+        stompClient.connect([], function(frame) {
             console.log('Conectat la server WebSocket');
             setClient(stompClient);
         }) 
-        return () => {
-            if (stompClient !== null && stompClient.connected) {
-                stompClient.disconnect();
-                console.log('Deconectat de la server WebSocket');
-            }
-        };
-    }
-  }, []);
+        // return () => {
+        //     if (stompClient !==undefined && stompClient !== null && stompClient.connected) {
+        //         stompClient.disconnect();
+        //         console.log('Deconectat de la server WebSocket');
+        //     }
+        // };
+    }}
 
   return (
-    <WebSocketContext.Provider value={client}>
+    <WebSocketContext.Provider value={{client,initializeConnection}}>
       {children}
     </WebSocketContext.Provider>
   );

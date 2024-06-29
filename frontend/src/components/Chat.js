@@ -4,9 +4,9 @@ import "../styles/chat.scss";
 import Header from "./Header";
 import { useEffect, useState } from "react";
 import ChatSidebar from "./ChatSideBar";
-import { getAllThreads,getSubscribedThreads } from "../services/chat";
+import { getAllThreads,getSubscribedThreads,getThreadsByTopic } from "../services/chat";
 import { useStompClient } from "./WebSocketProvider";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 export default function Chat()
 {
     const location = useLocation();
@@ -19,7 +19,8 @@ export default function Chat()
     const [messageAdded,setMessageAdded] = useState(false);
     const [subscribedThreads,setSubscribedThreads] = useState([]);
     const [subscribeThread,setSubscribeThread] = useState(false);
-    const client = useStompClient();
+    const navigate = useNavigate();
+    const {client} = useStompClient();
     const ShowThreadChat = (value) => {
         if(sidebar === false)
         {setSidebar(true);
@@ -60,6 +61,7 @@ export default function Chat()
         })
         .catch((error)=> {
             console.log(error);
+            navigate('/error')
         })
     },[subscribeThread])
 
@@ -68,7 +70,7 @@ export default function Chat()
     }
 
     useEffect (() => {
-        if(client)
+        if(client !==undefined && client !==null && client.connected)
          {
             const subscription = client.subscribe(`/newMessage`, function(message) {
                         handleMessageAdded();});
@@ -78,16 +80,29 @@ export default function Chat()
                         };
          }
         },[client])
+        const searchTopic = (search) => {
+            getThreadsByTopic(search) 
+            .then((response)=>{
+                setThreads(response.reverse());
+
+            }
+        )
+        .catch((error) => {
+            console.log(error)
+            navigate('/error')
+        })
+        }
     return(
         <div>
             <Header></Header>
         <div className={sidebar === true ? "display-sidebar chat" : "chat"}>
-            <SearchTopic handleAddTopic = {handleAddTopic}></SearchTopic>
+            <SearchTopic handleAddTopic = {handleAddTopic} searchTopic = {searchTopic}></SearchTopic>
             {
                 threads.map((thread,index)=> (
                     <ThreadChat key={index} thread = {thread} index={index} showThreadChat={ShowThreadChat} ></ThreadChat>
                 ))
             }
+            
         </div>
         {sidebar === true && <ChatSidebar showThreadChat={ShowThreadChat} thread={data!==null ? showThreadId : threads[showThreadId]}
         subscribedThreads={subscribedThreads} handleMessageAdded={handleMessageAdded} user={user} 

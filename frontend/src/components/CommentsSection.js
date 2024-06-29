@@ -3,10 +3,12 @@ import AddComment from "./AddComment"
 import "../styles/recipeview.scss"
 import { useEffect, useState } from "react"
 import { getRecipeComments } from "../services/comments"
+import {useNavigate } from "react-router-dom";
 export default function CommentsSection(props)
 {
     const [commentAdded, setCommentAdded] = useState(false);
     const [comments,setComments] = useState([]);
+    const navigate = useNavigate();
     const handleCommentAdded = ()=> {
         setCommentAdded(true);
         props.handleAddComment();
@@ -18,6 +20,7 @@ export default function CommentsSection(props)
         })
         .catch((error) => {
             console.log(error);
+            navigate('/error')
         })
         setCommentAdded(false);
     },[commentAdded])
@@ -34,5 +37,6 @@ export default function CommentsSection(props)
             </div>
             <AddComment  recipe={props.recipe} loggedUserId={props.loggedUserId} handleCommentAdded= {handleCommentAdded}></AddComment>
         </div>
+        
     )
 }

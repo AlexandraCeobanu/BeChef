@@ -1,7 +1,7 @@
 import Logo from "./Logo"
 import '../styles/header.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHome,faBell} from '@fortawesome/free-solid-svg-icons';
+import {faHome,faBell, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {faUser} from '@fortawesome/free-regular-svg-icons';
 import { faRocketchat } from "@fortawesome/free-brands-svg-icons"
 import { useNavigate } from "react-router-dom";
@@ -17,13 +17,17 @@ export default function Header(props){
     const [showNotification,setShowNotification] = useState(false);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
     const [receivedNot,setReceivedNot] = useState(null);
-    const client = useStompClient();
+    const {client} = useStompClient();
 
     const handleClickProfile = ()=> {
             navigate("/profile");
     }
     const handleLogout = () => {
-        localStorage.clear();
+        localStorage.clear()
+        if (client !==undefined && client !== null && client.connected) {
+            client.disconnect();
+            console.log('Deconectat de la server WebSocket');
+        }
         navigate("/login")
     }
     const handleHomeClick = () => {
@@ -33,8 +37,9 @@ export default function Header(props){
         navigate("/chat")
     }
 
+
     useEffect(()=> {
-        if(client) {
+        if(client !==undefined && client !==null && client.connected) {
             const subscription = client.subscribe(`/newNotification/${user.id}`, function(message) {
                 if(message !== null){
                 console.log("new message")
@@ -78,6 +83,7 @@ export default function Header(props){
         })
         .catch((error) => {
                 console.log(error);
+                navigate('/error')
         })
        
     }
@@ -90,6 +96,7 @@ export default function Header(props){
         })
         .catch((error) => {
             console.log(error)
+            navigate('/error')
         })
     },[])
    
@@ -101,20 +108,24 @@ export default function Header(props){
             <div className="nav-bar">
             <FontAwesomeIcon icon={faHome} className="icons" onClick={handleHomeClick} />
             <FontAwesomeIcon icon={faRocketchat} className="icons" onClick={handleChatClick} />
-            <div className="notifications">
+            { <div className="notifications">
             <FontAwesomeIcon icon={faBell} className="icons" onClick={handleShowNotifications}/>
              {nrNotifications!==0 && <div className="notification-number">{nrNotifications}</div>}
              {showNotification === true && <Notifications newNotifications={nrNotifications} receivedNot={receivedNot} handleShowNotifications={handleShowNotifications}></Notifications>}
-            </div>
+            </div>}
+            
             </div>
             <div className="logout">
                 <div>
                 <FontAwesomeIcon icon={faUser} id="user-icon" onClick={handleClickProfile} />
                 </div>
-                <div className='buttons clicked'onClick={handleLogout} >
+                <div className='buttons clicked'  >
                 <button type="button" onClick={handleLogout}>Logout</button>
                 </div>
+                <FontAwesomeIcon id="icon-logout" icon={faRightFromBracket} onClick={handleLogout}></FontAwesomeIcon>
             </div>
-        </div>
+           
+            </div>
+        
     )
 }

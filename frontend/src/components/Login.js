@@ -6,6 +6,7 @@ import Logo from './Logo';
 import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useStompClient } from './WebSocketProvider';
 export default function Login(){
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
@@ -13,7 +14,7 @@ export default function Login(){
     const [errorMessage,setErrorMessage] = useState("");
     const [seePassword,setSeePassword] = useState(false);
     const navigate = useNavigate();
-
+    const { initializeConnection } = useStompClient();
     const handleRegisterClick = (event) => {
         navigate("/register");
     }
@@ -43,6 +44,7 @@ export default function Login(){
                 setEmail("");
                 setPassword("");
                 setErrorMessage("");
+                initializeConnection();
                navigate("/home");
             }
         )
@@ -80,7 +82,6 @@ export default function Login(){
             <div>
             <form onSubmit={handleFormSubmit} className="form-class">
                 <input type="text" id="email" name="email" required onChange={emailChangeHandler} placeholder='Email'></input><br></br>
-                {/* {errorMessage === 'Incorrect email' ? <p className="error-message">{errorMessage}</p> : <br></br>} */}
                 <div className='password'>
                 {
                     seePassword === false ? 

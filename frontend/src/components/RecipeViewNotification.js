@@ -16,6 +16,7 @@ import { getStockList } from "../services/stockList";
 import SuccessfullyAddedIngredients from "./SuccessfullyAddedIngredients";
 import { getUserById } from "../services/user/getUserById";
 import { useLocation, useNavigate } from "react-router-dom";
+import Step from "./Step";
 export default function RecipeViewNotification(props){
    
     const [loggedUserId , setLoggedUserId] = useState(JSON.parse(localStorage.getItem("user")).id);
@@ -122,7 +123,13 @@ export default function RecipeViewNotification(props){
             })
     },[recipe])
     const handleCloseViewRecipe = ()=>{
-        navigate("/home");
+        navigate(-1);
+        // if (location.state && location.state.from) {
+        //     navigate(location.state.from);
+        //   } else {
+        //     navigate('/home');
+        //   }
+        
     }
     return(
         <div>
@@ -153,7 +160,8 @@ export default function RecipeViewNotification(props){
             </div>
             <CommentsSection  recipe={recipe} loggedUserId={loggedUserId} viewedUserId={viewedUserId} handleAddComment={handleAddComment}></CommentsSection>
             </div>
-            <StepsView steps={recipe.steps}></StepsView>
+            {/* <StepsView steps={recipe.steps}></StepsView> */}
+            <Step steps={recipe.steps}></Step>
             </div>
             {ingredientsAdded === true && <SuccessfullyAddedIngredients handleCloseSuccessfully = {handleCloseSuccessfully} handleGoToShoppingList={handleGoToShoppingList}></SuccessfullyAddedIngredients>}
         </div>}

@@ -5,15 +5,18 @@ import { useNavigate } from "react-router-dom";
 export default function Notifications(props) {
 
     const [notifications,setNotifications]= useState([])
+    const [response, setResponse] = useState(false);
     let navigate= useNavigate();
     useEffect (() => {
         getAllNotifications(JSON.parse(localStorage.getItem('user')).id)
         .then((notifications)=> 
     {
+        setResponse(true);
         setNotifications(notifications);
     })
     .catch((error)=> {
         console.log(error);
+        navigate('/error')
     })
     },[])
     useEffect (() => {
@@ -29,7 +32,8 @@ export default function Notifications(props) {
     }
     return(
         <div className="notifications-box">
-            {notifications.length > 0 && notifications.map((notification,index)=> 
+            {response===true && notifications.length === 0 && <div id="no-notification"><h3>No Notification received</h3></div>}
+            {response===true && notifications.length > 0 && notifications.map((notification,index)=> 
             (<Notification key={index} notification={notification} handleViewRecipe={handleViewRecipe} index={index}></Notification>)
         )}
         </div>

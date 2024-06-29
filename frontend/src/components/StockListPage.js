@@ -5,12 +5,7 @@ import { useState,useEffect } from 'react';
 import StockItemList from './StockItemList';
 import { getStockList, deleteItem,updateStockList ,updateItem} from "../services/stockList";
 import { updateShoppingList } from "../services/shoppingList";
-const myitem = {
-    item : "oua", 
-    quantity : "2buc",
-    expirationDate: "12.05.2002"
-
-}
+import { deleteAll } from '../services/stockList';
 
 export default function StockListPage(props){
 
@@ -55,6 +50,7 @@ export default function StockListPage(props){
         updateStockList(stockList.id,items)
         .then((response)=> {
             setStockList(response);
+            console.log(response)
             setItems([])
         })
         .catch((error)=>console.log(error))
@@ -91,12 +87,37 @@ export default function StockListPage(props){
         })
         .catch((error)=>console.log(error))
     }
+    const handleDeleteAll = ()=>{
+        deleteAll(stockList.id)
+        .then((response)=> {
+            setStockList(null);
+            setItems([])
+        })
+        .catch((error)=>{
+            console.log(error)
+            
+        })
+    }
+
+    const handleUpdateQuantity=((item, value)=> {
+
+        let updatedItem = {
+            item: item.item,
+            quantity:value,
+            expirationDate:  item.expirationDate
+        }
+        updateItem(item.id,updatedItem)
+        .then((response) =>{
+            setStockList(response);
+        })
+        .catch((error)=> {console.log(error)});
+      })
 
     return (
         <Card title="Stock List" className='card-list'
         style={{ width: '100%' }}
         actions={[
-        <DeleteOutlined key="delete" />,
+        <DeleteOutlined key="delete" onClick={handleDeleteAll} />,
         <PlusOutlined key="add-ingredient" onClick={handleAddItem}/>,
         <EditOutlined key="ellipsis" />,
       ]}
@@ -118,7 +139,8 @@ export default function StockListPage(props){
      <button type="button" className='buttons' onClick={handleSaveStockList}>Save</button>}
     </div>
          <div className='list-items'>
-        {stockList !== null && <StockItemList items={stockList.items} handleRemoveItem={handleRemoveItem} userId={props.userId}
+        {stockList !== null && <StockItemList items={stockList.items} handleRemoveItem={handleRemoveItem}
+         userId={props.userId} updateQuantity={handleUpdateQuantity}
         updateExpirationDate={updateExpirationDate} handleAddToShoppingList={handleAddtoShoppingList}></StockItemList>}
         </div> 
         </Card>

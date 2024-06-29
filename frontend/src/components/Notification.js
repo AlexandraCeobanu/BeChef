@@ -8,15 +8,17 @@ import { getThreadById } from "../services/chat";
 import { getStockItemById } from "../services/stockList";
 import {faExclamation} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { addCollaborator,getShoppingListById } from "../services/shoppingList";
+import { addCollaborator,getShoppingListById,declineCollaboration,getInvitations} from "../services/shoppingList";
+import { useStompClient } from "./WebSocketProvider";
 import{ Alert,Space } from "antd";
-import dayjs from "dayjs";
 export default function Notification(props){
     const [thread,setThread ] = useState(null);
     const [stockItem,setStockItem] = useState(null);
     const [list,setList] = useState(null);
     const [seeInvitation, setSeeInvitation] = useState(false);
+    const [invitations, setInvitations] = useState([]);
     const navigate = useNavigate();
+    const {client} = useStompClient();
     useEffect(() => {
         if(props.notification.type === "message")
         {
@@ -26,6 +28,7 @@ export default function Notification(props){
             })
             .catch((error)=> {
                 console.log(error);
+                navigate('/error')
             })
         }
         if(props.notification.type === "expires")
@@ -36,16 +39,29 @@ export default function Notification(props){
                 })
                 .catch((error)=> {
                     console.log(error);
+                    navigate('/error')
                 })
             }
             if(props.notification.type === "list")
                 {
                     getShoppingListById(props.notification.listId)
                     .then((response) => {
+
                         setList(response)
+                        getInvitations(props.notification.listId)
+                        .then((response) => {
+                            setInvitations(response);
+                        })
+                        .catch((error)=>{
+                            console.log(error);
+                            navigate('/error')
+                        })
                     })
                     .catch((error)=> {
                         console.log(error);
+                        navigate(
+                            '/error'
+                        )
                     })
                 }
     },[])
@@ -62,19 +78,41 @@ export default function Notification(props){
     }}
     const handleAcceptInvitation=()=>{
         setSeeInvitation(true);
-
     }
     const handleInvitationAccepted=()=> {
         addCollaborator(props.notification.listId,props.notification.receiverId)
         .then((response)=>{
-            console.log(response);
+
+            if(client !==undefined && client !==null && client.connected && invitations !== undefined){
+               
+                const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
+                client.send(`/user/${invitation.id}/changedStatus`,[],"Accepted");
+                }
             setSeeInvitation(false);
         })
         .catch((error)=>{
             console.log(error);
+            navigate('/error')
+        })
+    }
+
+    const handleInvitationDeclined=()=> {
+        declineCollaboration(props.notification.listId,props.notification.receiverId)
+        .then((response)=>{
+            if(client !==undefined && client !==null && client.connected){
+                const invitation = invitations.find(inv => inv.receiverId == props.notification.receiverId)
+                client.send(`/user/${invitation.id}/changedStatus`,[],"Declined");
+                }
+          ;
+            setSeeInvitation(false);
+        })
+        .catch((error)=>{
+            console.log(error);
+            navigate('/error')
         })
     }
     return(
+
         <div>
 
             {
@@ -82,6 +120,9 @@ export default function Notification(props){
                     <div className = {props.notification.read === false ? "notification read-notification"  : "notification"}>
                     <div className="without-image">
                     <UserBadge userId={props.notification.senderId}></UserBadge>
+                    {props.notification.type === "comment" && 
+                    
+                    <p>added a comment</p> }
                     <p>{props.notification.message}</p>
                     </div>
                     <MiniRecipe recipeId={props.notification.recipeId} handleViewRecipe={handleViewRecipe} index={props.index}></MiniRecipe>
@@ -136,7 +177,7 @@ export default function Notification(props){
                 )
             }
         {
-            seeInvitation === true && (
+            seeInvitation === true && props.notification.read === false && (
                 
                 <Space
     direction="vertical"
@@ -147,7 +188,7 @@ export default function Notification(props){
     <Alert
       message="Accept or Decline the invitation" className="invitation-alert"
       description={<div style={{display:"flex" , gap:"2em"}}><button className="button" onClick={handleInvitationAccepted}>Accept</button>
-      <button className="button" onClick={handleInvitationAccepted}>Decline</button>
+      <button className="button" onClick={handleInvitationDeclined}>Decline</button>
       </div>}
       type="info"
       showIcon = {false}/>
