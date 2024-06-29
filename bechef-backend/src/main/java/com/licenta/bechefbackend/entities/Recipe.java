@@ -23,15 +23,19 @@ public class Recipe {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<RecipeStep> steps;
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Ingredient> ingredients;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Like> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.REMOVE)
     private List<Notification> notifications = new ArrayList<>();
 
     @ManyToMany(mappedBy = "savedRecipes")

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
@@ -29,12 +31,16 @@ public class StockItem {
     String quantity;
 
     Long idItemShoppingList;
+    private Date expirationDate;
+    private String status;
 
-    public StockItem(StockList stockList, String item, String quantity)
+    public StockItem(StockList stockList, String item, String quantity, Date expirationDate)
     {
         this.stockList = stockList;
         this.item = item;
         this.quantity = quantity;
+        this.expirationDate = expirationDate;
+        this.status = "good";
     }
 
 }

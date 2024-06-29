@@ -1,6 +1,7 @@
 package com.licenta.bechefbackend.services;
 
 import com.licenta.bechefbackend.DTO.ItemDTO;
+import com.licenta.bechefbackend.DTO.StockItemDTO;
 import com.licenta.bechefbackend.entities.*;
 import com.licenta.bechefbackend.repository.ItemRepository;
 import com.licenta.bechefbackend.repository.StockItemRepository;
@@ -34,12 +35,13 @@ public class StockListService {
         return stockList;
     }
 
-    public StockList addItems(Long id, List<ItemDTO> itemsDTO) {
+    public StockList addItems(Long id, List<StockItemDTO> itemsDTO) {
         StockList stockList = stockListRepository.findById(id).orElse(null);
         List<StockItem> items = new ArrayList<>();
-        for(ItemDTO itemDTO: itemsDTO)
+        for(StockItemDTO itemDTO: itemsDTO)
         {
-            StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
+            System.out.println(itemDTO.getExpirationDate());
+            StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity(),itemDTO.getExpirationDate());
             stockItemRepository.save(item);
             items.add(item);
         }
@@ -59,7 +61,7 @@ public class StockListService {
 
     public StockList addItemFromShoppingList(Long userId, ItemDTO itemDTO,Long idItemShoppingList) {
         StockList stockList = stockListRepository.findByUserId(userId).orElse(null);
-        StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity());
+        StockItem item = new StockItem(stockList, itemDTO.getItem(),itemDTO.getQuantity(),null);
         item.setIdItemShoppingList(idItemShoppingList);
         stockItemRepository.save(item);
         stockList.getItems().add(item);
@@ -79,5 +81,25 @@ public class StockListService {
 
         List<String> itemsNames = stockItemRepository.findItemsNames(id);
         return itemsNames;
+    }
+
+    public StockItem getItem(Long id) {
+        return stockItemRepository.findById(id).orElse(null);
+    }
+    public List<StockItem> getAllStockItmes()
+    {
+        return (List<StockItem>) stockItemRepository.findAll();
+    }
+    public List<StockItem> getItemsByListId(Long id)
+    {
+        return (List<StockItem>) stockItemRepository.findAllByListId(id);
+    }
+
+    public StockList updateItem(Long id, StockItemDTO stockItemDTO) {
+
+        StockItem stockItem = stockItemRepository.findById(id).orElse(null);
+        stockItem.setExpirationDate(stockItemDTO.getExpirationDate());
+        stockItemRepository.save(stockItem);
+        return stockListRepository.findById(stockItem.getStockList().getId()).orElse(null);
     }
 }

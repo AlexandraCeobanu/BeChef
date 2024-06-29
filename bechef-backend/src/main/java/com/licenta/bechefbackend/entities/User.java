@@ -1,6 +1,5 @@
 package com.licenta.bechefbackend.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -57,8 +56,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "receiverUser")
     private List<Notification> userNotifications = new ArrayList<>();
 
-    @OneToOne(mappedBy = "user")
-    private ShoppingList shoppingList;
+    @OneToMany(mappedBy = "user")
+    private List<ShoppingList> shoppingList;
 
     @OneToOne(mappedBy = "user")
     private StockList stockList;
@@ -70,6 +69,14 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "chatThread_id")
     )
     private List<ChatThread> subscribedThreads = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "collaborator_id",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shoppingList_id")
+    )
+    private List<ShoppingList> shoppingListsColab = new ArrayList<>();
 
     public User(String username,String email, String password, Role role)
     {

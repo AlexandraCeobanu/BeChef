@@ -3,17 +3,14 @@ package com.licenta.bechefbackend.services;
 import com.licenta.bechefbackend.DTO.IngredientDTO;
 import com.licenta.bechefbackend.DTO.RecipeDTO;
 import com.licenta.bechefbackend.DTO.RecipeResponseDTO;
-import com.licenta.bechefbackend.entities.Ingredient;
-import com.licenta.bechefbackend.entities.Recipe;
-import com.licenta.bechefbackend.entities.StockList;
-import com.licenta.bechefbackend.entities.User;
+import com.licenta.bechefbackend.entities.*;
+import com.licenta.bechefbackend.repository.CollectionRepository;
 import com.licenta.bechefbackend.repository.IngredientRepository;
 import com.licenta.bechefbackend.repository.RecipeRepository;
-import com.licenta.bechefbackend.repository.StockListRepository;
 import com.licenta.bechefbackend.repository.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -25,11 +22,15 @@ public class RecipeService {
     RecipeRepository recipeRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Autowired
     IngredientRepository ingredientRepository;
     @Autowired
     StockListService stockListService;
+    @Autowired
+    CollectionRepository collectionRepository;
 
     public List<RecipeResponseDTO> getAllRecipes() {
         List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
@@ -140,8 +141,9 @@ public class RecipeService {
             if (recipe !=null ){
                 for (IngredientDTO ingredient : ingredientsDTO) {
                     Ingredient recipeIngredient = new Ingredient();
-                    if(!ingredient.getName().equals("") && !ingredient.getQuantity().equals(""))
+                    if(!ingredient.getName().equals("") && ingredient.getQuantity() == null && !ingredient.getQuantity().equals(""))
                     {recipeIngredient.setName(ingredient.getName());
+
                     recipeIngredient.setQuantity(ingredient.getQuantity());
                     recipeIngredient.setRecipe(recipe);
                     ingredients.add(recipeIngredient);}
@@ -212,8 +214,29 @@ public class RecipeService {
     public void deleteSaveRecipe(Long recipeId, Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        List<RecipeCollection> collections = collectionRepository.findAllByUserId(userId);
         if (user != null && recipe!=null)
         {
+            for (RecipeCollection collection : collections)
+            {
+                if(collection.getRecipes().contains(recipe))
+                {
+                    if(collection.getRecipeIdImage() == recipeId)
+                    {
+                        List<Recipe> recipes = collection.getRecipes();
+                        if(recipes.size() == 1)
+                        {
+                            collection.setRecipeIdImage(null);
+                        }
+                        else {
+                            collection.setRecipeIdImage(recipes.get(1).getId());
+                        }
+                    }
+                    collection.getRecipes().remove(recipe);
+                    collectionRepository.save(collection);
+                    break;
+                }
+            }
             user.getSavedRecipes().remove(recipe);
             userRepository.save(user);
         }
@@ -325,4 +348,38 @@ public class RecipeService {
             }
             return recipesDTO;
         }
+
+
+    public void deleteRecipe(Long recipeId) {
+
+        Recipe recipe = recipeRepository.findById(recipeId).orElse(null);
+        List<User> users = recipe.getSavedByUsers();
+        for(User user: users)
+        {
+            user.getSavedRecipes().remove(recipe);
+            List<RecipeCollection> collections = collectionRepository.findAllByUserId(user.getId());
+            for (RecipeCollection collection : collections)
+            {
+                if(collection.getRecipes().contains(recipe))
+                {
+                    if(collection.getRecipeIdImage() == recipeId)
+                    {
+                        List<Recipe> recipes = collection.getRecipes();
+                        if(recipes.size() == 1)
+                        {
+                            collection.setRecipeIdImage(null);
+                        }
+                        else {
+                            collection.setRecipeIdImage(recipes.get(1).getId());
+                        }
+                    }
+                    collection.getRecipes().remove(recipe);
+                    collectionRepository.save(collection);
+                    break;
+                }
+            }
+            userRepository.save(user);
+        }
+        recipeRepository.deleteById(recipeId);
+    }
 }

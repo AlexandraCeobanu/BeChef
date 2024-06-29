@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,18 +19,28 @@ public class ShoppingList {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "shoppingList")
+    @OneToMany(mappedBy = "shoppingList",cascade = CascadeType.REMOVE)
     private List<Item> items;
 
-    public ShoppingList(User user, List<Item> items)
+    String name;
+
+    @OneToMany(mappedBy = "list", cascade = CascadeType.REMOVE)
+    private List<Notification> notifications = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "shoppingListsColab",fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<User> collaborators = new ArrayList<>();
+
+    public ShoppingList(User user, List<Item> items, String name)
     {
         this.user = user;
         this.items = items;
+        this.name = name;
     }
 
 }

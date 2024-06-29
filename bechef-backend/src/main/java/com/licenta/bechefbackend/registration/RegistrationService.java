@@ -52,7 +52,7 @@ public class RegistrationService {
         newUser.setNrLikes(0L);
         newUser.setNrRecipes(0L);
         User user = userRepository.save(newUser);
-        shoppingListService.createShoppingList(user.getId());
+//        shoppingListService.createShoppingList(user.getId());
         stockListService.createStockList(user.getId());
        sendEmail(newUser);
         var jwtToken = jwtService.generateToken(newUser);
